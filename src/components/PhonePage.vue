@@ -19,7 +19,7 @@
 					</el-form>
  -->
 
-					<div>装驾驶员：{{driver}}</div>
+					<div>装驾驶员：{{phoneInfo.apoints[0].driver}}</div>
 					<div>发车时间：{{phoneInfo.apoints[0].stime}}</div>
 					<div>装货地址：{{phoneInfo.apoints[0].scity}}{{phoneInfo.apoints[0].sarea}}{{phoneInfo.apoints[0].saddress}}</div>
 					<div>联系电话：{{phoneInfo.apoints[0].spointphone}}</div>
@@ -51,8 +51,8 @@
 	export default {
 		data() {
 			return {
-				lienses: '',
-				driver: '',
+				// lienses: '',
+				// driver: '',
 				phoneInfo: {
 					goodsweight: '',
 					goodsname: '',
@@ -97,8 +97,29 @@
 			// console.log('decodeData' + decodeData)
 			this.getUserInfo()
 			this.getInfo()
+			this.handleConfig()
+			
 		},
 		methods: {
+			handleConfig(){
+				wx.config({
+				  debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+				  appId: 'wx46f6d9e34185a909', // 必填，公众号的唯一标识
+				  timestamp: "1625561094", // 必填，生成签名的时间戳
+				  nonceStr: '0c15a378-4ed5-48f8-8586-393334e8c40d', // 必填，生成签名的随机串
+				  signature: 'f1fbe176c5ee9d310df552dfb47306167164a78e',// 必填，签名
+				  jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage'] // 必填，需要使用的JS接口列表
+				});
+				wx.ready(function(){
+				  // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
+					console.log('config成功')
+				});
+				wx.error(function(res){
+				  // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
+					console.log('config失败')
+				});
+			},
+			
 			async getUserInfo(){
 				var url = window.location.href
 				console.log(url);
@@ -121,12 +142,13 @@
 				} = await this.$http.get('waybill/lianjie?plistNo=' + no)
 				console.log(res)
 				this.phoneInfo = res.result
-				this.lienses = res.result.lienses
-				const {
-					data: res1
-				} = await this.$http.get('waybill/findDriverByLicense?license=' + this.lienses)
-				console.log(res1)
-				this.driver = res1.result.driver
+				
+				// this.lienses = res.result.lienses
+				// const {
+				// 	data: res1
+				// } = await this.$http.get('waybill/findDriverByLicense?license=' + this.lienses)
+				// console.log(res1)
+				// this.driver = res1.result.driver
 			},
 
 
