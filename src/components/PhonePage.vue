@@ -19,7 +19,7 @@
 					</el-form>
  -->
 
-					<div>装驾驶员：{{phoneInfo.liensess.driver}}</div>
+					<div>装驾驶员：{{driver}}</div>
 					<div>发车时间：{{phoneInfo.apoints[0].stime}}</div>
 					<div>装货地址：{{phoneInfo.apoints[0].scity}}{{phoneInfo.apoints[0].sarea}}{{phoneInfo.apoints[0].saddress}}</div>
 					<div>联系电话：{{phoneInfo.apoints[0].spointphone}}</div>
@@ -47,20 +47,23 @@
 </template>
 
 <script>
+	import wx from 'weixin-js-sdk';
 	export default {
 		data() {
 			return {
+				lienses: '',
+				driver: '',
 				phoneInfo: {
-					goodsweight:'',
-					goodsname:'',
-					emptydistance:'',
-					car:'',
-					highspeed:'',
-					estimatedistance:'',
-					deposit:'',
-					pay:'',
-					ban:'',
-					
+					goodsweight: '',
+					goodsname: '',
+					emptydistance: '',
+					car: '',
+					highspeed: '',
+					estimatedistance: '',
+					deposit: '',
+					pay: '',
+					ban: '',
+
 					liensess: {
 						driver: ''
 					},
@@ -71,16 +74,20 @@
 						saddress: '',
 						spointphone: '',
 					}],
-					upoints:[{
-						dprovince:'',
-						dcity:'',
-						darea:'',
-						dtime:'',
+					upoints: [{
+						dprovince: '',
+						dcity: '',
+						darea: '',
+						dtime: '',
 					}]
 				},
 			}
 		},
 		created() {
+			console.log('local',window.location.href)
+			// 获取code
+			
+			
 			// console.log("url--info", this.$route.path);
 			// // 订单号加密
 			// let encodeData = window.btoa("0000045")
@@ -88,9 +95,19 @@
 			// // 订单号解密
 			// let decodeData = window.atob(encodeData)
 			// console.log('decodeData' + decodeData)
+			this.getUserInfo()
 			this.getInfo()
 		},
 		methods: {
+			async getUserInfo(){
+				var url = window.location.href
+				console.log(url);
+				var code = url.split("?")[1].split("&")[0].split("=")[1]
+				console.log(code)
+				const {data:res} = await this.$http.get('wxt/userInfo?code='+code)
+				console.log('res',res)
+				
+			},
 			async getInfo() {
 				let noList = this.$route.path.split("/")
 				// console.log(noList)
@@ -102,9 +119,17 @@
 				const {
 					data: res
 				} = await this.$http.get('waybill/lianjie?plistNo=' + no)
-				// console.log(res)
+				console.log(res)
 				this.phoneInfo = res.result
+				this.lienses = res.result.lienses
+				const {
+					data: res1
+				} = await this.$http.get('waybill/findDriverByLicense?license=' + this.lienses)
+				console.log(res1)
+				this.driver = res1.result.driver
 			},
+
+
 		}
 	}
 </script>
@@ -127,7 +152,7 @@
 	.box-card {
 		width: 100%;
 		height: 100%;
-		font-size:0.9375rem;
+		font-size: 0.9375rem;
 
 		div {
 			width: 90%;
@@ -137,5 +162,4 @@
 			border-bottom: 0.0625rem solid;
 		}
 	}
-	
 </style>

@@ -133,7 +133,7 @@
 					<el-form-item label="是否禁行" prop="ban" class="rt-input">
 						<el-input disabled v-model="editForm.ban"></el-input>
 					</el-form-item>
-					
+
 				</div>
 
 
@@ -150,7 +150,7 @@
 					</el-form-item>
 					<el-form-item label="总距离" prop="km" class="rt-input">
 						<el-input disabled v-model="editForm.km+'km'"></el-input>
-					</el-form-item>					
+					</el-form-item>
 				</div>
 
 				<div style="display: flex;">
@@ -169,8 +169,8 @@
 					<el-form-item label="利润" prop="nearcost" class="rt-input">
 						<el-input disabled v-model="editForm.nearcost+'元'"></el-input>
 					</el-form-item>
-					
-					
+
+
 				</div>
 				<div style="display: flex;">
 					<el-form-item label="下单客户" prop="aclient" class="rt-input">
@@ -195,7 +195,8 @@
 							</el-table-column>
 							<el-table-column label="装货时间" width="200">
 								<template slot-scope="scope">
-									<el-date-picker disabled v-model="scope.row.stime" type="datetime" placeholder="选择日期时间" value-format="yyyy-MM-dd HH:mm:ss"	 class="rt-input">
+									<el-date-picker disabled v-model="scope.row.stime" type="datetime" placeholder="选择日期时间" value-format="yyyy-MM-dd HH:mm:ss"
+									 class="rt-input">
 									</el-date-picker>
 								</template>
 							</el-table-column>
@@ -211,7 +212,7 @@
 							</el-table-column>
 							<el-table-column prop="sarea" label="区">
 								<template slot-scope="scope">
-									<el-input disabled v-model="scope.row.sarea" class="rt-input"></el-input >
+									<el-input disabled v-model="scope.row.sarea" class="rt-input"></el-input>
 								</template>
 							</el-table-column>
 							<!-- <el-table-column prop="saddress" label="详细地址">
@@ -289,7 +290,7 @@
 					<el-form-item label="车牌号" prop="lienses" class="rt-input">
 						<el-input disabled v-model="editForm.lienses"></el-input>
 					</el-form-item>
-					
+
 					<el-form-item label="负责配管" prop="dispatch" class="rt-input">
 						<el-input disabled v-model="editForm.dispatch"></el-input>
 					</el-form-item>
@@ -340,7 +341,13 @@
 			</el-form>
 			<!-- <el-button @click="repeat">转 发</el-button> -->
 			<span slot="footer" class="dialog-footer">
-				<el-button type="primary" class="el-icon-share" :data-clipboard-text="shareUrl" @click="clickShareUrl">分享</el-button>
+				<el-popover  placement="top" width="150" trigger="hover" style="margin-right: 10px;">
+					<div>微信扫码分享</div>
+					<div id="qrcode" ref="qrcode"></div>
+					<el-button slot="reference" class="el-icon-share" type="primary">分 享</el-button>
+				</el-popover>
+				<!-- <el-button type="primary" class="el-icon-share" :data-clipboard-text="shareUrl" @click="clickShareUrl">分享</el-button> -->
+				
 				<el-button @click="editDialogVisible = false">关 闭</el-button>
 
 				<el-popconfirm title="确定驳回？" @confirm="selectRejected" style="margin-left: 10px;" v-if="showSelectArea">
@@ -423,7 +430,7 @@
 						</el-select>
 					</el-form-item>
 				</div>
-				
+
 				<div style="display: flex;">
 					<el-form-item label="回单完结备注" prop="returnote" class="rt-input">
 						<el-input v-model="approvedForm.returnote" style="width: 500px;"></el-input>
@@ -432,8 +439,8 @@
 						<el-input v-model="approvedForm.risknote" style="width: 500px;"></el-input>
 					</el-form-item>
 				</div>
-				
-				
+
+
 				<el-form-item label="回单附件" prop="returnpicture">
 					<el-image v-if="approvedForm.returnpicture" style="width: 150px;" :src="approvedForm.returnpicture"></el-image>
 					<el-upload name="imgFile" :action="updateReturnUrl" :headers="myHeaders" :auto-upload="true" :on-success="handleReturnSuccess"
@@ -441,7 +448,7 @@
 						<el-button size="small" type="primary" plain>上传回单附件</el-button>
 					</el-upload>
 				</el-form-item>
-				
+
 				<el-form-item label="风险附件" prop="riskpicture">
 					<el-image v-if="approvedForm.riskpicture" style="width: 150px;" :src="approvedForm.riskpicture"></el-image>
 					<el-upload name="imgFile" :action="updateRiskUrl" :headers="myHeaders" :auto-upload="true" :on-success="handleRiskSuccess"
@@ -449,15 +456,17 @@
 						<el-button size="small" type="primary" plain>上传风险附件</el-button>
 					</el-upload>
 				</el-form-item>
+
 			</el-form>
+			<!-- <div id="qrcode" ref="qrcode" v-show="qrcodeShow"></div> -->
 			<span v-if="showApproved" slot="footer" class="dialog-footer">
 				<!-- 			<el-button @click="editDialogVisible = false">关 闭</el-button> -->
 				<!-- <el-popconfirm title="订单已完结？" @confirm="orderDone" style="margin-left: 10px;" v-if="showOrderDone">
 					<el-button type="primary" slot="reference">订单完结</el-button>
 				</el-popconfirm> -->
 				<el-button type="primary" @click="handleSave" style="margin-left: 10px;">保存</el-button>
-				<el-popconfirm title="完结后不可修改,确认完结？" style="margin-left: 10px;" @confirm="handleApproved"  v-if="showApproved">
-				<el-button type="primary" slot="reference">订单完结</el-button>
+				<el-popconfirm title="完结后不可修改,确认完结？" style="margin-left: 10px;" @confirm="handleApproved" v-if="showApproved">
+					<el-button type="primary" slot="reference">订单完结</el-button>
 				</el-popconfirm>
 			</span>
 
@@ -468,10 +477,12 @@
 </template>
 
 <script>
+	// 引入二维码生成qrcodejs2
+	import QRCode from '../../plugins/qrcode.js'
 	export default {
 		data() {
 			return {
-				// 上传图片需要携带token
+				// 上传图片需要携带token 分享 appendChild 
 				myHeaders: {
 					satoken: window.sessionStorage.getItem('satoken')
 				},
@@ -573,18 +584,20 @@
 				encryptionPlistNo: '',
 				// 显示司机拒单原因：
 				showRefusenote: false,
-				
+
 				updateReturnUrl: "http://81.70.151.121:8080/jeecg-boot/distribution/uploadreturnpicture",
 				updateRiskUrl: "http://81.70.151.121:8080/jeecg-boot/distribution/uploadriskpicture",
-				
+
 				// 微信转发的数据
 				// appid
-				appid:'wx4838ce0c19c524d0',
+				appid: 'wx46f6d9e34185a909',
 				// 当前网址：
-				oldUrl:'http://tkhhd.com/',
+				oldUrl: 'http://tkhhd.com/',
 				// 转码后网址：
-				newUrl:'',
-
+				newUrl: '',
+				newnewUrl: '',
+				qrcodeOb:{},
+				qrcodeShow:false,
 			}
 		},
 		created() {
@@ -600,9 +613,18 @@
 			}
 
 			this.getPageList()
-			this.getBaseInfos()
+			// this.getBaseInfos()
 		},
 		methods: {
+			// 生成二维码
+			qrcode(url) {
+				console.log(url)
+				this.qrcodeOb = new QRCode("qrcode", {
+					width: 150, // 二维码宽度，单位像素
+					height: 150, // 二维码高度，单位像素
+					text: url // 生成二维码的链接
+				});
+			},
 
 			// 编码函数			
 			urlencode(str) {
@@ -614,24 +636,29 @@
 			// 获取code
 			getBaseInfos() {
 				this.newUrl = this.urlencode(this.oldUrl)
-				// console.log(this.newUrl)
+				console.log(this.newUrl)
 				var url_code = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + this.appid +
-					"&redirect_uri=" + this.newUrl +
-					"&response_type=code&scope=snsapi_base&state=1&connect_redirect=1#wechat_redirect";
-				// console.log(url_code)
+					"&redirect_uri=" + this.shareUrl +
+					"&response_type=code&scope=snsapi_base&state=123#wechat_redirect";
+				console.log(url_code)
 				// window.location.href = url_code; //打开这个链接，你的url后面就会跟上code的参数
 
 			},
-			// 复制链接
-			async clickShareUrl() {
-				let clipboard = new this.Clipboard(".el-icon-share");
-				clipboard.on("success", e => {
-					// 释放内存
-					// console.log(e)
-					this.$message.success('已成功复制')
-					clipboard.destroy();
-				});
+			
+			// 展示二维码
+			clickShareUrl(){
+				this.qrcodeShow = !this.qrcodeShow
 			},
+			// // 复制链接
+			// async clickShareUrl() {
+			// 	let clipboard = new this.Clipboard(".el-icon-share");
+			// 	clipboard.on("success", e => {
+			// 		// 释放内存
+			// 		// console.log(e)
+			// 		this.$message.success('已成功复制')
+			// 		clipboard.destroy();
+			// 	});
+			// },
 
 			// 点击跳转
 			repeat(e) {
@@ -748,8 +775,16 @@
 					return this.$message.error(res.message)
 				}
 				this.encryptionPlistNo = res2.result.加密后订单号
-				this.shareUrl = 'http://81.70.151.121/#/phonePage/' + res2.result.加密后订单号
-
+				this.shareUrl = 'http://tkhhd.com/#/phonePage/' + res2.result.加密后订单号
+				this.newnewUrl = this.urlencode(this.shareUrl)
+				var url_code = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + this.appid +
+					"&redirect_uri=" + this.newnewUrl +
+					"&response_type=code&scope=snsapi_base&state=123#wechat_redirect";
+				console.log(url_code)
+				// this.qrcode(url_code)
+				this.$nextTick(() => {
+				    this.qrcode(url_code)
+				})
 				// 显示对话框
 				this.editDialogVisible = true
 			},
@@ -824,14 +859,14 @@
 				this.showApproved = true
 			},
 			// 司机接单后保存数据
-			handleSave(){
+			handleSave() {
 				this.$refs.approvedFormRef.validate(async valid => {
 					if (!valid) return
 					// 发起修改信息的数据请求
 					const {
 						data: res
 					} = await this.$http.post('distribution/addbaocun', this.approvedForm)
-				
+
 					if (res.code !== 200) {
 						return this.$message.error(res.message)
 					}
@@ -871,10 +906,15 @@
 
 				this.approvedForm.riskpicture = response.result.riskpictureFileName
 			},
-
+			// 清除二维码
+			isShowOpen() {
+			      const codeHtml = document.getElementById("qrcode");
+			      codeHtml.innerHTML = "";
+			   },
 
 			// 监听修改用户对话框关闭事件
 			editDialogClosed() {
+				this.isShowOpen();
 				this.$refs.editFormRef.resetFields()
 				if (this.$refs.rejectedFormRef) {
 					this.$refs.rejectedFormRef.resetFields()
@@ -889,6 +929,7 @@
 				this.showDriverReject = false
 				this.showRefusenote = false
 				this.showDisDetails = false
+				
 			},
 		}
 	}

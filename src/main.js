@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import './plugins/element.js'
+
 //导入全局样式
 import './assets/css/global.css'
 // 导入复制文本
@@ -9,6 +10,9 @@ import Clipboard from 'clipboard';
 
 // 引入echarts
 import * as echarts from 'echarts';
+
+// 引入二维码生成qrcodejs2
+import QRCode from "qrcodejs2";
 
 
 // 设置element ui中 Dialog 层级问题
