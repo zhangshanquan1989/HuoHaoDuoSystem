@@ -19,7 +19,7 @@
 					</el-form>
  -->
 
-					<div>装驾驶员：{{phoneInfo.apoints[0].driver}}</div>
+					<div>装驾驶员：{{phoneInfo.driver}}</div>
 					<div>发车时间：{{phoneInfo.apoints[0].stime}}</div>
 					<div>装货地址：{{phoneInfo.apoints[0].scity}}{{phoneInfo.apoints[0].sarea}}{{phoneInfo.apoints[0].saddress}}</div>
 					<div>联系电话：{{phoneInfo.apoints[0].spointphone}}</div>
