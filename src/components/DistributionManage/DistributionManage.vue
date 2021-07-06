@@ -344,7 +344,7 @@
 				<el-popover  placement="top" width="150" trigger="hover" style="margin-right: 10px;">
 					<div>微信扫码分享</div>
 					<div id="qrcode" ref="qrcode"></div>
-					<el-button slot="reference" class="el-icon-share" type="primary">分 享</el-button>
+					<el-button slot="reference" type="primary">分 享</el-button>
 				</el-popover>
 				<!-- <el-button type="primary" class="el-icon-share" :data-clipboard-text="shareUrl" @click="clickShareUrl">分享</el-button> -->
 				

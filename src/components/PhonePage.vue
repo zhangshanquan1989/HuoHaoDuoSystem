@@ -95,12 +95,13 @@
 			// // 订单号解密
 			// let decodeData = window.atob(encodeData)
 			// console.log('decodeData' + decodeData)
-			this.getUserInfo()
+			// this.getUserInfo()
 			this.getInfo()
-			this.handleConfig()
+			// this.handleConfig()
 			
 		},
 		methods: {
+			// config验证
 			handleConfig(){
 				wx.config({
 				  debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
@@ -119,7 +120,7 @@
 					console.log('config失败')
 				});
 			},
-			
+			// 获取code
 			async getUserInfo(){
 				var url = window.location.href
 				console.log(url);
@@ -129,6 +130,7 @@
 				console.log('res',res)
 				
 			},
+			
 			async getInfo() {
 				let noList = this.$route.path.split("/")
 				// console.log(noList)
