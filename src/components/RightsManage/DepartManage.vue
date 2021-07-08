@@ -106,6 +106,7 @@
 					return
 				}
 				this.dataList = res.result
+				this.total = res.result.total
 			},
 
 			// 添加部门

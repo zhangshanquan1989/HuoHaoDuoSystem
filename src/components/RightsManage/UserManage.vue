@@ -106,6 +106,9 @@
 				queryInfo: {
 					pageNo: 1,
 					pageSize: 10,
+					// 倒叙必填
+					order: "desc",
+					column: "id"
 				},
 				// 分页列表
 				dataList: [],
@@ -167,11 +170,12 @@
 				} = await this.$http.get('kuser/user', {
 					params: this.queryInfo
 				})
-				// console.log(res)
+				console.log(res)
 				if (res.code !== 200) {
 					return
 				}
 				this.dataList = res.result.records
+				this.total = res.result.total
 				// console.log(this.dataList)
 			},
 			// pageSize 改变的事件

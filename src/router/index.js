@@ -26,6 +26,8 @@ import Illegal from '../components/BasisInfor/Navigation/Car/Illegal.vue'
 import EarnestMoney  from '../components/BasisInfor/Navigation/Car/EarnestMoney .vue'
 import ManagementFee from '../components/BasisInfor/Navigation/Car/ManagementFee.vue'
 import CarMonitoring from '../components/BasisInfor/Navigation/Car/CarMonitoring.vue'
+import CarMileage from '../components/BasisInfor/Navigation/Car/carMileage.vue'
+import CarEnergy from '../components/BasisInfor/Navigation/Car/carEnergy.vue'
 
 // 权限子组件
 import DepartManage from '../components/RightsManage/DepartManage.vue'
@@ -54,6 +56,8 @@ const routes = [
 				{path: '/basis/car/carInfo',component: CarInfo},
 				{path: '/basis/car/illegal',component: Illegal},
 				{path: '/basis/car/carMonitoring',component: CarMonitoring},
+				{path: '/basis/car/carMileage',component: CarMileage},
+				{path: '/basis/car/carEnergy',component: CarEnergy},
 				{path: '/basis/car/earnestMoney',component: EarnestMoney},
 				{path: '/basis/car/managementFee',component: ManagementFee},
 				{path: '/basis/driver',component: DriverQuery},

@@ -1,11 +1,84 @@
 <template>
-	<div style="width: 23.4375rem;background-color: ;">
+	<div style="width: 23.4375rem;">
 		<el-container>
 			<el-header class="header">
-				<div>订单详情</div>
+				<div>货 好 多 发 货 信 息</div>
 			</el-header>
 			<el-main>
 				<el-card class="box-card">
+					<div style="font-size: 16px;color: #0F4F7DFF;font-weight: bold;opacity: 1;">
+						<img src="../assets/share/4.png" style="width: 1.166875rem;height: 1rem;"/>
+						配送信息
+					</div>
+					<div style="display: flex;"><span style="flex: 1;">发车时间：</span><span style="flex: 1;text-align: right;"> {{phoneInfo.apoints[0].stime}}</span></div>
+					<div style="display: flex;">
+						<span style="flex: 1;">装货地址：</span><span style="flex: 1;text-align: right;"> {{phoneInfo.apoints[0].scity}}{{phoneInfo.apoints[0].sarea}}{{phoneInfo.apoints[0].saddress}}</span>
+						</div>
+					<div style="display: flex;">
+						<span style="flex: 1;">联系电话：</span><span style="flex: 1;text-align: right;"> {{phoneInfo.apoints[0].spointphone}}</span>
+						</div>
+					<div style="display: flex;">
+						<span style="flex: 1;">卸车时间：</span><span style="flex: 1;text-align: right;"> {{phoneInfo.upoints[0].dtime}}</span>
+						</div>
+					<div style="display: flex;">
+						<span style="flex: 1;">卸货地址：</span><span style="flex: 1;text-align: right;"> {{phoneInfo.upoints[0].dprovince}}{{phoneInfo.upoints[0].dcity}}{{phoneInfo.upoints[0].darea}}</span>
+						</div>
+					<div style="display: flex;">
+						<span style="flex: 1;">卸货方式：</span><span style="flex: 1;text-align: right;">叉车</span>
+						</div>
+					<div style="display: flex;">
+						<span style="flex: 1;">装卸货是否禁行：</span><span style="flex: 1;text-align: right;">{{phoneInfo.ban}}</span>
+						</div>
+				</el-card>
+				<el-card class="box-card">
+					<div style="font-size: 16px;color: #0F4F7DFF;font-weight: bold;opacity: 1;">
+						<img src="../assets/share/1.png" style="width: 1.166875rem;height: 1rem;"/>
+						订单信息
+					</div>
+					<div style="display: flex;">
+						<span style="flex: 1;">装驾驶员：</span><span style="flex: 1;text-align: right;">{{phoneInfo.driver}}</span>
+						</div>
+					<div style="display: flex;">
+						<span style="flex: 1;">到车运费：</span><span style="flex: 1;text-align: right;">{{phoneInfo.car}}</span>
+						</div>
+					<div style="display: flex;">
+						<span style="flex: 1;">定金：</span><span style="flex: 1;text-align: right;">{{phoneInfo.deposit}}</span>
+						</div>
+					<div style="display: flex;">
+						<span style="flex: 1;">付款方式及金额：</span><span style="flex: 1;text-align: right;">到付{{phoneInfo.pay}}</span>
+						</div>
+				</el-card>
+				<el-card class="box-card">
+					<div style="font-size: 16px;color: #0F4F7DFF;font-weight: bold;opacity: 1;">
+						<img src="../assets/share/2.png" style="width: 1.166875rem;height: 1rem;"/>
+						货物信息
+					</div>
+					<div style="display: flex;">
+						<span style="flex: 1;">吨 位：</span><span style="flex: 1;text-align: right;">{{phoneInfo.goodsweight}}吨（三不超）</span>
+						</div>
+					<div style="display: flex;">
+						<span style="flex: 1;">货 物：</span><span style="flex: 1;text-align: right;">{{phoneInfo.goodsname}}</span>
+						</div>
+					<div style="display: flex;">
+						<span style="flex: 1;">运输距离：</span><span style="flex: 1;text-align: right;">高速{{phoneInfo.highspeed}}下道{{phoneInfo.estimatedistance}}</span>
+						</div>
+					<div style="display: flex;">
+						<span style="flex: 1;">放空距离：</span><span style="flex: 1;text-align: right;">{{phoneInfo.emptydistance}}</span>
+						</div>
+				</el-card>
+				<el-card class="box-card">
+					<div style="font-size: 16px;color: #0F4F7DFF;font-weight: bold;opacity: 1;">
+						<img src="../assets/share/3.png" style="width: 1.166875rem;height: 1rem;"/>
+						货物信息
+					</div>
+					<div style="display: flex;">
+						<span style="flex: 1;">建议运输方式：</span><span style="flex: 1;text-align: right;">一半高速一半下道</span>
+						</div>
+					<div style="display: flex;">
+						<span style="flex: 1;">建议到达装货地时间：</span><span style="flex: 1;text-align: right;">电话联系装货</span>
+						</div>
+				</el-card>
+				<div style="height: 18.75rem;border-bottom: 0;padding: 1rem;font-size: 1rem;font-weight: bold;color:#0F4F7D ;">提醒您：长途主意安全，雨季切记封好篷布，有问题找我不可与现场发生矛盾冲突，注意货物三不超！行车过程中注意安全，谨慎驾驶！杜绝疲劳驾驶！</div>
 					<!-- <el-form  ref="form" :model="phoneInfo">
 						<el-form-item>
 							<div style="font-size: 3.75rem;">装驾驶员：{{phoneInfo.liensess.driver}}</div>
@@ -17,27 +90,9 @@
 							<div style="font-size: 3.75rem;">提醒您：长途主意安全，雨季切记封好篷布，有问题找我不可与现场发生矛盾冲突，注意货物三不超！行车过程中注意安全，谨慎驾驶！杜绝疲劳驾驶！</div>
 						</el-form-item>
 					</el-form>
- -->
+ -->					
 
-					<div>装驾驶员：{{phoneInfo.driver}}</div>
-					<div>发车时间：{{phoneInfo.apoints[0].stime}}</div>
-					<div>装货地址：{{phoneInfo.apoints[0].scity}}{{phoneInfo.apoints[0].sarea}}{{phoneInfo.apoints[0].saddress}}</div>
-					<div>联系电话：{{phoneInfo.apoints[0].spointphone}}</div>
-					<div>卸货地址：{{phoneInfo.upoints[0].dprovince}}{{phoneInfo.upoints[0].dcity}}{{phoneInfo.upoints[0].darea}}</div>
-					<div>吨 位：{{phoneInfo.goodsweight}}吨（三不超）</div>
-					<div>货 物：{{phoneInfo.goodsname}}</div>
-					<div>运输距离：高速{{phoneInfo.highspeed}}下道{{phoneInfo.estimatedistance}}</div>
-					<div>放空距离：{{phoneInfo.emptydistance}}</div>
-					<div>建议运输方式：一半高速一半下道</div>
-					<div>建议到达装货地时间：电话联系装货</div>
-					<div>到车运费：{{phoneInfo.car}}</div>
-					<div>定金：{{phoneInfo.deposit}}</div>
-					<div>付款方式及金额：到付{{phoneInfo.pay}}</div>
-					<div>装卸货是否禁行：{{phoneInfo.ban}}</div>
-					<div>卸车时间：{{phoneInfo.upoints[0].dtime}}</div>
-					<div>卸货方式：叉车</div>
-					<div style="height: 18.75rem;border-bottom: 0;">提醒您：长途主意安全，雨季切记封好篷布，有问题找我不可与现场发生矛盾冲突，注意货物三不超！行车过程中注意安全，谨慎驾驶！杜绝疲劳驾驶！</div>
-				</el-card>
+				
 			</el-main>
 		</el-container>
 
@@ -84,7 +139,7 @@
 			}
 		},
 		created() {
-			console.log('local',window.location.href)
+			// console.log('local',window.location.href)
 			// 获取code
 			
 			
@@ -142,7 +197,7 @@
 				const {
 					data: res
 				} = await this.$http.get('waybill/lianjie?plistNo=' + no)
-				console.log(res)
+				// console.log(res)
 				this.phoneInfo = res.result
 				
 				// this.lienses = res.result.lienses
@@ -161,10 +216,11 @@
 <style lang="less" scoped>
 	.header {
 		width: 100%;
-		height: 5rem !important;
-		background-color: #0f4f7d;
-		font-size: 1.5rem;
+		height: 5.0625rem !important;
+		background-color: #0F4F7DFF;
+		font-size: 1.125rem;
 		text-align: center;
+		font-weight: 400;
 
 		div {
 			margin-top: 1.875rem;
@@ -172,8 +228,16 @@
 
 		color: #FFFFFF;
 	}
+	
+	/deep/ .el-card__body{
+	    padding: 0;
+	  }
+		.el-main{
+			padding: 0;
+		}
 
 	.box-card {
+		margin-top: 0.75rem;
 		width: 100%;
 		height: 100%;
 		font-size: 0.9375rem;
@@ -183,7 +247,8 @@
 			height: 1.25rem;
 			margin-left: 1.25rem;
 			margin-top: 1.25rem;
-			border-bottom: 0.0625rem solid;
+			padding-bottom: 0.375rem;
+			border-bottom: 0.0625rem solid #0000000F;
 		}
 	}
 </style>

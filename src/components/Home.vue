@@ -144,6 +144,18 @@
 										path: '/basis/car/CarMonitoring',
 										icon: "el-icon-caret-right"
 									},
+									{
+										id: 115,
+										authName: '车辆里程',
+										path: '/basis/car/carMileage',
+										icon: "el-icon-caret-right"
+									},
+									{
+										id: 116,
+										authName: '车辆能耗',
+										path: '/basis/car/carEnergy',
+										icon: "el-icon-caret-right"
+									},
 									// {
 									// 	id: 114,
 									// 	authName: '违章信息',
@@ -223,7 +235,13 @@
 					// 	authName: 'test2',
 					// 	path: '/test2',
 					// 	icon: "el-icon-orange",
-					// }
+					// },
+					// {
+					// 	id: 8,
+					// 	authName: '转发页面',
+					// 	path: '/phonePage/MDAwMDA4Nw==',
+					// 	icon: "el-icon-orange",
+					// },
 				],
 
 				// 被激活的链接地址
@@ -239,6 +257,7 @@
 			this.userid = window.sessionStorage.getItem('userID')
 			this.activePath = window.sessionStorage.getItem('activePath')
 			this.getDaiBan()
+			this.jiaMi()
 		},
 		methods: {
 			logout() {
@@ -269,6 +288,13 @@
 			// 	this.$router.push('/distributionManage')
 			// 	this.activePath = '/distributionManage'
 			// },
+			
+			// 加密订单号
+			async jiaMi(){
+				const {data:res} = await this.$http.get('waybill/jiami?plistNo=0000087')
+				// console.log(res)
+				this.jiami = res.result.加密后订单号
+			},
 		}
 	}
 </script>

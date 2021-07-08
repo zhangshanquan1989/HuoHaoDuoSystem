@@ -68,6 +68,9 @@
 				queryInfo: {
 					pageNo: 1,
 					pageSize: 10,
+					// 倒叙必填
+					order: "desc",
+					column: "id"
 				},
 				// 分页列表
 				dataList: [],
@@ -109,6 +112,7 @@
 					return this.$message.error(res.message)
 				}
 				this.dataList = res.result.records
+				this.total = res.result.total
 			},
 			// pageSize 改变的事件
 			handleSizeChange(newSize) {
