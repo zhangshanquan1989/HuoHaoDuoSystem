@@ -7,7 +7,9 @@
 				<!-- <span>天康系统</span> -->
 			</div>
 			<div>
+				<span style="font-size: 18px ;margin-right: 10px;margin-top: 5px;">欢迎您：{{name}}</span>
 				<el-badge :value="daibanData"  style="margin-right: 30px;margin-top: 5px;font-size: 18px ;">
+					
 				  <span >待办事项</span>
 					<!-- <el-button style="font-size: 18px ;color: #FFFFFF;"  type="text" @click="turnTo">待办事项</el-button> -->
 				</el-badge>
@@ -74,6 +76,8 @@
 	export default {
 		data() {
 			return {
+				// 用户名
+				name:'',
 				// 左侧菜单数据
 				menulist: [{
 						id: 0,
@@ -255,6 +259,7 @@
 		created() {
 			// this.getMenuList()userID
 			this.userid = window.sessionStorage.getItem('userID')
+			this.name = window.sessionStorage.getItem('name')
 			this.activePath = window.sessionStorage.getItem('activePath')
 			this.getDaiBan()
 			this.jiaMi()

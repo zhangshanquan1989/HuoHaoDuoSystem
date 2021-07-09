@@ -33,13 +33,13 @@
 				</el-table-column>
 				<el-table-column prop="overweight" label="是否超高/超宽/超重" width="100px">
 				</el-table-column>
-				<el-table-column prop="picture" label="运单截图" width="150px">
+				<!-- <el-table-column prop="picture" label="运单截图" width="150px">
 					<template slot-scope="scope">
 						<el-tooltip class="item" effect="dark" content="点击查看大图" placement="top">
 							<el-image style="width: 80px; height: 40px" :src="scope.row.picture" :preview-src-list="srcList" @click="handleClickImage(scope.row.picture)"></el-image>
 						</el-tooltip>
 					</template>
-				</el-table-column>
+				</el-table-column> -->
 				<el-table-column prop="emptydistance" label="空车距离" width="150px">
 				</el-table-column>
 				<el-table-column prop="highspeed" label="高速预计距离" width="150px">
@@ -64,8 +64,8 @@
 				</el-table-column>
 				<el-table-column prop="uclient" label="收货客户企业" width="150px">
 				</el-table-column>
-				<el-table-column prop="kilometer" label="每公里成本" width="150px">
-				</el-table-column>
+				<!-- <el-table-column prop="kilometer" label="每公里成本" width="150px">
+				</el-table-column> -->
 				<el-table-column prop="lienses" label="车牌号" width="150px">
 				</el-table-column>
 				<el-table-column prop="creater" label="创建者" width="150px">
@@ -184,6 +184,23 @@
 
 				</div>
 				<div style="display: flex;">
+					<el-form-item label="卸货方式" prop="upiontway">
+						<el-input  v-model="addForm.upiontway" ></el-input>
+					</el-form-item>
+					<el-form-item label="	建议运输方式" prop="yunshu">
+						<el-input  v-model="addForm.yunshu"></el-input>
+					</el-form-item>
+					<el-form-item label="建议到达装货时间">
+						
+							<el-date-picker v-model="addForm.daoda" type="datetime" placeholder="选择日期时间" value-format="yyyy-MM-dd HH:mm:ss">
+							</el-date-picker>
+						
+					</el-form-item>
+					<el-form-item label="订单备注" prop="ordernote">
+						<el-input  v-model="addForm.ordernote"></el-input>
+					</el-form-item>
+				</div>
+				<div style="display: flex;">
 					<el-form-item label="下单客户" prop="aclient">
 						<el-select v-model="addForm.aclient" clearable filterable remote placeholder="请输入公司名称" :remote-method="remoteMethod"
 						 :loading="loading" style="width: 100%;" @change="searchUnloadingPoint">
@@ -202,7 +219,7 @@
 				<el-form-item label="运单截图" prop="picture">
 					<el-image v-if="addForm.picture" style="width: 150px;" :src="addForm.picture"></el-image>
 					<el-upload name="imgFile" :action="updatePictureUrl" :headers="myHeaders" :auto-upload="true" :on-success="handlePictureUrlSuccess"
-					 :show-file-list="false">
+					 :show-file-list="false" :before-upload="beforeAvatarUpload">
 						<el-button size="small" type="primary" plain>上传运单截图</el-button>
 					</el-upload>
 				</el-form-item>
@@ -450,7 +467,23 @@
 						<el-input :disabled="canEdit" disabled v-model="editForm.nearcost" placeholder="元"></el-input>
 					</el-form-item>					
 				</div>
-				
+				<div style="display: flex;">
+					<el-form-item label="卸货方式" prop="upiontway">
+						<el-input disabled v-model="editForm.upiontway" ></el-input>
+					</el-form-item>
+					<el-form-item label="	建议运输方式" prop="yunshu">
+						<el-input disabled v-model="editForm.yunshu"></el-input>
+					</el-form-item>
+					<el-form-item label="建议到达装货时间">
+						
+							<el-date-picker disabled v-model="editForm.daoda" type="datetime" placeholder="选择日期时间" value-format="yyyy-MM-dd HH:mm:ss">
+							</el-date-picker>
+						
+					</el-form-item>
+					<el-form-item label="订单备注" prop="ordernote">
+						<el-input disabled v-model="editForm.ordernote"></el-input>
+					</el-form-item>
+				</div>
 				<div style="display: flex;">
 					<el-form-item label="下单客户" prop="aclient" class="rt-input">
 						<el-select :disabled="canEdit" v-model="editForm.aclient" clearable filterable remote placeholder="请输入公司名称"
@@ -470,7 +503,7 @@
 				<el-form-item label="运单截图" prop="picture">
 					<el-image v-if="editForm.picture" style="width: 150px;" :src="editForm.picture"></el-image>
 					<el-upload name="imgFile" :action="updatePictureUrl" :headers="myHeaders" :auto-upload="true" :on-success="handleEditPictureUrlSuccess"
-					 :show-file-list="false">
+					 :show-file-list="false" :before-upload="beforeAvatarUpload">
 						<el-button :disabled="canEdit" size="small" type="primary" plain>上传运单截图</el-button>
 					</el-upload>
 				</el-form-item>
@@ -671,7 +704,7 @@
 				myHeaders: {
 					satoken: window.sessionStorage.getItem('satoken')
 				},
-				// 查询数据pictureFileName
+				// 查询数据 tableId
 				queryInfo: {
 					pageNo: 1,
 					pageSize: 10,
@@ -710,6 +743,10 @@
 					lienses: '',
 					Lidriver: '',
 					dispatch: '',
+					ordernote: '',
+					upiontway: '',
+					yunshu: '',
+					daoda	: '',
 					apoints: [{
 						spointphone: "",
 						stime: "",
@@ -859,6 +896,15 @@
 			this.findAllPeople()
 		},
 		methods: {
+			// 上传图片限制
+			beforeAvatarUpload(file) {
+				console.log(file)
+				const isLt10M = file.size / 1024 / 1024 < 10;
+				if (!isLt10M) {
+					this.$message.error('上传图片大小不能超过 10MB!');
+				}
+				return isLt10M;
+			},
 			deleteApoints(index, rows) {
 				//删除改行
 				rows.splice(index, 1);

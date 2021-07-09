@@ -37,13 +37,13 @@
 				</el-table-column>
 				<el-table-column prop="overweight" label="是否超高/超宽/超重" width="100px">
 				</el-table-column>
-				<el-table-column prop="picture" label="运单截图" width="150px">
+				<!-- <el-table-column prop="picture" label="运单截图" width="150px">
 					<template slot-scope="scope">
 						<el-tooltip class="item" effect="dark" content="点击查看大图" placement="top">
 							<el-image style="width: 80px; height: 40px" :src="scope.row.picture" :preview-src-list="srcList" @click="handleClickImage(scope.row.picture)"></el-image>
 						</el-tooltip>
 					</template>
-				</el-table-column>
+				</el-table-column> -->
 				<el-table-column prop="emptydistance" label="空车距离" width="150px">
 				</el-table-column>
 				<el-table-column prop="highspeed" label="高速预计距离" width="150px">
@@ -68,8 +68,8 @@
 				</el-table-column>
 				<el-table-column prop="uclient" label="收货客户企业" width="150px">
 				</el-table-column>
-				<el-table-column prop="kilometer" label="每公里成本" width="150px">
-				</el-table-column>
+				<!-- <el-table-column prop="kilometer" label="每公里成本" width="150px">
+				</el-table-column> -->
 				<el-table-column prop="lienses" label="车牌号" width="150px">
 				</el-table-column>
 				<el-table-column prop="creater" label="创建者" width="150px">
@@ -173,6 +173,23 @@
 						<el-input :disabled="canEdit" v-model="editForm.nearcost + '元'"></el-input>
 					</el-form-item>
 					
+				</div>
+				<div style="display: flex;">
+					<el-form-item label="卸货方式" prop="upiontway">
+						<el-input disabled v-model="editForm.upiontway" ></el-input>
+					</el-form-item>
+					<el-form-item label="	建议运输方式" prop="yunshu">
+						<el-input disabled v-model="editForm.yunshu"></el-input>
+					</el-form-item>
+					<el-form-item label="建议到达装货时间">
+						
+							<el-date-picker disabled v-model="editForm.daoda" type="datetime" placeholder="选择日期时间" value-format="yyyy-MM-dd HH:mm:ss">
+							</el-date-picker>
+						
+					</el-form-item>
+					<el-form-item label="订单备注" prop="ordernote">
+						<el-input disabled v-model="editForm.ordernote"></el-input>
+					</el-form-item>
 				</div>
 				<div style="display: flex;">
 					<el-form-item label="下单客户" prop="aclient" class="rt-input">

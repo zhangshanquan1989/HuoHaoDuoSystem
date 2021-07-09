@@ -33,13 +33,13 @@
 				</el-table-column>
 				<el-table-column prop="overweight" label="是否超高/超宽/超重" width="100px">
 				</el-table-column>
-				<el-table-column prop="picture" label="运单截图" width="150px">
+				<!-- <el-table-column prop="picture" label="运单截图" width="150px">
 					<template slot-scope="scope">
 						<el-tooltip class="item" effect="dark" content="点击查看大图" placement="top">
 							<el-image style="width: 80px; height: 40px" :src="scope.row.picture" :preview-src-list="srcList" @click="handleClickImage(scope.row.picture)"></el-image>
 						</el-tooltip>
 					</template>
-				</el-table-column>
+				</el-table-column> -->
 				<el-table-column prop="emptydistance" label="空车距离" width="150px">
 				</el-table-column>
 				<el-table-column prop="highspeed" label="高速预计距离" width="150px">
@@ -64,8 +64,8 @@
 				</el-table-column>
 				<el-table-column prop="uclient" label="收货客户企业" width="150px">
 				</el-table-column>
-				<el-table-column prop="kilometer" label="每公里成本" width="150px">
-				</el-table-column>
+				<!-- <el-table-column prop="kilometer" label="每公里成本" width="150px">
+				</el-table-column> -->
 				<el-table-column prop="lienses" label="车牌号" width="150px">
 				</el-table-column>
 				<el-table-column prop="creater" label="创建者" width="150px">
@@ -169,8 +169,23 @@
 					<el-form-item label="利润" prop="nearcost" class="rt-input">
 						<el-input disabled v-model="editForm.nearcost+'元'"></el-input>
 					</el-form-item>
-
-
+				</div>
+				<div style="display: flex;">
+					<el-form-item label="卸货方式" prop="upiontway">
+						<el-input disabled v-model="editForm.upiontway" ></el-input>
+					</el-form-item>
+					<el-form-item label="	建议运输方式" prop="yunshu">
+						<el-input disabled v-model="editForm.yunshu"></el-input>
+					</el-form-item>
+					<el-form-item label="建议到达装货时间">
+						
+							<el-date-picker disabled v-model="editForm.daoda" type="datetime" placeholder="选择日期时间" value-format="yyyy-MM-dd HH:mm:ss">
+							</el-date-picker>
+						
+					</el-form-item>
+					<el-form-item label="订单备注" prop="ordernote">
+						<el-input disabled v-model="editForm.ordernote"></el-input>
+					</el-form-item>
 				</div>
 				<div style="display: flex;">
 					<el-form-item label="下单客户" prop="aclient" class="rt-input">
@@ -433,10 +448,10 @@
 
 				<div style="display: flex;">
 					<el-form-item label="回单完结备注" prop="returnote" class="rt-input">
-						<el-input v-model="approvedForm.returnote" style="width: 500px;"></el-input>
+						<el-input v-model="approvedForm.returnote" style="width: 300px"></el-input>
 					</el-form-item>
 					<el-form-item label="风险备注" prop="risknote" class="rt-input">
-						<el-input v-model="approvedForm.risknote" style="width: 500px;"></el-input>
+						<el-input v-model="approvedForm.risknote" style="width: 300px"></el-input>
 					</el-form-item>
 				</div>
 
@@ -444,7 +459,7 @@
 				<el-form-item label="回单附件" prop="returnpicture">
 					<el-image v-if="approvedForm.returnpicture" style="width: 150px;" :src="approvedForm.returnpicture"></el-image>
 					<el-upload name="imgFile" :action="updateReturnUrl" :headers="myHeaders" :auto-upload="true" :on-success="handleReturnSuccess"
-					 :show-file-list="false">
+					 :show-file-list="false" :before-upload="beforeAvatarUpload">
 						<el-button size="small" type="primary" plain>上传回单附件</el-button>
 					</el-upload>
 				</el-form-item>
@@ -452,7 +467,7 @@
 				<el-form-item label="风险附件" prop="riskpicture">
 					<el-image v-if="approvedForm.riskpicture" style="width: 150px;" :src="approvedForm.riskpicture"></el-image>
 					<el-upload name="imgFile" :action="updateRiskUrl" :headers="myHeaders" :auto-upload="true" :on-success="handleRiskSuccess"
-					 :show-file-list="false">
+					 :show-file-list="false" :before-upload="beforeAvatarUpload">
 						<el-button size="small" type="primary" plain>上传风险附件</el-button>
 					</el-upload>
 				</el-form-item>
@@ -618,9 +633,18 @@
 			// this.getBaseInfos()
 		},
 		methods: {
+			// 上传图片限制
+			beforeAvatarUpload(file) {
+				console.log(file)
+				const isLt10M = file.size / 1024 / 1024 < 10;
+				if (!isLt10M) {
+					this.$message.error('上传图片大小不能超过 10MB!');
+				}
+				return isLt10M;
+			},
 			// 生成二维码
 			qrcode(url) {
-				console.log(url)
+				// console.log(url)
 				this.qrcodeOb = new QRCode("qrcode", {
 					width: 150, // 二维码宽度，单位像素
 					height: 150, // 二维码高度，单位像素
@@ -638,11 +662,11 @@
 			// 获取code
 			getBaseInfos() {
 				this.newUrl = this.urlencode(this.oldUrl)
-				console.log(this.newUrl)
+				// console.log(this.newUrl)
 				var url_code = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + this.appid +
 					"&redirect_uri=" + this.shareUrl +
 					"&response_type=code&scope=snsapi_base&state=123#wechat_redirect";
-				console.log(url_code)
+				// console.log(url_code)
 				// window.location.href = url_code; //打开这个链接，你的url后面就会跟上code的参数
 
 			},
@@ -782,7 +806,7 @@
 				var url_code = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + this.appid +
 					"&redirect_uri=" + this.newnewUrl +
 					"&response_type=code&scope=snsapi_base&state=123#wechat_redirect";
-				console.log(url_code)
+				// console.log(url_code)
 				// this.qrcode(url_code)
 				this.$nextTick(() => {
 				    this.qrcode(url_code)

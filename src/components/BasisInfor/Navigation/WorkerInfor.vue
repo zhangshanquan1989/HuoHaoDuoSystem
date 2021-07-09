@@ -132,8 +132,8 @@
 					<el-input v-model="addForm.email" style="width: 300px;"></el-input>
 				</el-form-item>
 				<el-form-item label="身份证照片" prop="userimg">
-					<el-image v-if="addForm.userimg" style="width: 150px;" :src="addForm.userimg"></el-image>
-					<el-upload name="imgFile" :action="updateIdCardUrl" :headers="myHeaders" :auto-upload="true" :on-success="handlePictureUrlSuccess" :show-file-list="false">
+					<el-image v-if="addForm.userimg" style="width: 150px;" :src="addForm.userimg" :preview-src-list="srcList" @click="handleClickImage(addForm.userimg)"></el-image>
+					<el-upload name="imgFile" :action="updateIdCardUrl" :headers="myHeaders" :auto-upload="true" :on-success="handlePictureUrlSuccess" :show-file-list="false" :before-upload="beforeAvatarUpload">
 						<el-button size="small" type="primary" plain>上传身份证</el-button>
 					</el-upload>
 				</el-form-item>
@@ -174,8 +174,8 @@
 					<el-input v-model="editForm.email" style="width: 300px;"></el-input>
 				</el-form-item>
 				<el-form-item label="身份证照片:" prop="phone">
-					<el-image v-if="editForm.userimg" style="width: 150px;" :src="editForm.userimg"></el-image>
-					<el-upload name="imgFile" :action="updateIdCardUrl" :headers="myHeaders" :auto-upload="true" :on-success="handleEditPictureSuccess" :show-file-list="false">
+					<el-image v-if="editForm.userimg" style="width: 150px;" :src="editForm.userimg" :preview-src-list="srcList" @click="handleClickImage(editForm.userimg)"></el-image>
+					<el-upload name="imgFile" :action="updateIdCardUrl" :headers="myHeaders" :auto-upload="true" :on-success="handleEditPictureSuccess" :show-file-list="false" :before-upload="beforeAvatarUpload">
 						<el-button size="small" type="primary" plain>上传身份证</el-button>
 					</el-upload>
 				</el-form-item>
@@ -329,6 +329,15 @@
 		mounted() {},
 
 		methods: {
+			// 上传图片限制
+			beforeAvatarUpload(file) {
+				console.log(file)
+				const isLt10M = file.size / 1024 / 1024 < 10;
+				if (!isLt10M) {
+					this.$message.error('上传图片大小不能超过 10MB!');
+				}
+				return isLt10M;
+			},
 
 			//点击查看放大图片
 			handleClickImage(src) {

@@ -148,6 +148,8 @@
 					window.sessionStorage.setItem("company", res.result.company)
 					// 登陆后的公司id，用于部门管理添加部门时的父ID
 					window.sessionStorage.setItem("companyId", res.result.Companyid)
+					// 登陆后的用户名，用于首页展示
+					window.sessionStorage.setItem("name", res.result.name)
 					// 2.登录成功后，跳转到主页
 					this.$router.push("home")
 				})

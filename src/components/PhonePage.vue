@@ -1,10 +1,10 @@
 <template>
-	<div style="width: 23.4375rem;">
-		<el-container>
+	<div  style="width: 19.53125%;height: 5rem;">
+		<el-container >
 			<el-header class="header">
 				<div>货 好 多 发 货 信 息</div>
 			</el-header>
-			<el-main>
+			<el-main style="height: 500px;">
 				<el-card class="box-card">
 					<div style="font-size: 16px;color: #0F4F7DFF;font-weight: bold;opacity: 1;">
 						<img src="../assets/share/4.png" style="width: 1.166875rem;height: 1rem;"/>
@@ -24,7 +24,7 @@
 						<span style="flex: 1;">卸货地址：</span><span style="flex: 1;text-align: right;"> {{phoneInfo.upoints[0].dprovince}}{{phoneInfo.upoints[0].dcity}}{{phoneInfo.upoints[0].darea}}</span>
 						</div>
 					<div style="display: flex;">
-						<span style="flex: 1;">卸货方式：</span><span style="flex: 1;text-align: right;">叉车</span>
+						<span style="flex: 1;">卸货方式：</span><span style="flex: 1;text-align: right;">{{phoneInfo.upiontway}}</span>
 						</div>
 					<div style="display: flex;">
 						<span style="flex: 1;">装卸货是否禁行：</span><span style="flex: 1;text-align: right;">{{phoneInfo.ban}}</span>
@@ -69,16 +69,20 @@
 				<el-card class="box-card">
 					<div style="font-size: 16px;color: #0F4F7DFF;font-weight: bold;opacity: 1;">
 						<img src="../assets/share/3.png" style="width: 1.166875rem;height: 1rem;"/>
-						货物信息
+						建 议
 					</div>
 					<div style="display: flex;">
-						<span style="flex: 1;">建议运输方式：</span><span style="flex: 1;text-align: right;">一半高速一半下道</span>
+						<span style="flex: 1;">建议运输方式：</span><span style="flex: 1;text-align: right;">{{phoneInfo.yunshu}}</span>
 						</div>
 					<div style="display: flex;">
-						<span style="flex: 1;">建议到达装货地时间：</span><span style="flex: 1;text-align: right;">电话联系装货</span>
+						<span style="flex: 1;">建议到达时间：</span><span style="flex: 1;text-align: right;">{{phoneInfo.daoda}}</span>
 						</div>
 				</el-card>
-				<div style="height: 18.75rem;border-bottom: 0;padding: 1rem;font-size: 1rem;font-weight: bold;color:#0F4F7D ;">提醒您：长途主意安全，雨季切记封好篷布，有问题找我不可与现场发生矛盾冲突，注意货物三不超！行车过程中注意安全，谨慎驾驶！杜绝疲劳驾驶！</div>
+				
+				<div style="height: 5rem;border-bottom: 0;padding: 1rem;font-size: 1rem;font-weight: bold;color:#0F4F7D ;">提醒您：长途主意安全，雨季切记封好篷布，有问题找我不可与现场发生矛盾冲突，注意货物三不超！行车过程中注意安全，谨慎驾驶！杜绝疲劳驾驶！</div>
+				<div style="height: 8rem;border-bottom: 0;padding: 1rem;font-size: 1.25rem;font-weight: bold;color:#DC1E1E ;">订单备注：{{phoneInfo.ordernote}}</div>
+				
+				
 					<!-- <el-form  ref="form" :model="phoneInfo">
 						<el-form-item>
 							<div style="font-size: 3.75rem;">装驾驶员：{{phoneInfo.liensess.driver}}</div>
@@ -239,7 +243,7 @@
 	.box-card {
 		margin-top: 0.75rem;
 		width: 100%;
-		height: 100%;
+		// height: 100%;
 		font-size: 0.9375rem;
 
 		div {

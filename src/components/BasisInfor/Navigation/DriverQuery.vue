@@ -111,18 +111,34 @@
 						</el-option>
 					</el-select>
 				</el-form-item>
-				<el-form-item label="身份证" prop="userid">
-					<el-image v-if="addForm.userid" style="width: 150px;" :src="addForm.userid"></el-image>
+				<el-form-item label="身份证A" prop="userid">
+					<el-image v-if="addForm.userid" style="width: 150px;" :src="addForm.userid" :preview-src-list="srcList" @click="handleClickImage(addForm.userid)"></el-image>
 					<el-upload name="imgFile" :action="updateUserIdUrl" :headers="myHeaders" :auto-upload="true" :on-success="handleUserIdUrlSuccess"
-					 :show-file-list="false">
-						<el-button size="small" type="primary" plain>上传身份证照片</el-button>
+					 :show-file-list="false" :before-upload="beforeAvatarUpload">
+						<el-button size="small" type="primary" plain>上传身份证A</el-button>
 					</el-upload>
 				</el-form-item>
-				<el-form-item label="驾驶证" prop="drivingLicense">
-					<el-image v-if="addForm.drivingLicense" style="width: 150px;" :src="addForm.drivingLicense"></el-image>
+				
+				<el-form-item label="身份证B" prop="userida">
+					<el-image v-if="addForm.userida" style="width: 150px;" :src="addForm.userida" :preview-src-list="srcList" @click="handleClickImage(addForm.userida)"></el-image>
+					<el-upload name="imgFile" :action="updateUseridaUrl" :headers="myHeaders" :auto-upload="true" :on-success="handleUseridaUrlSuccess"
+					 :show-file-list="false" :before-upload="beforeAvatarUpload">
+						<el-button size="small" type="primary" plain>上传身份证B</el-button>
+					</el-upload>
+				</el-form-item>
+				
+				<el-form-item label="驾驶证A" prop="drivingLicense">
+					<el-image v-if="addForm.drivingLicense" style="width: 150px;" :src="addForm.drivingLicense" :preview-src-list="srcList" @click="handleClickImage(addForm.drivingLicense)"></el-image>
 					<el-upload name="imgFile" :action="updateDrivingLicenseUrl" :headers="myHeaders" :auto-upload="true" :on-success="handleDrivingLicenseUrlSuccess"
-					 :show-file-list="false">
-						<el-button size="small" type="primary" plain>上传驾驶证照片</el-button>
+					 :show-file-list="false" :before-upload="beforeAvatarUpload">
+						<el-button size="small" type="primary" plain>上传驾驶证A</el-button>
+					</el-upload>
+				</el-form-item>
+				<el-form-item label="驾驶证B" prop="drivingLicensea">
+					<el-image v-if="addForm.drivingLicensea" style="width: 150px;" :src="addForm.drivingLicensea" :preview-src-list="srcList" @click="handleClickImage(addForm.drivingLicensea)"></el-image>
+					<el-upload name="imgFile" :action="updateDrivingLicenseaUrl" :headers="myHeaders" :auto-upload="true" :on-success="handleDrivingLicenseaUrlSuccess"
+					 :show-file-list="false" :before-upload="beforeAvatarUpload">
+						<el-button size="small" type="primary" plain>上传驾驶证B</el-button>
 					</el-upload>
 				</el-form-item>
 				<el-form-item label="驾驶证有效期" prop="drivingLicenseTime">
@@ -130,10 +146,10 @@
 					</el-date-picker>
 				</el-form-item>
 				<el-form-item label="上岗证" prop="workLicense">
-					<el-image v-if="addForm.workLicense" style="width: 150px;" :src="addForm.workLicense"></el-image>
+					<el-image v-if="addForm.workLicense" style="width: 150px;" :src="addForm.workLicense" :preview-src-list="srcList" @click="handleClickImage(addForm.workLicense)"></el-image>
 					<el-upload name="imgFile" :action="updateWorkLicenseUrl" :headers="myHeaders" :auto-upload="true" :on-success="handleWorkLicenseUrlSuccess"
-					 :show-file-list="false">
-						<el-button size="small" type="primary" plain>上传驾驶证照片</el-button>
+					 :show-file-list="false" :before-upload="beforeAvatarUpload">
+						<el-button size="small" type="primary" plain>上传上岗证</el-button>
 					</el-upload>
 				</el-form-item>
 				<el-form-item label="上岗证有效期" prop="drivingLicenseTime">
@@ -177,29 +193,45 @@
 						</el-option>
 					</el-select>
 				</el-form-item>
-				<el-form-item label="身份证" prop="userid">
-					<el-image v-if="editForm.userid" style="width: 150px;" :src="editForm.userid"></el-image>
+				<el-form-item label="身份证A" prop="userid">
+					<el-image v-if="editForm.userid" style="width: 150px;" :src="editForm.userid" :preview-src-list="srcList" @click="handleClickImage(editForm.userid)"></el-image>
 					<el-upload name="imgFile" :action="updateUserIdUrl" :headers="myHeaders" :auto-upload="true" :on-success="handleEditUserIdUrlSuccess"
-					 :show-file-list="false">
-						<el-button size="small" type="primary" plain>上传身份证照片</el-button>
+					 :show-file-list="false" :before-upload="beforeAvatarUpload">
+						<el-button size="small" type="primary" plain>上传身份证A</el-button>
 					</el-upload>
 				</el-form-item>
-				<el-form-item label="驾驶证" prop="drivingLicense">
-					<el-image v-if="editForm.drivingLicense" style="width: 150px;" :src="editForm.drivingLicense"></el-image>
+				<el-form-item label="身份证B" prop="userida">
+					<el-image v-if="editForm.userida" style="width: 150px;" :src="editForm.userida" :preview-src-list="srcList" @click="handleClickImage(editForm.userida)"></el-image>
+					<el-upload name="imgFile" :action="updateUseridaUrl" :headers="myHeaders" :auto-upload="true" :on-success="handleEditUseridaUrlSuccess"
+					 :show-file-list="false" :before-upload="beforeAvatarUpload">
+						<el-button size="small" type="primary" plain>上传身份证B</el-button>
+					</el-upload>
+				</el-form-item>
+				
+				<el-form-item label="驾驶证A" prop="drivingLicense">
+					<el-image v-if="editForm.drivingLicense" style="width: 150px;" :src="editForm.drivingLicense" :preview-src-list="srcList" @click="handleClickImage(editForm.drivingLicense)"></el-image>
 					<el-upload name="imgFile" :action="updateDrivingLicenseUrl" :headers="myHeaders" :auto-upload="true" :on-success="handleEditDrivingLicenseUrlSuccess"
-					 :show-file-list="false">
-						<el-button size="small" type="primary" plain>上传驾驶证照片</el-button>
+					 :show-file-list="false" :before-upload="beforeAvatarUpload">
+						<el-button size="small" type="primary" plain>上传驾驶证A</el-button>
 					</el-upload>
 				</el-form-item>
+				<el-form-item label="驾驶证B" prop="drivingLicensea">
+					<el-image v-if="editForm.drivingLicensea" style="width: 150px;" :src="editForm.drivingLicensea" :preview-src-list="srcList" @click="handleClickImage(editForm.drivingLicensea)"></el-image>
+					<el-upload name="imgFile" :action="updateDrivingLicenseaUrl" :headers="myHeaders" :auto-upload="true" :on-success="handleEditDrivingLicenseaUrlSuccess"
+					 :show-file-list="false" :before-upload="beforeAvatarUpload">
+						<el-button size="small" type="primary" plain>上传驾驶证B</el-button>
+					</el-upload>
+				</el-form-item>
+				
 				<el-form-item label="驾驶证有效期" prop="drivingLicenseTime">
 					<el-date-picker v-model="editForm.drivingLicenseTime" type="date" placeholder="选择日期" format="yyyy 年 MM 月 dd 日" value-format="yyyy-MM-dd" style="width: 300px;">
 					</el-date-picker>
 				</el-form-item>
 				<el-form-item label="上岗证" prop="workLicense">
-					<el-image v-if="editForm.workLicense" style="width: 150px;" :src="editForm.workLicense"></el-image>
+					<el-image v-if="editForm.workLicense" style="width: 150px;" :src="editForm.workLicense" :preview-src-list="srcList" @click="handleClickImage(editForm.workLicense)"></el-image>
 					<el-upload name="imgFile" :action="updateWorkLicenseUrl" :headers="myHeaders" :auto-upload="true" :on-success="handleEditWorkLicenseUrlSuccess"
-					 :show-file-list="false">
-						<el-button size="small" type="primary" plain>上传驾驶证照片</el-button>
+					 :show-file-list="false" :before-upload="beforeAvatarUpload">
+						<el-button size="small" type="primary" plain>上传上岗证</el-button>
 					</el-upload>
 				</el-form-item>
 				<el-form-item label="上岗证有效期" prop="drivingLicenseTime">
@@ -238,7 +270,9 @@
 					region: "",
 					licensePlate: "",
 					userid: "",
+					userida: "",
 					drivingLicense: "",
+					drivingLicensea: "",
 					drivingLicenseTime: "",
 					workLicense: "",
 				},
@@ -257,6 +291,10 @@
 				updateUserIdUrl: "http://81.70.151.121:8080/jeecg-boot/kDriver/uploadImageUserid",
 				updateDrivingLicenseUrl: "http://81.70.151.121:8080/jeecg-boot/kDriver/uploadImageDriver",
 				updateWorkLicenseUrl: "http://81.70.151.121:8080/jeecg-boot/kDriver/uploadImagePostCard",
+				// 身份证B上传接口
+				updateUseridaUrl: "http://81.70.151.121:8080/jeecg-boot/kDriver/uploadImageUseridA",
+				// 驾驶证B
+				updateDrivingLicenseaUrl: "http://81.70.151.121:8080/jeecg-boot/kDriver/uploadImageDriverA",
 				// 编辑数据
 				editDialogVisible:false,
 				editForm:{},
@@ -284,6 +322,15 @@
 			this.getAllPlateNumberList()
 		},
 		methods: {
+			// 上传图片限制
+			beforeAvatarUpload(file) {
+				console.log(file)
+				const isLt10M = file.size / 1024 / 1024 < 10;
+				if (!isLt10M) {
+					this.$message.error('上传图片大小不能超过 10MB!');
+				}
+				return isLt10M;
+			},
 			// 获取所有公司名称
 			async getAllCompanyList() {
 				const {
@@ -423,12 +470,20 @@
 				this.addForm.userid = response.result.UseridFileName
 			},
 			handleDrivingLicenseUrlSuccess(response, file, fileList) {
-				// console.log(response)
+				// console.log('驾照A',response)
 				this.addForm.drivingLicense = response.result.DriverFileName
 			},
 			handleWorkLicenseUrlSuccess(response, file, fileList) {
 				// console.log(response)
 				this.addForm.workLicense = response.result.PostCardFileName
+			},
+			handleUseridaUrlSuccess(response, file, fileList) {
+				// console.log(response)
+				this.addForm.userida = response.result.UseridFileNameA
+			},
+			handleDrivingLicenseaUrlSuccess(response, file, fileList) {
+				// console.log('驾照B',response)
+				this.addForm.drivingLicensea = response.result.DriverFileNameA
 			},
 
 			// 创建对话框
@@ -487,6 +542,14 @@
 			handleEditWorkLicenseUrlSuccess(response, file, fileList) {
 				// console.log(response)
 				this.editForm.workLicense = response.result.PostCardFileName
+			},
+			handleEditUseridaUrlSuccess(response, file, fileList) {
+				console.log('editForm.userida',response)
+				this.editForm.userida = response.result.UseridFileNameA
+			},
+			handleEditDrivingLicenseaUrlSuccess(response, file, fileList) {
+				// console.log(response)
+				this.editForm.drivingLicensea = response.result.DriverFileNameA
 			},
 
 			// 监听修改用户对话框关闭事件
