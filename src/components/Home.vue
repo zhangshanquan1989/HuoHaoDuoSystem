@@ -240,12 +240,12 @@
 					// 	path: '/test2',
 					// 	icon: "el-icon-orange",
 					// },
-					{
-						id: 8,
-						authName: '转发页面',
-						path: '/phonePage/MDAwMDA4Nw==',
-						icon: "el-icon-orange",
-					},
+					// {
+					// 	id: 8,
+					// 	authName: '转发页面',
+					// 	path: '/phonePage/MDAwMDA5Ng==',
+					// 	icon: "el-icon-orange",
+					// },
 				],
 
 				// 被激活的链接地址
@@ -262,7 +262,7 @@
 			this.name = window.sessionStorage.getItem('name')
 			this.activePath = window.sessionStorage.getItem('activePath')
 			this.getDaiBan()
-			this.jiaMi()
+			// this.jiaMi()
 		},
 		methods: {
 			logout() {
@@ -294,12 +294,12 @@
 			// 	this.activePath = '/distributionManage'
 			// },
 			
-			// 加密订单号
-			async jiaMi(){
-				const {data:res} = await this.$http.get('waybill/jiami?plistNo=0000087')
-				// console.log(res)
-				this.jiami = res.result.加密后订单号
-			},
+			// // 加密订单号
+			// async jiaMi(){
+			// 	const {data:res} = await this.$http.get('waybill/jiami?plistNo=0000096')
+			// 	console.log('加密',res)
+			// 	this.jiami = res.result.加密后订单号
+			// },
 		}
 	}
 </script>

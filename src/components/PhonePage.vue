@@ -1,5 +1,5 @@
 <template>
-	<div  style="width: 27.4524%;">
+	<div  style="width: 29.5%;height: 62rem;">
 		<el-container >
 			<el-header class="header">
 				<div>货 好 多 发 货 信 息</div>

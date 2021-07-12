@@ -50,10 +50,73 @@
 				</el-table-column>
 				<el-table-column prop="checkDate" label="年检有效期" width="150px">
 				</el-table-column>
-				<el-table-column prop="insurance" label="保险单据" width="150px">
+				<el-table-column prop="insurance" label="保险单据1" width="150px">
 					<template slot-scope="scope">
 						<el-tooltip class="item" effect="dark" content="点击查看大图" placement="top" width="150px">
 							<el-image style="width: 80px; height: 40px" :src="scope.row.insurance" :preview-src-list="srcList" @click="handleClickImage(scope.row.insurance)"></el-image>
+						</el-tooltip>
+					</template>
+				</el-table-column>
+				<el-table-column prop="insurancea" label="保险单据2" width="150px">
+					<template slot-scope="scope">
+						<el-tooltip class="item" effect="dark" content="点击查看大图" placement="top" width="150px">
+							<el-image style="width: 80px; height: 40px" :src="scope.row.insurancea" :preview-src-list="srcList" @click="handleClickImage(scope.row.insurancea)"></el-image>
+						</el-tooltip>
+					</template>
+				</el-table-column>
+				<el-table-column prop="insuranceb" label="保险单据3" width="150px">
+					<template slot-scope="scope">
+						<el-tooltip class="item" effect="dark" content="点击查看大图" placement="top" width="150px">
+							<el-image style="width: 80px; height: 40px" :src="scope.row.insuranceb" :preview-src-list="srcList" @click="handleClickImage(scope.row.insuranceb)"></el-image>
+						</el-tooltip>
+					</template>
+				</el-table-column>
+				<el-table-column prop="insurancec" label="保险单据4" width="150px">
+					<template slot-scope="scope">
+						<el-tooltip class="item" effect="dark" content="点击查看大图" placement="top" width="150px">
+							<el-image style="width: 80px; height: 40px" :src="scope.row.insurancec" :preview-src-list="srcList" @click="handleClickImage(scope.row.insurancec)"></el-image>
+						</el-tooltip>
+					</template>
+				</el-table-column>
+				<el-table-column prop="insuranced" label="保险单据5" width="150px">
+					<template slot-scope="scope">
+						<el-tooltip class="item" effect="dark" content="点击查看大图" placement="top" width="150px">
+							<el-image style="width: 80px; height: 40px" :src="scope.row.insuranced" :preview-src-list="srcList" @click="handleClickImage(scope.row.insuranced)"></el-image>
+						</el-tooltip>
+					</template>
+				</el-table-column>
+				<el-table-column prop="insurancee" label="保险单据6" width="150px">
+					<template slot-scope="scope">
+						<el-tooltip class="item" effect="dark" content="点击查看大图" placement="top" width="150px">
+							<el-image style="width: 80px; height: 40px" :src="scope.row.insurancee" :preview-src-list="srcList" @click="handleClickImage(scope.row.insurancee)"></el-image>
+						</el-tooltip>
+					</template>
+				</el-table-column>
+				<el-table-column prop="insurancef" label="保险单据7" width="150px">
+					<template slot-scope="scope">
+						<el-tooltip class="item" effect="dark" content="点击查看大图" placement="top" width="150px">
+							<el-image style="width: 80px; height: 40px" :src="scope.row.insurancef" :preview-src-list="srcList" @click="handleClickImage(scope.row.insurancef)"></el-image>
+						</el-tooltip>
+					</template>
+				</el-table-column>
+				<el-table-column prop="insuranceg" label="保险单据8" width="150px">
+					<template slot-scope="scope">
+						<el-tooltip class="item" effect="dark" content="点击查看大图" placement="top" width="150px">
+							<el-image style="width: 80px; height: 40px" :src="scope.row.insuranceg" :preview-src-list="srcList" @click="handleClickImage(scope.row.insuranceg)"></el-image>
+						</el-tooltip>
+					</template>
+				</el-table-column>
+				<el-table-column prop="insuranceh" label="保险单据9" width="150px">
+					<template slot-scope="scope">
+						<el-tooltip class="item" effect="dark" content="点击查看大图" placement="top" width="150px">
+							<el-image style="width: 80px; height: 40px" :src="scope.row.insuranceh" :preview-src-list="srcList" @click="handleClickImage(scope.row.insuranceh)"></el-image>
+						</el-tooltip>
+					</template>
+				</el-table-column>
+				<el-table-column prop="insurancel" label="保险单据10" width="150px">
+					<template slot-scope="scope">
+						<el-tooltip class="item" effect="dark" content="点击查看大图" placement="top" width="150px">
+							<el-image style="width: 80px; height: 40px" :src="scope.row.insurancel" :preview-src-list="srcList" @click="handleClickImage(scope.row.insurancel)"></el-image>
 						</el-tooltip>
 					</template>
 				</el-table-column>
@@ -170,63 +233,63 @@
 						<el-button size="small" type="primary" plain>上传保险单据1</el-button>
 					</el-upload>
 				</el-form-item>
-				<el-form-item label="保险单据2:" prop="insurance">
+				<el-form-item label="保险单据2:" prop="insurancea">
 					<el-image v-if="addForm.insurancea" style="width: 150px;" :src="addForm.insurancea" :preview-src-list="srcList" @click="handleClickImage(addForm.insurancea)"></el-image>
 					<el-upload name="imgFile" :action="updateInsuranceUrl2" :headers="myHeaders" :auto-upload="true" :on-success="handleInsuranceUrlSuccess2"
 					 :show-file-list="false" :before-upload="beforeAvatarUpload">
 						<el-button size="small" type="primary" plain>上传保险单据2</el-button>
 					</el-upload>
 				</el-form-item>
-				<el-form-item label="保险单据3:" prop="insurance">
+				<el-form-item label="保险单据3:" prop="insuranceb">
 					<el-image v-if="addForm.insuranceb" style="width: 150px;" :src="addForm.insuranceb" :preview-src-list="srcList" @click="handleClickImage(addForm.insuranceb)"></el-image>
 					<el-upload name="imgFile" :action="updateInsuranceUrl3" :headers="myHeaders" :auto-upload="true" :on-success="handleInsuranceUrlSuccess3"
 					 :show-file-list="false" :before-upload="beforeAvatarUpload">
 						<el-button size="small" type="primary" plain>上传保险单据3</el-button>
 					</el-upload>
 				</el-form-item>
-				<el-form-item label="保险单据4:" prop="insurance">
+				<el-form-item label="保险单据4:" prop="insurancec">
 					<el-image v-if="addForm.insurancec" style="width: 150px;" :src="addForm.insurancec" :preview-src-list="srcList" @click="handleClickImage(addForm.insurancec)"></el-image>
 					<el-upload name="imgFile" :action="updateInsuranceUrl4" :headers="myHeaders" :auto-upload="true" :on-success="handleInsuranceUrlSuccess4"
 					 :show-file-list="false" :before-upload="beforeAvatarUpload">
 						<el-button size="small" type="primary" plain>上传保险单据4</el-button>
 					</el-upload>
 				</el-form-item>
-				<el-form-item label="保险单据5:" prop="insurance">
+				<el-form-item label="保险单据5:" prop="insuranced">
 					<el-image v-if="addForm.insuranced" style="width: 150px;" :src="addForm.insuranced" :preview-src-list="srcList" @click="handleClickImage(addForm.insuranced)"></el-image>
 					<el-upload name="imgFile" :action="updateInsuranceUrl5" :headers="myHeaders" :auto-upload="true" :on-success="handleInsuranceUrlSuccess5"
 					 :show-file-list="false" :before-upload="beforeAvatarUpload">
 						<el-button size="small" type="primary" plain>上传保险单据5</el-button>
 					</el-upload>
 				</el-form-item>
-				<el-form-item label="保险单据6:" prop="insurance">
+				<el-form-item label="保险单据6:" prop="insurancee">
 					<el-image v-if="addForm.insurancee" style="width: 150px;" :src="addForm.insurancee" :preview-src-list="srcList" @click="handleClickImage(addForm.insurancee)"></el-image>
 					<el-upload name="imgFile" :action="updateInsuranceUrl6" :headers="myHeaders" :auto-upload="true" :on-success="handleInsuranceUrlSuccess6"
 					 :show-file-list="false" :before-upload="beforeAvatarUpload">
 						<el-button size="small" type="primary" plain>上传保险单据6</el-button>
 					</el-upload>
 				</el-form-item>
-				<el-form-item label="保险单据7:" prop="insurance">
+				<el-form-item label="保险单据7:" prop="insurancef">
 					<el-image v-if="addForm.insurancef" style="width: 150px;" :src="addForm.insurancef" :preview-src-list="srcList" @click="handleClickImage(addForm.insurancef)"></el-image>
 					<el-upload name="imgFile" :action="updateInsuranceUrl7" :headers="myHeaders" :auto-upload="true" :on-success="handleInsuranceUrlSuccess7"
 					 :show-file-list="false" :before-upload="beforeAvatarUpload">
 						<el-button size="small" type="primary" plain>上传保险单据7</el-button>
 					</el-upload>
 				</el-form-item>
-				<el-form-item label="保险单据8:" prop="insurance">
+				<el-form-item label="保险单据8:" prop="insuranceg">
 					<el-image v-if="addForm.insuranceg" style="width: 150px;" :src="addForm.insuranceg" :preview-src-list="srcList" @click="handleClickImage(addForm.insuranceg)"></el-image>
 					<el-upload name="imgFile" :action="updateInsuranceUrl8" :headers="myHeaders" :auto-upload="true" :on-success="handleInsuranceUrlSuccess8"
 					 :show-file-list="false" :before-upload="beforeAvatarUpload">
 						<el-button size="small" type="primary" plain>上传保险单据8</el-button>
 					</el-upload>
 				</el-form-item>
-				<el-form-item label="保险单据9:" prop="insurance">
+				<el-form-item label="保险单据9:" prop="insuranceh">
 					<el-image v-if="addForm.insuranceh" style="width: 150px;" :src="addForm.insuranceh" :preview-src-list="srcList" @click="handleClickImage(addForm.insuranceh)"></el-image>
 					<el-upload name="imgFile" :action="updateInsuranceUrl9" :headers="myHeaders" :auto-upload="true" :on-success="handleInsuranceUrlSuccess9"
 					 :show-file-list="false" :before-upload="beforeAvatarUpload">
 						<el-button size="small" type="primary" plain>上传保险单据9</el-button>
 					</el-upload>
 				</el-form-item>
-				<el-form-item label="保险单据10:" prop="insurance">
+				<el-form-item label="保险单据10:" prop="insurancel">
 					<el-image v-if="addForm.insurancel" style="width: 150px;" :src="addForm.insurancel" :preview-src-list="srcList" @click="handleClickImage(addForm.insurancel)"></el-image>
 					<el-upload name="imgFile" :action="updateInsuranceUrl10" :headers="myHeaders" :auto-upload="true" :on-success="handleInsuranceUrlSuccess10"
 					 :show-file-list="false" :before-upload="beforeAvatarUpload">
