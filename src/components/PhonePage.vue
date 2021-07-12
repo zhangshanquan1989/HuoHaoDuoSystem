@@ -1,10 +1,10 @@
 <template>
-	<div  style="width: 19.53125%;height: 5rem;">
+	<div  style="width: 27.4524%;">
 		<el-container >
 			<el-header class="header">
 				<div>货 好 多 发 货 信 息</div>
 			</el-header>
-			<el-main style="height: 500px;">
+			<el-main style="height: 62rem;">
 				<el-card class="box-card">
 					<div style="font-size: 16px;color: #0F4F7DFF;font-weight: bold;opacity: 1;">
 						<img src="../assets/share/4.png" style="width: 1.166875rem;height: 1rem;"/>

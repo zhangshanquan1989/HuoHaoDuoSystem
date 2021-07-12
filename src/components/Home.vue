@@ -240,12 +240,12 @@
 					// 	path: '/test2',
 					// 	icon: "el-icon-orange",
 					// },
-					// {
-					// 	id: 8,
-					// 	authName: '转发页面',
-					// 	path: '/phonePage/MDAwMDA4Nw==',
-					// 	icon: "el-icon-orange",
-					// },
+					{
+						id: 8,
+						authName: '转发页面',
+						path: '/phonePage/MDAwMDA4Nw==',
+						icon: "el-icon-orange",
+					},
 				],
 
 				// 被激活的链接地址
