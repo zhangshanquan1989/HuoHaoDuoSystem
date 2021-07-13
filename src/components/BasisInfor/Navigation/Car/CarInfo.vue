@@ -723,14 +723,14 @@
 				queryViolationDialog: false,
 				queryViolationList: [],
 
-				// 公司选择框数据
+				// 选择框数据
 				queryCompanyName: '',
 				companyOptions: [],
 				companyList: [],
 				companyLoading: false,
 				companyStates: [],
 				
-				// 公司选择框数据
+				// 调度选择框数据
 				dispatchOptions: [],
 				dispatchList: [],
 				dispatchLoading: false,

@@ -373,7 +373,10 @@
 			</el-form>
 			<span slot="footer" class="dialog-footer">
 				<el-button @click="addDialogVisible = false">取 消</el-button>
-				<el-button type="primary" @click="addInfo">提 交</el-button>
+				<el-popconfirm title="确定创建？" @confirm="addInfo" style="margin-left: 10px;">
+					<el-button type="primary" slot="reference">提 交</el-button>
+				</el-popconfirm>
+				<!-- <el-button type="primary" @click="addInfo">提 交</el-button> -->
 			</span>
 		</el-dialog>
 

@@ -144,7 +144,10 @@
 					</el-select>
 				</el-form-item>
 				<el-form-item label="调度负责人:" prop="schedul">
-					<el-input v-model="addForm.schedul" style="width: 350px;"></el-input>
+					<el-select v-model="addForm.schedul" clearable filterable remote placeholder="请选择调度员" :remote-method="remoteSchedulMethod" :loading="schedulLoading"  style="width: 350px;">
+						<el-option v-for="item in schedulOptions" :key="item.index" :label="item.label" :value="item.value">
+						</el-option>
+					</el-select>
 				</el-form-item>
 			</el-form>
 			<!-- 操作区域 -->
@@ -219,7 +222,10 @@
 					</el-select>
 				</el-form-item>
 				<el-form-item label="调度负责人:" prop="schedul">
-					<el-input v-model="editForm.schedul" style="width: 350px;"></el-input>
+					<el-select v-model="editForm.schedul" clearable filterable remote placeholder="请选择调度员" :remote-method="remoteSchedulMethod" :loading="schedulLoading"  style="width: 350px;">
+						<el-option v-for="item in schedulOptions" :key="item.index" :label="item.label" :value="item.value">
+						</el-option>
+					</el-select>
 				</el-form-item>
 			</el-form>
 			<span slot="footer" class="dialog-footer">
@@ -379,10 +385,17 @@
 					cartypeArray2:[],
 					
 				},
+				// 调度选择框数据
+				schedulOptions: [],
+				schedulList: [],
+				schedulLoading: false,
+				schedulStates: [],
+				
 			}
 		},
 		created() {
 			this.getList()
+			this.getAllSchedulList()
 		},
 		methods: {
 			multiple(e){
@@ -394,6 +407,41 @@
 			clickshouye(){
 				// console.log("点击首页")
 			},
+			
+			// 获取所有员工
+			async getAllSchedulList() {
+				const {
+					data: res
+				} = await this.$http.get('kuser/findALLname')
+				// console.log(res)
+				if (res.code !== 200) {
+					return
+				}
+				this.schedulStates = res.result
+			
+				this.schedulList = this.schedulStates.map(item => {
+					return {
+						value: `${item}`,
+						label: `${item}`
+					};
+				});
+				this.schedulOptions = this.schedulList
+			},
+			
+			// 选择员工方法
+			remoteSchedulMethod(query) {
+				if (query !== '') {
+					this.schedulLoading = true;
+					setTimeout(() => {
+						this.schedulLoading = false;
+						this.schedulOptions = this.schedulList.filter(item => {
+							return item.value.indexOf(query) > -1;
+						});
+					}, 300)
+				} else {
+					this.schedulOptions = this.schedulList
+				}
+			},
 			change(e){e},
 			// 根据分页查询列表
 			async getList() {
@@ -402,7 +450,7 @@
 				} = await this.$http.get('base/client/list', {
 					params: this.queryInfo
 				})
-				// console.log(res)
+				console.log(res)
 				if (res.code !== 200) {
 					return this.$message.error(res.message)
 				}

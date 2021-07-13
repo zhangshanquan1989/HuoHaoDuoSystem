@@ -65,7 +65,7 @@
 				const {
 					data: res
 				} = await this.$http.get('waybill/findAllLicense')
-				console.log(res)
+				// console.log(res)
 				if (res.code !== 200) {
 					return
 				}

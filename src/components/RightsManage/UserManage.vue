@@ -170,7 +170,7 @@
 				} = await this.$http.get('kuser/user', {
 					params: this.queryInfo
 				})
-				console.log(res)
+				// console.log(res)
 				if (res.code !== 200) {
 					return
 				}
