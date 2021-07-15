@@ -84,7 +84,7 @@
 		<!-- 创建公司的对话框 -->
 		<el-dialog class="dialog" title="创建公司信息" :visible.sync="addDialogVisible" width="35%" @close="addDialogClosed">
 			<!-- 添加公司的表单 -->
-			<el-form :model="addForm" ref="addFormRef" label-width="120px">
+			<el-form :model="addForm" :rules="addCompanyFormRules" ref="addFormRef" label-width="120px">
 				<el-form-item label="公司名称:" prop="name">
 					<el-input v-model="addForm.name" style="width: 350px;"></el-input>
 				</el-form-item>
@@ -118,7 +118,7 @@
 					<el-input v-model="addForm.address" style="width: 350px;"></el-input>
 				</el-form-item>
 				<el-form-item label="详细地址:" prop="housenumber">
-					<el-input v-model="addForm.housenumber" style="width: 500px;"></el-input>
+					<el-input v-model="addForm.housenumber" style="width:80%;"></el-input>
 				</el-form-item>
 				<el-form-item label="营业执照:">
 					<el-image v-if="addForm.business" style="width: 150px; " :src="addForm.business"></el-image>
@@ -180,7 +180,7 @@
 					<el-input v-model="editCompanyForm.address" style="width: 350px;"></el-input>
 				</el-form-item>
 				<el-form-item label="详细地址:" prop="housenumber">
-					<el-input v-model="editCompanyForm.housenumber" style="width: 500px;"></el-input>
+					<el-input v-model="editCompanyForm.housenumber" style="width: 80%;"></el-input>
 				</el-form-item>
 				<el-form-item label="营业执照:">
 					<el-image v-if="editCompanyForm.business" style="width: 150px; " :src="editCompanyForm.business" :preview-src-list="srcList" @click="handleClickImage(editCompanyForm.business)"></el-image>
@@ -313,11 +313,7 @@
 						message: "必填",
 						trigger: 'blur'
 					}],
-					creater: [{
-						required: true,
-						message: "必填",
-						trigger: 'blur'
-					}]
+					
 				},
 				// 编辑公司的表单验证规则
 				editCompanyFormRules: {

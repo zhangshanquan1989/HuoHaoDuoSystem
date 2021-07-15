@@ -265,11 +265,11 @@
 									</el-select>
 								</template>
 							</el-table-column>
-							<!-- <el-table-column prop="saddress" label="详细地址">
+							<el-table-column prop="saddress" label="详细地址">
 								<template slot-scope="scope">
 									<el-input v-model="scope.row.saddress" class="rt-input"></el-input>
 								</template>
-							</el-table-column> -->
+							</el-table-column>
 							<el-table-column prop="sgrade" label="市场等级">
 								<template slot-scope="scope">
 									<el-input disabled v-model="scope.row.sgrade" class="rt-input"></el-input>
@@ -328,11 +328,11 @@
 									</el-select>
 								</template>
 							</el-table-column>
-							<!-- <el-table-column prop="saddress" label="详细地址">
+							<el-table-column prop="saddress" label="详细地址">
 								<template slot-scope="scope">
 									<el-input v-model="scope.row.daddress" class="rt-input"></el-input>
 								</template>
-							</el-table-column> -->
+							</el-table-column>
 							<el-table-column prop="sgrade" label="市场等级">
 								<template slot-scope="scope">
 									<el-input disabled v-model="scope.row.dgrade" class="rt-input"></el-input>
@@ -545,11 +545,11 @@
 									<el-input :disabled="canEdit" v-model="scope.row.sarea" class="rt-input"></el-input>
 								</template>
 							</el-table-column>
-							<!-- <el-table-column prop="saddress" label="详细地址">
+							<el-table-column prop="saddress" label="详细地址">
 								<template slot-scope="scope">
 									<el-input :disabled="canEdit" v-model="scope.row.saddress" class="rt-input"></el-input>
 								</template>
-							</el-table-column> -->
+							</el-table-column>
 							<el-table-column prop="sgrade" label="等级">
 								<template slot-scope="scope">
 									<el-input disabled v-model="scope.row.sgrade" class="rt-input"></el-input>
@@ -600,11 +600,11 @@
 									<el-input :disabled="canEdit" v-model="scope.row.darea" class="rt-input"></el-input>
 								</template>
 							</el-table-column>
-							<!-- <el-table-column prop="saddress" label="详细地址">
+							<el-table-column prop="saddress" label="详细地址">
 								<template slot-scope="scope">
 									<el-input :disabled="canEdit" v-model="scope.row.daddress" class="rt-input"></el-input>
 								</template>
-							</el-table-column> -->
+							</el-table-column>
 							<el-table-column prop="dgrade" label="等级">
 								<template slot-scope="scope">
 									<el-input disabled v-model="scope.row.dgrade" class="rt-input"></el-input>

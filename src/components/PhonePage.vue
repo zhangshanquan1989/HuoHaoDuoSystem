@@ -1,5 +1,5 @@
 <template>
-	<div  style="width: 29%;height: 62rem;">
+	<div  style="width: 29%;">
 		<el-container >
 			<el-header class="header">
 				<div>货 好 多 发 货 信 息</div>
@@ -12,7 +12,10 @@
 					</div>
 					<div style="display: flex;"><span style="flex: 1;">发车时间：</span><span style="flex: 1;text-align: right;"> {{phoneInfo.apoints[0].stime}}</span></div>
 					<div style="display: flex;">
-						<span style="flex: 1;">装货地址：</span><span style="flex: 1;text-align: right;"> {{phoneInfo.apoints[0].scity}}{{phoneInfo.apoints[0].sarea}}{{phoneInfo.apoints[0].saddress}}</span>
+						<span style="flex: 1;">装货地区：</span><span style="flex: 1;text-align: right;"> {{phoneInfo.apoints[0].sprovince}}{{phoneInfo.apoints[0].scity}}{{phoneInfo.apoints[0].sarea}}</span>
+						</div>
+					<div style="display: flex;">
+						<span style="flex: 1;">详细地址：</span><span style="flex: 2;text-align: right;"> {{phoneInfo.apoints[0].saddress}}</span>
 						</div>
 					<div style="display: flex;">
 						<span style="flex: 1;">联系电话：</span><span style="flex: 1;text-align: right;"> {{phoneInfo.apoints[0].spointphone}}</span>
@@ -21,7 +24,10 @@
 						<span style="flex: 1;">卸车时间：</span><span style="flex: 1;text-align: right;"> {{phoneInfo.upoints[0].dtime}}</span>
 						</div>
 					<div style="display: flex;">
-						<span style="flex: 1;">卸货地址：</span><span style="flex: 1;text-align: right;"> {{phoneInfo.upoints[0].dprovince}}{{phoneInfo.upoints[0].dcity}}{{phoneInfo.upoints[0].darea}}</span>
+						<span style="flex: 1;">卸货地区：</span><span style="flex: 1;text-align: right;"> {{phoneInfo.upoints[0].dprovince}}{{phoneInfo.upoints[0].dcity}}{{phoneInfo.upoints[0].darea}}{{phoneInfo.upoints[0].daddress}}</span>
+						</div>
+					<div style="display: flex;">
+						<span style="flex: 1;">详细地址：</span><span style="flex: 2;text-align: right;"> {{phoneInfo.upoints[0].daddress}}</span>
 						</div>
 					<div style="display: flex;">
 						<span style="flex: 1;">卸货方式：</span><span style="flex: 1;text-align: right;">{{phoneInfo.upiontway}}</span>
