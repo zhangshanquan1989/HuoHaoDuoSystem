@@ -8,27 +8,27 @@
 
 		<el-card class="box-card">
 			<div>
-			<el-select v-model="queryInfo.licenseplate" clearable filterable remote placeholder="请输入车牌号" :remote-method="remotePlateNumberMethod" :loading="plateNumberLoading" style="width: 300px;">
+			<el-select v-model="queryInfo.licenseplate" clearable filterable remote placeholder="请输入车牌号" :remote-method="remotePlateNumberMethod" :loading="plateNumberLoading" style="width: 293px;">
 				<el-option v-for="item in plateNumberOptions" :key="item.index" :label="item.label" :value="item.value">
 				</el-option>
 			</el-select>
-			<span>统计时间段</span>
-			<el-button type="primary" plain @click="seleceLastWeek">上周</el-button>
-			<el-button type="primary" plain @click="seleceNearWeek">近一周</el-button>
-			<el-button type="primary" plain @click="seleceLastMonth">上月</el-button>
-			<el-button type="primary" plain @click="seleceNearMonth">近一月</el-button>
+			<span style="font-size: 20px;color: #303133;margin-left: 20px;">统计时间段</span>
+			<el-button type="primary" plain @click="seleceLastWeek" style="margin-left: 20px;">上周</el-button>
+			<el-button type="primary" plain @click="seleceNearWeek" style="margin-left: 20px;">近一周</el-button>/
+			<el-button type="primary" plain @click="seleceLastMonth" style="margin-left: 20px;">上月</el-button>
+			<el-button type="primary" plain @click="seleceNearMonth" style="margin-left: 20px;">近一月</el-button>
 			</div>
-			<div>
+			<div style="margin-top: 20px;">
 			<el-date-picker v-model="queryInfo.newStartTime" :picker-options="pickerDisabled" type="date" placeholder="选择开始日期" value-format="yyyy-MM-dd " >
 			</el-date-picker>
-			<span>-</span>
-			<el-date-picker v-model="queryInfo.newEndTime" :picker-options="pickerDisabled" type="date" value-format="yyyy-MM-dd " placeholder="选择结束日期">
+			<span style="margin-left: 10px;">-</span>
+			<el-date-picker v-model="queryInfo.newEndTime" :picker-options="pickerDisabled" type="date" value-format="yyyy-MM-dd " placeholder="选择结束日期" style="margin-left: 10px;">
 			</el-date-picker>
-			<el-button type="primary" icon="el-icon-search" @click="search">搜索</el-button>
+			<el-button type="primary" icon="el-icon-search" style="margin-left: 20px;" @click="search">搜索</el-button>
 			</div>
-			<div>
-				<span>车辆里程报表</span>
-				<el-button type="primary" icon="el-icon-download">导出</el-button>
+			<div style="margin-top: 20px;">
+				<span style="font-size: 20px;color: #303133;">车辆里程报表</span>
+				<el-button type="primary" icon="el-icon-download" style="margin-left: 20px;">导出</el-button>
 			</div>
 			<el-table :data="carMileageList" border stripe style="width: 100%;margin-top: 8px;" :row-style="{height:'60px'}"
 			 :cell-style="{padding:'0px'}" :header-cell-style="{background:'#f8f8f9', color:'#000000'}">

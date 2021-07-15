@@ -392,7 +392,7 @@
 			</el-form>
 			<span v-if="showRejected" slot="footer" class="dialog-footer">
 				<!-- 			<el-button @click="editDialogVisible = false">关 闭</el-button> -->
-				<el-button type="primary" @click="handleRejected">确 定</el-button>
+				<el-button type="primary" @click="handleRejected" style="margin-left: 10px;">确 定</el-button>
 			</span>
 
 			<el-divider v-if="showDriverReject">请填写司机拒单原因</el-divider>

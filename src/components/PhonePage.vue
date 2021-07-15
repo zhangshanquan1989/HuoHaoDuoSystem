@@ -4,7 +4,7 @@
 			<el-header class="header">
 				<div>货 好 多 发 货 信 息</div>
 			</el-header>
-			<el-main style="height: 62rem;">
+			<el-main style="height: 75rem;">
 				<el-card class="box-card">
 					<div style="font-size: 16px;color: #0F4F7DFF;font-weight: bold;opacity: 1;">
 						<img src="../assets/share/4.png" style="width: 1.166875rem;height: 1rem;"/>
@@ -12,19 +12,19 @@
 					</div>
 					<div style="display: flex;"><span style="flex: 1;">发车时间：</span><span style="flex: 1;text-align: right;"> {{phoneInfo.apoints[0].stime}}</span></div>
 					<div style="display: flex;">
-						<span style="flex: 1;">装货地区：</span><span style="flex: 1;text-align: right;"> {{phoneInfo.apoints[0].sprovince}}{{phoneInfo.apoints[0].scity}}{{phoneInfo.apoints[0].sarea}}</span>
+						<span style="flex: 1;">装货地点：</span><span style="flex: 2;text-align: right;"> {{phoneInfo.apoints[0].sprovince}}{{phoneInfo.apoints[0].scity}}{{phoneInfo.apoints[0].sarea}}</span>
 						</div>
 					<div style="display: flex;">
 						<span style="flex: 1;">详细地址：</span><span style="flex: 2;text-align: right;"> {{phoneInfo.apoints[0].saddress}}</span>
 						</div>
 					<div style="display: flex;">
-						<span style="flex: 1;">联系电话：</span><span style="flex: 1;text-align: right;"> {{phoneInfo.apoints[0].spointphone}}</span>
+						<span style="flex: 1;">联系电话：</span><span style="flex: 2;text-align: right;"> {{phoneInfo.apoints[0].spointphone}}</span>
 						</div>
 					<div style="display: flex;">
-						<span style="flex: 1;">卸车时间：</span><span style="flex: 1;text-align: right;"> {{phoneInfo.upoints[0].dtime}}</span>
+						<span style="flex: 1;">卸车时间：</span><span style="flex: 2;text-align: right;"> {{phoneInfo.upoints[0].dtime}}</span>
 						</div>
 					<div style="display: flex;">
-						<span style="flex: 1;">卸货地区：</span><span style="flex: 1;text-align: right;"> {{phoneInfo.upoints[0].dprovince}}{{phoneInfo.upoints[0].dcity}}{{phoneInfo.upoints[0].darea}}{{phoneInfo.upoints[0].daddress}}</span>
+						<span style="flex: 1;">卸货地点：</span><span style="flex: 2;text-align: right;"> {{phoneInfo.upoints[0].dprovince}}{{phoneInfo.upoints[0].dcity}}{{phoneInfo.upoints[0].darea}}</span>
 						</div>
 					<div style="display: flex;">
 						<span style="flex: 1;">详细地址：</span><span style="flex: 2;text-align: right;"> {{phoneInfo.upoints[0].daddress}}</span>

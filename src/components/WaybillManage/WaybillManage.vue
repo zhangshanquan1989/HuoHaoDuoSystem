@@ -467,24 +467,24 @@
 						<el-input @change="editCalculateNearcost" :disabled="canEdit" clearable v-model="editForm.cost" placeholder="元" ></el-input>
 					</el-form-item>
 					<el-form-item label="利润" prop="nearcost" class="rt-input">
-						<el-input :disabled="canEdit" disabled v-model="editForm.nearcost" placeholder="元"></el-input>
+						<el-input  disabled v-model="editForm.nearcost" placeholder="元"></el-input>
 					</el-form-item>					
 				</div>
 				<div style="display: flex;">
 					<el-form-item label="卸货方式" prop="upiontway">
-						<el-input disabled v-model="editForm.upiontway" ></el-input>
+						<el-input  :disabled="canEdit" v-model="editForm.upiontway" ></el-input>
 					</el-form-item>
 					<el-form-item label="	建议运输方式" prop="yunshu">
-						<el-input disabled v-model="editForm.yunshu"></el-input>
+						<el-input  :disabled="canEdit" v-model="editForm.yunshu"></el-input>
 					</el-form-item>
 					<el-form-item label="建议到达装货时间">
 						
-							<el-date-picker disabled v-model="editForm.daoda" type="datetime" placeholder="选择日期时间" value-format="yyyy-MM-dd HH:mm:ss">
+							<el-date-picker  :disabled="canEdit" v-model="editForm.daoda" type="datetime" placeholder="选择日期时间" value-format="yyyy-MM-dd HH:mm:ss">
 							</el-date-picker>
 						
 					</el-form-item>
 					<el-form-item label="订单备注" prop="ordernote">
-						<el-input disabled v-model="editForm.ordernote"></el-input>
+						<el-input  :disabled="canEdit" v-model="editForm.ordernote"></el-input>
 					</el-form-item>
 				</div>
 				<div style="display: flex;">
@@ -520,34 +520,34 @@
 						<el-table :data="editForm.apoints" style="width: 100%">
 							<el-table-column prop="spointphone" label="装货点电话">
 								<template slot-scope="scope">
-									<el-input :disabled="canEdit" v-model="scope.row.spointphone" class="rt-input"></el-input>
+									<el-input :disabled="canEdit" clearable v-model="scope.row.spointphone" class="rt-input"></el-input>
 								</template>
 							</el-table-column>
 							<el-table-column label="装货时间" width="200px">
 								<template slot-scope="scope">
-									<el-date-picker :disabled="canEdit" v-model="scope.row.stime" type="datetime" placeholder="选择日期时间"
+									<el-date-picker :disabled="canEdit" clearable v-model="scope.row.stime" type="datetime" placeholder="选择日期时间"
 									 value-format="yyyy-MM-dd HH:mm:ss" class="rt-input">
 									</el-date-picker>
 								</template>
 							</el-table-column>
 							<el-table-column prop="sprovince" label="省">
 								<template slot-scope="scope">
-									<el-input :disabled="canEdit" v-model="scope.row.sprovince" class="rt-input"></el-input>
+									<el-input :disabled="canEdit" clearable v-model="scope.row.sprovince" class="rt-input"></el-input>
 								</template>
 							</el-table-column>
 							<el-table-column prop="scity" label="市">
 								<template slot-scope="scope">
-									<el-input :disabled="canEdit" v-model="scope.row.scity" class="rt-input"></el-input>
+									<el-input :disabled="canEdit" clearable v-model="scope.row.scity" class="rt-input"></el-input>
 								</template>
 							</el-table-column>
 							<el-table-column prop="sarea" label="区">
 								<template slot-scope="scope">
-									<el-input :disabled="canEdit" v-model="scope.row.sarea" class="rt-input"></el-input>
+									<el-input :disabled="canEdit" clearable v-model="scope.row.sarea" class="rt-input"></el-input>
 								</template>
 							</el-table-column>
 							<el-table-column prop="saddress" label="详细地址">
 								<template slot-scope="scope">
-									<el-input :disabled="canEdit" v-model="scope.row.saddress" class="rt-input"></el-input>
+									<el-input :disabled="canEdit" clearable v-model="scope.row.saddress" class="rt-input"></el-input>
 								</template>
 							</el-table-column>
 							<el-table-column prop="sgrade" label="等级">
@@ -575,34 +575,34 @@
 						<el-table :data="editForm.upoints" style="width: 100%">
 							<el-table-column prop="spointphone" label="卸货点电话">
 								<template slot-scope="scope">
-									<el-input :disabled="canEdit" v-model="scope.row.dpointphone" class="rt-input"></el-input>
+									<el-input :disabled="canEdit" clearable v-model="scope.row.dpointphone" class="rt-input"></el-input>
 								</template>
 							</el-table-column>
 							<el-table-column label="卸货时间" width="200px">
 								<template slot-scope="scope">
-									<el-date-picker :disabled="canEdit" v-model="scope.row.dtime" type="datetime" placeholder="选择日期时间"
+									<el-date-picker :disabled="canEdit" clearable v-model="scope.row.dtime" type="datetime" placeholder="选择日期时间"
 									 value-format="yyyy-MM-dd HH:mm:ss" class="rt-input">
 									</el-date-picker>
 								</template>
 							</el-table-column>
 							<el-table-column prop="sprovince" label="省">
 								<template slot-scope="scope">
-									<el-input :disabled="canEdit" v-model="scope.row.dprovince" class="rt-input"></el-input>
+									<el-input :disabled="canEdit" clearable v-model="scope.row.dprovince" class="rt-input"></el-input>
 								</template>
 							</el-table-column>
 							<el-table-column prop="scity" label="市">
 								<template slot-scope="scope">
-									<el-input :disabled="canEdit" v-model="scope.row.dcity" class="rt-input"></el-input>
+									<el-input :disabled="canEdit" clearable v-model="scope.row.dcity" class="rt-input"></el-input>
 								</template>
 							</el-table-column>
 							<el-table-column prop="sarea" label="区">
 								<template slot-scope="scope">
-									<el-input :disabled="canEdit" v-model="scope.row.darea" class="rt-input"></el-input>
+									<el-input :disabled="canEdit" clearable v-model="scope.row.darea" class="rt-input"></el-input>
 								</template>
 							</el-table-column>
 							<el-table-column prop="saddress" label="详细地址">
 								<template slot-scope="scope">
-									<el-input :disabled="canEdit" v-model="scope.row.daddress" class="rt-input"></el-input>
+									<el-input :disabled="canEdit" clearable v-model="scope.row.daddress" class="rt-input"></el-input>
 								</template>
 							</el-table-column>
 							<el-table-column prop="dgrade" label="等级">
@@ -626,15 +626,25 @@
 				</el-form-item>
 
 				<div style="display: flex;">
-					<el-form-item label="司机" prop="lienses" class="rt-input">
-						<el-input disabled v-model="editForm.Lidriver"></el-input>
+					<!-- <el-form-item label="司机" prop="lienses" class="rt-input">
+						<el-input  :disabled="canEdit" v-model="editForm.Lidriver"></el-input>
+					</el-form-item> -->
+					
+					<el-form-item label="司机名" prop="searchDriver">
+						<el-select v-model="editForm.Lidriver" :disabled="canEdit" clearable filterable remote placeholder="请输入司机名" :remote-method="chooseDriverName"
+						 :loading="driverNameLoading" @change="editChooseDriverName" class="rt-input">
+							<el-option v-for="item in driverNameOptions" :key="item.index" :label="item.label" :value="item.value">
+							</el-option>
+						</el-select>
 					</el-form-item>
+					
 					<el-form-item label="车牌号" prop="searchDriver" class="rt-input">
-						<el-select :disabled="canEdit" v-model="editForm.lienses" clearable filterable remote placeholder="请输入车牌号"
+						<!-- <el-select disabled v-model="editForm.lienses" clearable filterable remote placeholder="请输入车牌号"
 						 :remote-method="chooseCarLicense" :loading="carLicenseLoading" @change="editChooseCarLicense">
 							<el-option v-for="item in carLicenseOptions" :key="item.index" :label="item.label" :value="item.value">
 							</el-option>
-						</el-select>
+						</el-select> -->
+						<el-input  disabled v-model="editForm.lienses"></el-input>
 					</el-form-item>
 					
 					<el-form-item label="负责配管" prop="lienses" class="rt-input">
@@ -862,6 +872,7 @@
 				editDialogVisible: false,
 				editForm: {
 					Lidriver: '',
+					lienses:'',
 					dispatch: '',
 				},
 				// 能否修改
@@ -1099,6 +1110,26 @@
 					this.driverNameOptions = this.allDriverNameList
 					this.addForm.lienses = ''
 					this.addForm.dispatch = ''
+				}
+			},
+			// 修改选择司机名后发起请求
+			async editChooseDriverName(name) {
+				console.log(name)
+				if (name !== '') {
+					const {
+						data: res
+					} = await this.$http.get('/waybill/findDriverByDriver?driver=' + name)
+					console.log(res)
+					if (res.code !== 200) {
+						return this.$message.error(res.message)
+					}
+					this.driverNameOptions = this.allDriverNameList
+					this.editForm.lienses = res.result.chepai
+					this.editForm.dispatch = res.result.dispatch
+				} else {
+					this.driverNameOptions = this.allDriverNameList
+					this.editForm.lienses = ''
+					this.editForm.dispatch = ''
 				}
 			},
 
