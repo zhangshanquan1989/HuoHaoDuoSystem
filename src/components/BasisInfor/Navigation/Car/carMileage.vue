@@ -8,13 +8,16 @@
 
 		<el-card class="box-card">
 			<div>
+				<span style="font-size: 18px;color: #303133;">筛选查询</span>
+			</div>
+			<div style="margin-top: 18px;">
 			<el-select v-model="queryInfo.licenseplate" clearable filterable remote placeholder="请输入车牌号" :remote-method="remotePlateNumberMethod" :loading="plateNumberLoading" style="width: 293px;">
 				<el-option v-for="item in plateNumberOptions" :key="item.index" :label="item.label" :value="item.value">
 				</el-option>
 			</el-select>
 			<span style="font-size: 20px;color: #303133;margin-left: 20px;">统计时间段</span>
 			<el-button type="primary" plain @click="seleceLastWeek" style="margin-left: 20px;">上周</el-button>
-			<el-button type="primary" plain @click="seleceNearWeek" style="margin-left: 20px;">近一周</el-button>/
+			<el-button type="primary" plain @click="seleceNearWeek" style="margin-left: 20px;">近一周</el-button>
 			<el-button type="primary" plain @click="seleceLastMonth" style="margin-left: 20px;">上月</el-button>
 			<el-button type="primary" plain @click="seleceNearMonth" style="margin-left: 20px;">近一月</el-button>
 			</div>
@@ -34,7 +37,7 @@
 			 :cell-style="{padding:'0px'}" :header-cell-style="{background:'#f8f8f9', color:'#000000'}">
 				<el-table-column prop="licenseplate" label="车牌" width="250px">
 				</el-table-column>
-				<el-table-column prop="endMileage" label="总里程(km)" width="250px">
+				<el-table-column prop="endMileage" label="总里程(km)" width="300px">
 				</el-table-column>
 				<el-table-column prop="mileage" label="行驶里程(km)">
 				</el-table-column>
@@ -76,7 +79,7 @@
 				// 设置日期选择禁用日期
 				pickerDisabled: {
 				        disabledDate: (time) => {
-				            return time.getTime() > new Date() - 8.64e7;
+				            return time.getTime() < 1625382900365 || time.getTime() > new Date() - 8.64e7;
 				          }
 				      },
 				// 选择车牌数据
@@ -88,6 +91,7 @@
 			}
 		},
 		created() {
+			console.log('现在',Date.now()-950400000)
 			this.initTime(); // 初始化时间
 			this.getCarMileageList()
 			this.getAllPlateNumberList()
@@ -156,7 +160,7 @@
 			// 点击搜索
 			async search(){
 				if(this.queryInfo.licenseplate){
-					console.log('这里')
+					console.log('有车牌')
 					const {
 						data: res
 					} = await this.$http.post('yK_record/list2', this.queryInfo)
@@ -166,8 +170,10 @@
 					}
 					this.carMileageList = []
 					this.carMileageList[0] = res.result
+					this.total = 1
 					console.log(this.carMileageList)
 				}else{
+					console.log('没有车牌')
 					this.getCarMileageList()
 				}
 				
