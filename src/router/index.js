@@ -14,6 +14,7 @@ import Welcome from '../components/Welcome/Welcome.vue'
 import WaybillManage from '../components/WaybillManage/WaybillManage.vue'
 import DistributionManage from '../components/DistributionManage/DistributionManage.vue'
 import OrderManage from '../components/OrderManage/OrderManage.vue'
+import CarDistribution from '../components/CarDistribution/CarDistribution.vue'
 
 // Basis子组件
 import CompanyInfor from '../components/BasisInfor/Navigation/CompanyInfor.vue'
@@ -70,6 +71,7 @@ const routes = [
 		{path:'/distributionManage', component:DistributionManage},
 		{path:'/waybillManage', component:WaybillManage},		
 		{path:'/orderManage', component:OrderManage},		
+		{path:'/carDistribution', component:CarDistribution},		
 		{path:'/rights', component:RightsManage},
 		{path:'/manage/departManage', component:DepartManage},
 		{path:'/manage/userManage', component:UserManage},

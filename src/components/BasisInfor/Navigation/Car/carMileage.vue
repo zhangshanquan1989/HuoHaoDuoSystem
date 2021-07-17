@@ -91,14 +91,14 @@
 			}
 		},
 		created() {
-			console.log('现在',Date.now()-950400000)
+			// console.log('现在',Date.now()-950400000)
 			this.initTime(); // 初始化时间
 			this.getCarMileageList()
 			this.getAllPlateNumberList()
 		},
 		methods: {
 			change(e){
-				console.log(e)
+				// console.log(e)
 			},
 			// 获取时间
 			// 初始化时间
@@ -128,16 +128,16 @@
 
 			// 根据分页查询列表
 			async getCarMileageList() {
-				console.log(this.queryInfo)
+				// console.log(this.queryInfo)
 				this.queryInfo.StartTime = this.queryInfo.newStartTime + '23:59:59'
 				this.queryInfo.EndTime = this.queryInfo.newEndTime + '23:59:59'
-				console.log(this.queryInfo)
+				// console.log(this.queryInfo)
 				const {
 					data: res
 				} = await this.$http.get('yK_record/list1', {
 					params: this.queryInfo
 				})
-				console.log(res)
+				// console.log(res)
 				if (res.code !== 200) {
 					return this.$message.error(res.message)
 				}
@@ -160,20 +160,20 @@
 			// 点击搜索
 			async search(){
 				if(this.queryInfo.licenseplate){
-					console.log('有车牌')
+					// console.log('有车牌')
 					const {
 						data: res
 					} = await this.$http.post('yK_record/list2', this.queryInfo)
-					console.log(res)
+					// console.log(res)
 					if (res.code !== 200) {
 						return this.$message.error(res.message)
 					}
 					this.carMileageList = []
 					this.carMileageList[0] = res.result
 					this.total = 1
-					console.log(this.carMileageList)
+					// console.log(this.carMileageList)
 				}else{
-					console.log('没有车牌')
+					// console.log('没有车牌')
 					this.getCarMileageList()
 				}
 				
@@ -219,8 +219,8 @@
 			seleceLastWeek(){
 				this.queryInfo.newStartTime = moment(moment().week(moment().week() - 1).startOf('week').add(1, 'days').valueOf()).format('YYYY-MM-DD ')
 				this.queryInfo.newEndTime = moment(moment().week(moment().week() - 1).endOf('week').add(1, 'days').valueOf()).format('YYYY-MM-DD ')
-				console.log(this.queryInfo.newStartTime)
-				console.log(this.queryInfo.newEndTime)
+				// console.log(this.queryInfo.newStartTime)
+				// console.log(this.queryInfo.newEndTime)
 			},
 			// 选择近一个周
 			seleceNearWeek(){
@@ -231,8 +231,8 @@
 			seleceLastMonth(){
 				this.queryInfo.newStartTime =moment(moment().month(moment().month() - 1).startOf('month').valueOf()).format('YYYY-MM-DD ')
 				this.queryInfo.newEndTime =moment(moment().month(moment().month() - 1).endOf('month').valueOf()).format('YYYY-MM-DD ')
-				console.log(this.queryInfo.newStartTime)
-				console.log(this.queryInfo.newEndTime)
+				// console.log(this.queryInfo.newStartTime)
+				// console.log(this.queryInfo.newEndTime)
 			},
 			// 选择近一个月
 			seleceNearMonth(){

@@ -194,7 +194,13 @@
 								authName: '配送管理',
 								path: '/distributionManage',
 								icon: "el-icon-caret-right",
-							}
+							},
+							{
+								id: 24,
+								authName: '车辆分配',
+								path: '/carDistribution',
+								icon: "el-icon-caret-right",
+							},
 						]
 					},
 					{
