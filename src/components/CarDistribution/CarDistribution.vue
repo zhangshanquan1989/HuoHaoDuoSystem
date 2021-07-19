@@ -14,12 +14,12 @@
 				</el-option>
 			</el-select>			
 	
-			<el-button type="primary" plain icon="el-icon-search" style="margin-left: 30px;" @click="search">搜索</el-button>
+			<el-button type="primary"  plain icon="el-icon-search" style="margin-left: 30px;" @click="search">搜索</el-button>
 			<el-button type="primary" plain @click="handleQueryBackBtn" style="margin-left: 30px;">返回</el-button>
 			
 			<el-table :data="carList" border stripe style="width: 100%;margin-top: 8px;" :row-style="{height:'60px'}"
 			 :cell-style="{padding:'0px'}" :header-cell-style="{background:'#f8f8f9', color:'#000000'}">
-			 <el-table-column prop="id" label="ID" width="250px">
+			 <el-table-column v-if="false" prop="id" label="ID" width="250px">
 			 </el-table-column>
 				<el-table-column prop="lp" label="车牌号" width="250px">
 				</el-table-column>

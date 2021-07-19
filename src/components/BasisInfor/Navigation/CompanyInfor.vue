@@ -84,7 +84,7 @@
 		<!-- 创建公司的对话框 -->
 		<el-dialog class="dialog" title="创建公司信息" :visible.sync="addDialogVisible" width="35%" @close="addDialogClosed">
 			<!-- 添加公司的表单 -->
-			<el-form :model="addForm" :rules="addCompanyFormRules" ref="addFormRef" label-width="120px">
+			<el-form :model="addForm" :rules="addCompanyFormRules" ref="addFormRef" label-width="150px">
 				<el-form-item label="公司名称:" prop="name">
 					<el-input v-model="addForm.name" style="width: 350px;"></el-input>
 				</el-form-item>

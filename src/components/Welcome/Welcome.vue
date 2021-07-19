@@ -232,6 +232,7 @@
 	export default {
 		data() {
 			return {
+				myChart:{},
 				// 总车辆数
 				allCarData: '',
 				// 年检快到期车辆
@@ -285,6 +286,8 @@
 			setTimeout(() => {
 				this.creatEchartsMethod()
 			}, 1000);
+			
+			// window.onresize = this.myChart.resize
 		},
 		methods: {
 			// 年检多选框变化
@@ -540,7 +543,8 @@
 			},
 			// 创建图表
 			creatEchartsMethod() {
-				var myChart = this.$echarts.init(document.getElementById('main'));
+				this.myChart = this.$echarts.init(document.getElementById('main'));
+				
 				var options = {
 					// title: {
 					// 	text: '订单数据'
@@ -611,7 +615,9 @@
 					],			
 				}
 				// 使用刚指定的配置项和数据显示图表。
-				myChart.setOption(options);
+				this.myChart.setOption(options);
+				// 根据窗口大小，实现表格自适应
+				window.onresize = this.myChart.resize
 			},
 			
 

@@ -156,7 +156,7 @@
 									},
 									{
 										id: 116,
-										authName: '车辆能耗',
+										authName: '车辆油耗',
 										path: '/basis/car/carEnergy',
 										icon: "el-icon-caret-right"
 									},

@@ -3,7 +3,7 @@
 		<!-- 面包屑导航区 -->
 		<el-breadcrumb separator-class="el-icon-arrow-right">
 			<el-breadcrumb-item>基础信息管理</el-breadcrumb-item>
-			<el-breadcrumb-item>车辆能耗报表</el-breadcrumb-item>
+			<el-breadcrumb-item>车辆油耗报表</el-breadcrumb-item>
 		</el-breadcrumb>
 
 		<el-card class="box-card">
@@ -25,7 +25,7 @@
 			<el-button type="primary" icon="el-icon-search" style="margin-left: 20px;" @click="search">搜索</el-button>			
 			</div>
 			<div style="margin-top: 20px;">
-				<span style="font-size: 20px;color: #303133;">车辆里程报表</span>
+				<span style="font-size: 20px;color: #303133;">车辆油耗报表</span>
 				<el-button type="primary" icon="el-icon-download" style="margin-left: 20px;">导出</el-button>
 			</div>
 			<el-table :data="carMileageList" border stripe style="width: 100%;margin-top: 8px;" :row-style="{height:'60px'}"
