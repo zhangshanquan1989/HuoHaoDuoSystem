@@ -10,7 +10,7 @@
 		
 		<!-- 卡片视图区 -->
 		<el-card class="box-card">
-			<!-- 创建司机 -->
+			<!-- 创建司机  el-select-->
 			<el-button type="primary" plain @click="addDialogVisible = true">创建</el-button>
 			<el-input v-model="queryInfo.driverName" placeholder="司机名" clearable style="width: 200px;margin-left: 100px;"></el-input>
 			<el-button type="primary" plain @click="handleQueryBtn" style="margin-left: 30px;">查询</el-button>
@@ -93,7 +93,7 @@
 					<el-input v-model="addForm.phoneno" style="width: 300px;"></el-input>
 				</el-form-item>
 				<el-form-item label="所属分公司" prop="company">
-					<el-select v-model="addForm.company" clearable filterable remote placeholder="请输入公司名称" :remote-method="remoteCompanyMethod"	 :loading="companyLoading" style="width: 300px;">
+					<el-select v-model="addForm.company" clearable filterable remote placeholder="请输入公司名称" :remote-method="remoteCompanyMethod"	 :loading="companyLoading" @change="companyChange" style="width: 300px;">
 						<el-option v-for="item in companyOptions" :key="item.index" :label="item.label" :value="item.value">
 						</el-option>
 					</el-select>
@@ -175,7 +175,7 @@
 					<el-input v-model="editForm.phoneno" style="width: 300px;"></el-input>
 				</el-form-item>
 				<el-form-item label="所属分公司" prop="company">
-					<el-select v-model="editForm.company" clearable filterable remote placeholder="请输入公司名称" :remote-method="remoteCompanyMethod"	 :loading="companyLoading" style="width: 300px;">
+					<el-select v-model="editForm.company" clearable filterable remote placeholder="请输入公司名称" :remote-method="remoteCompanyMethod"	 :loading="companyLoading" @change="companyChange" style="width: 300px;">
 						<el-option v-for="item in companyOptions" :key="item.index" :label="item.label" :value="item.value">
 						</el-option>
 					</el-select>
@@ -367,6 +367,12 @@
 					this.companyOptions = this.companyList
 				}
 			},
+			// 公司变化
+			companyChange(e){
+				if(!e){
+					this.companyOptions = this.companyList
+				}
+			},
 			
 			// 获取所有车牌号
 			async getAllPlateNumberList() {
@@ -405,11 +411,11 @@
 			},
 			
 			// 选择车牌号
-			queryPlateNumberChange() {
+			queryPlateNumberChange(e) {
 				// console.log(this.queryPlateNumber)
-				// if(this.queryPlateNumber == ''){
-				// 	this.plateNumberOptions = this.plateNumberList
-				// }
+				if(!e){
+					this.plateNumberOptions = this.plateNumberList
+				}
 				
 			},
 			

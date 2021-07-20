@@ -9,10 +9,12 @@
 		
 		<el-card class="box-card">
 
-			<el-select v-model="queryInfo.lpl" clearable filterable remote placeholder="请输入车牌号" :remote-method="remotePlateNumberMethod" :loading="plateNumberLoading" style="width: 293px;">
+			<!-- <el-select v-model="queryInfo.lpl" clearable filterable remote placeholder="请输入车牌号" :remote-method="remotePlateNumberMethod" :loading="plateNumberLoading" @change="lplChange" style="width: 293px;">
 				<el-option v-for="item in plateNumberOptions" :key="item.index" :label="item.label" :value="item.value">
 				</el-option>
-			</el-select>			
+			</el-select> -->
+						
+			<el-input v-model="queryInfo.newlp" placeholder="请输入车牌号" clearable style="width: 200px;"></el-input>
 	
 			<el-button type="primary"  plain icon="el-icon-search" style="margin-left: 30px;" @click="search">搜索</el-button>
 			<el-button type="primary" plain @click="handleQueryBackBtn" style="margin-left: 30px;">返回</el-button>
@@ -51,7 +53,7 @@
 				</el-form-item>
 				
 				<el-form-item label="负责调度:" prop="diaodu">
-					<el-select v-model="editForm.diaodu" clearable filterable remote placeholder="请选择" :remote-method="remoteDispatchMethod" :loading="dispatchLoading"  style="width: 350px;">
+					<el-select v-model="editForm.diaodu" clearable filterable remote placeholder="请选择" :remote-method="remoteDispatchMethod" :loading="dispatchLoading" @change="diaoduChange"  style="width: 350px;">
 						<el-option v-for="item in dispatchOptions" :key="item.index" :label="item.label" :value="item.value">
 						</el-option>
 					</el-select>
@@ -179,7 +181,7 @@
 			
 			// 点击查询按钮
 			search() {
-				this.queryInfo.lp = "*" + this.queryInfo.lpl + "*"
+				this.queryInfo.lp = "*" + this.queryInfo.newlp + "*"
 				this.queryInfo.pageNo = 1
 				this.queryInfo.pageSize = 10
 				// console.log(this.queryInfo)
@@ -191,6 +193,7 @@
 				this.queryInfo.pageSize = 10
 				this.queryInfo.lp = ''
 				this.queryInfo.lpl = ''
+				this.queryInfo.newlp = ''
 				this.getCarList()
 			},
 			
@@ -253,16 +256,31 @@
 			
 			// 选择车牌的方法
 			remotePlateNumberMethod(query) {
-				if (query !== '') {
+				console.log(query)
+				if (!query) {
+					console.log('为空')
+					this.plateNumberOptions = this.plateNumberList
+				} else {
+					console.log('不为空')
 					this.plateNumberLoading = true;
 					setTimeout(() => {
 						this.plateNumberLoading = false;
 						this.plateNumberOptions = this.plateNumberList.filter(item => {
 							return item.value.indexOf(query) > -1;
 						});
-					}, 300)
-				} else {
+					}, 300)					
+				}
+			},
+			// 选择车牌变化
+			lplChange(e){
+				if(!e){
 					this.plateNumberOptions = this.plateNumberList
+				}
+			},
+			// 选择调度变化
+			diaoduChange(e){
+				if(!e){
+					this.dispatchOptions = this.dispatchList
 				}
 			},
 			

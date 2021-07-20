@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<!-- 司机信息页面 -->
+		<!-- 司机信息页面 el-select -->
 		<!-- 面包屑导航区 -->
 		<el-breadcrumb separator-class="el-icon-arrow-right">
 			<el-breadcrumb-item >首页</el-breadcrumb-item>
@@ -144,7 +144,7 @@
 					</el-select>
 				</el-form-item>
 				<el-form-item label="调度负责人:" prop="schedul">
-					<el-select v-model="addForm.schedul" clearable filterable remote placeholder="请选择调度员" :remote-method="remoteSchedulMethod" :loading="schedulLoading"  style="width: 350px;">
+					<el-select v-model="addForm.schedul" clearable filterable remote placeholder="请选择调度员" :remote-method="remoteSchedulMethod" :loading="schedulLoading" @change="schedulChange"  style="width: 350px;">
 						<el-option v-for="item in schedulOptions" :key="item.index" :label="item.label" :value="item.value">
 						</el-option>
 					</el-select>
@@ -222,7 +222,7 @@
 					</el-select>
 				</el-form-item>
 				<el-form-item label="调度负责人:" prop="schedul">
-					<el-select v-model="editForm.schedul" clearable filterable remote placeholder="请选择调度员" :remote-method="remoteSchedulMethod" :loading="schedulLoading"  style="width: 350px;">
+					<el-select v-model="editForm.schedul" clearable filterable remote placeholder="请选择调度员" :remote-method="remoteSchedulMethod" :loading="schedulLoading" @change="schedulChange"  style="width: 350px;">
 						<el-option v-for="item in schedulOptions" :key="item.index" :label="item.label" :value="item.value">
 						</el-option>
 					</el-select>
@@ -442,7 +442,12 @@
 					this.schedulOptions = this.schedulList
 				}
 			},
-			change(e){e},
+			// 员工变化
+			schedulChange(e){
+				if(!e){
+					this.schedulOptions = this.schedulList
+				}
+			},
 			// 根据分页查询列表
 			async getList() {
 				const {

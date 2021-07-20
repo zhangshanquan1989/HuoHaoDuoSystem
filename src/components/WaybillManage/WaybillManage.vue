@@ -1046,7 +1046,10 @@
 			},
 			// 选择公司后回复下拉列表
 			async searchUnloadingPoint(name) {
-				this.companyOptions = this.companyList
+				if(!name){
+					this.companyOptions = this.companyList
+				}
+				
 				// if(name !== ''){
 				// 	const {
 				// 		data: res

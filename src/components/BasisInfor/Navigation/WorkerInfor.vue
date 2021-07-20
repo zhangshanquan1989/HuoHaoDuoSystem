@@ -52,7 +52,7 @@
 			</el-col> -->
 
 		</el-row>
-		<!-- 卡片视图区 -->
+		<!-- 卡片视图区 el-select -->
 		<el-card class="box-card">
 			<el-button type="primary" plain @click="addDialogVisible = true">创建</el-button>
 			<el-input v-model="queryInfo.selectUsername" placeholder="员工名" clearable style="width: 200px;margin-left: 100px;"></el-input>
@@ -120,7 +120,7 @@
 					<el-input v-model="addForm.position" style="width: 50%;"></el-input>
 				</el-form-item> -->
 				<el-form-item label="所属公司" prop="company">
-					<el-select v-model="addForm.company" clearable filterable remote placeholder="请输入公司名称" :remote-method="remoteCompanyMethod" :loading="companyLoading" style="width: 300px;">
+					<el-select v-model="addForm.company" clearable filterable remote placeholder="请输入公司名称" :remote-method="remoteCompanyMethod" :loading="companyLoading" @change="companyChange" style="width: 300px;">
 						<el-option v-for="item in companyOptions" :key="item.index" :label="item.label" :value="item.value">
 						</el-option>
 					</el-select>
@@ -162,7 +162,7 @@
 					<el-input v-model="editForm.position" style="width: 90%;"></el-input>
 				</el-form-item> -->
 				<el-form-item label="所属公司" prop="employeeCompany">
-					<el-select v-model="editForm.company" clearable filterable remote placeholder="请输入公司名称" :remote-method="remoteCompanyMethod" :loading="companyLoading" style="width: 300px;">
+					<el-select v-model="editForm.company" clearable filterable remote placeholder="请输入公司名称" :remote-method="remoteCompanyMethod" :loading="companyLoading" @change="companyChange" style="width: 300px;">
 						<el-option v-for="item in companyOptions" :key="item.index" :label="item.label" :value="item.value">
 						</el-option>
 					</el-select>
@@ -381,6 +381,13 @@
 					this.companyOptions = this.companyList
 				}
 			},
+			// 选择公司变化
+			companyChange(e){
+				if(!e){
+					this.companyOptions = this.companyList
+				}
+			},
+			
 
 			// 查询总数据
 			// async getAllEmployeeList() {

@@ -199,7 +199,7 @@
 				</el-form-item>
 				<el-form-item label="所属分公司:" prop="companyl">
 					<el-select v-model="addForm.companyl" clearable filterable remote placeholder="请输入公司名称" :remote-method="remoteCompanyMethod"
-					 :loading="companyLoading"  style="width: 350px;">
+					 :loading="companyLoading" @change="companylChange"  style="width: 350px;">
 						<el-option v-for="item in companyOptions" :key="item.index" :label="item.label" :value="item.value">
 						</el-option>
 					</el-select>
@@ -348,7 +348,7 @@
 					<el-input v-model="editForm.phoneno"  style="width: 350px;"></el-input>
 				</el-form-item>
 				<el-form-item label="所属分公司:" prop="companyl">
-					<el-select v-model="editForm.companyl" clearable filterable remote placeholder="请输入公司名称" :remote-method="remoteCompanyMethod" :loading="companyLoading"  style="width: 350px;">
+					<el-select v-model="editForm.companyl" clearable filterable remote placeholder="请输入公司名称" :remote-method="remoteCompanyMethod" :loading="companyLoading" @change="companylChange"  style="width: 350px;">
 						<el-option v-for="item in companyOptions" :key="item.index" :label="item.label" :value="item.value">
 						</el-option>
 					</el-select>
@@ -814,6 +814,12 @@
 						});
 					}, 300)
 				} else {
+					this.companyOptions = this.companyList
+				}
+			},
+			// 公司变化
+			companylChange(e){
+				if(!e){
 					this.companyOptions = this.companyList
 				}
 			},

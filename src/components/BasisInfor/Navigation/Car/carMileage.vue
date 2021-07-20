@@ -11,7 +11,7 @@
 				<span style="font-size: 18px;color: #303133;">筛选查询</span>
 			</div>
 			<div style="margin-top: 18px;">
-			<el-select v-model="queryInfo.licenseplate" clearable filterable remote placeholder="请输入车牌号" :remote-method="remotePlateNumberMethod" :loading="plateNumberLoading" style="width: 293px;">
+			<el-select v-model="queryInfo.licenseplate" clearable filterable remote placeholder="请输入车牌号" :remote-method="remotePlateNumberMethod" :loading="plateNumberLoading" @change="licenseplateChange" style="width: 293px;">
 				<el-option v-for="item in plateNumberOptions" :key="item.index" :label="item.label" :value="item.value">
 				</el-option>
 			</el-select>
@@ -214,7 +214,12 @@
 					this.plateNumberOptions = this.plateNumberList
 				}
 			},
-			
+			// 车牌变化
+			licenseplateChange(e){
+				if(!e){
+					this.plateNumberOptions = this.plateNumberList
+				}
+			},
 			// 选择上周
 			seleceLastWeek(){
 				this.queryInfo.newStartTime = moment(moment().week(moment().week() - 1).startOf('week').add(1, 'days').valueOf()).format('YYYY-MM-DD ')

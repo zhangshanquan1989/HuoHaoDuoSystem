@@ -18,7 +18,7 @@
 				<span style="margin-left: 10px;">-</span>
 				<el-date-picker v-model="queryInfo.newEndTime" :picker-options="pickerDisabled" type="date" value-format="yyyy-MM-dd " placeholder="选择结束日期" style="margin-left: 10px;">
 				</el-date-picker>
-			<el-select v-model="queryInfo.licenseplate" clearable filterable remote placeholder="请输入车牌号" :remote-method="remotePlateNumberMethod" :loading="plateNumberLoading" style="width: 293px;margin-left: 20px;">
+			<el-select v-model="queryInfo.licenseplate" clearable filterable remote placeholder="请输入车牌号" :remote-method="remotePlateNumberMethod" :loading="plateNumberLoading" @change="licenseplateChange" style="width: 293px;margin-left: 20px;">
 				<el-option v-for="item in plateNumberOptions" :key="item.index" :label="item.label" :value="item.value">
 				</el-option>
 			</el-select>
@@ -209,6 +209,12 @@
 						});
 					}, 300)
 				} else {
+					this.plateNumberOptions = this.plateNumberList
+				}
+			},
+			// 车牌变化
+			licenseplateChange(e){
+				if(!e){
 					this.plateNumberOptions = this.plateNumberList
 				}
 			},
