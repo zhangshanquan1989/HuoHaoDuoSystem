@@ -94,7 +94,8 @@
 			// console.log('现在',Date.now()-950400000)
 			this.initTime(); // 初始化时间
 			this.getCarMileageList()
-			this.getAllPlateNumberList()
+			// this.getAllPlateNumberList()
+			this.getAllPlateNumberListNew()
 		},
 		methods: {
 			change(e){
@@ -178,20 +179,20 @@
 				}
 				
 			},
-
 			// 获取所有车牌号
-			async getAllPlateNumberList() {
+			async getAllPlateNumberListNew() {
 				const {
 					data: res
-				} = await this.$http.get('kCarinformation/findplate')
+				} = await this.$http.get('yk_carinformation/listall')
 				if (res.code !== 200) {
-					return
+					return this.$message.error(res.message)
 				}
-				// console.log(res)
-				// res.result.forEach(v => {
-				// 	this.plateNumberStates.push(v.driverLicense)
-				// })
-				this.plateNumberList = res.result.map(item => {
+				console.log(res)
+				this.plateNumberStates = []
+				res.result.forEach(v => {
+					this.plateNumberStates.push(v.licenseplate)
+				})
+				this.plateNumberList = this.plateNumberStates.map(item => {
 					return {
 						value: `${item}`,
 						label: `${item}`
@@ -199,6 +200,27 @@
 				});
 				this.plateNumberOptions = this.plateNumberList
 			},
+
+			// // 获取所有车牌号
+			// async getAllPlateNumberList() {
+			// 	const {
+			// 		data: res
+			// 	} = await this.$http.get('kCarinformation/findplate')
+			// 	if (res.code !== 200) {
+			// 		return this.$message.error(res.message)
+			// 	}
+			// 	// console.log(res)
+			// 	// res.result.forEach(v => {
+			// 	// 	this.plateNumberStates.push(v.driverLicense)
+			// 	// })
+			// 	this.plateNumberList = res.result.map(item => {
+			// 		return {
+			// 			value: `${item}`,
+			// 			label: `${item}`
+			// 		};
+			// 	});
+			// 	this.plateNumberOptions = this.plateNumberList
+			// },
 
 			// 选择车牌的方法
 			remotePlateNumberMethod(query) {
@@ -216,9 +238,9 @@
 			},
 			// 车牌变化
 			licenseplateChange(e){
-				if(!e){
+				// if(!e){
 					this.plateNumberOptions = this.plateNumberList
-				}
+				// }
 			},
 			// 选择上周
 			seleceLastWeek(){

@@ -359,9 +359,9 @@
 				<el-popover  placement="top" width="150" trigger="hover" style="margin-right: 10px;">
 					<div>微信扫码分享</div>
 					<div id="qrcode" ref="qrcode"></div>
-					<el-button slot="reference" type="primary">分 享</el-button>
+					<el-button slot="reference" class="el-icon-share" type="primary"> 扫码分享</el-button>
 				</el-popover>
-				<!-- <el-button type="primary" class="el-icon-share" :data-clipboard-text="shareUrl" @click="clickShareUrl">分享</el-button> -->
+				<el-button type="primary" class="el-icon-document-copy" :data-clipboard-text="shareText" @click="clickShareUrl"> 复制文字</el-button>
 				
 				<el-button @click="editDialogVisible = false">关 闭</el-button>
 
@@ -522,6 +522,20 @@
 				editForm: {
 					Lidriver: '',
 					dispatch: '',
+					upiontway: '无',
+					ban: '无',
+					car: '无',
+					deposit: '无',
+					pay: '无',
+					goodsweight: '无',
+					goodsname: '无',
+					highspeed: '无',
+					estimatedistance: '无',
+					emptydistance: '无',
+					yunshu: '无',
+					daoda: '无',
+					ordernote: '无',
+
 				},
 
 				// 显示操作区
@@ -613,6 +627,8 @@
 				newnewUrl: '',
 				qrcodeOb:{},
 				qrcodeShow:false,
+				// 复制的文字
+				shareText:'',
 			}
 		},
 		created() {
@@ -635,7 +651,7 @@
 		methods: {
 			// 上传图片限制
 			beforeAvatarUpload(file) {
-				console.log(file)
+				// console.log(file)
 				const isLt10M = file.size / 1024 / 1024 < 10;
 				if (!isLt10M) {
 					this.$message.error('上传图片大小不能超过 10MB!');
@@ -675,16 +691,17 @@
 			clickShareUrl(){
 				this.qrcodeShow = !this.qrcodeShow
 			},
-			// // 复制链接
-			// async clickShareUrl() {
-			// 	let clipboard = new this.Clipboard(".el-icon-share");
-			// 	clipboard.on("success", e => {
-			// 		// 释放内存
-			// 		// console.log(e)
-			// 		this.$message.success('已成功复制')
-			// 		clipboard.destroy();
-			// 	});
-			// },
+			// 复制文字
+			async clickShareUrl() {
+				this.shareText = "发车时间："+this.editForm.apoints[0].stime+'\n'+"装货地点："+this.editForm.apoints[0].sprovince+this.editForm.apoints[0].scity+this.editForm.apoints[0].sarea+this.editForm.apoints[0].saddress+'\n'+'联系电话：'+this.editForm.apoints[0].spointphone+'\n'+'卸车时间：'+this.editForm.upoints[0].dtime+'\n'+'卸货地点：'+this.editForm.upoints[0].dprovince+this.editForm.upoints[0].dcity+this.editForm.upoints[0].darea+this.editForm.upoints[0].daddress+'\n'+'卸货方式：'+this.editForm.upiontway+'\n'+'装卸货是否禁行：'+this.editForm.ban+'\n'+'装驾驶员：'+this.editForm.Lidriver+'\n'+'到车运费：'+this.editForm.car+'\n'+'定金：'+this.editForm.deposit+'\n'+'付款方式及金额：'+'到付'+this.editForm.pay+'\n'+'吨位：'+this.editForm.goodsweight+'\n'+'货物：'+this.editForm.goodsname+'\n'+'运输距离：'+'高速'+this.editForm.highspeed+'下道'+this.editForm.estimatedistance+'\n'+'放空距离：'+this.editForm.emptydistance+'\n'+'建议运输方式：'+this.editForm.yunshu+'\n'+'建议到达时间：'+this.editForm.daoda+'\n'+'订单备注：'+this.editForm.ordernote+'\n'+'提醒您：长途主意安全，雨季切记封好篷布，有问题找我不可与现场发生矛盾冲突，注意货物三不超！行车过程中注意安全，谨慎驾驶！杜绝疲劳驾驶！'
+				let clipboard = new this.Clipboard(".el-icon-document-copy");
+				clipboard.on("success", e => {
+					// 释放内存
+					// console.log(e)
+					this.$message.success('已成功复制')
+					clipboard.destroy();
+				});
+			},
 
 			// 点击跳转
 			repeat(e) {
