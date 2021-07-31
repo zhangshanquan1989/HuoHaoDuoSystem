@@ -304,17 +304,17 @@
 			 :cell-style="{padding:'0px'}" :header-cell-style="{background:'#f8f8f9', color:'#000000'}" @selection-change="shanggangzhengSelectionChange">
 				<el-table-column type="selection" width="55"></el-table-column>
 
-				<el-table-column prop="License_plate" label="车牌号" width="120px">
+				<el-table-column prop="License_plate" label="车牌号" width="150px">
 				</el-table-column>
 				<el-table-column prop="company" label="所属公司">
 				</el-table-column>
-				<el-table-column prop="name" label="司机姓名" width="120px">
+				<el-table-column prop="name" label="司机姓名" width="150px">
 				</el-table-column>
 				<el-table-column prop="phoneno" label="司机电话" width="150px">
 				</el-table-column>
 
 				<el-table-column prop="worklicensedate" label="上岗证到期时间
-" width="120px">
+" width="150px">
 				</el-table-column>
 
 			</el-table>
@@ -331,17 +331,21 @@
 			 :cell-style="{padding:'0px'}" :header-cell-style="{background:'#f8f8f9', color:'#000000'}" @selection-change="xingshizhengSelectionChange">
 				<el-table-column type="selection" width="55"></el-table-column>
 
-				<el-table-column prop="License_plate" label="车牌号" width="120px">
+				<el-table-column prop="License_plate" label="车牌号" width="150px">
 				</el-table-column>
-				<el-table-column prop="company" label="所属公司">
+				<el-table-column prop="companyl" label="所属公司">
 				</el-table-column>
-				<el-table-column prop="name" label="司机姓名" width="120px">
+				<el-table-column prop="name" label="车主姓名" width="150px">
 				</el-table-column>
-				<el-table-column prop="phoneno" label="司机电话" width="150px">
+				<el-table-column prop="phoneno" label="车主电话" width="150px">
+				</el-table-column>
+				<el-table-column prop="driver" label="对应司机" width="150px">
+				</el-table-column>
+				<el-table-column prop="driverphone" label="司机电话" width="150px">
 				</el-table-column>
 
-				<el-table-column prop="worklicensedate" label="上岗证到期时间
-			" width="120px">
+				<el-table-column prop="Vehiclelicensedate" label="行驶证到期时间
+			" width="150px">
 				</el-table-column>
 
 			</el-table>
@@ -358,17 +362,21 @@
 			 :cell-style="{padding:'0px'}" :header-cell-style="{background:'#f8f8f9', color:'#000000'}" @selection-change="yingyunzhengSelectionChange">
 				<el-table-column type="selection" width="55"></el-table-column>
 
-				<el-table-column prop="License_plate" label="车牌号" width="120px">
+				<el-table-column prop="License_plate" label="车牌号" width="150px">
 				</el-table-column>
-				<el-table-column prop="company" label="所属公司">
+				<el-table-column prop="companyl" label="所属公司">
 				</el-table-column>
-				<el-table-column prop="name" label="司机姓名" width="120px">
+				<el-table-column prop="name" label="车主姓名" width="120px">
 				</el-table-column>
-				<el-table-column prop="phoneno" label="司机电话" width="150px">
+				<el-table-column prop="phoneno" label="车主电话" width="150px">
+				</el-table-column>
+				<el-table-column prop="driver" label="对应司机" width="150px">
+				</el-table-column>
+				<el-table-column prop="driverphone" label="司机电话" width="150px">
 				</el-table-column>
 
-				<el-table-column prop="worklicensedate" label="上岗证到期时间
-						" width="120px">
+				<el-table-column prop="OperatingDate" label="营运证到期时间
+						" width="150px">
 				</el-table-column>
 
 			</el-table>
@@ -385,17 +393,17 @@
 			 :cell-style="{padding:'0px'}" :header-cell-style="{background:'#f8f8f9', color:'#000000'}" @selection-change="jiashizhengSelectionChange">
 				<el-table-column type="selection" width="55"></el-table-column>
 		
-				<el-table-column prop="License_plate" label="车牌号" width="120px">
+				<el-table-column prop="License_plate" label="车牌号" width="150px">
 				</el-table-column>
 				<el-table-column prop="company" label="所属公司">
 				</el-table-column>
-				<el-table-column prop="name" label="司机姓名" width="120px">
+				<el-table-column prop="name" label="司机姓名" width="150px">
 				</el-table-column>
 				<el-table-column prop="phoneno" label="司机电话" width="150px">
 				</el-table-column>
 		
-				<el-table-column prop="worklicensedate" label="上岗证到期时间
-						" width="120px">
+				<el-table-column prop="driving_license_time" label="驾驶证到期时间
+						" width="150px">
 				</el-table-column>
 		
 			</el-table>

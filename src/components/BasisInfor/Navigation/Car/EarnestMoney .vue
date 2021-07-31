@@ -10,17 +10,18 @@
 
 		<el-card class="box-card">
 			<el-button type="primary" plain icon="el-icon-download" @click="baozhengjinExport">导出</el-button>
+			<el-button type="primary" plain @click="handleClearBtn" style="margin-left: 30px;">清空选中</el-button>
 			<el-input v-model="queryInfo.carName" placeholder="车牌号" clearable style="width: 200px;margin-left: 30px;"></el-input>
 			<el-button type="primary" plain @click="handleQueryBtn" style="margin-left: 30px;">查询</el-button>
 			<el-button type="primary" plain @click="handleQueryBackBtn" style="margin-left: 30px;">返回</el-button>
+			
 			<!-- <span>合计：</span> -->
-			<span style="margin-left: 500px;font-size: 18px;">保证金合计：{{combinedData.selectmargin}}元</span>
+			<span style="margin-left: 450px;font-size: 18px;">保证金合计：{{combinedData.selectmargin}}元</span>
 			<span style="margin-left: 30px;font-size: 18px;">罚款合计：{{combinedData.selectfines}}元</span>
 			<span style="margin-left: 30px;font-size: 18px;">余额合计：{{combinedData.selectremain}}元</span>
 			
-			<el-table :data="pageList" border stripe style="width: 100%;margin-top: 8px;" :row-style="{height:'60px'}"
-			 :cell-style="{padding:'0px'}" :header-cell-style="{background:'#f8f8f9', color:'#000000'}" @selection-change="baozhengjinSelectionChange">
-			 <el-table-column type="selection" width="55">
+			<el-table :data="pageList" ref="tableRef" border stripe style="width: 100%;margin-top: 8px;" :row-style="{height:'60px'}" :cell-style="{padding:'0px'}" :header-cell-style="{background:'#f8f8f9', color:'#000000'}" @selection-change="baozhengjinSelectionChange" :row-key="getLicense">
+			 <el-table-column type="selection" :reserve-selection="true" width="55">
 			 </el-table-column>
 				<el-table-column prop="id" label="id" v-if="false">
 				</el-table-column>
@@ -178,6 +179,11 @@
 			this.getCombinedData();
 		},
 		methods: {
+			// 多选框保持选中
+			getLicense(row){
+				return row.license
+			},
+			
 			// 根据分页查询列表
 			async getPageList() {
 				const {
@@ -309,6 +315,7 @@
 			//导出所需的数据
 			 // 选择框变化
 			 baozhengjinSelectionChange(e){
+				 console.log(e)
 				this.baozhengjinExcel = []
 				e.forEach(v=>{
 				this.baozhengjinExcel.push(v.license)
@@ -319,6 +326,11 @@
 				if(!this.baozhengjinExcel[0]){return this.$message.warning('请选择需要导出的数据！')}
 				const {data:res} = await this.$http.get('SumController/YouHaodaochu?'+this.$qs.stringify({ YouHaodaochu: this.baozhengjinExcel }, { arrayFormat: 'repeat' }))
 				window.location.href = 'http://81.70.151.121:8080/jeecg-boot/SumController/YouHaodaochu?'+this.$qs.stringify({ YouHaodaochu: this.baozhengjinExcel }, { arrayFormat: 'repeat' })
+				
+			},
+			// 清空选中
+			handleClearBtn(){
+				this.$refs.tableRef.clearSelection()
 			},
 			
 			// 获取所有车辆合计数据

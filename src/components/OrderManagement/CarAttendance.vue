@@ -8,6 +8,11 @@
 		</el-breadcrumb>
 
 		<el-card class="box-card">
+			<el-input v-model="queryInfo.chepai" placeholder="输入完整车牌号" clearable style="width: 200px;"></el-input>
+				
+			<el-button type="primary"  plain icon="el-icon-search" style="margin-left: 30px;" @click="search">搜索</el-button>
+			<el-button type="primary" plain @click="handleQueryBackBtn" style="margin-left: 30px;">返回</el-button>
+			
 			<el-table :data="dataList" border stripe style="width: 100%;margin-top: 8px;" :row-style="{height:'60px'}"
 			 :cell-style="{padding:'0px'}" :header-cell-style="{background:'#f8f8f9', color:'#000000'}">
 				<el-table-column prop="license" label="车牌号">
@@ -107,6 +112,7 @@
 			return {
 				// 查询参数对象
 				queryInfo: {
+					chepai:'',
 					pageNo: 1,
 					pageSize: 10,
 				},
@@ -166,6 +172,21 @@
 			// 页码值改变事件
 			handleCurrentChange(newPage) {
 				this.queryInfo.pageNo = newPage
+				this.getDataList()
+			},
+			
+			// 点击查询按钮
+			search() {
+				this.queryInfo.pageNo = 1
+				this.queryInfo.pageSize = 10
+				// console.log(this.queryInfo)
+				this.getDataList()
+			},
+			// 返回按钮
+			handleQueryBackBtn() {
+				this.queryInfo.pageNo = 1
+				this.queryInfo.pageSize = 10
+				this.queryInfo.chepai	 = ''
 				this.getDataList()
 			},
 

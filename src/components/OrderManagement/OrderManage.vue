@@ -17,9 +17,10 @@
 			<el-button type="primary" plain @click="handleQueryBtn" style="margin-left: 30px;">查询</el-button>
 			<el-button type="primary" plain @click="handleQueryBackBtn" style="margin-left: 30px;">返回</el-button>
 			<el-button type="primary" icon="el-icon-download" plain @click="handleExport" style="margin-left: 30px;">导出Excel</el-button>
+			<el-button type="primary" plain @click="handleClearBtn" style="margin-left: 30px;">清空选中</el-button>
 
-			<el-table :data="List" border stripe style="width: 100%;margin-top: 8px;" :row-style="{height:'60px'}" :cell-style="{padding:'0px'}" :header-cell-style="{background:'#f8f8f9', color:'#000000'}" @selection-change="handleSelectionChange">
-				<el-table-column type="selection" width="55">
+			<el-table :data="List" ref="tableRef" border stripe style="width: 100%;margin-top: 8px;" :row-style="{height:'60px'}" :cell-style="{padding:'0px'}" :header-cell-style="{background:'#f8f8f9', color:'#000000'}" @selection-change="handleSelectionChange" :row-key="getLicense">
+				<el-table-column type="selection" width="55" :reserve-selection="true">
 				</el-table-column>
 				<el-table-column prop="id" label="ID" v-if="false">
 				</el-table-column>
@@ -492,6 +493,14 @@
 			this.getList()
 		},
 		methods: {
+			// 多选框保持选中
+			getLicense(row){
+				return row.license
+			},
+			// 清空选中
+			handleClearBtn(){
+				this.$refs.tableRef.clearSelection()
+			},
 			// 多选框变化
 			handleSelectionChange(e) {
 				// console.log(e)

@@ -6,7 +6,7 @@
 			<el-breadcrumb-item>车辆油耗报表</el-breadcrumb-item>
 		</el-breadcrumb>
 
-		<el-card class="box-card">
+		<el-card class="box-card" v-loading.fullscreen.lock="fullscreenLoading">
 			<div>
 				<span style="font-size: 18px;color: #303133;">筛选查询</span>
 			</div>
@@ -26,12 +26,12 @@
 			</div>
 			<div style="margin-top: 20px;">
 				<span style="font-size: 20px;color: #303133;">车辆油耗报表</span>
-				<el-button type="primary" icon="el-icon-download" style="margin-left: 20px;" @click="youhaoExport">导出</el-button>
+				<el-button type="primary" icon="el-icon-download" style="margin-left: 20px;" @click="allExport">导出全部</el-button>
 			</div>
 			<el-table :data="carMileageList" border stripe style="width: 100%;margin-top: 8px;" :row-style="{height:'60px'}"
 			 :cell-style="{padding:'0px'}" :header-cell-style="{background:'#f8f8f9', color:'#000000'}" @selection-change="youhaoSelectionChange">
-			 <el-table-column type="selection" width="55">
-			 </el-table-column>
+			 <!-- <el-table-column type="selection" width="55">
+			 </el-table-column> -->
 				<el-table-column prop="licenseplate" label="车牌" >
 				</el-table-column>
 				<el-table-column prop="endMileage" label="总里程(km)" >
@@ -77,7 +77,6 @@
 				daochuInfo:{
 					StartTime: '',
 					EndTime: '',
-					licenseplate:[]
 				},
 				carMileageList: [],
 				total: 0,
@@ -94,6 +93,8 @@
 				plateNumberList: [],
 				// 油耗
 				youhaoExcel:[],
+				// 加载查询
+				fullscreenLoading: false,
 			}
 		},
 		created() {
@@ -284,13 +285,15 @@
 				})
 			},
 			// 导出
-			async youhaoExport(){
+			async allExport(){
+				this.fullscreenLoading = true;
 				this.daochuInfo.StartTime = this.queryInfo.StartTime
 				this.daochuInfo.EndTime = this.queryInfo.EndTime
-				if(!this.daochuInfo.licenseplate[0]){return this.$message.warning('请选择需要导出的数据！')}
-				const {data:res} = await this.$http.post('yK_record/exportoperatingdatalist',this.daochuInfo)
-				console.log(res)
-				// window.location.href = 'http://81.70.151.121:8080/jeecg-boot/yK_record/exportoperatingdatalist'+this.$qs.stringify({ no: this.youhaoExcel }, { arrayFormat: 'repeat' })
+				// if(!this.daochuInfo.licenseplate[0]){return this.$message.warning('请选择需要导出的数据！')}
+				const {data:res} = await this.$http.get('yK_record/exportoperatingdata', {params: this.queryInfo})
+				// console.log(res)
+				window.location.href = 'http://81.70.151.121:8080/jeecg-boot/yK_record/exportoperatingdata?StartTime='+this.daochuInfo.StartTime+'&EndTime='+this.daochuInfo.EndTime
+				this.fullscreenLoading = false;
 			},
 
 		}
