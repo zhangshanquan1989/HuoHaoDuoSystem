@@ -280,9 +280,9 @@
 				this.daochuInfo.StartTime = this.queryInfo.StartTime
 				this.daochuInfo.EndTime = this.queryInfo.EndTime
 				// if(!this.daochuInfo.licenseplate[0]){return this.$message.warning('请选择需要导出的数据！')}
-				const {data:res} = await this.$http.get('yK_record/exportoperatingdata', {params: this.queryInfo})
+				const {data:res} = await this.$http.get('yK_record/exportoperatingdataA', {params: this.queryInfo})
 				// console.log(res)
-				window.location.href = 'http://81.70.151.121:8080/jeecg-boot/yK_record/exportoperatingdata?StartTime='+this.daochuInfo.StartTime+'&EndTime='+this.daochuInfo.EndTime
+				window.location.href = 'http://81.70.151.121:8080/jeecg-boot/yK_record/exportoperatingdataA?StartTime='+this.daochuInfo.StartTime+'&EndTime='+this.daochuInfo.EndTime
 				this.fullscreenLoading = false;
 			},
 
