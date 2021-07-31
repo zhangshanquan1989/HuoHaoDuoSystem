@@ -201,6 +201,12 @@
 								path: '/carDistribution',
 								icon: "el-icon-caret-right",
 							},
+							{
+								id: 25,
+								authName: '车辆考勤',
+								path: '/carAttendance',
+								icon: "el-icon-caret-right",
+							},
 						]
 					},
 					{

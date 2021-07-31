@@ -34,6 +34,8 @@
 						<span :style="{'color':scope.row.owe == '是'?'red':'black'}">{{scope.row.owe}}</span>
 					</template>
 				</el-table-column>
+				<el-table-column prop="carstate" label="车辆状态">
+				</el-table-column>
 				<el-table-column label="操作">
 					<template slot-scope="scope">
 						<!-- 缴费按钮 -->
@@ -52,9 +54,9 @@
 		</el-col>
 
 		<!-- 缴费的对话框 -->
-		<el-dialog title="缴费页面" :visible.sync="payCostDialogVisible" width="40%" @close="payCostDialogClosed">
+		<el-dialog title="缴费页面" :visible.sync="payCostDialogVisible" width="50%" @close="payCostDialogClosed">
 			<!-- 缴费的表单 -->
-			<el-form :model="payCostForm" ref="payCostFormRef" label-width="100px">
+			<el-form :model="payCostForm" ref="payCostFormRef" label-width="150px">
 				<el-form-item label="车牌号:" prop="asoftime">
 					 {{payCostForm.licensePlate}}
 				</el-form-item>
@@ -67,6 +69,9 @@
 				<el-form-item label="到期时间:" prop="asoftime">
 					 <el-date-picker v-model="selectAsoftime" type="date" placeholder="选择日期" format="yyyy 年 MM 月 dd 日" value-format="yyyy-MM-dd">
 					 </el-date-picker>
+				</el-form-item>
+				<el-form-item label="备注信息:" prop="note">
+					 <el-input v-model="payCostForm.note" style="width: 70%;"></el-input>
 				</el-form-item>
 			</el-form>
 			
@@ -88,6 +93,8 @@
 				<el-table-column prop="adduser" label="操作人">
 				</el-table-column>
 				<el-table-column prop="paytime" label="操作时间">
+				</el-table-column>
+				<el-table-column prop="note" label="备注">
 				</el-table-column>
 			</el-table>
 

@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-
+// 登录，home，手机分享页面
 import Login from '../components/Login.vue'
 import Home from '../components/Home.vue'
 import PhonePage from '../components/PhonePage.vue'
@@ -9,14 +9,16 @@ import Assembly from '../components/Assembly/Assembly.vue'
 import BasisInfor from '../components/BasisInfor/BasisInfor.vue'
 import DataFactory from '../components/DataFactory/DataFactory.vue'
 import PerformanceInfor from '../components/PerformanceInfor/PerformanceInfor.vue'
-
+// 首页
 import Welcome from '../components/Welcome/Welcome.vue'
-import WaybillManage from '../components/WaybillManage/WaybillManage.vue'
-import DistributionManage from '../components/DistributionManage/DistributionManage.vue'
-import OrderManage from '../components/OrderManage/OrderManage.vue'
-import CarDistribution from '../components/CarDistribution/CarDistribution.vue'
+// 订单管理
+import WaybillManage from '../components/OrderManagement/WaybillManage.vue'
+import DistributionManage from '../components/OrderManagement/DistributionManage.vue'
+import OrderManage from '../components/OrderManagement/OrderManage.vue'
+import CarDistribution from '../components/OrderManagement/CarDistribution.vue'
+import CarAttendance from '../components/OrderManagement/CarAttendance.vue'
 
-// Basis子组件
+// Basis基础子组件
 import CompanyInfor from '../components/BasisInfor/Navigation/CompanyInfor.vue'
 import WorkerInfor from '../components/BasisInfor/Navigation/WorkerInfor.vue'
 import DriverQuery from '../components/BasisInfor/Navigation/DriverQuery.vue'
@@ -72,6 +74,7 @@ const routes = [
 		{path:'/waybillManage', component:WaybillManage},		
 		{path:'/orderManage', component:OrderManage},		
 		{path:'/carDistribution', component:CarDistribution},		
+		{path:'/carAttendance', component:CarAttendance},		
 		{path:'/rights', component:RightsManage},
 		{path:'/manage/departManage', component:DepartManage},
 		{path:'/manage/userManage', component:UserManage},

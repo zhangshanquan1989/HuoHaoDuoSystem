@@ -31,29 +31,29 @@
 				</el-table-column>
 				<el-table-column prop="licensePlate" label="对应车辆" width="150px">
 				</el-table-column>
-				<el-table-column prop="userid" label="身份证" width="150px">
+				<!-- <el-table-column prop="userid" label="身份证" width="150px">
 					<template slot-scope="scope">
 						<el-tooltip class="item" effect="dark" content="点击查看大图" placement="top">
 						<el-image style="width: 80px; height: 40px" :src="scope.row.userid" :preview-src-list="srcList" @click="handleClickImage(scope.row.userid)"></el-image>
 						</el-tooltip>
 					</template>
-				</el-table-column>
-				<el-table-column prop="drivingLicense" label="驾驶证" width="150px">
+				</el-table-column> -->
+				<!-- <el-table-column prop="drivingLicense" label="驾驶证" width="150px">
 					<template slot-scope="scope">
 						<el-tooltip class="item" effect="dark" content="点击查看大图" placement="top">
 						<el-image style="width: 80px; height: 40px" :src="scope.row.drivingLicense" :preview-src-list="srcList" @click="handleClickImage(scope.row.drivingLicense)"></el-image>
 						</el-tooltip>
 					</template>
-				</el-table-column>
+				</el-table-column> -->
 				<el-table-column prop="drivingLicenseTime" label="驾驶证有效期" width="150px">
 				</el-table-column>
-				<el-table-column prop="workLicense" label="上岗证" width="150px">
+				<!-- <el-table-column prop="workLicense" label="上岗证" width="150px">
 					<template slot-scope="scope">
 						<el-tooltip class="item" effect="dark" content="点击查看大图" placement="top">
 						<el-image style="width: 80px; height: 40px" :src="scope.row.workLicense" :preview-src-list="srcList" @click="handleClickImage(scope.row.workLicense)"></el-image>
 						</el-tooltip>
 					</template>
-				</el-table-column>
+				</el-table-column> -->
 				<el-table-column prop="worklicensedate" label="上岗证有效期" width="150px">
 					</el-table-column>
 				<el-table-column prop="createuser" label="创建人" width="150px">
@@ -70,7 +70,6 @@
 						<el-popconfirm title="确定删除吗？" @confirm="removeById(scope.row.id)" style="margin-left: 10px;">
 							<el-button type="danger" size="mini" slot="reference">删除</el-button>
 						</el-popconfirm>
-
 					</template>
 				</el-table-column>
 			</el-table>
@@ -85,7 +84,7 @@
 		<!-- 创建的对话框 -->
 		<el-dialog title="创建司机信息" :visible.sync="addDialogVisible" width="35%" @close="addDialogClosed">
 			<!-- 创建的表单 -->
-			<el-form :model="addForm" ref="addFormRef" label-width="120px">
+			<el-form :model="addForm" :rules="addFormRules" ref="addFormRef" label-width="120px">
 				<el-form-item label="司机姓名:" prop="name">
 					<el-input v-model="addForm.name" style="width: 300px;"></el-input>
 				</el-form-item>
@@ -152,7 +151,7 @@
 						<el-button size="small" type="primary" plain>上传上岗证</el-button>
 					</el-upload>
 				</el-form-item>
-				<el-form-item label="上岗证有效期" prop="drivingLicenseTime">
+				<el-form-item label="上岗证有效期" prop="worklicensedate">
 					<el-date-picker v-model="addForm.worklicensedate" type="date" placeholder="选择日期" format="yyyy 年 MM 月 dd 日"	 value-format="yyyy-MM-dd" style="width: 300px;">
 					</el-date-picker>
 				</el-form-item>
@@ -275,6 +274,25 @@
 					drivingLicensea: "",
 					drivingLicenseTime: "",
 					workLicense: "",
+				},
+				// 添加的表单验证规则
+				addFormRules: {
+					name: [{
+						required: true,
+						message: "请输入姓名",
+						trigger: 'blur'
+					}],
+					drivingLicenseTime: [{
+						required: true,
+						message: "请选择日期",
+						trigger: 'blur'
+					}],
+					worklicensedate: [{
+						required: true,
+						message: "请选择日期",
+						trigger: 'blur'
+					}],
+					
 				},
 				// 分页查询数据
 				queryInfo: {

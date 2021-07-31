@@ -9,12 +9,19 @@
 		</el-breadcrumb>
 
 		<el-card class="box-card">
-			<el-input v-model="queryInfo.carName" placeholder="车牌号" clearable style="width: 200px;"></el-input>
+			<el-button type="primary" plain icon="el-icon-download" @click="baozhengjinExport">导出</el-button>
+			<el-input v-model="queryInfo.carName" placeholder="车牌号" clearable style="width: 200px;margin-left: 30px;"></el-input>
 			<el-button type="primary" plain @click="handleQueryBtn" style="margin-left: 30px;">查询</el-button>
 			<el-button type="primary" plain @click="handleQueryBackBtn" style="margin-left: 30px;">返回</el-button>
+			<!-- <span>合计：</span> -->
+			<span style="margin-left: 500px;font-size: 18px;">保证金合计：{{combinedData.selectmargin}}元</span>
+			<span style="margin-left: 30px;font-size: 18px;">罚款合计：{{combinedData.selectfines}}元</span>
+			<span style="margin-left: 30px;font-size: 18px;">余额合计：{{combinedData.selectremain}}元</span>
 			
 			<el-table :data="pageList" border stripe style="width: 100%;margin-top: 8px;" :row-style="{height:'60px'}"
-			 :cell-style="{padding:'0px'}" :header-cell-style="{background:'#f8f8f9', color:'#000000'}">
+			 :cell-style="{padding:'0px'}" :header-cell-style="{background:'#f8f8f9', color:'#000000'}" @selection-change="baozhengjinSelectionChange">
+			 <el-table-column type="selection" width="55">
+			 </el-table-column>
 				<el-table-column prop="id" label="id" v-if="false">
 				</el-table-column>
 				<el-table-column prop="license" label="车牌号">
@@ -27,6 +34,8 @@
 					<template slot-scope="scope">
 						<span :style="{'color':scope.row.remain < 500?'red':'black'}">{{scope.row.remain}}</span>
 					</template>
+				</el-table-column>
+				<el-table-column prop="statue" label="车辆状态">
 				</el-table-column>
 				<el-table-column label="操作">
 					<template slot-scope="scope">
@@ -158,10 +167,15 @@
 				// 罚款记录
 				fineRecordList: [],
 				fineForm: {},
+				// 导出
+				baozhengjinExcel:[],
+				// 车辆合计数据
+				combinedData:{},
 			}
 		},
 		created() {
 			this.getPageList();
+			this.getCombinedData();
 		},
 		methods: {
 			// 根据分页查询列表
@@ -241,6 +255,7 @@
 					// 更新成功，关闭对话框，刷新数据列表，提示修改成功
 					this.rechargeDialogVisible = false
 					this.getPageList()
+					this.getCombinedData()
 					this.$message.success(res.message)
 				})
 			},
@@ -281,6 +296,7 @@
 					// 更新成功，关闭对话框，刷新数据列表，提示修改成功
 					this.fineDialogVisible = false
 					this.getPageList()
+					this.getCombinedData()
 					this.$message.success(res.message)
 				})
 			},
@@ -288,6 +304,32 @@
 			// 监听罚款对话框关闭事件
 			fineDialogClosed() {
 				this.$refs.fineFormFormRef.resetFields()
+			},
+			
+			//导出所需的数据
+			 // 选择框变化
+			 baozhengjinSelectionChange(e){
+				this.baozhengjinExcel = []
+				e.forEach(v=>{
+				this.baozhengjinExcel.push(v.license)
+				})
+			},
+			// 导出
+			async baozhengjinExport(){
+				if(!this.baozhengjinExcel[0]){return this.$message.warning('请选择需要导出的数据！')}
+				const {data:res} = await this.$http.get('SumController/YouHaodaochu?'+this.$qs.stringify({ YouHaodaochu: this.baozhengjinExcel }, { arrayFormat: 'repeat' }))
+				window.location.href = 'http://81.70.151.121:8080/jeecg-boot/SumController/YouHaodaochu?'+this.$qs.stringify({ YouHaodaochu: this.baozhengjinExcel }, { arrayFormat: 'repeat' })
+			},
+			
+			// 获取所有车辆合计数据
+			async getCombinedData(){
+				const {
+					data: res
+				} = await this.$http.get('SumController/selectBaozhengjin')
+				if (res.code !== 200) {
+					return this.$message.error(res.message)
+				}
+				this.combinedData = res.result
 			},
 		}
 	}

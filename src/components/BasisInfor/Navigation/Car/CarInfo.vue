@@ -39,18 +39,18 @@
 				</el-table-column>
 				<el-table-column prop="driverphone" label="司机电话" width="150px">
 				</el-table-column>
-				<el-table-column prop="vehicleLicense" label="行驶证" width="150px">
+				<!-- <el-table-column prop="vehicleLicense" label="行驶证" width="150px">
 					<template slot-scope="scope">
 						<el-tooltip class="item" effect="dark" content="点击查看大图" placement="top">
 							<el-image style="width: 80px; height: 40px" :src="scope.row.vehicleLicense" :preview-src-list="srcList" @click="handleClickImage(scope.row.vehicleLicense)"></el-image>
 						</el-tooltip>
 					</template>
+				</el-table-column> -->
+				<el-table-column prop="vehiclelicensedate" label="行驶证到期时间" width="150px">
 				</el-table-column>
-				<el-table-column prop="vehiclelicensedate" label="行驶证有效期" width="150px">
+				<el-table-column prop="checkDate" label="年检到期时间" width="150px">
 				</el-table-column>
-				<el-table-column prop="checkDate" label="年检有效期" width="150px">
-				</el-table-column>
-				<el-table-column prop="insurance" label="保险单据1" width="150px">
+				<!-- <el-table-column prop="insurance" label="保险单据1" width="150px">
 					<template slot-scope="scope">
 						<el-tooltip class="item" effect="dark" content="点击查看大图" placement="top" width="150px">
 							<el-image style="width: 80px; height: 40px" :src="scope.row.insurance" :preview-src-list="srcList" @click="handleClickImage(scope.row.insurance)"></el-image>
@@ -119,17 +119,17 @@
 							<el-image style="width: 80px; height: 40px" :src="scope.row.insurancel" :preview-src-list="srcList" @click="handleClickImage(scope.row.insurancel)"></el-image>
 						</el-tooltip>
 					</template>
-				</el-table-column>
+				</el-table-column> -->
 				<el-table-column prop="insuranceDate" label="保险到期日期" width="150px">
 				</el-table-column>
-				<el-table-column prop="caroperating" label="车辆营运证" width="150px">
+				<!-- <el-table-column prop="caroperating" label="车辆营运证" width="150px">
 					<template slot-scope="scope">
 						<el-tooltip class="item" effect="dark" content="点击查看大图" placement="top">
 							<el-image style="width: 80px; height: 40px" :src="scope.row.caroperating" :preview-src-list="srcList" @click="handleClickImage(scope.row.caroperating)"></el-image>
 						</el-tooltip>
 
 					</template>
-				</el-table-column>
+				</el-table-column> -->
 				<el-table-column prop="operatingdate" label="营运证到期时间" width="150px">
 				</el-table-column>
 				<!-- <el-table-column prop="carmargin" label="车辆保证金" width="100px">
@@ -175,7 +175,7 @@
 		<!-- 创建的对话框 -->
 		<el-dialog title="创建车辆信息" :visible.sync="addDialogVisible" width="35%" @close="addDialogClosed">
 			<!-- 创建的表单 -->
-			<el-form :model="addForm" ref="addFormRef" label-width="120px">
+			<el-form :model="addForm" :rules="addFormRules" ref="addFormRef" label-width="150px">
 				<el-form-item label="车牌号:" prop="licensePlate">
 					<el-input v-model="addForm.licensePlate" style="width: 350px;"></el-input>
 				</el-form-item>
@@ -217,12 +217,12 @@
 						<el-button size="small" type="primary" plain>上传行驶证照片</el-button>
 					</el-upload>
 				</el-form-item>
-				<el-form-item label="行驶证有效期:" prop="vehiclelicensedate">
+				<el-form-item label="行驶证到期时间:" prop="vehiclelicensedate">
 					<el-date-picker v-model="addForm.vehiclelicensedate" type="date" placeholder="选择日期" format="yyyy 年 MM 月 dd 日"
 					 value-format="yyyy-MM-dd"  style="width: 350px;">
 					</el-date-picker>
 				</el-form-item>
-				<el-form-item label="年检有效期:" prop="checkDate">
+				<el-form-item label="年检到期时间:" prop="checkDate">
 					<el-date-picker v-model="addForm.checkDate" type="date" placeholder="选择日期" format="yyyy 年 MM 月 dd 日" value-format="yyyy-MM-dd"  style="width: 350px;">
 					</el-date-picker>
 				</el-form-item>
@@ -367,12 +367,12 @@
 						<el-button size="small" type="primary" plain>上传保险单照片</el-button>
 					</el-upload>
 				</el-form-item>
-				<el-form-item label="行驶证有效期:" prop="vehiclelicensedate">
+				<el-form-item label="行驶证到期时间:" prop="vehiclelicensedate">
 					<el-date-picker v-model="editForm.vehiclelicensedate" type="date" placeholder="选择日期" format="yyyy 年 MM 月 dd 日"
 					 value-format="yyyy-MM-dd"  style="width: 350px;">
 					</el-date-picker>
 				</el-form-item>
-				<el-form-item label="年检有效期:" prop="checkDate">
+				<el-form-item label="年检到期时间:" prop="checkDate">
 					<el-date-picker v-model="editForm.checkDate" type="date" placeholder="选择日期" format="yyyy 年 MM 月 dd 日" value-format="yyyy-MM-dd"  style="width: 350px;">
 					</el-date-picker>
 				</el-form-item>
@@ -543,7 +543,7 @@
 				addDialogVisible: false,
 				addForm: {
 					licensePlate: "",
-					carstate: "",
+					carstate: "正常",
 					frame: "",
 					engine: "",
 					name: "",
@@ -576,102 +576,31 @@
 				},
 				// 创建表单验证规则
 				addFormRules: {
-					driverName: [{
+					licensePlate: [{
 						required: true,
-						message: "请输入司机姓名",
+						message: "请输入车牌号",
 						trigger: 'blur'
 					}],
-					driverTel: [{
+					vehiclelicensedate: [{
 						required: true,
-						message: "请输入司机电话",
+						message: "请选择行驶证到期时间",
 						trigger: 'blur'
 					}],
-					driverEmergencyContact: [{
+					checkDate: [{
 						required: true,
-						message: "请输入紧急联系人",
+						message: "请选择年检到期时间",
 						trigger: 'blur'
 					}],
-					driverEmergencyTel: [{
+					insuranceDate: [{
 						required: true,
-						message: "请输入紧急电话",
+						message: "请选择保险到期时间",
 						trigger: 'blur'
 					}],
-					driverRelationship: [{
+					operatingdate: [{
 						required: true,
-						message: "请选择关系",
+						message: "请选择营运证到期时间",
 						trigger: 'blur'
 					}],
-					driverCarOwner: [{
-						required: true,
-						message: "请输入车主姓名",
-						trigger: 'blur'
-					}],
-					driverOwnerTel: [{
-						required: true,
-						message: "请输入车主电话",
-						trigger: 'blur'
-					}],
-					driverLicense: [{
-						required: true,
-						message: "请输入车牌",
-						trigger: 'blur'
-					}],
-					driverModel: [{
-						required: true,
-						message: "请选择车型",
-						trigger: 'blur'
-					}],
-					driverWidth: [{
-						required: true,
-						message: "请输入车宽",
-						trigger: 'blur'
-					}],
-					driverHigh: [{
-						required: true,
-						message: "请输入车高",
-						trigger: 'blur'
-					}],
-					driverLoad: [{
-						required: true,
-						message: "请输入载重",
-						trigger: 'blur'
-					}],
-					chooseContractData: [{
-						required: true,
-						message: "请输入合同周期",
-						trigger: 'blur'
-					}],
-					driverCompany: [{
-						required: true,
-						message: "请输入所属公司",
-						trigger: 'blur'
-					}],
-					searchEmployee: [{
-						required: true,
-						message: "请输入车所属调度",
-						trigger: 'blur'
-					}],
-					driverStatus: [{
-						required: true,
-						message: "请选择状态",
-						trigger: 'blur'
-					}],
-					driverCertificateDriver: [{
-						required: true,
-						message: "请上传驾驶证",
-						trigger: 'blur'
-					}],
-					driverCertificateDriving: [{
-						required: true,
-						message: "请上传行驶证",
-						trigger: 'blur'
-					}],
-					driverCertificatePostCard: [{
-						required: true,
-						message: "请上传上岗证",
-						trigger: 'blur'
-					}],
-
 				},
 				// 车辆状态
 				carstateList: [{
@@ -680,6 +609,9 @@
 				}, {
 					value: '停车',
 					label: '停车'
+				}, {
+					value: '永久报停',
+					label: '永久报停'
 				}],
 
 				// 编辑对话框数据
@@ -1013,7 +945,7 @@
 			addDialogClosed() {
 				this.$refs.addFormRef.resetFields()
 				this.addForm.licensePlate = ''
-				this.addForm.carstate = ''
+				this.addForm.carstate = '正常'
 				this.addForm.frame = ''
 				this.addForm.engine = ''
 				this.addForm.name = ''
