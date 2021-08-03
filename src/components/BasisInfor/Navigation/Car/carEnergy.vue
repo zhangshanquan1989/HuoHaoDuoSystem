@@ -30,13 +30,13 @@
 			<div style="margin-top: 20px;">
 				<span style="font-size: 20px;++++++color: #303133;">车辆油耗报表</span>
 				<el-button type="primary" icon="el-icon-download" style="margin-left: 20px;" @click="allExport">导出全部</el-button>
-				<el-button type="primary" icon="el-icon-download" style="margin-left: 20px;" @click="singleExport">导出选中</el-button>
+				<!-- <el-button type="primary" icon="el-icon-download" style="margin-left: 20px;" @click="singleExport">导出选中</el-button> -->
 				<a></a>
 			</div>
 			<el-table :data="carMileageList" border stripe style="width: 100%;margin-top: 8px;" :row-style="{height:'60px'}"
 			 :cell-style="{padding:'0px'}" :header-cell-style="{background:'#f8f8f9', color:'#000000'}" @selection-change="youhaoSelectionChange">
-				<el-table-column type="selection" width="55">
-				</el-table-column>
+				<!-- <el-table-column type="selection" width="55">
+				</el-table-column> -->
 				<el-table-column prop="licenseplate" label="车牌">
 				</el-table-column>
 				<el-table-column prop="endMileage" label="总里程(km)">
@@ -327,26 +327,25 @@
 				const {
 					data: res
 				} = await this.$http({
-					url:'yK_record/exportoperatingdatalist',
-					 method:"post",
-					 data:{
-						 StartTime:this.daochuSingleInfo.StartTime,
-						 EndTime:this.daochuSingleInfo.EndTime,
-						 licenseplate:this.daochuSingleInfo.licenseplate
-					 },
-					 responseType: 'blob',
+					url: 'yK_record/exportoperatingdatalist',
+					method: "post",
+					data: {
+						StartTime: this.daochuSingleInfo.StartTime,
+						EndTime: this.daochuSingleInfo.EndTime,
+						licenseplate: this.daochuSingleInfo.licenseplate
+					},
+					responseType: 'blob',
 				})
-				console.log(res)
-				// const aLink = document.creatElement('a')
-				// const blob = new Blob([res], {
-				// 	type: 'application/vnd.ms-excel'
-				// })
-				// const url = URL.createObjectURL(blob)
-				// // aLink .downLoad = `xxxx.xlsx`   //导出的文件名
-				// document.body.appendChild(aLink)
-				// aLink.click()
-				// document.body.removeChild(aLink)
-				// URL.removeObjectURL(url)
+
+				var blob = res
+				console.log(blob)
+				const fileName = 'sssddd.xlsx'
+				var a = document.createElement("a");
+				a.href = window.URL.createObjectURL(blob);
+				// a.href ='http://81.70.151.121:8080/c6d86540-94b2-43b4-ae72-ffcf0f184f38'
+				console.log(a.href)
+				a.download = fileName
+				a.click()
 			},
 
 		}

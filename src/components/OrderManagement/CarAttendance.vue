@@ -7,12 +7,16 @@
 			<el-breadcrumb-item>车辆考勤</el-breadcrumb-item>
 		</el-breadcrumb>
 
-		<el-card class="box-card">
-			<el-input v-model="queryInfo.chepai" placeholder="输入完整车牌号" clearable style="width: 200px;"></el-input>
-				
-			<el-button type="primary"  plain icon="el-icon-search" style="margin-left: 30px;" @click="search">搜索</el-button>
+		<el-card class="box-card" v-loading.fullscreen.lock="fullscreenLoading">
+			<el-date-picker v-model="exportDate" type="daterange" range-separator="至" start-placeholder="导出的开始日期"
+			 end-placeholder="导出的结束日期" format="yyyy 年 MM 月 dd 日" value-format="yyyy-MM-dd" @change="exportChange">
+			</el-date-picker>
+			<el-button type="primary" plain @click="allExportBtn" style="margin-left: 30px;">导出全部</el-button>
+			<el-input v-model="queryInfo.chepai" placeholder="输入完整车牌号" clearable style="width: 200px;margin-left: 30px;"></el-input>
+
+			<el-button type="primary" plain icon="el-icon-search" style="margin-left: 30px;" @click="search">搜索</el-button>
 			<el-button type="primary" plain @click="handleQueryBackBtn" style="margin-left: 30px;">返回</el-button>
-			
+
 			<el-table :data="dataList" border stripe style="width: 100%;margin-top: 8px;" :row-style="{height:'60px'}"
 			 :cell-style="{padding:'0px'}" :header-cell-style="{background:'#f8f8f9', color:'#000000'}">
 				<el-table-column prop="license" label="车牌号">
@@ -112,7 +116,7 @@
 			return {
 				// 查询参数对象
 				queryInfo: {
-					chepai:'',
+					chepai: '',
 					pageNo: 1,
 					pageSize: 10,
 				},
@@ -133,13 +137,22 @@
 				calendarData: [],
 				// 考勤状态
 				attendOptions: [{
-          value: '正常配货',
-          label: '正常配货'
-        }, {
-          value: '未配货',
-          label: '未配货'
-        }],
-				stauteOptions:[],
+					value: '正常配货',
+					label: '正常配货'
+				}, {
+					value: '未配货',
+					label: '未配货'
+				}],
+				stauteOptions: [],
+				// 导出的时间
+				exportDate: [],
+				// 导出所需数据
+				allExportInfo: {
+					begintime: '',
+					finishtime: '',
+				},
+				// 遮罩层
+				fullscreenLoading:false,
 			}
 		},
 		created() {
@@ -174,7 +187,7 @@
 				this.queryInfo.pageNo = newPage
 				this.getDataList()
 			},
-			
+
 			// 点击查询按钮
 			search() {
 				this.queryInfo.pageNo = 1
@@ -186,7 +199,7 @@
 			handleQueryBackBtn() {
 				this.queryInfo.pageNo = 1
 				this.queryInfo.pageSize = 10
-				this.queryInfo.chepai	 = ''
+				this.queryInfo.chepai = ''
 				this.getDataList()
 			},
 
@@ -216,29 +229,29 @@
 				})
 				console.log(res)
 				if (res.code !== 200) {
-					console.log('不是200')
+					// console.log('不是200')
 					this.editForm.license = this.changeTimeInfo.linence
 					this.editForm.genggaitime = this.changeTimeInfo.dtime
 					this.editForm.dtime = this.changeTimeInfo.dtime
 					this.editForm.km = 0
 					this.editForm.lirun = 0
-				}else{
-					console.log('是200')
+				} else {
+					// console.log('是200')
 					this.editForm = res.result
 					this.editForm.dtime = res.result.genggaitime
 				}
-				
+
 				this.editDialogVisible = true
 			},
 			// 点击修改确认按钮
-			handleEditForm(){
+			handleEditForm() {
 				this.$refs.editFormRef.validate(async valid => {
 					if (!valid) return
 					// 发起修改信息的数据请求
 					const {
 						data: res
 					} = await this.$http.post('attendance/update', this.editForm)
-				console.log(res)
+					// console.log(res)
 					if (res.code !== 200) {
 						return this.$message.error(res.message)
 					}
@@ -246,59 +259,80 @@
 					this.editDialogVisible = false
 					this.getDataList()
 					this.showDetailsDialog(this.changeTimeInfo.linence)
-					})
+				})
 			},
-			
+
 			// 根据大状态修改小状态
-			attendanceChange(e){
+			attendanceChange(e) {
 				console.log(e)
-				if(!e){
+				if (!e) {
 					this.stauteOptions = []
-				}else if(e == '正常配货'){
-					this.stauteOptions = [
-						{
-						  value: '指定路线',
-						  label: '指定路线'
+				} else if (e == '正常配货') {
+					this.stauteOptions = [{
+							value: '指定路线',
+							label: '指定路线'
 						},
 						{
-						  value: '2天利润',
-						  label: '2天利润'
+							value: '2天利润',
+							label: '2天利润'
 						},
 					]
-				}else if(e == '未配货'){
-					this.stauteOptions = [
-						{
-						  value: '休息',
-						  label: '休息'
+				} else if (e == '未配货') {
+					this.stauteOptions = [{
+							value: '休息',
+							label: '休息'
 						},
 						{
-						  value: '回家',
-						  label: '回家'
+							value: '回家',
+							label: '回家'
 						},
 						{
-						  value: '临时报停',
-						  label: '临时报停'
+							value: '临时报停',
+							label: '临时报停'
 						},
 						{
-						  value: '永久报停',
-						  label: '永久报停'
+							value: '永久报停',
+							label: '永久报停'
 						},
 						{
-						  value: '拒单停运',
-						  label: '拒单停运'
+							value: '拒单停运',
+							label: '拒单停运'
 						},
 						{
-						  value: '更换司机',
-						  label: '更换司机'
+							value: '更换司机',
+							label: '更换司机'
 						},
 						{
-						  value: '强制报停',
-						  label: '强制报停'
+							value: '强制报停',
+							label: '强制报停'
 						},
 					]
 				}
 			},
-			editDialogClosed() {},
+			editDialogClosed() {
+				this.editForm = {}
+			},
+			exportChange(e) {
+				// console.log(e)
+				// this.exportDate = e
+				// console.log(this.exportDate)
+			},
+			async allExportBtn() {
+				if (!this.exportDate[0]) {
+					return this.$message.warning('请选择时间段！')
+				}
+				this.allExportInfo.begintime = this.exportDate[0]
+				this.allExportInfo.finishtime = this.exportDate[1]
+				this.fullscreenLoading = true;
+				const {
+					data: res
+				} = await this.$http.get('SumController/HHDkaoqinAll', {
+					params: this.allExportInfo
+				})
+				// console.log(res)
+				window.location.href = 'http://81.70.151.121:8080/jeecg-boot/SumController/HHDkaoqinAll?begintime=' + this.allExportInfo.begintime + '&finishtime=' + this.allExportInfo.finishtime
+				this.fullscreenLoading = false;
+			},
 		}
 	}
 </script>

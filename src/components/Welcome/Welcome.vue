@@ -171,9 +171,9 @@
 				<el-table-column prop="phoneno" label="车主电话" width="150px">
 				</el-table-column>
 
-				<el-table-column prop="driver" label="对应司机" width="120px">
+				<el-table-column prop="name1" label="对应司机" width="120px">
 				</el-table-column>
-				<el-table-column prop="driverphone" label="司机电话" width="150px">
+				<el-table-column prop="phoneno1" label="司机电话" width="150px">
 				</el-table-column>
 				<el-table-column prop="check_date" label="年检到期时间" width="150px">
 				</el-table-column>
@@ -199,9 +199,9 @@
 				<el-table-column prop="phoneno" label="车主电话" width="150px">
 				</el-table-column>
 
-				<el-table-column prop="driver" label="对应司机" width="120px">
+				<el-table-column prop="name1" label="对应司机" width="120px">
 				</el-table-column>
-				<el-table-column prop="driverphone" label="司机电话" width="150px">
+				<el-table-column prop="phoneno1" label="司机电话" width="150px">
 				</el-table-column>
 				<el-table-column prop="insurance_date" label="保险到期时间" width="150px">
 				</el-table-column>
@@ -212,8 +212,8 @@
 			</span>
 		</el-dialog>
 
-		<!-- 违章对话框 -->
-		<el-dialog title="违章未处理车辆" :visible.sync="weizhangDialogVisible" width="80%" @close="weizhangDialogClosed">
+		<!-- 违章对话框 违章不用 -->
+		<!-- <el-dialog title="违章未处理车辆" :visible.sync="weizhangDialogVisible" width="80%" @close="weizhangDialogClosed">
 			<el-button type="primary" plain @click="weizhangExport" icon="el-icon-download">导出Excel</el-button>
 			<el-table :data="weizhangCarList" border stripe style="width: 100%;margin-top: 8px;" :row-style="{height:'60px'}"
 			 :cell-style="{padding:'0px'}" :header-cell-style="{background:'#f8f8f9', color:'#000000'}" @selection-change="weizhangSelectionChange">
@@ -231,12 +231,12 @@
 				</el-table-column>
 				<el-table-column prop="illegal_money" label="违章罚款" width="100px">
 				</el-table-column>
-			</el-table>
+			</el-table> -->
 			<!-- 操作区域 -->
-			<span slot="footer" class="dialog-footer">
+			<!-- <span slot="footer" class="dialog-footer">
 				<el-button @click="weizhangDialogVisible = false">关 闭</el-button>
 			</span>
-		</el-dialog>
+		</el-dialog> -->
 
 		<!-- 押金对话框 -->
 		<el-dialog title="押金不足车辆" :visible.sync="yajinDialogVisible" width="70%" @close="yajinDialogClosed">
@@ -253,9 +253,9 @@
 				<el-table-column prop="phoneno" label="车主电话" width="150px">
 				</el-table-column>
 
-				<el-table-column prop="driver" label="对应司机" width="120px">
+				<el-table-column prop="name1" label="对应司机" width="120px">
 				</el-table-column>
-				<el-table-column prop="driverphone" label="司机电话" width="150px">
+				<el-table-column prop="phoneno1" label="司机电话" width="150px">
 				</el-table-column>
 				<el-table-column prop="Carmargin" label="剩余保证金(元)" width="150px">
 				</el-table-column>
@@ -282,9 +282,9 @@
 				<el-table-column prop="phoneno" label="车主电话" width="150px">
 				</el-table-column>
 
-				<el-table-column prop="driver" label="对应司机" width="120px">
+				<el-table-column prop="name1" label="对应司机" width="120px">
 				</el-table-column>
-				<el-table-column prop="driverphone" label="司机电话" width="150px">
+				<el-table-column prop="phoneno1" label="司机电话" width="150px">
 				</el-table-column>
 				<el-table-column prop="management" label="管理费" width="150px">
 				</el-table-column>
@@ -339,9 +339,9 @@
 				</el-table-column>
 				<el-table-column prop="phoneno" label="车主电话" width="150px">
 				</el-table-column>
-				<el-table-column prop="driver" label="对应司机" width="150px">
+				<el-table-column prop="name1" label="对应司机" width="150px">
 				</el-table-column>
-				<el-table-column prop="driverphone" label="司机电话" width="150px">
+				<el-table-column prop="phoneno1" label="司机电话" width="150px">
 				</el-table-column>
 
 				<el-table-column prop="Vehiclelicensedate" label="行驶证到期时间
@@ -370,9 +370,9 @@
 				</el-table-column>
 				<el-table-column prop="phoneno" label="车主电话" width="150px">
 				</el-table-column>
-				<el-table-column prop="driver" label="对应司机" width="150px">
+				<el-table-column prop="name1" label="对应司机" width="150px">
 				</el-table-column>
-				<el-table-column prop="driverphone" label="司机电话" width="150px">
+				<el-table-column prop="phoneno1" label="司机电话" width="150px">
 				</el-table-column>
 
 				<el-table-column prop="OperatingDate" label="营运证到期时间
