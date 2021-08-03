@@ -27,7 +27,10 @@
 				</el-table-column>
 				<el-table-column prop="licensePlate" label="车牌号" width="100px">
 				</el-table-column>
-				<el-table-column prop="carstate" label="车辆状态" width="100px">
+				<el-table-column prop="carstate" label="车辆状态" width="100px" style="colot:">
+					<template slot-scope="scope">
+						<span :style="{'color':scope.row.carstate=='正常'?'#303133FF':'red'}">{{scope.row.carstate}}</span>
+					</template>
 				</el-table-column>
 				<el-table-column prop="name" label="车主姓名" width="100px">
 				</el-table-column>

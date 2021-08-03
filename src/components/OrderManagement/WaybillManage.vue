@@ -798,12 +798,9 @@
 				}],
 				// 订单来源
 				sourceList: [{
-					value: '运满满',
-					label: '运满满'
-				}, {
-					value: '货拉拉',
-					label: '货拉拉'
-				}, {
+					value: '网络',
+					label: '网络'
+				},  {
 					value: '专线',
 					label: '专线'
 				}, {

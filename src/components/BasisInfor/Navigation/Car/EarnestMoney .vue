@@ -9,16 +9,37 @@
 		</el-breadcrumb>
 
 		<el-card class="box-card">
-			<el-button type="primary" plain icon="el-icon-download" @click="baozhengjinExport">导出</el-button>
-			<el-button type="primary" plain @click="handleClearBtn" style="margin-left: 30px;">清空选中</el-button>
-			<el-input v-model="queryInfo.carName" placeholder="车牌号" clearable style="width: 200px;margin-left: 30px;"></el-input>
-			<el-button type="primary" plain @click="handleQueryBtn" style="margin-left: 30px;">查询</el-button>
-			<el-button type="primary" plain @click="handleQueryBackBtn" style="margin-left: 30px;">返回</el-button>
+			<div style="display: flex;">
+			<div >
+				<el-button type="primary" plain icon="el-icon-download" @click="baozhengjinExport">导出</el-button>
+				<el-button type="primary" plain @click="handleClearBtn" style="margin-left: 14px;">清空选中</el-button>
+				<el-input v-model="queryInfo.carName" placeholder="车牌号" clearable style="width: 200px;margin-left: 14px;"></el-input>
+				<el-button type="primary" plain @click="handleQueryBtn" style="margin-left: 14px;">查询</el-button>
+				<el-button type="primary" plain @click="handleQueryBackBtn" style="margin-left: 14px;">返回</el-button>
+				</div>
+				<div style="width: 300px;height: 40px;border: 1px solid #DCDFE6;opacity: 1;margin-left: 30px;display: flex;">
+					<img style="width: 26px;height: 26px;margin-left: 16px;margin-top: 7px;" src="../../../../assets/car/组2013.png" />
+					<div style="font-size: 16px;font-weight: 400;color: #909399;margin-left: 16px;margin-top: 9.5px;">保证金合计</div>
+					<div style="width: 90px;font-size: 23px;font-weight: bold;color: #303133;margin-left: 16px;margin-top: 5px;text-align: center;">{{combinedData.selectmargin}}</div>
+					<div style="font-size: 16px;font-weight: 400;color: #909399;margin-left: 16px;margin-top: 9.5px;">元</div>
+				</div>
+				<div style="width: 300px;height: 40px;border: 1px solid #DCDFE6;opacity: 1;margin-left: 13px;display: flex;">
+					<img style="width: 26px;height: 26px;margin-left: 16px;margin-top: 7px;" src="../../../../assets/car/组2066.png" />
+					<div style="font-size: 16px;font-weight: 400;color: #909399;margin-left: 16px;margin-top: 9.5px;">罚款合计</div>
+					<div style="width: 90px;font-size: 23px;font-weight: bold;color: #303133;margin-left: 16px;margin-top: 5px;text-align: center;">{{combinedData.selectfines}}</div>
+					<div style="font-size: 16px;font-weight: 400;color: #909399;margin-left: 16px;margin-top: 9.5px;">元</div>
+				</div>
+				<div style="width: 300px;height: 40px;border: 1px solid #DCDFE6;opacity: 1;margin-left: 13px;display: flex;">
+					<img style="width: 26px;height: 26px;margin-left: 16px;margin-top: 7px;" src="../../../../assets/car/组2062.png" />
+					<div style="font-size: 16px;font-weight: 400;color: #909399;margin-left: 16px;margin-top: 9.5px;">余额合计</div>
+					<div style="width: 90px;font-size: 23px;font-weight: bold;color: #303133;margin-left: 16px;margin-top: 5px;text-align: center;">{{combinedData.selectremain}}</div>
+					<div style="font-size: 16px;font-weight: 400;color: #909399;margin-left: 16px;margin-top: 9.5px;">元</div>
+				</div>
+				<!-- <span style="margin-left: 450px;font-size: 18px;">保证金合计：{{combinedData.selectmargin}}元</span>
+				<span style="margin-left: 30px;font-size: 18px;">罚款合计：{{combinedData.selectfines}}元</span>
+				<span style="margin-left: 30px;font-size: 18px;">余额合计：{{combinedData.selectremain}}元</span> -->
+			</div>
 			
-			<!-- <span>合计：</span> -->
-			<span style="margin-left: 450px;font-size: 18px;">保证金合计：{{combinedData.selectmargin}}元</span>
-			<span style="margin-left: 30px;font-size: 18px;">罚款合计：{{combinedData.selectfines}}元</span>
-			<span style="margin-left: 30px;font-size: 18px;">余额合计：{{combinedData.selectremain}}元</span>
 			
 			<el-table :data="pageList" ref="tableRef" border stripe style="width: 100%;margin-top: 8px;" :row-style="{height:'60px'}" :cell-style="{padding:'0px'}" :header-cell-style="{background:'#f8f8f9', color:'#000000'}" @selection-change="baozhengjinSelectionChange" :row-key="getLicense">
 			 <el-table-column type="selection" :reserve-selection="true" width="55">
@@ -33,10 +54,13 @@
 				</el-table-column>
 				<el-table-column prop="remain" label="保证金余额">
 					<template slot-scope="scope">
-						<span :style="{'color':scope.row.remain < 500?'red':'black'}">{{scope.row.remain}}</span>
+						<span :style="{'color':scope.row.remain < 500?'#EC2941FF':'#303133FF'}">{{scope.row.remain}}</span>
 					</template>
 				</el-table-column>
 				<el-table-column prop="statue" label="车辆状态">
+					<template slot-scope="scope">
+						<span :style="{'color':scope.row.statue=='正常'?'#303133FF':'#EC2941FF'}">{{scope.row.statue}}</span>
+					</template>
 				</el-table-column>
 				<el-table-column label="操作">
 					<template slot-scope="scope">

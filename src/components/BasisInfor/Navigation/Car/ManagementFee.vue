@@ -35,6 +35,9 @@
 					</template>
 				</el-table-column>
 				<el-table-column prop="carstate" label="车辆状态">
+					<template slot-scope="scope">
+						<span :style="{'color':scope.row.carstate=='正常'?'#303133FF':'red'}">{{scope.row.carstate}}</span>
+					</template>
 				</el-table-column>
 				<el-table-column label="操作">
 					<template slot-scope="scope">

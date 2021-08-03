@@ -11,8 +11,8 @@
 		<el-card class="box-card">
 			<!-- 创建按钮 -->
 			<el-input v-model="queryInfo.chepai" placeholder="完整车牌号" clearable style="width: 200px;"></el-input>
-			<el-date-picker v-model="selectTime" type="datetimerange" range-separator="至" start-placeholder="开始日期"
-			 end-placeholder="结束日期" format="yyyy 年 MM 月 dd 日 HH 时 mm 分 ss 秒" value-format="yyyy-MM-dd HH:mm:ss" style="margin-left: 20px;">
+			<el-date-picker v-model="selectTime" type="datetimerange" range-separator="至" start-placeholder="装货开始日期"
+			 end-placeholder="装货结束日期" format="yyyy 年 MM 月 dd 日 HH 时 mm 分 ss 秒" value-format="yyyy-MM-dd HH:mm:ss" style="margin-left: 20px;">
 			</el-date-picker>
 			<el-button type="primary" plain @click="handleQueryBtn" style="margin-left: 30px;">查询</el-button>
 			<el-button type="primary" plain @click="handleQueryBackBtn" style="margin-left: 30px;">返回</el-button>
