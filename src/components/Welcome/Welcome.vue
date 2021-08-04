@@ -286,7 +286,9 @@
 				</el-table-column>
 				<el-table-column prop="phoneno1" label="司机电话" width="150px">
 				</el-table-column>
-				<el-table-column prop="management" label="管理费" width="150px">
+				<!-- <el-table-column prop="management" label="管理费" width="150px">
+				</el-table-column> -->
+				<el-table-column prop="paytime" label="管理费缴费日期" width="150px">
 				</el-table-column>
 				<el-table-column prop="Management_date" label="管理费截止日期" width="150px">
 				</el-table-column>
@@ -584,7 +586,7 @@
 					this.yajinExcel.push(v.License_plate)
 				})
 			},
-			// 押金导出
+			// 押金导出  
 			async yajinExport() {
 				if (!this.yajinExcel[0]) {
 					return this.$message.warning('请选择需要导出的数据！')

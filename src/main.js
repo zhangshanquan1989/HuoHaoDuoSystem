@@ -23,6 +23,7 @@ Vue.use(elementui, { zIndex: 500 })
 import axios from 'axios'
 // 配置请求的根路径
 axios.defaults.baseURL = 'http://81.70.151.121:8080/jeecg-boot/'
+// axios.defaults.baseURL = 'http://tkhhd.com/jeecg-boot/'
 
 // 挂在复制文本
 Vue.prototype.Clipboard=Clipboard;
