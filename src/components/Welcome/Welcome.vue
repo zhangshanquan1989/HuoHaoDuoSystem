@@ -7,10 +7,10 @@
 				<div style="display: flex;margin-left: 22px;margin-top: 12px;">
 					<div>
 						<div style="width:76px;height: 54px;font-size: 41px;">{{nianjianCarData}}</div>
-						<div style="width:96px;height: 16px;font-size: 15px;color: #999999;">年检到期车辆</div>
+						<div style="width:166px;height: 16px;font-size: 15px;color: #999999;">2个月内年检到期车辆</div>
 					</div>
 					<div>
-						<el-image :src="require('../../assets/welcome/组929.png')" style="width: 55px; height: 55px;margin-left:105px ;margin-top: 10px;"></el-image>
+						<el-image :src="require('../../assets/welcome/组929.png')" style="width: 55px; height: 55px;margin-left:35px ;margin-top: 10px;"></el-image>
 					</div>
 				</div>
 				<div style="height: 29px;background-color: #224EA6;margin-top: 30px;">
@@ -23,10 +23,10 @@
 				<div style="display: flex;margin-left: 22px;margin-top: 12px;">
 					<div>
 						<div style="width:76px;height: 54px;font-size: 41px;">{{baoxianCarData}}</div>
-						<div style="width:96px;height: 16px;font-size: 15px;color: #999999;">保险到期车辆</div>
+						<div style="width:166px;height: 16px;font-size: 15px;color: #999999;">1个月内保险到期车辆</div>
 					</div>
 					<div>
-						<el-image :src="require('../../assets/welcome/组945.png')" style="width: 55px; height: 55px;margin-left:105px ;margin-top: 10px;"></el-image>
+						<el-image :src="require('../../assets/welcome/组945.png')" style="width: 55px; height: 55px;margin-left:35px ;margin-top: 10px;"></el-image>
 					</div>
 				</div>
 				<div style="height: 29px;background-color: #9DB7CD;margin-top: 30px;">
@@ -55,10 +55,10 @@
 				<div style="display: flex;margin-left: 22px;margin-top: 12px;">
 					<div>
 						<div style="width:76px;height: 54px;font-size: 41px;">{{yajinCarData}}</div>
-						<div style="width:126px;height: 16px;font-size: 15px;color: #999999;">押金小于500车辆</div>
+						<div style="width:166px;height: 16px;font-size: 15px;color: #999999;">保证金小于500车辆</div>
 					</div>
 					<div>
-						<el-image :src="require('../../assets/welcome/组948.png')" style="width: 55px; height: 55px;margin-left:75px ;margin-top: 10px;"></el-image>
+						<el-image :src="require('../../assets/welcome/组948.png')" style="width: 55px; height: 55px;margin-left:35px ;margin-top: 10px;"></el-image>
 					</div>
 				</div>
 				<div style="height: 29px;background-color: #E3C191;margin-top: 30px;">
@@ -71,10 +71,10 @@
 				<div style="display: flex;margin-left: 22px;margin-top: 12px;">
 					<div>
 						<div style="width:76px;height: 54px;font-size: 41px;">{{diaodufeiCarData}}</div>
-						<div style="width:106px;height: 16px;font-size: 15px;color: #999999;">调度费到期车辆</div>
+						<div style="width:176px;height: 16px;font-size: 15px;color: #999999;">15天内调度费到期车辆</div>
 					</div>
 					<div>
-						<el-image :src="require('../../assets/welcome/组1322.png')" style="width: 55px; height: 55px;margin-left:95px ;margin-top: 10px;"></el-image>
+						<el-image :src="require('../../assets/welcome/组1322.png')" style="width: 55px; height: 55px;margin-left:25px ;margin-top: 10px;"></el-image>
 					</div>
 				</div>
 				<div style="height: 29px;background-color: #8B8F99;margin-top: 30px;">
@@ -87,10 +87,10 @@
 				<div style="display: flex;margin-left: 22px;margin-top: 12px;">
 					<div>
 						<div style="width:76px;height: 54px;font-size: 41px;">{{shanggangzhengCarData}}</div>
-						<div style="width:106px;height: 16px;font-size: 15px;color: #999999;">上岗证到期车辆</div>
+						<div style="width:176px;height: 16px;font-size: 15px;color: #999999;">2个月内上岗证到期车辆</div>
 					</div>
 					<div>
-						<el-image :src="require('../../assets/welcome/组 1328.png')" style="width: 55px; height: 55px;margin-left:95px ;margin-top: 10px;"></el-image>
+						<el-image :src="require('../../assets/welcome/组 1328.png')" style="width: 55px; height: 55px;margin-left:25px ;margin-top: 10px;"></el-image>
 					</div>
 				</div>
 				<div style="height: 29px;background-color: #0FA1EEFF;margin-top: 30px;">
@@ -104,10 +104,10 @@
 				<div style="display: flex;margin-left: 22px;margin-top: 12px;">
 					<div>
 						<div style="width:76px;height: 54px;font-size: 41px;">{{xingshizhengCarData}}</div>
-						<div style="width:106px;height: 16px;font-size: 15px;color: #999999;">行驶证到期车辆</div>
+						<div style="width:176px;height: 16px;font-size: 15px;color: #999999;">2个月内行驶证到期车辆</div>
 					</div>
 					<div>
-						<el-image :src="require('../../assets/welcome/组 2010.png')" style="width: 55px; height: 55px;margin-left:95px ;margin-top: 10px;"></el-image>
+						<el-image :src="require('../../assets/welcome/组 2010.png')" style="width: 55px; height: 55px;margin-left:25px ;margin-top: 10px;"></el-image>
 					</div>
 				</div>
 				<div style="height: 29px;background-color: #9B84D2FF;margin-top: 30px;">
@@ -120,10 +120,10 @@
 				<div style="display: flex;margin-left: 22px;margin-top: 12px;">
 					<div>
 						<div style="width:76px;height: 54px;font-size: 41px;">{{yingyunzhengCarData}}</div>
-						<div style="width:106px;height: 16px;font-size: 15px;color: #999999;">营运证到期车辆</div>
+						<div style="width:176px;height: 16px;font-size: 15px;color: #999999;">2个月内营运证到期车辆</div>
 					</div>
 					<div>
-						<el-image :src="require('../../assets/welcome/组 2009.png')" style="width: 55px; height: 55px;margin-left:95px ;margin-top: 10px;"></el-image>
+						<el-image :src="require('../../assets/welcome/组 2009.png')" style="width: 55px; height: 55px;margin-left:25px ;margin-top: 10px;"></el-image>
 					</div>
 				</div>
 				<div style="height: 29px;background-color: #5BB65EFF;margin-top: 30px;">
@@ -136,10 +136,10 @@
 				<div style="display: flex;margin-left: 22px;margin-top: 12px;">
 					<div>
 						<div style="width:76px;height: 54px;font-size: 41px;">{{jiashizhengCarData}}</div>
-						<div style="width:106px;height: 16px;font-size: 15px;color: #999999;">驾驶证到期车辆</div>
+						<div style="width:176px;height: 16px;font-size: 15px;color: #999999;">2个月内驾驶证到期车辆</div>
 					</div>
 					<div>
-						<el-image :src="require('../../assets/welcome/组 2011.png')" style="width: 55px; height: 55px;margin-left:95px ;margin-top: 10px;"></el-image>
+						<el-image :src="require('../../assets/welcome/组 2011.png')" style="width: 55px; height: 55px;margin-left:25px ;margin-top: 10px;"></el-image>
 					</div>
 				</div>
 				<div style="height: 29px;background-color: #06BE95FF;margin-top: 30px;">
@@ -239,7 +239,7 @@
 		</el-dialog> -->
 
 		<!-- 押金对话框 -->
-		<el-dialog title="押金不足车辆" :visible.sync="yajinDialogVisible" width="70%" @close="yajinDialogClosed">
+		<el-dialog title="保证金小于500车辆" :visible.sync="yajinDialogVisible" width="70%" @close="yajinDialogClosed">
 			<el-button type="primary" plain @click="yajinExport" icon="el-icon-download">导出Excel</el-button>
 			<el-table :data="yajinCarList" border stripe style="width: 100%;margin-top: 8px;" :row-style="{height:'60px'}"
 			 :cell-style="{padding:'0px'}" :header-cell-style="{background:'#f8f8f9', color:'#000000'}" @selection-change="yajinSelectionChange">

@@ -3,21 +3,30 @@
 		<el-container>
 			<!-- <el-header>车辆实时监控</el-header> -->
 			<el-container>
-				<el-aside width="200px" style="height: 800px;">
+				<el-aside width="230px" style="height: 800px;">
 					<el-card class="box-card" >
-						<el-select  v-model="carLicense" clearable filterable remote placeholder="请输入车牌号"
+						<div>
+						<el-input placeholder="车牌号" v-model="license" clearable @clear="inputClear">
+						    <el-button slot="append" icon="el-icon-search" @click="searchCarNo"></el-button>
+						  </el-input>
+							</div>
+						<!-- <el-select  v-model="carLicense" clearable filterable remote placeholder="请输入车牌号"
 						 :remote-method="chooseCarLicense" :loading="carLicenseLoading" @change="editChooseCarLicense">
 							<el-option v-for="item in carLicenseOptions" :key="item.index" :label="item.label" :value="item.value">
 							</el-option>
-						</el-select>
+						</el-select> -->
 						 <!-- <el-input placeholder="请输入车牌号" v-model="input3" >
 						    <el-button slot="append" icon="el-icon-search" @click="searchCarNo"></el-button>
 						  </el-input> -->
-						<el-button type="primary" plain size="mini" @click="handleQuery" v-loading.fullscreen.lock="fullscreenLoading">查询</el-button>
-						<el-button type="primary" plain size="mini" @click="handleClear">清空</el-button>
-						<el-checkbox-group v-model="chooseCarData" :max="30" style="margin-top: 10px;">
+						<div style="margin-top: 8px;">
+						<el-button type="primary" plain size="mini" @click="handleQuery" v-loading.fullscreen.lock="fullscreenLoading" style="">查询选中</el-button>
+						<el-button type="primary" plain size="mini" @click="handleClear" style="margin-left: 10px;">清除选中</el-button>
+						</div>
+						<div style="margin-top: 10px;margin-left: 10px;padding-left: 10px;">
+						<el-checkbox-group v-model="chooseCarData" :max="30" >
 							<el-checkbox v-for="carNo in checkBoxData" :label="carNo" :key="carNo">{{carNo}}</el-checkbox>
 						</el-checkbox-group>
+						</div>
 
 					</el-card>
 				</el-aside>
@@ -50,6 +59,7 @@
 				carLicenseOptions: [],
 				allCarLicenseList: [],
 				carLicenseLoading: false,
+				license:'',
 			}
 		},
 		created() {
@@ -57,9 +67,7 @@
 			this.findAllCarLicense()
 		},
 		methods: {
-			// searchCarNo(){
-			// 	console.log("搜索")
-			// },
+
 			// 获取所有车牌res1.result.anyType.CarCurrentStatus.map
 			async findAllCarLicense(){
 				const {
@@ -67,50 +75,64 @@
 				} = await this.$http.get('waybill/findAllLicense')
 				// console.log(res)
 				if (res.code !== 200) {
-					return
+					return this.$message.error(res.message)
 				}
 				this.allList = res.result
-				this.checkBoxData = res.result
-				this.allCarLicenseList = res.result.map(item => {
-					return {
-						value: `${item}`,
-						label: `${item}`
-					};
-				});
-				this.carLicenseOptions = this.allCarLicenseList
+				this.checkBoxData = this.allList
+				// this.allCarLicenseList = res.result.map(item => {
+				// 	return {
+				// 		value: `${item}`,
+				// 		label: `${item}`
+				// 	};
+				// });
+				// this.carLicenseOptions = this.allCarLicenseList
 				setTimeout(() =>{
 					this.initMap()
 				},200)
 			},
-			
-			// 创建页面选择车牌号方法
-			chooseCarLicense(query) {
-				if (query !== '') {
-					this.carLicenseLoading = true;
-					setTimeout(() => {
-						this.carLicenseLoading = false;
-						this.carLicenseOptions = this.allCarLicenseList.filter(item => {
-							return item.value.indexOf(query) > -1;
-						});
-					}, 300)
-				} else {
-					this.carLicenseOptions = this.allCarLicenseList
-				}
-			},
-			// 创建选择车牌号后发起请求 editChooseCarLicense
-			async editChooseCarLicense(carLicense) {
-				if (carLicense !== '') {
-					this.checkBoxData = []
-					this.checkBoxData.push(carLicense)
-					this.carLicenseOptions = this.allCarLicenseList
+			// 更改了车牌号查询方法！需要输入后模糊查询所有！！！！
+			// // 创建页面选择车牌号方法
+			// chooseCarLicense(query) {
+			// 	if (query !== '') {
+			// 		this.carLicenseLoading = true;
+			// 		setTimeout(() => {
+			// 			this.carLicenseLoading = false;
+			// 			this.carLicenseOptions = this.allCarLicenseList.filter(item => {
+			// 				return item.value.indexOf(query) > -1;
+			// 			});
+			// 		}, 300)
+			// 	} else {
+			// 		this.carLicenseOptions = this.allCarLicenseList
+			// 	}
+			// },
+			// // 创建选择车牌号后发起请求 editChooseCarLicense
+			// async editChooseCarLicense(carLicense) {
+			// 	if (carLicense !== '') {
+			// 		this.checkBoxData = []
+			// 		this.checkBoxData.push(carLicense)
+			// 		this.carLicenseOptions = this.allCarLicenseList
 					
-				} else {
-					this.carLicenseOptions = this.allCarLicenseList
-					this.checkBoxData = this.allList
+			// 	} else {
+			// 		this.carLicenseOptions = this.allCarLicenseList
+			// 		this.checkBoxData = this.allList
 					
+			// 	}
+			// },
+			// 模糊查询
+			async searchCarNo(){
+				const {
+					data: res
+				} = await this.$http.get('waybill/findAllLicense?license='+this.license)
+				console.log(res)
+				if (res.code !== 200) {
+					return this.$message.error(res.message)
 				}
+				this.checkBoxData = res.result
 			},
-			
+			// 清空查询
+			inputClear(){
+				this.checkBoxData = this.allList
+			},
 			// 点击查询
 			async handleQuery(){
 				this.newmap.clearMap();

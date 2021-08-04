@@ -31,10 +31,14 @@
 			</div>
 			<div style="margin-top: 20px;">
 				<span style="font-size: 20px;color: #303133;">车辆里程报表</span>
-				<el-button type="primary" icon="el-icon-download" style="margin-left: 20px;"  @click="allExport">导出全部</el-button>
+				<el-button type="primary" plain icon="el-icon-download" style="margin-left: 20px;"  @click="allExport">导出全部</el-button>
+				<el-button type="primary" plain icon="el-icon-download" style="margin-left: 20px;" @click="singleExport">导出选中</el-button>
+				<el-button type="primary" plain style="margin-left: 20px;" @click="clearExport">清除选中</el-button>
 			</div>
-			<el-table :data="carMileageList" border stripe style="width: 100%;margin-top: 8px;" :row-style="{height:'60px'}"
-			 :cell-style="{padding:'0px'}" :header-cell-style="{background:'#f8f8f9', color:'#000000'}">
+			<el-table :data="carMileageList" ref="carMileageForm" border stripe style="width: 100%;margin-top: 8px;" :row-style="{height:'60px'}"
+			 :cell-style="{padding:'0px'}" :header-cell-style="{background:'#f8f8f9', color:'#000000'}" @selection-change="youhaoSelectionChange" :row-key="getLicenseplate">
+			 <el-table-column type="selection" width="55" :reserve-selection="true">
+			 </el-table-column>
 				<el-table-column prop="licenseplate" label="车牌" width="250px">
 				</el-table-column>
 				<el-table-column prop="endMileage" label="总里程(km)" width="300px">
@@ -78,6 +82,12 @@
 				daochuInfo:{
 					StartTime: '',
 					EndTime: '',
+				},
+				// 选择导出参数
+				daochuSingleInfo: {
+					StartTime: '',
+					EndTime: '',
+					licenseplate: []
 				},
 				carMileageList: [],
 				total: 0,
@@ -285,6 +295,54 @@
 				window.location.href = 'http://81.70.151.121:8080/jeecg-boot/yK_record/exportoperatingdataA?StartTime='+this.daochuInfo.StartTime+'&EndTime='+this.daochuInfo.EndTime
 				this.fullscreenLoading = false;
 			},
+			
+				//导出所需的数据
+				// 选择框变化
+				youhaoSelectionChange(e) {
+					this.daochuSingleInfo.licenseplate = []
+					e.forEach(v => {
+						this.daochuSingleInfo.licenseplate.push(v.licenseplate)
+					})
+				},
+				// 导出选中部分
+				async singleExport() {
+					this.daochuSingleInfo.StartTime = this.queryInfo.StartTime
+					this.daochuSingleInfo.EndTime = this.queryInfo.EndTime
+					if (!this.daochuSingleInfo.licenseplate[0]) {
+						return this.$message.warning('请选择需要导出的数据！')
+					}
+					const {
+						data: res
+					} = await this.$http({
+						url: 'yK_record/exportoperatingdatalistB',
+						method: "post",
+						data: {
+							StartTime: this.daochuSingleInfo.StartTime,
+							EndTime: this.daochuSingleInfo.EndTime,
+							licenseplate: this.daochuSingleInfo.licenseplate
+						},
+						responseType: 'blob',
+					})
+				
+					var blob = res
+					console.log(blob)
+					const fileName = '车辆里程报表.xlsx'
+					var a = document.createElement("a");
+					a.href = window.URL.createObjectURL(blob);
+					console.log(a.href)
+					a.download = fileName
+					a.click()
+					a.remove()
+				},
+				// 表格分页多选
+				getLicenseplate(row){
+					return row.licenseplate
+				},
+				// 清除选中
+				clearExport(){
+					this.$refs.carMileageForm.clearSelection()
+				},
+				
 
 		}
 	}

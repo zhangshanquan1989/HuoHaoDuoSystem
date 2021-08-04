@@ -13,14 +13,14 @@
 			<el-input v-model="queryInfo.carName" placeholder="车牌号" clearable style="width: 200px;margin-left: 100px;"></el-input>
 			<el-button type="primary" plain @click="handleQueryBtn" style="margin-left: 30px;">查询</el-button>
 			<el-button type="primary" plain @click="handleQueryBackBtn" style="margin-left: 30px;">返回</el-button>
-			
+
 			<el-table :data="pageList" border stripe style="width: 100%;margin-top: 8px;" :row-style="{height:'60px'}"
 			 :cell-style="{padding:'0px'}" :header-cell-style="{background:'#f8f8f9', color:'#000000'}">
 				<el-table-column prop="id" label="id" v-if="false">
 				</el-table-column>
 				<el-table-column prop="licensePlate" label="车牌号">
 				</el-table-column>
-				<el-table-column prop="managementcycle" label="交费周期">
+				<el-table-column prop="managementcycle" label="缴费周期">
 				</el-table-column>
 				<el-table-column prop="paytime" label="缴费时间">
 				</el-table-column>
@@ -61,7 +61,12 @@
 			<!-- 缴费的表单 -->
 			<el-form :model="payCostForm" ref="payCostFormRef" label-width="150px">
 				<el-form-item label="车牌号:" prop="asoftime">
-					 {{payCostForm.licensePlate}}
+					{{payCostForm.licensePlate}}
+				</el-form-item>
+				<el-form-item label="缴费时间:" prop="paytime">
+					<el-date-picker v-model="selectPaytime" type="date" @change="paytimeChange" placeholder="请选择缴费日期" format="yyyy 年 MM 月 dd 日"
+					 value-format="yyyy-MM-dd">
+					</el-date-picker>
 				</el-form-item>
 				<el-form-item label="缴费周期:" prop="managementcycle">
 					<el-select v-model="selectManagementcycle" clearable placeholder="请选择缴费周期" @change="managementcycleChange">
@@ -70,20 +75,20 @@
 					</el-select>
 				</el-form-item>
 				<el-form-item label="到期时间:" prop="asoftime">
-					 <el-date-picker v-model="selectAsoftime" type="date" placeholder="选择日期" format="yyyy 年 MM 月 dd 日" value-format="yyyy-MM-dd">
-					 </el-date-picker>
+					<el-date-picker v-model="selectAsoftime" type="date" placeholder="选择日期" format="yyyy 年 MM 月 dd 日" value-format="yyyy-MM-dd">
+					</el-date-picker>
 				</el-form-item>
 				<el-form-item label="备注信息:" prop="note">
-					 <el-input v-model="payCostForm.note" style="width: 70%;"></el-input>
+					<el-input v-model="selectNote" clearable style="width: 70%;"></el-input>
 				</el-form-item>
 			</el-form>
-			
+
 			<!-- <span slot="footer" class="dialog-footer"> -->
 			<span style="float:right">
 				<el-button @click="payCostDialogVisible = false">取 消</el-button>
 				<el-button type="primary" @click="payCostInfo">确 定</el-button>
 			</span>
-			
+
 			<!-- 缴费的记录 -->
 			<el-table :data="payCostList" border stripe style="width: 100%;margin-top: 100px;" :row-style="{height:'60px'}"
 			 :cell-style="{padding:'0px'}" :header-cell-style="{background:'#f8f8f9', color:'#000000'}">
@@ -91,11 +96,13 @@
 				</el-table-column>
 				<el-table-column prop="managementcycle" label="缴费周期">
 				</el-table-column>
+				<el-table-column prop="paytime" label="缴费时间">
+				</el-table-column>
 				<el-table-column prop="asoftime" label="到期时间">
 				</el-table-column>
 				<el-table-column prop="adduser" label="操作人">
 				</el-table-column>
-				<el-table-column prop="paytime" label="操作时间">
+				<el-table-column prop="operationtime" label="操作时间" width="170px">
 				</el-table-column>
 				<el-table-column prop="note" label="备注">
 				</el-table-column>
@@ -124,13 +131,16 @@
 				total: 0,
 				// 充值页面显示
 				payCostDialogVisible: false,
-				selectManagementcycle:'',
-				selectAsoftime:'',
+				selectManagementcycle: '',
+				selectAsoftime: '',
+				selectPaytime: '',
+				selectNote: '',
 				// 充值记录
 				payCostList: [],
 				payCostForm: {
-					managementcycle:'',
-					asoftime:''
+					managementcycle: '',
+					asoftime: '',
+					note:''
 				},
 				// 选择缴费周期
 				options: [{
@@ -159,9 +169,9 @@
 				} = await this.$http.get('kmanagement/list', {
 					params: this.queryInfo
 				})
-				// console.log(res)
+				console.log(res)
 				if (res.code !== 200) {
-					return this.$message.error('获取信息失败')
+					return this.$message.error(res.message)
 				}
 				// this.$message.success('获取信息成功')
 				this.pageList = res.result.records
@@ -179,7 +189,7 @@
 				this.queryInfo.pageNo = newPage
 				this.getPageList()
 			},
-			
+
 			// 点击查询按钮
 			handleQueryBtn() {
 				this.queryInfo.licensePlate = "*" + this.queryInfo.carName + "*"
@@ -187,7 +197,7 @@
 				this.queryInfo.pageSize = 10
 				this.getPageList()
 			},
-			handleQueryNearBtn(){
+			handleQueryNearBtn() {
 				this.queryInfo.owe = "*是*"
 				this.getPageList()
 			},
@@ -210,73 +220,108 @@
 				const {
 					data: res
 				} = await this.$http.get('kmanagementRecords/list?licensePlate=' + row.licensePlate)
-				// console.log(res)
+				console.log(res)
 				if (res.code !== 200) {
-					return this.$message.error('查询信息失败')
+					return this.$message.error(res.message)
 				}
 				this.payCostList = res.result.records
 				this.payCostForm = row
-				if(!row.asoftime){
+				if (!row.asoftime) {
 					this.selectAsoftime = ''
-				}else{
+				} else {
 					this.selectAsoftime = row.asoftime
 				}
-				
+
 				this.payCostDialogVisible = true
 			},
-			
-			// 选择缴费周期变化
-			managementcycleChange(e){
-				// console.log(e)
-				if(!this.payCostForm.asoftime){				
-					if(e == '月付'){
-						this.selectAsoftime = this.addDate(new Date(),1)
-					}else if(e == '季度付'){
-						this.selectAsoftime = this.addDate(new Date(),3)
-					}else if(e == '半年付'){
-						this.selectAsoftime = this.addDate(new Date(),6)
-					}else if(e == '年付'){
-						this.selectAsoftime = this.addDate(new Date(),12)
-					}else if(e == ''){
-						this.selectAsoftime = ''
-					}
-				}else{
-					if(e == '月付'){
-						this.selectAsoftime = this.addDate(new Date(this.payCostForm.asoftime),1)
-					}else if(e == '季度付'){
-						this.selectAsoftime = this.addDate(new Date(this.payCostForm.asoftime),3)
-					}else if(e == '半年付'){
-						this.selectAsoftime = this.addDate(new Date(this.payCostForm.asoftime),6)
-					}else if(e == '年付'){
-						this.selectAsoftime = this.addDate(new Date(this.payCostForm.asoftime),12)
-					}else if(e == ''){
-						this.selectAsoftime = this.payCostForm.asoftime
-					}
+			// ！！新需求，根据缴费日期和缴费周期判断到期时间 selectManagementcycle
+			async paytimeChange(e) {
+				console.log(e)
+				if (!this.selectManagementcycle) {
+					return 
 				}
+				if (!e) {
+					 this.selectAsoftime = ''
+				} else if (this.selectManagementcycle == '月付') {
+					this.selectAsoftime = this.addDate(new Date(this.selectPaytime), 1)
+				} else if (this.selectManagementcycle == '季度付') {
+					this.selectAsoftime = this.addDate(new Date(this.selectPaytime), 3)
+				} else if (this.selectManagementcycle == '半年付') {
+					this.selectAsoftime = this.addDate(new Date(this.selectPaytime), 6)
+				} else if (this.selectManagementcycle == '年付') {
+					this.selectAsoftime = this.addDate(new Date(this.selectPaytime), 12)
+				} 
 			},
-			
+			// 选择缴费周期变化
+			async managementcycleChange(e) {
+				// console.log(e)
+				// ！！！新的需求是根据选择的缴费日期判断到期时间
+				if (!this.selectPaytime) {
+					return
+				}
+				if (e == '月付') {
+					this.selectAsoftime = this.addDate(new Date(this.selectPaytime), 1)
+				} else if (e == '季度付') {
+					this.selectAsoftime = this.addDate(new Date(this.selectPaytime), 3)
+				} else if (e == '半年付') {
+					this.selectAsoftime = this.addDate(new Date(this.selectPaytime), 6)
+				} else if (e == '年付') {
+					this.selectAsoftime = this.addDate(new Date(this.selectPaytime), 12)
+				} else if (!e) {
+					this.selectAsoftime = ''
+				}
+				// ！！！下面是根据判断是否又到期时间自动生成续费后到期时间，没有起始日期是今天，有的话是到期时间
+				// if(!this.payCostForm.asoftime){		
+				// 	if(e == '月付'){
+				// 		this.selectAsoftime = this.addDate(new Date(),1)
+				// 	}else if(e == '季度付'){
+				// 		this.selectAsoftime = this.addDate(new Date(),3)
+				// 	}else if(e == '半年付'){
+				// 		this.selectAsoftime = this.addDate(new Date(),6)
+				// 	}else if(e == '年付'){
+				// 		this.selectAsoftime = this.addDate(new Date(),12)
+				// 	}else if(e == ''){
+				// 		this.selectAsoftime = ''
+				// 	}
+				// }else{
+				// 	if(e == '月付'){
+				// 		this.selectAsoftime = this.addDate(new Date(this.payCostForm.asoftime),1)
+				// 	}else if(e == '季度付'){
+				// 		this.selectAsoftime = this.addDate(new Date(this.payCostForm.asoftime),3)
+				// 	}else if(e == '半年付'){
+				// 		this.selectAsoftime = this.addDate(new Date(this.payCostForm.asoftime),6)
+				// 	}else if(e == '年付'){
+				// 		this.selectAsoftime = this.addDate(new Date(this.payCostForm.asoftime),12)
+				// 	}else if(e == ''){
+				// 		this.selectAsoftime = this.payCostForm.asoftime
+				// 	}
+				// }
+			},
+
 			// 根据缴费周期增加月份
-			addDate(newdate,addMonth){
-				  var Dates = newdate;
-				    Dates.setMonth(Dates.getMonth() + addMonth);
-				    var mon = Dates.getMonth() + 1,
-				        day = Dates.getDate();
-				    if(mon < 10){
-				        mon = "0" + mon;//月份小于10，在前面补充0
-				    }
-				    if(day < 10){
-				        day = "0" + day;//日小于10，在前面补充0
-				    }
-						// console.log(Dates.getFullYear() + "-" + mon + "-" +day)
-				    return Dates.getFullYear() + "-" + mon + "-" +day
+			addDate(newdate, addMonth) {
+				var Dates = newdate;
+				Dates.setMonth(Dates.getMonth() + addMonth);
+				var mon = Dates.getMonth() + 1,
+					day = Dates.getDate();
+				if (mon < 10) {
+					mon = "0" + mon; //月份小于10，在前面补充0
+				}
+				if (day < 10) {
+					day = "0" + day; //日小于10，在前面补充0
+				}
+				// console.log(Dates.getFullYear() + "-" + mon + "-" +day)
+				return Dates.getFullYear() + "-" + mon + "-" + day
 			},
-			
+
 			// 充值
 			async payCostInfo() {
 				// console.log('充值')
 				this.payCostForm.managementcycle = this.selectManagementcycle
 				this.payCostForm.asoftime = this.selectAsoftime
-				
+				this.payCostForm.paytime = this.selectPaytime
+				this.payCostForm.note = this.selectNote
+
 				this.$refs.payCostFormRef.validate(async valid => {
 					if (!valid) return
 					// 发起修改信息的数据请求
@@ -299,9 +344,12 @@
 				// console.log('关闭')
 				// this.$refs.payCostFormRef.resetFields()
 				this.payCostForm = {}
-				this.payCostList=[]
+				this.payCostList = []
 				this.selectManagementcycle = ''
 				this.selectAsoftime = ''
+				this.selectPaytime = ''
+				this.selectPaytime = ''
+				this.selectNote= ''
 				// this.getPageList()
 			},
 

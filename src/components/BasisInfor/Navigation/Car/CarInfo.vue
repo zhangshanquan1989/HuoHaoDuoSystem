@@ -357,12 +357,12 @@
 					</el-select>
 					<!-- <el-input v-model="editForm.companyl"></el-input> -->
 				</el-form-item>
-				<el-form-item label="对应调度员:" prop="dispatch">
+				<!-- <el-form-item label="对应调度员:" prop="dispatch">
 					<el-select v-model="editForm.dispatch" clearable filterable remote placeholder="请选择调度员" :remote-method="remoteDispatchMethod" :loading="dispatchLoading"  style="width: 350px;">
 						<el-option v-for="item in dispatchOptions" :key="item.index" :label="item.label" :value="item.value">
 						</el-option>
 					</el-select>
-				</el-form-item>
+				</el-form-item> -->
 				<el-form-item label="行驶证:" prop="vehicleLicense">
 					<el-image v-if="editForm.vehicleLicense" style="width: 150px;" :src="editForm.vehicleLicense" :preview-src-list="srcList" @click="handleClickImage(editForm.vehicleLicense)"></el-image>
 					<el-upload name="imgFile" :action="updateVehicleLicenseUrl" :headers="myHeaders" :auto-upload="true" :on-success="handleEditVehicleLicenseUrlSuccess"
