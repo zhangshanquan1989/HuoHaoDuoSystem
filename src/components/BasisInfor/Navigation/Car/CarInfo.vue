@@ -18,6 +18,10 @@
 			<!-- 创建按钮 -->
 			<el-button type="primary" plain @click="addDialogVisible = true">创建</el-button>
 			<el-input v-model="queryCarName" placeholder="车牌号" clearable style="width: 200px;margin-left: 100px;"></el-input>
+			<el-input v-model="queryName" placeholder="车主姓名" clearable style="width: 200px;margin-left: 10px;"></el-input>
+			<el-input v-model="queryPhoneno" placeholder="车主手机号" clearable style="width: 200px;margin-left: 10px;"></el-input>
+			<el-input v-model="queryDriver" placeholder="司机姓名" clearable style="width: 200px;margin-left: 10px;"></el-input>
+			<el-input v-model="queryDriverphone" placeholder="司机手机号" clearable style="width: 200px;margin-left: 10px;"></el-input>
 			<el-button type="primary" plain @click="handleQueryBtn" style="margin-left: 30px;">查询</el-button>
 			<el-button type="primary" plain @click="handleQueryBackBtn" style="margin-left: 30px;">返回</el-button>
 
@@ -36,7 +40,7 @@
 				</el-table-column>
 				<el-table-column prop="phoneno" label="车主手机号" width="150px">
 				</el-table-column>
-				<el-table-column prop="companyl" label="所属分公司" width="250px">
+				<el-table-column prop="companyl" label="所属分公司" width="350px">
 				</el-table-column>
 				<el-table-column prop="driver" label="对应司机" width="100px">
 				</el-table-column>
@@ -526,8 +530,13 @@
 					satoken:window.sessionStorage.getItem('satoken')
 				},
 				showImageSrc: '',
-				// 查询的车牌
+				// 查询的车牌、车主名、车主手机号、司机名、司机手机号
 				queryCarName:'',
+				queryName:'',
+				queryPhoneno:'',
+				queryDriver:'',
+				queryDriverphone:'',
+				
 				// 分页查询数据
 				queryInfo: {
 					pageNo: 1,
@@ -806,7 +815,7 @@
 				if (!res.result.records) {
 					return this.$message.error(res.message)
 				}
-				this.$message.success(res.message)
+				// this.$message.success(res.message)
 				this.carList = res.result.records
 				this.total = res.result.total
 			},
@@ -820,6 +829,10 @@
 			// 点击查询按钮
 			async handleQueryBtn() {
 				this.queryInfo.licensePlate = "*" + this.queryCarName + "*"
+				this.queryInfo.name = "*" + this.queryName + "*"
+				this.queryInfo.phoneno = "*" + this.queryPhoneno + "*"
+				this.queryInfo.driver = "*" + this.queryDriver + "*"
+				this.queryInfo.driverphone = "*" + this.queryDriverphone + "*"
 				this.queryInfo.pageNo = 1
 				this.queryInfo.pageSize = 10
 				this.getCarList()
@@ -835,7 +848,15 @@
 				this.queryInfo.pageNo = 1
 				this.queryInfo.pageSize = 10
 				this.queryInfo.licensePlate = ''
+				this.queryInfo.name = ''
+				this.queryInfo.phoneno = ''
+				this.queryInfo.driver = ''
+				this.queryInfo.driverphone = ''
 				this.queryCarName = ''
+				this.queryName = ''
+				this.queryPhoneno = ''
+				this.queryDriver = ''
+				this.queryDriverphone = ''
 				this.getCarList()
 			},
 

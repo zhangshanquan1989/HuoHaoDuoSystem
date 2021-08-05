@@ -20,7 +20,7 @@
 			 :cell-style="{padding:'0px'}" :header-cell-style="{background:'#f8f8f9', color:'#000000'}">
 				<el-table-column v-if="false" prop="id" label="id">
 				</el-table-column>
-				<el-table-column prop="name" label="公司名称" width="250px">
+				<el-table-column prop="name" label="公司名称" width="350px">
 				</el-table-column>
 				<el-table-column prop="personname" label="法人姓名" width="150px">
 				</el-table-column>

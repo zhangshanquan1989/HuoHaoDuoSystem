@@ -6,14 +6,22 @@
 			 v-loading.fullscreen.lock="fullscreenLoading">
 				<div style="display: flex;margin-left: 22px;margin-top: 12px;">
 					<div>
-						<div style="width:76px;height: 54px;font-size: 41px;">{{nianjianCarData}}</div>
+						<!-- <div>
+							<span style="width:76px;height: 54px;font-size: 41px;">{{nianjianCarData}}</span>
+							<span style="margin-left: 5px;font-size: 23px;">车辆年检</span>
+						</div> -->
+						<div style="display: flex;">
+							<div style="width:48px;height: 54px;font-size: 41px;">{{nianjianCarData}}</div>
+							<div style="margin-left: 5px;font-size: 23px;margin-top: 16px;font-weight: bold;">车辆年检</div>
+						</div>
+							<!-- <div style="width:76px;height: 54px;font-size: 41px;">{{nianjianCarData}} </div> -->
 						<div style="width:166px;height: 16px;font-size: 15px;color: #999999;">2个月内年检到期车辆</div>
 					</div>
 					<div>
-						<el-image :src="require('../../assets/welcome/组929.png')" style="width: 55px; height: 55px;margin-left:35px ;margin-top: 10px;"></el-image>
+						<el-image :src="require('../../assets/welcome/nianjian.png')" style="width: 55px; height: 55px;margin-left:35px ;margin-top: 10px;"></el-image>
 					</div>
 				</div>
-				<div style="height: 29px;background-color: #224EA6;margin-top: 30px;">
+				<div style="height: 29px;background-color: #1F81FEFF;margin-top: 30px;">
 					<div style="font-size: 15px;color: #FFFFFF;margin-left: 22px;padding-top: 4px;">总车辆数：{{allCarData}}</div>
 				</div>
 			</el-card>
@@ -22,14 +30,18 @@
 			 v-loading.fullscreen.lock="fullscreenLoading">
 				<div style="display: flex;margin-left: 22px;margin-top: 12px;">
 					<div>
-						<div style="width:76px;height: 54px;font-size: 41px;">{{baoxianCarData}}</div>
+						<div style="display: flex;">
+							<div style="width:48px;height: 54px;font-size: 41px;">{{baoxianCarData}}</div>
+							<div style="margin-left: 5px;font-size: 23px;margin-top: 15px;font-weight: bold;">车辆保险</div>
+						</div>
+						
 						<div style="width:166px;height: 16px;font-size: 15px;color: #999999;">1个月内保险到期车辆</div>
 					</div>
 					<div>
-						<el-image :src="require('../../assets/welcome/组945.png')" style="width: 55px; height: 55px;margin-left:35px ;margin-top: 10px;"></el-image>
+						<el-image :src="require('../../assets/welcome/baoxian.png')" style="width: 55px; height: 55px;margin-left:35px ;margin-top: 10px;"></el-image>
 					</div>
 				</div>
-				<div style="height: 29px;background-color: #9DB7CD;margin-top: 30px;">
+				<div style="height: 29px;background-color: #FF9C00FF;margin-top: 30px;">
 					<div style="font-size:15px;color: #FFFFFF;margin-left: 22px;padding-top: 4px;">总车辆数：{{allCarData}}</div>
 				</div>
 			</el-card>
@@ -54,14 +66,18 @@
 			 v-loading.fullscreen.lock="fullscreenLoading">
 				<div style="display: flex;margin-left: 22px;margin-top: 12px;">
 					<div>
-						<div style="width:76px;height: 54px;font-size: 41px;">{{yajinCarData}}</div>
+						<div style="display: flex;">
+							<div style="width:57px;height: 54px;font-size: 41px;">{{yajinCarData}}</div>
+							<div style="margin-left: 5px;font-size: 23px;margin-top: 15px;font-weight: bold;">保证金</div>
+						</div>
+						<!-- <div style="width:76px;height: 54px;font-size: 41px;">{{yajinCarData}}</div> -->
 						<div style="width:166px;height: 16px;font-size: 15px;color: #999999;">保证金小于500车辆</div>
 					</div>
 					<div>
-						<el-image :src="require('../../assets/welcome/组948.png')" style="width: 55px; height: 55px;margin-left:35px ;margin-top: 10px;"></el-image>
+						<el-image :src="require('../../assets/welcome/baozhengjin.png')" style="width: 55px; height: 55px;margin-left:35px ;margin-top: 10px;"></el-image>
 					</div>
 				</div>
-				<div style="height: 29px;background-color: #E3C191;margin-top: 30px;">
+				<div style="height: 29px;background-color: #FF5D46FF;margin-top: 30px;">
 					<div style="font-size: 15px;color: #FFFFFF;margin-left: 22px;padding-top: 4px;">总车辆数：{{allCarData}}</div>
 				</div>
 			</el-card>
@@ -70,14 +86,18 @@
 			 v-loading.fullscreen.lock="fullscreenLoading">
 				<div style="display: flex;margin-left: 22px;margin-top: 12px;">
 					<div>
-						<div style="width:76px;height: 54px;font-size: 41px;">{{diaodufeiCarData}}</div>
+						<div style="display: flex;">
+							<div style="width:50px;height: 54px;font-size: 41px;">{{diaodufeiCarData}}</div>
+							<div style="margin-left: 5px;font-size: 23px;margin-top: 15px;font-weight: bold;">调度费</div>
+						</div>
+						
 						<div style="width:176px;height: 16px;font-size: 15px;color: #999999;">15天内调度费到期车辆</div>
 					</div>
 					<div>
-						<el-image :src="require('../../assets/welcome/组1322.png')" style="width: 55px; height: 55px;margin-left:25px ;margin-top: 10px;"></el-image>
+						<el-image :src="require('../../assets/welcome/diaodufei.png')" style="width: 55px; height: 55px;margin-left:25px ;margin-top: 10px;"></el-image>
 					</div>
 				</div>
-				<div style="height: 29px;background-color: #8B8F99;margin-top: 30px;">
+				<div style="height: 29px;background-color: #00AD91FF;margin-top: 30px;">
 					<div style="font-size: 15px;color: #FFFFFF;margin-left: 22px;padding-top: 4px;">总车辆数：{{allCarData}}</div>
 				</div>
 			</el-card>
@@ -86,31 +106,39 @@
 			 v-loading.fullscreen.lock="fullscreenLoading">
 				<div style="display: flex;margin-left: 22px;margin-top: 12px;">
 					<div>
-						<div style="width:76px;height: 54px;font-size: 41px;">{{shanggangzhengCarData}}</div>
+						<div style="display: flex;">
+							<div style="width:50px;height: 54px;font-size: 41px;">{{shanggangzhengCarData}}</div>
+							<div style="margin-left: 5px;font-size: 23px;margin-top: 15px;font-weight: bold;">上岗证</div>
+						</div>
+						
 						<div style="width:176px;height: 16px;font-size: 15px;color: #999999;">2个月内上岗证到期车辆</div>
 					</div>
 					<div>
-						<el-image :src="require('../../assets/welcome/组 1328.png')" style="width: 55px; height: 55px;margin-left:25px ;margin-top: 10px;"></el-image>
+						<el-image :src="require('../../assets/welcome/shanggangzheng.png')" style="width: 55px; height: 55px;margin-left:25px ;margin-top: 10px;"></el-image>
 					</div>
 				</div>
-				<div style="height: 29px;background-color: #0FA1EEFF;margin-top: 30px;">
+				<div style="height: 29px;background-color: #254DBEFF;margin-top: 30px;">
 					<div style="font-size: 15px;color: #FFFFFF;margin-left: 22px;padding-top: 4px;">总车辆数：{{allCarData}}</div>
 				</div>
 			</el-card>
 		</div>
-		<div style="display: flex;margin-top: 32px;">
+		<div style="display: flex;margin-top: 32px;margin-left: 8px;">
 			<el-card shadow="hover" style="width: 300px;height: 144px;" @click.native="showXingShiZheng"
 			 v-loading.fullscreen.lock="fullscreenLoading">
 				<div style="display: flex;margin-left: 22px;margin-top: 12px;">
 					<div>
-						<div style="width:76px;height: 54px;font-size: 41px;">{{xingshizhengCarData}}</div>
+						<div style="display: flex;">
+							<div style="width:50px;height: 54px;font-size: 41px;">{{xingshizhengCarData}}</div>
+							<div style="margin-left: 5px;font-size: 23px;margin-top: 15px;font-weight: bold;">行驶证</div>
+						</div>
+						
 						<div style="width:176px;height: 16px;font-size: 15px;color: #999999;">2个月内行驶证到期车辆</div>
 					</div>
 					<div>
-						<el-image :src="require('../../assets/welcome/组 2010.png')" style="width: 55px; height: 55px;margin-left:25px ;margin-top: 10px;"></el-image>
+						<el-image :src="require('../../assets/welcome/xingshizheng.png')" style="width: 55px; height: 55px;margin-left:25px ;margin-top: 10px;"></el-image>
 					</div>
 				</div>
-				<div style="height: 29px;background-color: #9B84D2FF;margin-top: 30px;">
+				<div style="height: 29px;background-color: #F67E63FF;margin-top: 30px;">
 					<div style="font-size: 15px;color: #FFFFFF;margin-left: 22px;padding-top: 4px;">总车辆数：{{allCarData}}</div>
 				</div>
 			</el-card>
@@ -119,14 +147,18 @@
 			 v-loading.fullscreen.lock="fullscreenLoading">
 				<div style="display: flex;margin-left: 22px;margin-top: 12px;">
 					<div>
-						<div style="width:76px;height: 54px;font-size: 41px;">{{yingyunzhengCarData}}</div>
+						<div style="display: flex;">
+							<div style="width:50px;height: 54px;font-size: 41px;">{{yingyunzhengCarData}}</div>
+							<div style="margin-left: 5px;font-size: 23px;margin-top: 15px;font-weight: bold;">营运证</div>
+						</div>
+						
 						<div style="width:176px;height: 16px;font-size: 15px;color: #999999;">2个月内营运证到期车辆</div>
 					</div>
 					<div>
-						<el-image :src="require('../../assets/welcome/组 2009.png')" style="width: 55px; height: 55px;margin-left:25px ;margin-top: 10px;"></el-image>
+						<el-image :src="require('../../assets/welcome/yingyunzheng.png')" style="width: 55px; height: 55px;margin-left:25px ;margin-top: 10px;"></el-image>
 					</div>
 				</div>
-				<div style="height: 29px;background-color: #5BB65EFF;margin-top: 30px;">
+				<div style="height: 29px;background-color: #8E5CCBFF;margin-top: 30px;">
 					<div style="font-size: 15px;color: #FFFFFF;margin-left: 22px;padding-top: 4px;">总车辆数：{{allCarData}}</div>
 				</div>
 			</el-card>
@@ -135,14 +167,18 @@
 			 v-loading.fullscreen.lock="fullscreenLoading">
 				<div style="display: flex;margin-left: 22px;margin-top: 12px;">
 					<div>
-						<div style="width:76px;height: 54px;font-size: 41px;">{{jiashizhengCarData}}</div>
+						<div style="display: flex;">
+							<div style="width:57px;height: 54px;font-size: 41px;">{{jiashizhengCarData}}</div>
+							<div style="margin-left: 5px;font-size: 23px;margin-top: 15px;font-weight: bold;">驾驶证</div>
+						</div>
+						
 						<div style="width:176px;height: 16px;font-size: 15px;color: #999999;">2个月内驾驶证到期车辆</div>
 					</div>
 					<div>
-						<el-image :src="require('../../assets/welcome/组 2011.png')" style="width: 55px; height: 55px;margin-left:25px ;margin-top: 10px;"></el-image>
+						<el-image :src="require('../../assets/welcome/jiashizheng.png')" style="width: 55px; height: 55px;margin-left:25px ;margin-top: 10px;"></el-image>
 					</div>
 				</div>
-				<div style="height: 29px;background-color: #06BE95FF;margin-top: 30px;">
+				<div style="height: 29px;background-color: #00956DFF;margin-top: 30px;">
 					<div style="font-size: 15px;color: #FFFFFF;margin-left: 22px;padding-top: 4px;">总车辆数：{{allCarData}}</div>
 				</div>
 			</el-card>
@@ -1062,7 +1098,7 @@
 							data: this.yDataArr1,
 							// color: '#409EFF',
 							itemStyle: { //柱状颜色和圆角
-								color: '#409EFF',
+								color: '#1F81FEE6',
 								barBorderRadius: [10, 10, 10, 10], // （顺时针左上，右上，右下，左下）
 							},
 							// 平均值线
@@ -1078,7 +1114,7 @@
 							data: this.yDataArr2,
 							// color: '#E6AE5C',
 							itemStyle: { //柱状颜色和圆角
-								color: '#E6AE5C',
+								color: '#FF9C00E6',
 								barBorderRadius: [10, 10, 10, 10], // （顺时针左上，右上，右下，左下）
 							},
 							// 平均值
