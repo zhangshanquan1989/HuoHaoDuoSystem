@@ -34,6 +34,8 @@
 						<span :style="{'color':scope.row.owe == '是'?'red':'black'}">{{scope.row.owe}}</span>
 					</template>
 				</el-table-column>
+				<el-table-column prop="starttime" label="出车时间">
+				</el-table-column>
 				<el-table-column prop="carstate" label="车辆状态">
 					<template slot-scope="scope">
 						<span :style="{'color':scope.row.carstate=='正常'?'#303133FF':'red'}">{{scope.row.carstate}}</span>
@@ -57,27 +59,38 @@
 		</el-col>
 
 		<!-- 缴费的对话框 -->
-		<el-dialog title="缴费页面" :visible.sync="payCostDialogVisible" width="50%" @close="payCostDialogClosed">
+		<el-dialog title="缴费页面" :visible.sync="payCostDialogVisible" width="70%" @close="payCostDialogClosed">
 			<!-- 缴费的表单 -->
-			<el-form :model="payCostForm" ref="payCostFormRef" label-width="150px">
-				<el-form-item label="车牌号:" prop="asoftime">
-					{{payCostForm.licensePlate}}
+			<el-form :model="payCostForm" ref="payCostFormRef" label-width="200px">
+				<el-form-item label="车牌号:" prop="asoftime" class="rt-input">
+					<el-input v-model="payCostForm.licensePlate" disabled style="width: 250px;"></el-input>
 				</el-form-item>
 				<el-form-item label="缴费时间:" prop="paytime">
 					<el-date-picker v-model="selectPaytime" type="date" @change="paytimeChange" placeholder="请选择缴费日期" format="yyyy 年 MM 月 dd 日"
-					 value-format="yyyy-MM-dd">
+					 value-format="yyyy-MM-dd" style="width: 250px;">
 					</el-date-picker>
 				</el-form-item>
 				<el-form-item label="缴费周期:" prop="managementcycle">
-					<el-select v-model="selectManagementcycle" clearable placeholder="请选择缴费周期" @change="managementcycleChange">
+					<el-select v-model="selectManagementcycle" clearable placeholder="请选择缴费周期" @change="managementcycleChange" style="width: 250px;">
 						<el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
 						</el-option>
 					</el-select>
 				</el-form-item>
-				<el-form-item label="到期时间:" prop="asoftime">
-					<el-date-picker v-model="selectAsoftime" type="date" placeholder="选择日期" format="yyyy 年 MM 月 dd 日" value-format="yyyy-MM-dd">
+				<el-form-item label="报停开始时间:" prop="stoptime">
+					<el-date-picker v-model="selectStoptime" type="date" placeholder="选择日期" format="yyyy 年 MM 月 dd 日" value-format="yyyy-MM-dd" style="width: 250px;">
 					</el-date-picker>
 				</el-form-item>
+				<el-form-item label="报停时长:" prop="stopmonth">
+					<el-select v-model="selectStopmonth" clearable filterable remote placeholder="请选择报停时长"  @change="stopmonthChange" style="width: 250px;" >
+						<el-option v-for="item in monthOptions" :key="item.index" :label="item.label" :value="item.value">
+						</el-option>
+					</el-select>
+				</el-form-item>
+				<el-form-item label="到期时间:" prop="asoftime">
+					<el-date-picker v-model="selectAsoftime" type="date" placeholder="选择日期" format="yyyy 年 MM 月 dd 日" value-format="yyyy-MM-dd" style="width: 250px;">
+					</el-date-picker>
+				</el-form-item>
+				
 				<el-form-item label="备注信息:" prop="note">
 					<el-input v-model="selectNote" clearable style="width: 70%;"></el-input>
 				</el-form-item>
@@ -99,6 +112,13 @@
 				<el-table-column prop="paytime" label="缴费时间">
 				</el-table-column>
 				<el-table-column prop="asoftime" label="到期时间">
+				</el-table-column>
+				<el-table-column prop="stoptime" label="报停时间" width="170px">
+				</el-table-column>
+				<el-table-column prop="stopmonth" label="报停时长">
+					<template slot-scope="scope">
+						{{scope.row.stopmonth}}个月
+					</template>
 				</el-table-column>
 				<el-table-column prop="adduser" label="操作人">
 				</el-table-column>
@@ -135,6 +155,8 @@
 				selectAsoftime: '',
 				selectPaytime: '',
 				selectNote: '',
+				selectStoptime:'',
+				selectStopmonth:'',
 				// 充值记录
 				payCostList: [],
 				payCostForm: {
@@ -156,6 +178,56 @@
 					value: '年付',
 					label: '年付'
 				}],
+				
+				// 报停时长
+				monthOptions: [{
+					value: '1',
+					label: '一个月'
+				},
+				{
+					value: '2',
+					label: '二个月'
+				},
+				{
+					value: '3',
+					label: '三个月'
+				},
+				{
+					value: '4',
+					label: '四个月'
+				},
+				{
+					value: '5',
+					label: '五个月'
+				},
+				{
+					value: '6',
+					label: '六个月'
+				},
+				{
+					value: '7',
+					label: '七个月'
+				},
+				{
+					value: '8',
+					label: '八个月'
+				},
+				{
+					value: '9',
+					label: '九个月'
+				},
+				{
+					value: '10',
+					label: '十个月'
+				},
+				{
+					value: '11',
+					label: '十一个月'
+				},
+				{
+					value: '12',
+					label: '十二个月'
+				},],
 			}
 		},
 		created() {
@@ -234,23 +306,39 @@
 
 				this.payCostDialogVisible = true
 			},
-			// ！！新需求，根据缴费日期和缴费周期判断到期时间 selectManagementcycle
+			// ！！新需求，根据缴费日期和缴费周期判断到期时间 
 			async paytimeChange(e) {
 				console.log(e)
 				if (!this.selectManagementcycle) {
 					return 
 				}
-				if (!e) {
-					 this.selectAsoftime = ''
-				} else if (this.selectManagementcycle == '月付') {
-					this.selectAsoftime = this.addDate(new Date(this.selectPaytime), 1)
-				} else if (this.selectManagementcycle == '季度付') {
-					this.selectAsoftime = this.addDate(new Date(this.selectPaytime), 3)
-				} else if (this.selectManagementcycle == '半年付') {
-					this.selectAsoftime = this.addDate(new Date(this.selectPaytime), 6)
-				} else if (this.selectManagementcycle == '年付') {
-					this.selectAsoftime = this.addDate(new Date(this.selectPaytime), 12)
-				} 
+				if(!this.selectStopmonth){
+					if (!e) {
+						 this.selectAsoftime = ''
+	
+					} else if (this.selectManagementcycle == '月付') {
+						this.selectAsoftime = this.addDate(new Date(this.selectPaytime), 1)
+					} else if (this.selectManagementcycle == '季度付') {
+						this.selectAsoftime = this.addDate(new Date(this.selectPaytime), 3)
+					} else if (this.selectManagementcycle == '半年付') {
+						this.selectAsoftime = this.addDate(new Date(this.selectPaytime), 6)
+					} else if (this.selectManagementcycle == '年付') {
+						this.selectAsoftime = this.addDate(new Date(this.selectPaytime), 12)
+					} 
+				}else{
+					if (!e) {
+						 this.selectAsoftime = ''
+					} else if (this.selectManagementcycle == '月付') {
+						this.selectAsoftime = this.addDate(new Date(this.selectPaytime), this.selectStopmonth-0+1)
+					} else if (this.selectManagementcycle == '季度付') {
+						this.selectAsoftime = this.addDate(new Date(this.selectPaytime), this.selectStopmonth-0+3)
+					} else if (this.selectManagementcycle == '半年付') {
+						this.selectAsoftime = this.addDate(new Date(this.selectPaytime), this.selectStopmonth-0+6)
+					} else if (this.selectManagementcycle == '年付') {
+						this.selectAsoftime = this.addDate(new Date(this.selectPaytime), this.selectStopmonth-0+12)
+					} 
+				}
+				
 			},
 			// 选择缴费周期变化
 			async managementcycleChange(e) {
@@ -259,17 +347,32 @@
 				if (!this.selectPaytime) {
 					return
 				}
-				if (e == '月付') {
-					this.selectAsoftime = this.addDate(new Date(this.selectPaytime), 1)
-				} else if (e == '季度付') {
-					this.selectAsoftime = this.addDate(new Date(this.selectPaytime), 3)
-				} else if (e == '半年付') {
-					this.selectAsoftime = this.addDate(new Date(this.selectPaytime), 6)
-				} else if (e == '年付') {
-					this.selectAsoftime = this.addDate(new Date(this.selectPaytime), 12)
-				} else if (!e) {
-					this.selectAsoftime = ''
+				if(!this.selectStopmonth){
+					if (e == '月付') {
+						this.selectAsoftime = this.addDate(new Date(this.selectPaytime), 1)
+					} else if (e == '季度付') {
+						this.selectAsoftime = this.addDate(new Date(this.selectPaytime), 3)
+					} else if (e == '半年付') {
+						this.selectAsoftime = this.addDate(new Date(this.selectPaytime), 6)
+					} else if (e == '年付') {
+						this.selectAsoftime = this.addDate(new Date(this.selectPaytime), 12)
+					} else if (!e) {
+						this.selectAsoftime = ''
+					}
+				}else{
+					if (e == '月付') {
+						this.selectAsoftime = this.addDate(new Date(this.selectPaytime), this.selectStopmonth-0+1)
+					} else if (e == '季度付') {
+						this.selectAsoftime = this.addDate(new Date(this.selectPaytime), this.selectStopmonth-0+3)
+					} else if (e == '半年付') {
+						this.selectAsoftime = this.addDate(new Date(this.selectPaytime), this.selectStopmonth-0+6)
+					} else if (e == '年付') {
+						this.selectAsoftime = this.addDate(new Date(this.selectPaytime), this.selectStopmonth-0+12)
+					} else if (!e) {
+						this.selectAsoftime = ''
+					}
 				}
+				
 				// ！！！下面是根据判断是否又到期时间自动生成续费后到期时间，没有起始日期是今天，有的话是到期时间
 				// if(!this.payCostForm.asoftime){		
 				// 	if(e == '月付'){
@@ -297,6 +400,20 @@
 				// 	}
 				// }
 			},
+			
+			// 报停时长变化
+			async stopmonthChange(){
+				if(!this.selectAsoftime){return}
+				if (this.selectManagementcycle == '月付') {
+					this.selectAsoftime = this.addDate(new Date(this.selectPaytime), this.selectStopmonth-0+1)
+				} else if (this.selectManagementcycle == '季度付') {
+					this.selectAsoftime = this.addDate(new Date(this.selectPaytime), this.selectStopmonth-0+3)
+				} else if (this.selectManagementcycle == '半年付') {
+					this.selectAsoftime = this.addDate(new Date(this.selectPaytime), this.selectStopmonth-0+6)
+				} else if (this.selectManagementcycle == '年付') {
+					this.selectAsoftime = this.addDate(new Date(this.selectPaytime), this.selectStopmonth-0+12)
+				} 
+			},
 
 			// 根据缴费周期增加月份
 			addDate(newdate, addMonth) {
@@ -321,6 +438,8 @@
 				this.payCostForm.asoftime = this.selectAsoftime
 				this.payCostForm.paytime = this.selectPaytime
 				this.payCostForm.note = this.selectNote
+				this.payCostForm.stoptime = this.selectStoptime
+				this.payCostForm.stopmonth = this.selectStopmonth
 
 				this.$refs.payCostFormRef.validate(async valid => {
 					if (!valid) return
@@ -348,8 +467,9 @@
 				this.selectManagementcycle = ''
 				this.selectAsoftime = ''
 				this.selectPaytime = ''
-				this.selectPaytime = ''
-				this.selectNote= ''
+				this.selectNote = ''
+				this.selectStoptime = ''
+				this.selectStopmonth = ''
 				// this.getPageList()
 			},
 
@@ -358,5 +478,8 @@
 </script>
 
 <style scoped>
+	.rt-input /deep/ .el-input__inner {
+		color: #606266 !important;
 
+	}
 </style>

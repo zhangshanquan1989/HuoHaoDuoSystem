@@ -139,6 +139,8 @@
 				</el-table-column> -->
 				<el-table-column prop="operatingdate" label="营运证到期时间" width="150px">
 				</el-table-column>
+				<el-table-column prop="starttime" label="出车时间" width="150px">
+				</el-table-column>
 				<!-- <el-table-column prop="carmargin" label="车辆保证金" width="100px">
 					<template slot-scope="scope">
 						<span :style="{'color':scope.row.carmargin < 500?'red':'black'}">{{scope.row.carmargin}}</span>
@@ -231,6 +233,11 @@
 				</el-form-item>
 				<el-form-item label="年检到期时间:" prop="checkDate">
 					<el-date-picker v-model="addForm.checkDate" type="date" placeholder="选择日期" format="yyyy 年 MM 月 dd 日" value-format="yyyy-MM-dd"  style="width: 350px;">
+					</el-date-picker>
+				</el-form-item>
+				<el-form-item label="出车时间:" prop="starttime">
+					<el-date-picker v-model="addForm.starttime" type="date" placeholder="选择日期" format="yyyy 年 MM 月 dd 日"
+					 value-format="yyyy-MM-dd"  style="width: 350px;">
 					</el-date-picker>
 				</el-form-item>
 				<el-form-item label="保险单据1:" prop="insurance">
@@ -383,6 +390,16 @@
 					<el-date-picker v-model="editForm.checkDate" type="date" placeholder="选择日期" format="yyyy 年 MM 月 dd 日" value-format="yyyy-MM-dd"  style="width: 350px;">
 					</el-date-picker>
 				</el-form-item>
+				<el-form-item label="出车时间:" prop="starttime">
+					<el-date-picker v-model="editForm.starttime" type="date" placeholder="选择日期" format="yyyy 年 MM 月 dd 日"
+					 value-format="yyyy-MM-dd"  style="width: 350px;">
+					</el-date-picker>
+				</el-form-item>
+<!-- 				<el-form-item label="出车时间:" prop="starttime">
+					<el-date-picker v-model="editForm.starttime" type="date" placeholder="选择日期" format="yyyy 年 MM 月 dd 日"
+					 value-format="yyyy-MM-dd"  style="width: 350px;">
+					</el-date-picker>
+				</el-form-item> -->
 				<el-form-item label="保险单据1:" prop="insurance">
 					<el-image v-if="editForm.insurance" style="width: 150px;" :src="editForm.insurance" :preview-src-list="srcList" @click="handleClickImage(editForm.insurance)"></el-image>
 					<el-upload name="imgFile" :action="updateInsuranceUrl1" :headers="myHeaders" :auto-upload="true" :on-success="handleEditInsuranceUrlSuccess1"	 :show-file-list="false" :before-upload="beforeAvatarUpload">
@@ -563,6 +580,7 @@
 					companyl: "",
 					vehicleLicense: "",
 					vehiclelicensedate: "",
+					starttime: "",
 					checkDate: "",
 					insurance: "",
 					insurancea: "",
