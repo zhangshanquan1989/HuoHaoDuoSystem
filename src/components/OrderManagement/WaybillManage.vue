@@ -101,7 +101,7 @@
 		<!-- 创建的对话框 -->
 		<el-dialog title="创建运单信息" :visible.sync="addDialogVisible" width="85%" @close="addDialogClosed">
 			<!-- 创建的表单 -->
-			<el-form :model="addForm" ref="addFormRef" label-width="140px">
+			<el-form :model="addForm" ref="addFormRef" label-width="140px" :rules="addRules">
 				<div style="display: flex;">
 					<el-form-item label="运单编号" prop="no">
 						<el-input disabled placeholder="自动生成"></el-input>
@@ -203,14 +203,14 @@
 				<div style="display: flex;">
 					<el-form-item label="下单客户" prop="aclient">
 						<el-select v-model="addForm.aclient" clearable filterable remote placeholder="请输入公司名称" :remote-method="remoteMethod"
-						 :loading="loading" style="width: 100%;" @change="searchUnloadingPoint">
+						 :loading="loading" style="width: 300px;" @change="searchUnloadingPoint">
 							<el-option v-for="item in companyOptions" :key="item.index" :label="item.label" :value="item.value">
 							</el-option>
 						</el-select>
 					</el-form-item>
 					<el-form-item label="收单客户" prop="uclient">
 						<el-select v-model="addForm.uclient" clearable filterable remote placeholder="请输入公司名称" :remote-method="remoteMethod"
-						 :loading="loading" style="width: 100%;" @change="searchUnloadingPoint">
+						 :loading="loading" style="width: 300px;" @change="searchUnloadingPoint">
 							<el-option v-for="item in companyOptions" :key="item.index" :label="item.label" :value="item.value">
 							</el-option>
 						</el-select>
@@ -784,6 +784,15 @@
 						dcityOptions: [],
 						dareaOptions: []
 					}]
+				},
+				// 添加的规则
+				addRules:{
+					aclient:[
+						{ required: true, message: '请选择（没有的话需要到基础→客户页面创建)', trigger: 'blur' }
+					],
+					uclient:[
+						{ required: true, message: '请选择（没有的话需要到基础→客户页面创建)', trigger: 'blur' }
+					],
 				},
 				// 派单类型
 				waybilltypeList: [{
