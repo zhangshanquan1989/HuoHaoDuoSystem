@@ -856,10 +856,11 @@
 				const {
 					data: res
 				} = await this.$http.get('YMpageController/selectSanshi')
+				console.log(res)
 				if (res.code !== 200) {
 					this.$message.error(res.message)
 				}
-				this.nianjianCarList = res.result.请在三十天内年审
+				this.nianjianCarList = res.result.请在两个月内年审
 				setTimeout(() => {
 					this.fullscreenLoading = false;
 					this.nianjianDialogVisible = true
