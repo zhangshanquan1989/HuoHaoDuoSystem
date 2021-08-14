@@ -12,7 +12,8 @@
 			 end-placeholder="导出的结束日期" format="yyyy 年 MM 月 dd 日" value-format="yyyy-MM-dd" @change="exportChange">
 			</el-date-picker>
 			<el-button type="primary" plain @click="allExportBtn" style="margin-left: 30px;">导出全部</el-button>
-			<el-input v-model="queryInfo.chepai" placeholder="输入完整车牌号" clearable style="width: 200px;margin-left: 30px;"></el-input>
+			<el-input v-model="queryInfo.chepai" placeholder="输入车牌号" clearable style="width: 200px;margin-left: 30px;"></el-input>
+			<el-input v-model="queryInfo.dirver" placeholder="输入司机名" clearable style="width: 200px;margin-left: 30px;"></el-input>
 
 			<el-button type="primary" plain icon="el-icon-search" style="margin-left: 30px;" @click="search">搜索</el-button>
 			<el-button type="primary" plain @click="handleQueryBackBtn" style="margin-left: 30px;">返回</el-button>
@@ -20,6 +21,8 @@
 			<el-table :data="dataList" border stripe style="width: 100%;margin-top: 8px;" :row-style="{height:'60px'}"
 			 :cell-style="{padding:'0px'}" :header-cell-style="{background:'#f8f8f9', color:'#000000'}">
 				<el-table-column prop="license" label="车牌号">
+				</el-table-column>
+				<el-table-column prop="name" label="司机名">
 				</el-table-column>
 				<el-table-column prop="attendance" label="车辆状态">
 				</el-table-column>
@@ -48,7 +51,7 @@
 		</el-col>
 
 		<!-- 考勤日历的对话框 -->
-		<el-dialog class="dialog" title="考勤日历" :visible.sync="detailsDialogVisible" width="35%" @close="detailsDialogClosed">
+		<el-dialog class="dialog" title="考勤日历" :visible.sync="detailsDialogVisible" width="35%" @close="detailsDialogClosed" :close-on-click-modal="false">
 			<el-calendar>
 				<template slot="dateCell" slot-scope="{date, data}">
 					<!-- <p :class="data.isSelected ? 'is-selected' : ''" @click="changeTime(date, data)">
@@ -75,7 +78,7 @@
 			</span>
 		</el-dialog>
 
-		<el-dialog class="dialog" title="考勤详情" :visible.sync="editDialogVisible" width="35%" @close="editDialogClosed">
+		<el-dialog class="dialog" title="考勤详情" :visible.sync="editDialogVisible" width="35%" @close="editDialogClosed" :close-on-click-modal="false">
 			<el-form :model="editForm" ref="editFormRef" label-width="150px">
 				<el-form-item label="车牌:" prop="license">
 					<el-input disabled v-model="editForm.license" style="width: 75%;"></el-input>
@@ -200,6 +203,7 @@
 				this.queryInfo.pageNo = 1
 				this.queryInfo.pageSize = 10
 				this.queryInfo.chepai = ''
+				this.queryInfo.dirver = ''
 				this.getDataList()
 			},
 

@@ -182,7 +182,7 @@
 		</el-col>
 
 		<!-- 创建的对话框 -->
-		<el-dialog title="创建车辆信息" :visible.sync="addDialogVisible" width="35%" @close="addDialogClosed">
+		<el-dialog title="创建车辆信息" :visible.sync="addDialogVisible" width="35%" @close="addDialogClosed" :close-on-click-modal="false">
 			<!-- 创建的表单 -->
 			<el-form :model="addForm" :rules="addFormRules" ref="addFormRef" label-width="150px">
 				<el-form-item label="车牌号:" prop="licensePlate">
@@ -338,7 +338,7 @@
 
 
 		<!-- 编辑的对话框 -->
-		<el-dialog title="编辑车辆信息" :visible.sync="editDialogVisible" width="35%" @close="editDialogClosed">
+		<el-dialog title="编辑车辆信息" :visible.sync="editDialogVisible" width="35%" @close="editDialogClosed" :close-on-click-modal="false">
 			<el-form :model="editForm" ref="editFormRef" label-width="120px">
 				<el-form-item label="车牌号:" prop="licensePlate">
 					<el-input v-model="editForm.licensePlate"  style="width: 350px;"></el-input>
@@ -495,7 +495,7 @@
 		</el-dialog>
 
 		<!-- 查询违章 -->
-		<el-dialog title="违章记录" :visible.sync="queryViolationDialog" width="80%">
+		<el-dialog title="违章记录" :visible.sync="queryViolationDialog" width="80%" :close-on-click-modal="false">
 			<el-table :data="queryViolationList" border stripe style="width: 100%;margin-top: 8px;" :row-style="{height:'60px'}"
 			 :cell-style="{padding:'0px'}" :header-cell-style="{background:'#f8f8f9', color:'#000000'}">
 				<el-table-column prop="carNumber" label="车牌号">
@@ -514,14 +514,14 @@
 		</el-dialog>
 
 		<!-- 位置 -->
-		<el-dialog title="位置" :visible.sync="locationDialog" width="50%">
+		<el-dialog title="位置" :visible.sync="locationDialog" width="50%" :close-on-click-modal="false">
 
 			<div id="locition" style="width: 100%;height: 500px;"></div>
 
 		</el-dialog>
 
 		<!-- 历史轨迹 -->
-		<el-dialog title="历史轨迹" :visible.sync="historyDialog" width="80%" @close="historyDialogClosed">
+		<el-dialog title="历史轨迹" :visible.sync="historyDialog" width="80%" @close="historyDialogClosed" :close-on-click-modal="false">
 			<div>
 				<el-date-picker v-model="selectTime" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" format="yyyy 年 MM 月 dd 日 HH 时 mm 分 ss 秒" value-format="yyyy-MM-dd HH:mm:ss">
 				</el-date-picker>

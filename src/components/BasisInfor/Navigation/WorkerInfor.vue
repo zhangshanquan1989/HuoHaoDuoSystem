@@ -104,7 +104,7 @@
 		</el-col>
 
 		<!-- 创建的对话框 -->
-		<el-dialog title="新增员工信息" :visible.sync="addDialogVisible" width="35%" @close="addDialogClosed">
+		<el-dialog title="新增员工信息" :visible.sync="addDialogVisible" width="35%" @close="addDialogClosed" :close-on-click-modal="false">
 			<!-- 创建表单 -->
 			<el-form :model="addForm"  ref="addFormRef" label-width="120px">
 				<el-form-item label="员工ID:" v-if="false">
@@ -148,7 +148,7 @@
 
 
 		<!-- 编辑对话框 -->
-		<el-dialog title="编辑员工信息" :visible.sync="editDialogVisible" width="35%" @close="editDialogClosed">
+		<el-dialog title="编辑员工信息" :visible.sync="editDialogVisible" width="35%" @close="editDialogClosed" :close-on-click-modal="false">
 			<!-- 编辑表单 -->
 			<el-form :model="editForm"  ref="editFormRef" label-width="100px">
 				<el-form-item label="员工ID:">{{editForm.id}}</el-form-item>

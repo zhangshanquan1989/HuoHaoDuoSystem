@@ -84,7 +84,7 @@
 		</el-col>
 
 		<!-- 充值的对话框 -->
-		<el-dialog title="充值页面" :visible.sync="rechargeDialogVisible" width="45%" @close="rechargeDialogClosed">
+		<el-dialog title="充值页面" :visible.sync="rechargeDialogVisible" width="45%" @close="rechargeDialogClosed" :close-on-click-modal="false">
 			<!-- 充值的表单 -->
 			<el-form :model="addRechargeForm" ref="addRechargeFormRef" label-width="100px">
 				<el-form-item v-if="false" label="充值id:" prop="parentid">
@@ -121,7 +121,7 @@
 		</el-dialog>
 
 		<!-- 罚款的对话框 -->
-		<el-dialog title="罚款页面" :visible.sync="fineDialogVisible" width="45%" @close="fineDialogClosed">
+		<el-dialog title="罚款页面" :visible.sync="fineDialogVisible" width="45%" @close="fineDialogClosed" :close-on-click-modal="false">
 			<!-- 罚款的表单 -->
 			<el-form :model="fineForm" ref="fineFormFormRef" label-width="100px">
 				<el-form-item v-if="false" label="充值id:" prop="parentid">

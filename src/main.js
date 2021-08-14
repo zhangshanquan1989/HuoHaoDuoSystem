@@ -20,9 +20,10 @@ import elementui from 'element-ui'
 Vue.use(elementui, { zIndex: 500 })
 
 // 导入axios
-import axios from 'axios'
+import axios from 'axios' 
 // 配置请求的根路径
 axios.defaults.baseURL = 'http://81.70.151.121:8080/jeecg-boot/'
+// axios.defaults.baseURL = 'http://82.157.15.221:8080/jeecg-boot/'
 // axios.defaults.baseURL = 'http://tkhhd.com/jeecg-boot/'
 
 // 挂在复制文本

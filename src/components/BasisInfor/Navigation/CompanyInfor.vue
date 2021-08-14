@@ -82,7 +82,7 @@
 		</el-pagination>
 
 		<!-- 创建公司的对话框 -->
-		<el-dialog class="dialog" title="创建公司信息" :visible.sync="addDialogVisible" width="35%" @close="addDialogClosed">
+		<el-dialog class="dialog" title="创建公司信息" :visible.sync="addDialogVisible" width="35%" @close="addDialogClosed" :close-on-click-modal="false">
 			<!-- 添加公司的表单 -->
 			<el-form :model="addForm" :rules="addCompanyFormRules" ref="addFormRef" label-width="150px">
 				<el-form-item label="公司名称:" prop="name">
@@ -141,7 +141,7 @@
 		</el-dialog>
 
 		<!-- 编辑公司的对话框 -->
-		<el-dialog title="编辑公司信息" :visible.sync="editDialogVisible" width="35%" @close="editCompanyDialogClosed">
+		<el-dialog title="编辑公司信息" :visible.sync="editDialogVisible" width="35%" @close="editCompanyDialogClosed" :close-on-click-modal="false">
 			<!-- 编辑公司的表单 -->
 			<el-form :model="editCompanyForm" ref="editCompanyFormRef" label-width="120px">
 				<el-form-item label="id:">

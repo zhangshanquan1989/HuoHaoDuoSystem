@@ -99,8 +99,8 @@
 		</el-col>
 
 		<!-- 创建的对话框 -->
-		<el-dialog title="创建运单信息" :visible.sync="addDialogVisible" width="85%" @close="addDialogClosed">
-			<!-- 创建的表单 -->
+		<el-dialog title="创建运单信息" :visible.sync="addDialogVisible" width="85%" :close-on-click-modal="false" @close="addDialogClosed">
+			<!-- 创建的表单   -->
 			<el-form :model="addForm" ref="addFormRef" label-width="140px" :rules="addRules">
 				<div style="display: flex;">
 					<el-form-item label="运单编号" prop="no">
@@ -149,7 +149,7 @@
 				</div>
 
 				<div style="display: flex;">
-					<el-form-item label="空车距离" prop="emptydistance">
+					<el-form-item label="放空距离" prop="emptydistance">
 						<el-input clearable v-model="addForm.emptydistance" placeholder="Km" @change="calculateKm"></el-input>
 					</el-form-item>
 					<el-form-item label="高速预计距离" prop="highspeed">
@@ -190,7 +190,7 @@
 					<el-form-item label="	建议运输方式" prop="yunshu">
 						<el-input  v-model="addForm.yunshu"></el-input>
 					</el-form-item>
-					<el-form-item label="建议到达装货时间">
+					<el-form-item label="建议到达装货时间" prop="daoda">
 						
 							<el-date-picker v-model="addForm.daoda" type="datetime" placeholder="选择日期时间" value-format="yyyy-MM-dd HH:mm:ss">
 							</el-date-picker>
@@ -232,18 +232,18 @@
 						<el-table :data="addForm.apoints" style="width: 100%">
 							<el-table-column prop="spointphone" label="装货点电话">
 								<template slot-scope="scope">
-									<el-input v-model="scope.row.spointphone" class="rt-input"></el-input>
+									<el-input v-model="scope.row.spointphone" class="rt-input" placeholder="电话(必填)" ></el-input>
 								</template>
 							</el-table-column>
 							<el-table-column label="装货时间">
 								<template slot-scope="scope">
-									<el-date-picker v-model="scope.row.stime" type="datetime" placeholder="选择日期时间" value-format="yyyy-MM-dd HH:mm:ss">
+									<el-date-picker v-model="scope.row.stime" type="datetime" placeholder="选择日期时间(必填)" value-format="yyyy-MM-dd HH:mm:ss">
 									</el-date-picker>
 								</template>
 							</el-table-column>
 							<el-table-column prop="sprovince" label="省">
 								<template slot-scope="scope">
-									<el-select v-model="scope.row.sprovince" clearable filterable remote placeholder="省" @change="sprovinceChange(scope.row.sprovince,scope.$index)">
+									<el-select v-model="scope.row.sprovince" clearable filterable remote placeholder="省(必填)" @change="sprovinceChange(scope.row.sprovince,scope.$index)">
 										<el-option v-for="item in sprovinceOptions" :key="item.index" :label="item.label" :value="item.value">
 										</el-option>
 									</el-select>
@@ -251,7 +251,7 @@
 							</el-table-column>
 							<el-table-column prop="scity" label="市">
 								<template slot-scope="scope">
-									<el-select v-model="scope.row.scity" clearable filterable remote placeholder="市" @change="scityChange(scope.row.scity,scope.$index)">
+									<el-select v-model="scope.row.scity" clearable filterable remote placeholder="市(必填)" @change="scityChange(scope.row.scity,scope.$index)">
 										<el-option v-for="item in scope.row.scityOptions" :key="item.index" :label="item.label" :value="item.value">
 										</el-option>
 									</el-select>
@@ -259,7 +259,7 @@
 							</el-table-column>
 							<el-table-column prop="sarea" label="区">
 								<template slot-scope="scope">
-									<el-select v-model="scope.row.sarea" clearable filterable remote placeholder="区" @change="sareaChange(scope.row.sprovince,scope.row.scity,scope.row.sarea,scope.$index)">
+									<el-select v-model="scope.row.sarea" clearable filterable remote placeholder="区(必填)" @change="sareaChange(scope.row.sprovince,scope.row.scity,scope.row.sarea,scope.$index)">
 										<el-option v-for="item in scope.row.sareaOptions" :key="item.index" :label="item.label" :value="item.value">
 										</el-option>
 									</el-select>
@@ -300,13 +300,13 @@
 							</el-table-column>
 							<el-table-column label="装货时间">
 								<template slot-scope="scope">
-									<el-date-picker v-model="scope.row.dtime" type="datetime" placeholder="选择日期时间" value-format="yyyy-MM-dd HH:mm:ss">
+									<el-date-picker v-model="scope.row.dtime" type="datetime" placeholder="选择日期时间(必填)" value-format="yyyy-MM-dd HH:mm:ss">
 									</el-date-picker>
 								</template>
 							</el-table-column>
 							<el-table-column prop="sprovince" label="省">
 								<template slot-scope="scope">
-									<el-select v-model="scope.row.dprovince" clearable filterable remote placeholder="省" @change="dprovinceChange(scope.row.dprovince,scope.$index)">
+									<el-select v-model="scope.row.dprovince" clearable filterable remote placeholder="省(必填)" @change="dprovinceChange(scope.row.dprovince,scope.$index)">
 										<el-option v-for="item in dprovinceOptions" :key="item.index" :label="item.label" :value="item.value">
 										</el-option>
 									</el-select>
@@ -314,7 +314,7 @@
 							</el-table-column>
 							<el-table-column prop="dcity" label="市">
 								<template slot-scope="scope">
-									<el-select v-model="scope.row.dcity" clearable filterable remote placeholder="市" @change="dcityChange(scope.row.dcity,scope.$index)">
+									<el-select v-model="scope.row.dcity" clearable filterable remote placeholder="市(必填)" @change="dcityChange(scope.row.dcity,scope.$index)">
 										<el-option v-for="item in scope.row.dcityOptions" :key="item.index" :label="item.label" :value="item.value">
 										</el-option>
 									</el-select>
@@ -322,7 +322,7 @@
 							</el-table-column>
 							<el-table-column prop="darea" label="区">
 								<template slot-scope="scope">
-									<el-select v-model="scope.row.darea" clearable filterable remote placeholder="区" @change="dareaChange(scope.row.dprovince,scope.row.dcity,scope.row.darea,scope.$index)">
+									<el-select v-model="scope.row.darea" clearable filterable remote placeholder="区(必填)" @change="dareaChange(scope.row.dprovince,scope.row.dcity,scope.row.darea,scope.$index)">
 										<el-option v-for="item in scope.row.dareaOptions" :key="item.index" :label="item.label" :value="item.value">
 										</el-option>
 									</el-select>
@@ -354,7 +354,7 @@
 				</el-form-item>
 
 				<div style="display: flex;">
-					<el-form-item label="司机名" prop="searchDriver">
+					<el-form-item label="司机名" prop="driver">
 						<el-select v-model="addForm.driver" clearable filterable remote placeholder="请输入司机名" :remote-method="chooseDriverName"
 						 :loading="driverNameLoading" @change="handleChooseDriverName">
 							<el-option v-for="item in driverNameOptions" :key="item.index" :label="item.label" :value="item.value">
@@ -382,7 +382,7 @@
 
 
 		<!-- 详情的对话框 -->
-		<el-dialog title="订单详情" :visible.sync="editDialogVisible" width="80%" @close="editDialogClosed">
+		<el-dialog title="订单详情" :visible.sync="editDialogVisible" width="80%" @close="editDialogClosed" :close-on-click-modal="false">
 			<!-- 详情的表单 -->
 			<el-form :model="editForm" ref="editFormRef" label-width="140px">
 
@@ -787,10 +787,60 @@
 				},
 				// 添加的规则
 				addRules:{
-					aclient:[
-						{ required: true, message: '请选择（没有的话需要到基础→客户页面创建)', trigger: 'blur' }
+					source:[
+						{ required: true, message: '必填', trigger: 'blur' }
 					],
-					uclient:[
+					people:[
+						{ required: true, message: '必填', trigger: 'blur' }
+					],
+					goodsname:[
+						{ required: true, message: '必填', trigger: 'blur' }
+					],
+					goodsweight:[
+						{ required: true, message: '必填', trigger: 'blur' }
+					],
+					overweight:[
+						{ required: true, message: '必填', trigger: 'blur' }
+					],
+					ban:[
+						{ required: true, message: '必填', trigger: 'blur' }
+					],
+					emptydistance:[
+						{ required: true, message: '必填', trigger: 'blur' }
+					],
+					highspeed:[
+						{ required: true, message: '必填', trigger: 'blur' }
+					],
+					estimatedistance:[
+						{ required: true, message: '必填', trigger: 'blur' }
+					],
+					deposit:[
+						{ required: true, message: '必填', trigger: 'blur' }
+					],
+					pay:[
+						{ required: true, message: '必填', trigger: 'blur' }
+					],
+					car:[
+						{ required: true, message: '必填', trigger: 'blur' }
+					],
+					cost:[
+						{ required: true, message: '必填', trigger: 'blur' }
+					],
+					yunshu:[
+						{ required: true, message: '必填', trigger: 'blur' }
+					],
+					daoda:[
+						{ required: true, message: '必填', trigger: 'blur' }
+					],
+					// apoints:[
+					// 	{ required: true, message: '必填', trigger: 'blur' }
+					// ],
+					driver:[
+						{ required: true, message: '必填', trigger: 'blur' }
+					],
+					
+					
+					aclient:[
 						{ required: true, message: '请选择（没有的话需要到基础→客户页面创建)', trigger: 'blur' }
 					],
 				},
@@ -1510,12 +1560,16 @@
 				// console.log(response)
 				this.addForm.picture = response.result.pictureFileName
 			},
+			
 
 			// 创建对话框
 			addInfo() {
-				// console.log(this.addForm)
 				this.$refs.addFormRef.validate(async valid => {
 					if (!valid) return
+					// 判断table中的必填
+					if(!this.addForm.apoints[0].spointphone || !this.addForm.apoints[0].stime || !this.addForm.apoints[0].sprovince || !this.addForm.apoints[0].scity || !this.addForm.apoints[0].sarea || !this.addForm.upoints[0].dtime || !this.addForm.upoints[0].dprovince || !this.addForm.upoints[0].dcity || !this.addForm.upoints[0].darea){
+						return this.$message.warning('请完善必填信息！')
+					}
 					// 发起添加信息的数据请求
 					const {
 						data: res

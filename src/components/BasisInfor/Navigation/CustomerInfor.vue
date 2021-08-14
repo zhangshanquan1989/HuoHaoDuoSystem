@@ -80,7 +80,7 @@
 		</el-col>
 
 		<!-- 创建的对话框 -->
-		<el-dialog title="创建客户信息" :visible.sync="addDialogVisible" width="35%" @close="addDialogClosed">
+		<el-dialog title="创建客户信息" :visible.sync="addDialogVisible" width="35%" @close="addDialogClosed" :close-on-click-modal="false">
 			<!-- 创建的表单 -->
 			<el-form :model="addForm" ref="addFormRef" label-width="120px">
 				<el-form-item label="客户名称:" prop="company">
@@ -158,7 +158,7 @@
 		</el-dialog>
 		
 		<!-- 编辑的对话框 -->
-		<el-dialog title="编辑客户信息" :visible.sync="editDialogVisible" width="35%" @close="editDialogClosed">
+		<el-dialog title="编辑客户信息" :visible.sync="editDialogVisible" width="35%" @close="editDialogClosed" :close-on-click-modal="false">
 			<!-- 编辑的表单 -->
 			<el-form :model="editForm" ref="editFormRef" label-width="120px">
 				<el-form-item label="客户名称:" prop="company">

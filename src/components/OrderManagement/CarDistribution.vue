@@ -41,9 +41,9 @@
 		 :total="total" style="margin-top: 5px;">
 		</el-pagination>
 		
-		<!-- 编辑公司的对话框 -->
-		<el-dialog title="编辑车辆信息" :visible.sync="editDialogVisible" width="35%" @close="editCompanyDialogClosed">
-			<!-- 编辑公司的表单 -->
+		<!-- 编辑的对话框 -->
+		<el-dialog title="车辆分配" :visible.sync="editDialogVisible" width="35%" @close="editCompanyDialogClosed" :close-on-click-modal="false">
+			<!-- 编辑的表单 -->
 			<el-form :model="editForm" ref="editFormRef" label-width="120px">
 				<el-form-item label="id">
 					<el-input disabled v-model="editForm.id" style="width: 350px;"></el-input>

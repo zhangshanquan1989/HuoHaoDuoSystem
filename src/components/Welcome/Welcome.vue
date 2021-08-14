@@ -87,7 +87,7 @@
 				<div style="display: flex;margin-left: 22px;margin-top: 12px;">
 					<div>
 						<div style="display: flex;">
-							<div style="width:50px;height: 54px;font-size: 41px;">{{diaodufeiCarData}}</div>
+							<div style="width:75px;height: 54px;font-size: 41px;">{{diaodufeiCarData}}</div>
 							<div style="margin-left: 5px;font-size: 23px;margin-top: 15px;font-weight: bold;">调度费</div>
 						</div>
 						
@@ -107,7 +107,7 @@
 				<div style="display: flex;margin-left: 22px;margin-top: 12px;">
 					<div>
 						<div style="display: flex;">
-							<div style="width:50px;height: 54px;font-size: 41px;">{{shanggangzhengCarData}}</div>
+							<div style="width:75px;height: 54px;font-size: 41px;">{{shanggangzhengCarData}}</div>
 							<div style="margin-left: 5px;font-size: 23px;margin-top: 15px;font-weight: bold;">上岗证</div>
 						</div>
 						
@@ -122,13 +122,13 @@
 				</div>
 			</el-card>
 		</div>
-		<div style="display: flex;margin-top: 32px;margin-left: 8px;">
+		<div style="display: flex;margin-top: 32px;margin-left: 5px;">
 			<el-card shadow="hover" style="width: 300px;height: 144px;" @click.native="showXingShiZheng"
 			 v-loading.fullscreen.lock="fullscreenLoading">
 				<div style="display: flex;margin-left: 22px;margin-top: 12px;">
 					<div>
 						<div style="display: flex;">
-							<div style="width:50px;height: 54px;font-size: 41px;">{{xingshizhengCarData}}</div>
+							<div style="width:75px;height: 54px;font-size: 41px;">{{xingshizhengCarData}}</div>
 							<div style="margin-left: 5px;font-size: 23px;margin-top: 15px;font-weight: bold;">行驶证</div>
 						</div>
 						
@@ -148,7 +148,7 @@
 				<div style="display: flex;margin-left: 22px;margin-top: 12px;">
 					<div>
 						<div style="display: flex;">
-							<div style="width:50px;height: 54px;font-size: 41px;">{{yingyunzhengCarData}}</div>
+							<div style="width:75px;height: 54px;font-size: 41px;">{{yingyunzhengCarData}}</div>
 							<div style="margin-left: 5px;font-size: 23px;margin-top: 15px;font-weight: bold;">营运证</div>
 						</div>
 						
@@ -556,7 +556,9 @@
 				}, {
 					arrayFormat: 'repeat'
 				}))
+				// console.log(res)
 				window.location.href = 'http://81.70.151.121:8080/jeecg-boot/ExcelController/ExcelNianjian?' + this.$qs.stringify({
+				// window.location.href = 'http://82.157.15.221:8080/jeecg-boot/ExcelController/ExcelNianjian?' + this.$qs.stringify({
 					ExcelNianjians: this.nianjianExcel
 				}, {
 					arrayFormat: 'repeat'

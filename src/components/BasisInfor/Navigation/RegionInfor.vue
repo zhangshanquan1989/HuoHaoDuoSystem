@@ -82,7 +82,7 @@
 		</el-col>
 
 		<!-- 编辑的对话框 -->
-		<el-dialog title="编辑地区信息" :visible.sync="editDialogVisible" width="50%" @close="editDialogClosed">
+		<el-dialog title="编辑地区信息" :visible.sync="editDialogVisible" width="50%" @close="editDialogClosed" :close-on-click-modal="false">
 			<!-- 编辑的表单 -->
 			<el-form :model="editForm" ref="editFormRef" label-width="100px">
 				<el-form-item label="地区编号:">{{editForm.areaNo}}</el-form-item>
@@ -109,7 +109,7 @@
 		</el-dialog>
 		
 		<!-- 高德的对话框 -->
-		<el-dialog title="地图" :visible.sync="locationDialogVisible" width="50%">
+		<el-dialog title="地图" :visible.sync="locationDialogVisible" width="50%" :close-on-click-modal="false">
 			<div>{{licationAddress}}:</div>
 			<div id="container"></div>
 		</el-dialog>
