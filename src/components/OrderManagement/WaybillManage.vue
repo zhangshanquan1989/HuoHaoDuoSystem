@@ -12,6 +12,14 @@
 			<!-- 创建按钮 -->
 			<el-button type="primary" plain @click="addDialogVisible = true">创建</el-button>
 			<el-input v-model="queryInfo.noText" placeholder="运单编号" clearable style="width: 200px;margin-left: 100px;"></el-input>
+			<el-select v-model="queryInfo.state" placeholder="状态查询" style="margin-left: 30px;">
+			    <el-option
+			      v-for="item in stateOptions"
+			      :key="item.value"
+			      :label="item.label"
+			      :value="item.value">
+			    </el-option>
+			  </el-select>
 			<el-button type="primary" plain @click="handleQueryBtn" style="margin-left: 30px;">查询</el-button>
 			<el-button type="primary" plain @click="handleQueryBackBtn" style="margin-left: 30px;">返回</el-button>
 
@@ -298,7 +306,7 @@
 									<el-input v-model="scope.row.dpointphone" class="rt-input"></el-input>
 								</template>
 							</el-table-column>
-							<el-table-column label="装货时间">
+							<el-table-column label="卸货时间">
 								<template slot-scope="scope">
 									<el-date-picker v-model="scope.row.dtime" type="datetime" placeholder="选择日期时间(必填)" value-format="yyyy-MM-dd HH:mm:ss">
 									</el-date-picker>
@@ -725,7 +733,31 @@
 					order: "desc",
 					column: "id",
 					no: '',
+					noText: '',
 				},
+				stateOptions: [
+					{
+						value: '0',
+						label: '已驳回'
+					},
+					{
+						value: '1',
+						label: '审核中'
+					},
+					{
+						value: '2',
+						label: '审核完成'
+					},{
+					value: '3',
+					label: '司机接单'
+				}, {
+					value: '4',
+					label: '司机拒单'
+				},
+				{
+					value: '5',
+					label: '待完结'
+				}],
 				// 分页列表
 				wybillList: [],
 				// 总条数
@@ -1498,7 +1530,7 @@
 				} = await this.$http.get('waybill/list', {
 					params: this.queryInfo
 				})
-				// console.log('list', res)
+				console.log('list', res)
 				if (res.code !== 200) {
 					return this.$message.error(res.message)
 				}
@@ -1540,6 +1572,7 @@
 				this.queryInfo.pageSize = 10
 				this.queryInfo.no = ''
 				this.queryInfo.noText = ''
+				this.queryInfo.state = ''
 				this.getWaybillList()
 			},
 

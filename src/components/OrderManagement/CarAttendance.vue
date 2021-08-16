@@ -310,6 +310,14 @@
 							value: '强制报停',
 							label: '强制报停'
 						},
+						{
+							value: '核酸检测',
+							label: '核酸检测'
+						},
+						{
+							value: '压车',
+							label: '压车'
+						},
 					]
 				}
 			},
@@ -328,14 +336,37 @@
 				this.allExportInfo.begintime = this.exportDate[0]
 				this.allExportInfo.finishtime = this.exportDate[1]
 				this.fullscreenLoading = true;
-				const {
-					data: res
-				} = await this.$http.get('SumController/HHDkaoqinAll', {
-					params: this.allExportInfo
-				})
-				// console.log(res)
-				window.location.href = 'http://81.70.151.121:8080/jeecg-boot/SumController/HHDkaoqinAll?begintime=' + this.allExportInfo.begintime + '&finishtime=' + this.allExportInfo.finishtime
-				this.fullscreenLoading = false;
+				let url = 'https://tkhhd.com/jeecg-boot/SumController/HHDkaoqinAll?begintime=' + this.allExportInfo.begintime + '&finishtime=' + this.allExportInfo.finishtime
+					var xhr = new XMLHttpRequest(); //定义http请求对象
+					xhr.open("get", url, true);
+					xhr.responseType = "blob"; // 转换流
+					xhr.setRequestHeader("satoken", window.sessionStorage.getItem('satoken'));
+					let that = this
+					xhr.onload = function() {
+						
+						// console.log(this)
+						var blob = this.response;
+						var a = document.createElement("a")
+						var url = window.URL.createObjectURL(blob)
+						a.href = url
+						a.download = "车辆考勤报表.xlsx" // 文件名
+						a.click()
+						window.URL.revokeObjectURL(url)
+						a.remove()
+						that.fullscreenLoading = false;
+					}
+				xhr.send();
+				
+				
+				// !!!下面代码为location.href方法，不能携带token
+				// const {
+				// 	data: res
+				// } = await this.$http.get('SumController/HHDkaoqinAll', {
+				// 	params: this.allExportInfo
+				// })
+				// // console.log(res)
+				// window.location.href = 'http://81.70.151.121:8080/jeecg-boot/SumController/HHDkaoqinAll?begintime=' + this.allExportInfo.begintime + '&finishtime=' + this.allExportInfo.finishtime
+				// this.fullscreenLoading = false;
 			},
 		}
 	}

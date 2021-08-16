@@ -302,16 +302,36 @@
 				this.fullscreenLoading = true;
 				this.daochuInfo.StartTime = this.queryInfo.StartTime
 				this.daochuInfo.EndTime = this.queryInfo.EndTime
-				// if(!this.daochuInfo.licenseplate[0]){return this.$message.warning('请选择需要导出的数据！')}
-				const {
-					data: res
-				} = await this.$http.get('yK_record/exportoperatingdata', {
-					params: this.daochuInfo
-				})
-				// console.log(res)
-				window.location.href = 'http://81.70.151.121:8080/jeecg-boot/yK_record/exportoperatingdata?StartTime=' + this.daochuInfo
-					.StartTime + '&EndTime=' + this.daochuInfo.EndTime
-				this.fullscreenLoading = false;
+				let url = 'https://tkhhd.com/jeecg-boot/yK_record/exportoperatingdata?StartTime=' + this.daochuInfo.StartTime + '&EndTime=' + this.daochuInfo.EndTime
+					var xhr = new XMLHttpRequest(); //定义http请求对象
+					xhr.open("get", url, true);
+					xhr.responseType = "blob"; // 转换流
+					xhr.setRequestHeader("satoken", window.sessionStorage.getItem('satoken'));
+					let that = this
+					xhr.onload = function() {
+						
+						// console.log(this)
+						var blob = this.response;
+						var a = document.createElement("a")
+						var url = window.URL.createObjectURL(blob)
+						a.href = url
+						a.download = "全部车辆油耗报表.xlsx" // 文件名
+						a.click()
+						window.URL.revokeObjectURL(url)
+						a.remove()
+						that.fullscreenLoading = false;
+					}
+				xhr.send();
+				
+				// const {
+				// 	data: res
+				// } = await this.$http.get('yK_record/exportoperatingdata', {
+				// 	params: this.daochuInfo
+				// })
+				// window.location.href = 'http://82.157.15.221:8080/jeecg-boot/yK_record/exportoperatingdata?StartTime=' + this.daochuInfo
+				// 	.StartTime + '&EndTime=' + this.daochuInfo.EndTime
+
+				
 			},
 			// 导出选中部分
 			async singleExport() {
@@ -334,7 +354,7 @@
 				})
 
 				var blob = res
-				console.log(blob)
+				// console.log(blob)
 				const fileName = '车辆油耗报表.xlsx'
 				var a = document.createElement("a");
 				a.href = window.URL.createObjectURL(blob);

@@ -14,7 +14,8 @@
 				</el-option>
 			</el-select> -->
 						
-			<el-input v-model="queryInfo.newlp" placeholder="请输入车牌号" clearable style="width: 200px;"></el-input>
+			<el-input v-model="newlp" placeholder="车牌号查询" clearable style="width: 200px;"></el-input>
+			<el-input v-model="newdiaodu" placeholder="调度查询" clearable style="width: 200px;margin-left: 30px;"></el-input>
 	
 			<el-button type="primary"  plain icon="el-icon-search" style="margin-left: 30px;" @click="search">搜索</el-button>
 			<el-button type="primary" plain @click="handleQueryBackBtn" style="margin-left: 30px;">返回</el-button>
@@ -78,12 +79,15 @@
 				queryInfo: {
 					pageNo: 1,
 					pageSize: 10,
+					diaodu: '',
+					lp: '',
 					order: 'desc',
 					column: 'id',
 				},
 				carList:[],
 				total:0,
-				
+				newlp:'',
+				newdiaodu:'',
 				// 编辑对话框数据
 				// 编辑对话框显示与隐藏
 				editDialogVisible: false,
@@ -181,7 +185,8 @@
 			
 			// 点击查询按钮
 			search() {
-				this.queryInfo.lp = "*" + this.queryInfo.newlp + "*"
+				this.queryInfo.lp = "*" + this.newlp + "*"
+				this.queryInfo.diaodu = "*" + this.newdiaodu + "*"
 				this.queryInfo.pageNo = 1
 				this.queryInfo.pageSize = 10
 				// console.log(this.queryInfo)
@@ -192,8 +197,10 @@
 				this.queryInfo.pageNo = 1
 				this.queryInfo.pageSize = 10
 				this.queryInfo.lp = ''
+				this.queryInfo.diaodu = ''
 				this.queryInfo.lpl = ''
-				this.queryInfo.newlp = ''
+				this.newlp = ''
+				this.newdiaodu = ''
 				this.getCarList()
 			},
 			

@@ -14,6 +14,14 @@
 			<el-date-picker v-model="selectTime" type="datetimerange" range-separator="至" start-placeholder="装货开始日期"
 			 end-placeholder="装货结束日期" format="yyyy 年 MM 月 dd 日 HH 时 mm 分 ss 秒" value-format="yyyy-MM-dd HH:mm:ss" style="margin-left: 20px;">
 			</el-date-picker>
+			<el-select v-model="queryInfo.state" placeholder="状态查询" style="margin-left: 30px;">
+			    <el-option
+			      v-for="item in stateOptions"
+			      :key="item.value"
+			      :label="item.label"
+			      :value="item.value">
+			    </el-option>
+			  </el-select>
 			<el-button type="primary" plain @click="handleQueryBtn" style="margin-left: 30px;">查询</el-button>
 			<el-button type="primary" plain @click="handleQueryBackBtn" style="margin-left: 30px;">返回</el-button>
 			<el-button type="primary" icon="el-icon-download" plain @click="handleExport" style="margin-left: 30px;">导出Excel</el-button>
@@ -404,6 +412,13 @@
 					endtime: '',
 
 				},
+				stateOptions: [{
+					value: '2',
+					label: '审核完成'
+				}, {
+					value: '4',
+					label: '司机拒单'
+				}],
 				selectTime: [],
 				// 分页列表
 				List: [],
@@ -518,8 +533,30 @@
 			// 导出
 			async handleExport(){
 				if(!this.no[0]){return this.$message.warning('请选择需要导出的数据！')}
-				const {data:res} = await this.$http.get('YMpageController/selectDingDanX?'+this.$qs.stringify({ no: this.no }, { arrayFormat: 'repeat' }))
-				window.location.href = 'http://81.70.151.121:8080/jeecg-boot/YMpageController/selectDingDanX?'+this.$qs.stringify({ no: this.no }, { arrayFormat: 'repeat' })
+				
+				let url = 'https://tkhhd.com/jeecg-boot/YMpageController/selectDingDanX?'+this.$qs.stringify({ no: this.no }, { arrayFormat: 'repeat' })
+					var xhr = new XMLHttpRequest(); //定义http请求对象
+					xhr.open("get", url, true);
+					xhr.responseType = "blob"; // 转换流
+					xhr.setRequestHeader("satoken", window.sessionStorage.getItem('satoken'));
+					let that = this
+					xhr.onload = function() {
+						
+						// console.log(this)
+						var blob = this.response;
+						var a = document.createElement("a")
+						var url = window.URL.createObjectURL(blob)
+						a.href = url
+						a.download = "订单报表.xlsx" // 文件名
+						a.click()
+						window.URL.revokeObjectURL(url)
+						a.remove()
+						that.fullscreenLoading = false;
+					}
+				xhr.send();
+				// !!!下面代码为location.href方法，不能携带token
+				// const {data:res} = await this.$http.get('YMpageController/selectDingDanX?'+this.$qs.stringify({ no: this.no }, { arrayFormat: 'repeat' }))
+				// window.location.href = 'http://81.70.151.121:8080/jeecg-boot/YMpageController/selectDingDanX?'+this.$qs.stringify({ no: this.no }, { arrayFormat: 'repeat' })
 			},
 			//分页区域
 			// 根据分页查询列表srcList
@@ -529,7 +566,7 @@
 				} = await this.$http.get('waybill/listyundan', {
 					params: this.queryInfo
 				})
-				// console.log('list', res)
+				console.log('list', res)
 				this.List = res.rows
 				this.total = res.total
 				this.List.forEach(v => {
@@ -566,6 +603,7 @@
 				this.queryInfo.chepai = ''
 				this.queryInfo.startime = ''
 				this.queryInfo.endtime = ''
+				this.queryInfo.state = ''
 				this.selectTime = []
 				this.getList()
 			},

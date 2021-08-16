@@ -14,7 +14,7 @@
 							<div style="width:48px;height: 54px;font-size: 41px;">{{nianjianCarData}}</div>
 							<div style="margin-left: 5px;font-size: 23px;margin-top: 16px;font-weight: bold;">车辆年检</div>
 						</div>
-							<!-- <div style="width:76px;height: 54px;font-size: 41px;">{{nianjianCarData}} </div> -->
+						<!-- <div style="width:76px;height: 54px;font-size: 41px;">{{nianjianCarData}} </div> -->
 						<div style="width:166px;height: 16px;font-size: 15px;color: #999999;">2个月内年检到期车辆</div>
 					</div>
 					<div>
@@ -34,7 +34,7 @@
 							<div style="width:48px;height: 54px;font-size: 41px;">{{baoxianCarData}}</div>
 							<div style="margin-left: 5px;font-size: 23px;margin-top: 15px;font-weight: bold;">车辆保险</div>
 						</div>
-						
+
 						<div style="width:166px;height: 16px;font-size: 15px;color: #999999;">1个月内保险到期车辆</div>
 					</div>
 					<div>
@@ -90,7 +90,7 @@
 							<div style="width:75px;height: 54px;font-size: 41px;">{{diaodufeiCarData}}</div>
 							<div style="margin-left: 5px;font-size: 23px;margin-top: 15px;font-weight: bold;">调度费</div>
 						</div>
-						
+
 						<div style="width:176px;height: 16px;font-size: 15px;color: #999999;">15天内调度费到期车辆</div>
 					</div>
 					<div>
@@ -110,7 +110,7 @@
 							<div style="width:75px;height: 54px;font-size: 41px;">{{shanggangzhengCarData}}</div>
 							<div style="margin-left: 5px;font-size: 23px;margin-top: 15px;font-weight: bold;">上岗证</div>
 						</div>
-						
+
 						<div style="width:176px;height: 16px;font-size: 15px;color: #999999;">2个月内上岗证到期车辆</div>
 					</div>
 					<div>
@@ -131,7 +131,7 @@
 							<div style="width:75px;height: 54px;font-size: 41px;">{{xingshizhengCarData}}</div>
 							<div style="margin-left: 5px;font-size: 23px;margin-top: 15px;font-weight: bold;">行驶证</div>
 						</div>
-						
+
 						<div style="width:176px;height: 16px;font-size: 15px;color: #999999;">2个月内行驶证到期车辆</div>
 					</div>
 					<div>
@@ -151,7 +151,7 @@
 							<div style="width:75px;height: 54px;font-size: 41px;">{{yingyunzhengCarData}}</div>
 							<div style="margin-left: 5px;font-size: 23px;margin-top: 15px;font-weight: bold;">营运证</div>
 						</div>
-						
+
 						<div style="width:176px;height: 16px;font-size: 15px;color: #999999;">2个月内营运证到期车辆</div>
 					</div>
 					<div>
@@ -171,7 +171,7 @@
 							<div style="width:57px;height: 54px;font-size: 41px;">{{jiashizhengCarData}}</div>
 							<div style="margin-left: 5px;font-size: 23px;margin-top: 15px;font-weight: bold;">驾驶证</div>
 						</div>
-						
+
 						<div style="width:176px;height: 16px;font-size: 15px;color: #999999;">2个月内驾驶证到期车辆</div>
 					</div>
 					<div>
@@ -268,8 +268,8 @@
 				<el-table-column prop="illegal_money" label="违章罚款" width="100px">
 				</el-table-column>
 			</el-table> -->
-			<!-- 操作区域 -->
-			<!-- <span slot="footer" class="dialog-footer">
+		<!-- 操作区域 -->
+		<!-- <span slot="footer" class="dialog-footer">
 				<el-button @click="weizhangDialogVisible = false">关 闭</el-button>
 			</span>
 		</el-dialog> -->
@@ -423,14 +423,14 @@
 				<el-button @click="yingyunzhengDialogVisible = false">关 闭</el-button>
 			</span>
 		</el-dialog>
-		
+
 		<!-- 驾驶证对话框 -->
 		<el-dialog title="驾驶证到期车辆" :visible.sync="jiashizhengDialogVisible" width="70%" @close="jiashizhengDialogClosed">
 			<el-button type="primary" plain @click="jiashizhengExport" icon="el-icon-download">导出Excel</el-button>
 			<el-table :data="jiashizhengCarList" border stripe style="width: 100%;margin-top: 8px;" :row-style="{height:'60px'}"
 			 :cell-style="{padding:'0px'}" :header-cell-style="{background:'#f8f8f9', color:'#000000'}" @selection-change="jiashizhengSelectionChange">
 				<el-table-column type="selection" width="55"></el-table-column>
-		
+
 				<el-table-column prop="License_plate" label="车牌号" width="150px">
 				</el-table-column>
 				<el-table-column prop="company" label="所属公司">
@@ -439,11 +439,11 @@
 				</el-table-column>
 				<el-table-column prop="phoneno" label="司机电话" width="150px">
 				</el-table-column>
-		
+
 				<el-table-column prop="driving_license_time" label="驾驶证到期时间
 						" width="150px">
 				</el-table-column>
-		
+
 			</el-table>
 			<!-- 操作区域 -->
 			<span slot="footer" class="dialog-footer">
@@ -549,20 +549,34 @@
 				if (!this.nianjianExcel[0]) {
 					return this.$message.warning('请选择需要导出的数据！')
 				}
-				const {
-					data: res
-				} = await this.$http.get('ExcelController/ExcelNianjian?' + this.$qs.stringify({
-					ExcelNianjians: this.nianjianExcel
-				}, {
-					arrayFormat: 'repeat'
-				}))
-				// console.log(res)
-				window.location.href = 'http://81.70.151.121:8080/jeecg-boot/ExcelController/ExcelNianjian?' + this.$qs.stringify({
-				// window.location.href = 'http://82.157.15.221:8080/jeecg-boot/ExcelController/ExcelNianjian?' + this.$qs.stringify({
+				let url = 'https://tkhhd.com/jeecg-boot/ExcelController/ExcelNianjian?' + this.$qs.stringify({
 					ExcelNianjians: this.nianjianExcel
 				}, {
 					arrayFormat: 'repeat'
 				})
+					var xhr = new XMLHttpRequest(); //定义http请求对象
+					xhr.open("get", url, true);
+					xhr.responseType = "blob"; // 转换流
+					xhr.setRequestHeader("satoken", window.sessionStorage.getItem('satoken'));
+					xhr.onload = function() {
+						// console.log(this)
+						var blob = this.response;
+						var a = document.createElement("a")
+						var url = window.URL.createObjectURL(blob)
+						a.href = url
+						a.download = "年检到期车辆.xlsx" // 文件名
+						a.click()
+						window.URL.revokeObjectURL(url)
+						a.remove()
+					}
+					xhr.send();
+					// !!!下面代码为location.href方法，不能携带token
+				// console.log(res)
+				// window.location.href = 'http://81.70.151.121:8080/jeecg-boot/ExcelController/ExcelNianjian?' + this.$qs.stringify({
+				// 	ExcelNianjians: this.nianjianExcel
+				// }, {
+				// 	arrayFormat: 'repeat'
+				// })
 			},
 
 			// 保险多选框变化
@@ -577,20 +591,45 @@
 				if (!this.baoxianExcel[0]) {
 					return this.$message.warning('请选择需要导出的数据！')
 				}
-				const {
-					data: res
-				} = await this.$http.get('ExcelController/selectbaoxiandaoqi?' + this.$qs.stringify({
-					selectbaoxiandaoqis: this.baoxianExcel
-				}, {
-					arrayFormat: 'repeat'
-				}))
-				window.location.href = 'http://81.70.151.121:8080/jeecg-boot/ExcelController/selectbaoxiandaoqi?' + this.$qs.stringify({
+				let url = 'https://tkhhd.com/jeecg-boot/ExcelController/selectbaoxiandaoqi?' + this.$qs.stringify({
 					selectbaoxiandaoqis: this.baoxianExcel
 				}, {
 					arrayFormat: 'repeat'
 				})
+					var xhr = new XMLHttpRequest(); //定义http请求对象
+					xhr.open("get", url, true);
+					xhr.responseType = "blob"; // 转换流
+					xhr.setRequestHeader("satoken", window.sessionStorage.getItem('satoken'));
+					xhr.onload = function() {
+						// console.log(this)
+						var blob = this.response;
+						var a = document.createElement("a")
+						var url = window.URL.createObjectURL(blob)
+						a.href = url
+						a.download = "保险到期车辆.xlsx" // 文件名
+						a.click()
+						window.URL.revokeObjectURL(url)
+						a.remove()
+					}
+				xhr.send();
+				
+				// !!!下面代码为location.href方法，不能携带token
+				// const {
+				// 	data: res
+				// } = await this.$http.get('ExcelController/selectbaoxiandaoqi?' + this.$qs.stringify({
+				// 	selectbaoxiandaoqis: this.baoxianExcel
+				// }, {
+				// 	arrayFormat: 'repeat'
+				// }))
+				// console.log(res)
+				// window.location.href = 'http://81.70.151.121:8080/jeecg-boot/ExcelController/selectbaoxiandaoqi?' + this.$qs.stringify({
+				// 	selectbaoxiandaoqis: this.baoxianExcel
+				// }, {
+				// 	arrayFormat: 'repeat'
+				// })
 			},
-
+			
+			// !!!现在取消违章页面
 			// 违章多选框变化
 			weizhangSelectionChange(e) {
 				this.weizhangExcel = []
@@ -629,18 +668,40 @@
 				if (!this.yajinExcel[0]) {
 					return this.$message.warning('请选择需要导出的数据！')
 				}
-				const {
-					data: res
-				} = await this.$http.get('ExcelController/sdelectxiaoyuWB?' + this.$qs.stringify({
-					sdelectxiaoyuWBs: this.yajinExcel
-				}, {
-					arrayFormat: 'repeat'
-				}))
-				window.location.href = 'http://81.70.151.121:8080/jeecg-boot/ExcelController/sdelectxiaoyuWB?' + this.$qs.stringify({
+				let url = 'https://tkhhd.com/jeecg-boot/ExcelController/sdelectxiaoyuWB?' + this.$qs.stringify({
 					sdelectxiaoyuWBs: this.yajinExcel
 				}, {
 					arrayFormat: 'repeat'
 				})
+					var xhr = new XMLHttpRequest(); //定义http请求对象
+					xhr.open("get", url, true);
+					xhr.responseType = "blob"; // 转换流
+					xhr.setRequestHeader("satoken", window.sessionStorage.getItem('satoken'));
+					xhr.onload = function() {
+						// console.log(this)
+						var blob = this.response;
+						var a = document.createElement("a")
+						var url = window.URL.createObjectURL(blob)
+						a.href = url
+						a.download = "保证金到期车辆.xlsx" // 文件名
+						a.click()
+						window.URL.revokeObjectURL(url)
+						a.remove()
+					}
+				xhr.send();
+				
+				// const {
+				// 	data: res
+				// } = await this.$http.get('ExcelController/sdelectxiaoyuWB?' + this.$qs.stringify({
+				// 	sdelectxiaoyuWBs: this.yajinExcel
+				// }, {
+				// 	arrayFormat: 'repeat'
+				// }))
+				// window.location.href = 'http://81.70.151.121:8080/jeecg-boot/ExcelController/sdelectxiaoyuWB?' + this.$qs.stringify({
+				// 	sdelectxiaoyuWBs: this.yajinExcel
+				// }, {
+				// 	arrayFormat: 'repeat'
+				// })
 			},
 
 			// 调度费多选框变化
@@ -655,488 +716,595 @@
 				if (!this.diaodifeiExcel[0]) {
 					return this.$message.warning('请选择需要导出的数据！')
 				}
-				const {
-					data: res
-				} = await this.$http.get('ExcelController/selectDiaoDuFeiDQ?' + this.$qs.stringify({
-					selectDiaoDuFeiDQ: this.diaodifeiExcel
-				}, {
-					arrayFormat: 'repeat'
-				}))
-				window.location.href = 'http://81.70.151.121:8080/jeecg-boot/ExcelController/selectDiaoDuFeiDQ?' + this.$qs.stringify({
+				let url = 'https://tkhhd.com/jeecg-boot/ExcelController/selectDiaoDuFeiDQ?' + this.$qs.stringify({
 					selectDiaoDuFeiDQ: this.diaodifeiExcel
 				}, {
 					arrayFormat: 'repeat'
 				})
-			},
-			// 上岗证多选框变化
-			shanggangzhengSelectionChange(e) {
-				this.shanggangzhengExcel = []
-				e.forEach(v => {
-					this.shanggangzhengExcel.push(v.License_plate)
-				})
-			},
-			// 上岗证导出
-			async shanggangzhengExport() {
-				if (!this.shanggangzhengExcel[0]) {
-					return this.$message.warning('请选择需要导出的数据！')
+				var xhr = new XMLHttpRequest(); //定义http请求对象
+				xhr.open("get", url, true);
+				xhr.responseType = "blob"; // 转换流
+				xhr.setRequestHeader("satoken", window.sessionStorage.getItem('satoken'));
+				xhr.onload = function() {
+					// console.log(this)
+					var blob = this.response;
+					var a = document.createElement("a")
+					var url = window.URL.createObjectURL(blob)
+					a.href = url
+					a.download = "调度费到期车辆.xlsx" // 文件名
+					a.click()
+					window.URL.revokeObjectURL(url)
+					a.remove()
 				}
-				const {
-					data: res
-				} = await this.$http.get('SumController/EXshanggangzheng?' + this.$qs.stringify({
-					EXshanggangzheng: this.shanggangzhengExcel
-				}, {
-					arrayFormat: 'repeat'
-				}))
-				window.location.href = 'http://81.70.151.121:8080/jeecg-boot/SumController/EXshanggangzheng?' + this.$qs.stringify({
-					EXshanggangzheng: this.shanggangzhengExcel
-				}, {
-					arrayFormat: 'repeat'
-				})
-			},
-			// 行驶证多选框变化
-			xingshizhengSelectionChange(e) {
-				this.xingshizhengExcel = []
-				e.forEach(v => {
-					this.xingshizhengExcel.push(v.License_plate)
-				})
-			},
-			// 行驶证导出
-			async xingshizhengExport() {
-				if (!this.xingshizhengExcel[0]) {
-					return this.$message.warning('请选择需要导出的数据！')
-				}
-				const {
-					data: res
-				} = await this.$http.get('SumController/EXxingshizheng?' + this.$qs.stringify({
-					EXxingshizheng: this.xingshizhengExcel
-				}, {
-					arrayFormat: 'repeat'
-				}))
-				window.location.href = 'http://81.70.151.121:8080/jeecg-boot/SumController/EXxingshizheng?' + this.$qs.stringify({
-					EXxingshizheng: this.xingshizhengExcel
-				}, {
-					arrayFormat: 'repeat'
-				})
-			},
-			// 营运证多选框变化
-			yingyunzhengSelectionChange(e) {
-				this.yingyunzhengExcel = []
-				e.forEach(v => {
-					this.yingyunzhengExcel.push(v.License_plate)
-				})
-			},
-			// 营运证导出
-			async yingyunzhengExport() {
-				if (!this.yingyunzhengExcel[0]) {
-					return this.$message.warning('请选择需要导出的数据！')
-				}
-				const {
-					data: res
-				} = await this.$http.get('SumController/EXyingyunzheng?' + this.$qs.stringify({
-					EXyingyunzheng: this.yingyunzhengExcel
-				}, {
-					arrayFormat: 'repeat'
-				}))
-				window.location.href = 'http://81.70.151.121:8080/jeecg-boot/SumController/EXyingyunzheng?' + this.$qs.stringify({
-					EXyingyunzheng: this.yingyunzhengExcel
-				}, {
-					arrayFormat: 'repeat'
-				})
-			},
-			// 驾驶证多选框变化
-			jiashizhengSelectionChange(e) {
-				this.jiashizhengExcel = []
-				e.forEach(v => {
-					this.jiashizhengExcel.push(v.License_plate)
-				})
-			},
-			// 驾驶证导出
-			async jiashizhengExport() {
-				if (!this.jiashizhengExcel[0]) {
-					return this.$message.warning('请选择需要导出的数据！')
-				}
-				const {
-					data: res
-				} = await this.$http.get('SumController/EXjaishizheng?' + this.$qs.stringify({
-					EXjaishizheng: this.jiashizhengExcel
-				}, {
-					arrayFormat: 'repeat'
-				}))
-				window.location.href = 'http://81.70.151.121:8080/jeecg-boot/SumController/EXjaishizheng?' + this.$qs.stringify({
-					EXjaishizheng: this.jiashizhengExcel
-				}, {
-					arrayFormat: 'repeat'
-				})
-			},
-		
+			xhr.send();
 
-			// 获取面板数据
-			async getAllData() {
-				const {
-					data: res1
-				} = await this.$http.get('YMpageController/selectAll')
-				if (res1.code !== 200) {
-					this.$message.error(res1.message)
+			// !!!下面代码为location.href方法，不能携带token
+			// const {
+			// 	data: res
+			// } = await this.$http.get('ExcelController/selectDiaoDuFeiDQ?' + this.$qs.stringify({
+			// 	selectDiaoDuFeiDQ: this.diaodifeiExcel
+			// }, {
+			// 	arrayFormat: 'repeat'
+			// }))
+			// window.location.href = 'http://81.70.151.121:8080/jeecg-boot/ExcelController/selectDiaoDuFeiDQ?' + this.$qs.stringify({
+			// 	selectDiaoDuFeiDQ: this.diaodifeiExcel
+			// }, {
+			// 	arrayFormat: 'repeat'
+			// })
+		},
+		// 上岗证多选框变化
+		shanggangzhengSelectionChange(e) {
+			this.shanggangzhengExcel = []
+			e.forEach(v => {
+				this.shanggangzhengExcel.push(v.License_plate)
+			})
+		},
+		// 上岗证导出
+		async shanggangzhengExport() {
+			if (!this.shanggangzhengExcel[0]) {
+				return this.$message.warning('请选择需要导出的数据！')
+			}
+			let url = 'https://tkhhd.com/jeecg-boot/SumController/EXshanggangzheng?' + this.$qs.stringify({
+				EXshanggangzheng: this.shanggangzhengExcel
+			}, {
+				arrayFormat: 'repeat'
+			})
+				var xhr = new XMLHttpRequest(); //定义http请求对象
+				xhr.open("get", url, true);
+				xhr.responseType = "blob"; // 转换流
+				xhr.setRequestHeader("satoken", window.sessionStorage.getItem('satoken'));
+				xhr.onload = function() {
+					// console.log(this)
+					var blob = this.response;
+					var a = document.createElement("a")
+					var url = window.URL.createObjectURL(blob)
+					a.href = url
+					a.download = "上岗证到期车辆.xlsx" // 文件名
+					a.click()
+					window.URL.revokeObjectURL(url)
+					a.remove()
 				}
-				this.allCarData = res1.result.年检车辆总数
+			xhr.send();
+			// const {
+			// 	data: res
+			// } = await this.$http.get('SumController/EXshanggangzheng?' + this.$qs.stringify({
+			// 	EXshanggangzheng: this.shanggangzhengExcel
+			// }, {
+			// 	arrayFormat: 'repeat'
+			// }))
+			// window.location.href = 'http://81.70.151.121:8080/jeecg-boot/SumController/EXshanggangzheng?' + this.$qs.stringify({
+			// 	EXshanggangzheng: this.shanggangzhengExcel
+			// }, {
+			// 	arrayFormat: 'repeat'
+			// })
+		},
+		// 行驶证多选框变化
+		xingshizhengSelectionChange(e) {
+			this.xingshizhengExcel = []
+			e.forEach(v => {
+				this.xingshizhengExcel.push(v.License_plate)
+			})
+		},
+		// 行驶证导出
+		async xingshizhengExport() {
+			if (!this.xingshizhengExcel[0]) {
+				return this.$message.warning('请选择需要导出的数据！')
+			}
+			let url = 'https://tkhhd.com/jeecg-boot/SumController/EXxingshizheng?' + this.$qs.stringify({
+				EXxingshizheng: this.xingshizhengExcel
+			}, {
+				arrayFormat: 'repeat'
+			})
+				var xhr = new XMLHttpRequest(); //定义http请求对象
+				xhr.open("get", url, true);
+				xhr.responseType = "blob"; // 转换流
+				xhr.setRequestHeader("satoken", window.sessionStorage.getItem('satoken'));
+				xhr.onload = function() {
+					// console.log(this)
+					var blob = this.response;
+					var a = document.createElement("a")
+					var url = window.URL.createObjectURL(blob)
+					a.href = url
+					a.download = "行驶证到期车辆.xlsx" // 文件名
+					a.click()
+					window.URL.revokeObjectURL(url)
+					a.remove()
+				}
+			xhr.send();
+			// const {
+			// 	data: res
+			// } = await this.$http.get('SumController/EXxingshizheng?' + this.$qs.stringify({
+			// 	EXxingshizheng: this.xingshizhengExcel
+			// }, {
+			// 	arrayFormat: 'repeat'
+			// }))
+			// window.location.href = 'http://81.70.151.121:8080/jeecg-boot/SumController/EXxingshizheng?' + this.$qs.stringify({
+			// 	EXxingshizheng: this.xingshizhengExcel
+			// }, {
+			// 	arrayFormat: 'repeat'
+			// })
+		},
+		// 营运证多选框变化
+		yingyunzhengSelectionChange(e) {
+			this.yingyunzhengExcel = []
+			e.forEach(v => {
+				this.yingyunzhengExcel.push(v.License_plate)
+			})
+		},
+		// 营运证导出
+		async yingyunzhengExport() {
+			if (!this.yingyunzhengExcel[0]) {
+				return this.$message.warning('请选择需要导出的数据！')
+			}
+			let url = 'https://tkhhd.com/jeecg-boot/SumController/EXyingyunzheng?' + this.$qs.stringify({
+				EXyingyunzheng: this.yingyunzhengExcel
+			}, {
+				arrayFormat: 'repeat'
+			})
+				var xhr = new XMLHttpRequest(); //定义http请求对象
+				xhr.open("get", url, true);
+				xhr.responseType = "blob"; // 转换流
+				xhr.setRequestHeader("satoken", window.sessionStorage.getItem('satoken'));
+				xhr.onload = function() {
+					// console.log(this)
+					var blob = this.response;
+					var a = document.createElement("a")
+					var url = window.URL.createObjectURL(blob)
+					a.href = url
+					a.download = "营运证到期车辆.xlsx" // 文件名
+					a.click()
+					window.URL.revokeObjectURL(url)
+					a.remove()
+				}
+			xhr.send();
+			// const {
+			// 	data: res
+			// } = await this.$http.get('SumController/EXyingyunzheng?' + this.$qs.stringify({
+			// 	EXyingyunzheng: this.yingyunzhengExcel
+			// }, {
+			// 	arrayFormat: 'repeat'
+			// }))
+			// window.location.href = 'http://81.70.151.121:8080/jeecg-boot/SumController/EXyingyunzheng?' + this.$qs.stringify({
+			// 	EXyingyunzheng: this.yingyunzhengExcel
+			// }, {
+			// 	arrayFormat: 'repeat'
+			// })
+		},
+		// 驾驶证多选框变化
+		jiashizhengSelectionChange(e) {
+			this.jiashizhengExcel = []
+			e.forEach(v => {
+				this.jiashizhengExcel.push(v.License_plate)
+			})
+		},
+		// 驾驶证导出
+		async jiashizhengExport() {
+			if (!this.jiashizhengExcel[0]) {
+				return this.$message.warning('请选择需要导出的数据！')
+			}
+			let url = 'https://tkhhd.com/jeecg-boot/SumController/EXjaishizheng?' + this.$qs.stringify({
+				EXjaishizheng: this.jiashizhengExcel
+			}, {
+				arrayFormat: 'repeat'
+			})
+				var xhr = new XMLHttpRequest(); //定义http请求对象
+				xhr.open("get", url, true);
+				xhr.responseType = "blob"; // 转换流
+				xhr.setRequestHeader("satoken", window.sessionStorage.getItem('satoken'));
+				xhr.onload = function() {
+					// console.log(this)
+					var blob = this.response;
+					var a = document.createElement("a")
+					var url = window.URL.createObjectURL(blob)
+					a.href = url
+					a.download = "驾驶证到期车辆.xlsx" // 文件名
+					a.click()
+					window.URL.revokeObjectURL(url)
+					a.remove()
+				}
+			xhr.send();
+			// const {
+			// 	data: res
+			// } = await this.$http.get('SumController/EXjaishizheng?' + this.$qs.stringify({
+			// 	EXjaishizheng: this.jiashizhengExcel
+			// }, {
+			// 	arrayFormat: 'repeat'
+			// }))
+			// window.location.href = 'http://81.70.151.121:8080/jeecg-boot/SumController/EXjaishizheng?' + this.$qs.stringify({
+			// 	EXjaishizheng: this.jiashizhengExcel
+			// }, {
+			// 	arrayFormat: 'repeat'
+			// })
+		},
 
-				const {
-					data: res2
-				} = await this.$http.get('YMpageController/selectYnjWnj')
-				if (res2.code !== 200) {
-					this.$message.error(res2.message)
-				}
-				this.nianjianCarData = res2.result.年检即将到期的车辆总数
 
-				const {
-					data: res3
-				} = await this.$http.get('YMpageController/selectBaoYW')
-				if (res3.code !== 200) {
-					this.$message.error(res3.message)
-				}
-				this.baoxianCarData = res3.result.三十天内保险即将到期的车辆总数
+		// 获取面板数据
+		async getAllData() {
+			const {
+				data: res1
+			} = await this.$http.get('YMpageController/selectAll')
+			if (res1.code !== 200) {
+				this.$message.error(res1.message)
+			}
+			this.allCarData = res1.result.年检车辆总数
 
-				const {
-					data: res4
-				} = await this.$http.get('YMpageController/selectWeizhangW')
-				if (res4.code !== 200) {
-					this.$message.error(res4.message)
-				}
-				this.weizhangCarData = res4.result.未处理违章总数
+			const {
+				data: res2
+			} = await this.$http.get('YMpageController/selectYnjWnj')
+			if (res2.code !== 200) {
+				this.$message.error(res2.message)
+			}
+			this.nianjianCarData = res2.result.年检即将到期的车辆总数
 
-				const {
-					data: res5
-				} = await this.$http.get('YMpageController/selectbaozhengjinYW')
-				if (res5.code !== 200) {
-					this.$message.error(res5.message)
-				}
-				this.yajinCarData = res5.result.押金小于500的车辆总数
+			const {
+				data: res3
+			} = await this.$http.get('YMpageController/selectBaoYW')
+			if (res3.code !== 200) {
+				this.$message.error(res3.message)
+			}
+			this.baoxianCarData = res3.result.三十天内保险即将到期的车辆总数
 
-				const {
-					data: res6
-				} = await this.$http.get('YMpageController/selectdiaodufeiYM')
-				if (res6.code !== 200) {
-					this.$message.error(res6.message)
-				}
-				this.diaodufeiCarData = res6.result.调度费到期车辆总数
+			const {
+				data: res4
+			} = await this.$http.get('YMpageController/selectWeizhangW')
+			if (res4.code !== 200) {
+				this.$message.error(res4.message)
+			}
+			this.weizhangCarData = res4.result.未处理违章总数
 
-				const {
-					data: res7
-				} = await this.$http.get('SumController/HHDxingshizhengD')
-				if (res6.code !== 200) {
-					this.$message.error(res7.message)
-				}
-				this.xingshizhengCarData = res7.result.行驶证到期总数
+			const {
+				data: res5
+			} = await this.$http.get('YMpageController/selectbaozhengjinYW')
+			if (res5.code !== 200) {
+				this.$message.error(res5.message)
+			}
+			this.yajinCarData = res5.result.押金小于500的车辆总数
 
-				const {
-					data: res8
-				} = await this.$http.get('SumController/HHDyingyunzhengD')
-				if (res6.code !== 200) {
-					this.$message.error(res8.message)
-				}
-				this.yingyunzhengCarData = res8.result.营运证到期总数
+			const {
+				data: res6
+			} = await this.$http.get('YMpageController/selectdiaodufeiYM')
+			if (res6.code !== 200) {
+				this.$message.error(res6.message)
+			}
+			this.diaodufeiCarData = res6.result.调度费到期车辆总数
 
-				const {
-					data: res9
-				} = await this.$http.get('SumController/HHDjaishizhengD')
-				if (res6.code !== 200) {
-					this.$message.error(res9.message)
-				}
-				this.jiashizhengCarData = res9.result.司机驾驶证到期总数
+			const {
+				data: res7
+			} = await this.$http.get('SumController/HHDxingshizhengD')
+			if (res6.code !== 200) {
+				this.$message.error(res7.message)
+			}
+			this.xingshizhengCarData = res7.result.行驶证到期总数
 
-				const {
-					data: res10
-				} = await this.$http.get('SumController/HHDshanggangzhengD')
-				if (res6.code !== 200) {
-					this.$message.error(res10.message)
-				}
-				this.shanggangzhengCarData = res10.result.司机上岗证到期总数
-			},
-			// 年检
-			async showNianJian() {
-				this.fullscreenLoading = true;
-				const {
-					data: res
-				} = await this.$http.get('YMpageController/selectSanshi')
-				console.log(res)
-				if (res.code !== 200) {
-					this.$message.error(res.message)
-				}
-				this.nianjianCarList = res.result.请在两个月内年审
-				setTimeout(() => {
-					this.fullscreenLoading = false;
-					this.nianjianDialogVisible = true
-				}, 500)
-			},
-			nianjianDialogClosed() {},
-			// 保险
-			async showBaoXian() {
-				this.fullscreenLoading = true;
-				const {
-					data: res
-				} = await this.$http.get('YMpageController/selectbaoxiandaoqi')
-				if (res.code !== 200) {
-					this.$message.error(res.message)
-				}
-				this.baoxianCarList = res.result.三十天内保险即将到期的车辆
-				setTimeout(() => {
-					this.fullscreenLoading = false;
-					this.baoxianDialogVisible = true
-				}, 300)
-			},
-			baoxianDialogClosed() {},
-			// 违章
-			async showWeiZhang() {
-				this.fullscreenLoading = true;
-				const {
-					data: res
-				} = await this.$http.get('YMpageController/selectYMxiangqing')
-				if (res.code !== 200) {
-					this.$message.error(res.message)
-				}
-				this.weizhangCarList = res.result.未处理违章
-				setTimeout(() => {
-					this.fullscreenLoading = false;
-					this.weizhangDialogVisible = true
-				}, 600)
-			},
-			weizhangDialogClosed() {},
-			// 押金
-			async showYaJin() {
-				this.fullscreenLoading = true;
-				const {
-					data: res
-				} = await this.$http.get('YMpageController/sdelectxiaoyuWB')
-				if (res.code !== 200) {
-					this.$message.error(res.message)
-				}
-				this.yajinCarList = res.result.押金小于500的车辆详情
-				setTimeout(() => {
-					this.fullscreenLoading = false;
-					this.yajinDialogVisible = true
-				}, 300)
-			},
-			yajinDialogClosed() {},
-			// 调度费
-			async showDiaoDuFei() {
-				this.fullscreenLoading = true;
-				const {
-					data: res
-				} = await this.$http.get('YMpageController/selectDiaoDuFeiDQ')
-				if (res.code !== 200) {
-					this.$message.error(res.message)
-				}
-				this.diaodufeiCarList = res.result.调度费到期车辆详情
-				setTimeout(() => {
-					this.fullscreenLoading = false;
-					this.diaodufeiDialogVisible = true
-				}, 500)
+			const {
+				data: res8
+			} = await this.$http.get('SumController/HHDyingyunzhengD')
+			if (res6.code !== 200) {
+				this.$message.error(res8.message)
+			}
+			this.yingyunzhengCarData = res8.result.营运证到期总数
 
-			},
-			diaodufeiDialogClosed() {},
+			const {
+				data: res9
+			} = await this.$http.get('SumController/HHDjaishizhengD')
+			if (res6.code !== 200) {
+				this.$message.error(res9.message)
+			}
+			this.jiashizhengCarData = res9.result.司机驾驶证到期总数
 
-			// 上岗证
-			async showShangGangZheng() {
-				this.fullscreenLoading = true;
-				const {
-					data: res
-				} = await this.$http.get('SumController/HHDshanggangzheng')
-				if (res.code !== 200) {
-					this.$message.error(res.message)
-				}
-				this.shanggangzhengCarList = res.result.两个月内上岗证即将到期的车辆
-				setTimeout(() => {
-					this.fullscreenLoading = false;
-					this.shanggangzhengDialogVisible = true
-				}, 500)
+			const {
+				data: res10
+			} = await this.$http.get('SumController/HHDshanggangzhengD')
+			if (res6.code !== 200) {
+				this.$message.error(res10.message)
+			}
+			this.shanggangzhengCarData = res10.result.司机上岗证到期总数
+		},
+		// 年检
+		async showNianJian() {
+			this.fullscreenLoading = true;
+			const {
+				data: res
+			} = await this.$http.get('YMpageController/selectSanshi')
+			console.log(res)
+			if (res.code !== 200) {
+				this.$message.error(res.message)
+			}
+			this.nianjianCarList = res.result.请在两个月内年审
+			setTimeout(() => {
+				this.fullscreenLoading = false;
+				this.nianjianDialogVisible = true
+			}, 500)
+		},
+		nianjianDialogClosed() {},
+		// 保险
+		async showBaoXian() {
+			this.fullscreenLoading = true;
+			const {
+				data: res
+			} = await this.$http.get('YMpageController/selectbaoxiandaoqi')
+			if (res.code !== 200) {
+				this.$message.error(res.message)
+			}
+			this.baoxianCarList = res.result.三十天内保险即将到期的车辆
+			setTimeout(() => {
+				this.fullscreenLoading = false;
+				this.baoxianDialogVisible = true
+			}, 300)
+		},
+		baoxianDialogClosed() {},
+		// 违章
+		async showWeiZhang() {
+			this.fullscreenLoading = true;
+			const {
+				data: res
+			} = await this.$http.get('YMpageController/selectYMxiangqing')
+			if (res.code !== 200) {
+				this.$message.error(res.message)
+			}
+			this.weizhangCarList = res.result.未处理违章
+			setTimeout(() => {
+				this.fullscreenLoading = false;
+				this.weizhangDialogVisible = true
+			}, 600)
+		},
+		weizhangDialogClosed() {},
+		// 押金
+		async showYaJin() {
+			this.fullscreenLoading = true;
+			const {
+				data: res
+			} = await this.$http.get('YMpageController/sdelectxiaoyuWB')
+			if (res.code !== 200) {
+				this.$message.error(res.message)
+			}
+			this.yajinCarList = res.result.押金小于500的车辆详情
+			setTimeout(() => {
+				this.fullscreenLoading = false;
+				this.yajinDialogVisible = true
+			}, 300)
+		},
+		yajinDialogClosed() {},
+		// 调度费
+		async showDiaoDuFei() {
+			this.fullscreenLoading = true;
+			const {
+				data: res
+			} = await this.$http.get('YMpageController/selectDiaoDuFeiDQ')
+			if (res.code !== 200) {
+				this.$message.error(res.message)
+			}
+			this.diaodufeiCarList = res.result.调度费到期车辆详情
+			setTimeout(() => {
+				this.fullscreenLoading = false;
+				this.diaodufeiDialogVisible = true
+			}, 500)
 
-			},
-			shanggangzhengDialogClosed() {},
-			
-			// 行驶证
-			async showXingShiZheng() {
-				this.fullscreenLoading = true;
-				const {
-					data: res
-				} = await this.$http.get('SumController/HHDxingshizheng')
-				if (res.code !== 200) {
-					this.$message.error(res.message)
-				}
-				this.xingshizhengCarList = res.result.两个月内行驶证即将到期的车辆
-				setTimeout(() => {
-					this.fullscreenLoading = false;
-					this.xingshizhengDialogVisible = true
-				}, 500)
-			
-			},
-			xingshizhengDialogClosed() {},
-			
-			// 营运证
-			async showYingYunZheng() {
-				this.fullscreenLoading = true;
-				const {
-					data: res
-				} = await this.$http.get('SumController/HHDyingyunzheng')
-				if (res.code !== 200) {
-					this.$message.error(res.message)
-				}
-				this.yingyunzhengCarList = res.result.两个月内营运证即将到期的车辆
-				setTimeout(() => {
-					this.fullscreenLoading = false;
-					this.yingyunzhengDialogVisible = true
-				}, 500)
-			
-			},
-			yingyunzhengDialogClosed() {},
-			
-			// 驾驶证
-			async showJiaShiZheng() {
-				this.fullscreenLoading = true;
-				const {
-					data: res
-				} = await this.$http.get('SumController/HHDjaishizheng')
-				if (res.code !== 200) {
-					this.$message.error(res.message)
-				}
-				this.jiashizhengCarList = res.result.两个月内驾驶证即将到期的车辆
-				setTimeout(() => {
-					this.fullscreenLoading = false;
-					this.jiashizhengDialogVisible = true
-				}, 500)
-			
-			},
-			jiashizhengDialogClosed() {},
+		},
+		diaodufeiDialogClosed() {},
 
-			// 获取时间
-			// 初始化时间
-			initTime() {
-				const plistCtime2 = this.getFormatDate(new Date()).substr(0, 11) + '23:59:59'
-				const plistCtime1 = this.getFormatDate(new Date(new Date() - 3600 * 1000 * 24 * 29)).substr(0, 11) + '00:00:00'
-				this.queryInfo = {
-					'plistCtime1': plistCtime1,
-					'plistCtime2': plistCtime2
-				}
-			},
-			// 获取当前时间
-			getFormatDate(date) {
-				var month = date.getMonth() + 1
-				var strDate = date.getDate()
-				if (month >= 1 && month <= 9) {
-					month = '0' + month
-				}
-				if (strDate >= 0 && strDate <= 9) {
-					strDate = '0' + strDate
-				}
-				var currentDate = date.getFullYear() + '-' + month + '-' + strDate + ' ' + date.getHours() + ':' + date.getMinutes() +
-					':' + date.getSeconds()
-				return currentDate
-			},
+		// 上岗证
+		async showShangGangZheng() {
+			this.fullscreenLoading = true;
+			const {
+				data: res
+			} = await this.$http.get('SumController/HHDshanggangzheng')
+			if (res.code !== 200) {
+				this.$message.error(res.message)
+			}
+			this.shanggangzhengCarList = res.result.两个月内上岗证即将到期的车辆
+			setTimeout(() => {
+				this.fullscreenLoading = false;
+				this.shanggangzhengDialogVisible = true
+			}, 500)
 
-			// 获取面板数据
-			// 根据查询列表
-			async getQueryData() {
-				this.sourceData = []
-				this.xDataArr = []
-				this.yDataArr1 = []
-				this.yDataArr2 = []
-				const {
-					data: res
-				} = await this.$http.get('data/findIncomeByTimeEveryday', {
-					params: this.queryInfo
-				})
-				if (res.code !== 200) {
-					return this.$message.error(res.message)
-				}
+		},
+		shanggangzhengDialogClosed() {},
 
-				this.sourceData = res.result
+		// 行驶证
+		async showXingShiZheng() {
+			this.fullscreenLoading = true;
+			const {
+				data: res
+			} = await this.$http.get('SumController/HHDxingshizheng')
+			if (res.code !== 200) {
+				this.$message.error(res.message)
+			}
+			this.xingshizhengCarList = res.result.两个月内行驶证即将到期的车辆
+			setTimeout(() => {
+				this.fullscreenLoading = false;
+				this.xingshizhengDialogVisible = true
+			}, 500)
 
-				this.sourceData.forEach(v => {
-					this.xDataArr.push(v.总日期)
-					this.yDataArr1.push(v.总里程)
-					this.yDataArr2.push(v.总收入)
-				})
-			},
-			// 创建图表
-			creatEchartsMethod() {
-				this.myChart = this.$echarts.init(document.getElementById('main'));
+		},
+		xingshizhengDialogClosed() {},
 
-				var options = {
-					// title: {
-					// 	text: '订单数据'
-					// },
-					legend: {
-						data: ['里程', '收入'],
-						// right: '180px',
+		// 营运证
+		async showYingYunZheng() {
+			this.fullscreenLoading = true;
+			const {
+				data: res
+			} = await this.$http.get('SumController/HHDyingyunzheng')
+			if (res.code !== 200) {
+				this.$message.error(res.message)
+			}
+			this.yingyunzhengCarList = res.result.两个月内营运证即将到期的车辆
+			setTimeout(() => {
+				this.fullscreenLoading = false;
+				this.yingyunzhengDialogVisible = true
+			}, 500)
+
+		},
+		yingyunzhengDialogClosed() {},
+
+		// 驾驶证
+		async showJiaShiZheng() {
+			this.fullscreenLoading = true;
+			const {
+				data: res
+			} = await this.$http.get('SumController/HHDjaishizheng')
+			if (res.code !== 200) {
+				this.$message.error(res.message)
+			}
+			this.jiashizhengCarList = res.result.两个月内驾驶证即将到期的车辆
+			setTimeout(() => {
+				this.fullscreenLoading = false;
+				this.jiashizhengDialogVisible = true
+			}, 500)
+
+		},
+		jiashizhengDialogClosed() {},
+
+		// 获取时间
+		// 初始化时间
+		initTime() {
+			const plistCtime2 = this.getFormatDate(new Date()).substr(0, 11) + '23:59:59'
+			const plistCtime1 = this.getFormatDate(new Date(new Date() - 3600 * 1000 * 24 * 29)).substr(0, 11) + '00:00:00'
+			this.queryInfo = {
+				'plistCtime1': plistCtime1,
+				'plistCtime2': plistCtime2
+			}
+		},
+		// 获取当前时间
+		getFormatDate(date) {
+			var month = date.getMonth() + 1
+			var strDate = date.getDate()
+			if (month >= 1 && month <= 9) {
+				month = '0' + month
+			}
+			if (strDate >= 0 && strDate <= 9) {
+				strDate = '0' + strDate
+			}
+			var currentDate = date.getFullYear() + '-' + month + '-' + strDate + ' ' + date.getHours() + ':' + date.getMinutes() +
+				':' + date.getSeconds()
+			return currentDate
+		},
+
+		// 获取面板数据
+		// 根据查询列表
+		async getQueryData() {
+			this.sourceData = []
+			this.xDataArr = []
+			this.yDataArr1 = []
+			this.yDataArr2 = []
+			const {
+				data: res
+			} = await this.$http.get('data/findIncomeByTimeEveryday', {
+				params: this.queryInfo
+			})
+			if (res.code !== 200) {
+				return this.$message.error(res.message)
+			}
+
+			this.sourceData = res.result
+
+			this.sourceData.forEach(v => {
+				this.xDataArr.push(v.总日期)
+				this.yDataArr1.push(v.总里程)
+				this.yDataArr2.push(v.总收入)
+			})
+		},
+		// 创建图表
+		creatEchartsMethod() {
+			this.myChart = this.$echarts.init(document.getElementById('main'));
+
+			var options = {
+				// title: {
+				// 	text: '订单数据'
+				// },
+				legend: {
+					data: ['里程', '收入'],
+					// right: '180px',
+
+				},
+				xAxis: {
+					name: '时间',
+					nameTextStyle: {
+						fontWeight: 600,
+						fontSize: 16,
 
 					},
-					xAxis: {
-						name: '时间',
-						nameTextStyle: {
-							fontWeight: 600,
-							fontSize: 16,
-
+					type: 'category',
+					data: this.xDataArr
+				},
+				yAxis: {
+					name: '订单数据',
+					nameTextStyle: {
+						fontWeight: 600,
+						fontSize: 16,
+						align: 'right',
+						lineHeight: 56,
+					},
+					type: 'value'
+				},
+				tooltip: {
+					trigger: 'axis',
+					axisPointer: { // 坐标轴指示器，坐标轴触发有效
+						type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+					}
+				},
+				series: [{
+						name: '里程',
+						type: 'bar',
+						data: this.yDataArr1,
+						// color: '#409EFF',
+						itemStyle: { //柱状颜色和圆角
+							color: '#1F81FEE6',
+							barBorderRadius: [10, 10, 10, 10], // （顺时针左上，右上，右下，左下）
 						},
-						type: 'category',
-						data: this.xDataArr
+						// 平均值线
+						// markLine:{
+						// 	data:[
+						// 		{type: 'average'}
+						// 	]
+						// }
 					},
-					yAxis: {
-						name: '订单数据',
-						nameTextStyle: {
-							fontWeight: 600,
-							fontSize: 16,
-							align: 'right',
-							lineHeight: 56,
+					{
+						name: '收入',
+						type: 'bar',
+						data: this.yDataArr2,
+						// color: '#E6AE5C',
+						itemStyle: { //柱状颜色和圆角
+							color: '#FF9C00E6',
+							barBorderRadius: [10, 10, 10, 10], // （顺时针左上，右上，右下，左下）
 						},
-						type: 'value'
-					},
-					tooltip: {
-						trigger: 'axis',
-						axisPointer: { // 坐标轴指示器，坐标轴触发有效
-							type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
-						}
-					},
-					series: [{
-							name: '里程',
-							type: 'bar',
-							data: this.yDataArr1,
-							// color: '#409EFF',
-							itemStyle: { //柱状颜色和圆角
-								color: '#1F81FEE6',
-								barBorderRadius: [10, 10, 10, 10], // （顺时针左上，右上，右下，左下）
-							},
-							// 平均值线
-							// markLine:{
-							// 	data:[
-							// 		{type: 'average'}
-							// 	]
-							// }
-						},
-						{
-							name: '收入',
-							type: 'bar',
-							data: this.yDataArr2,
-							// color: '#E6AE5C',
-							itemStyle: { //柱状颜色和圆角
-								color: '#FF9C00E6',
-								barBorderRadius: [10, 10, 10, 10], // （顺时针左上，右上，右下，左下）
-							},
-							// 平均值
-							// markLine:{
-							// 	data:[
-							// 		{type: 'average'}
-							// 	]
-							// }
-						}
-					],
-				}
-				// 使用刚指定的配置项和数据显示图表。
-				this.myChart.setOption(options);
-				// 根据窗口大小，实现表格自适应
-				window.onresize = this.myChart.resize
-			},
+						// 平均值
+						// markLine:{
+						// 	data:[
+						// 		{type: 'average'}
+						// 	]
+						// }
+					}
+				],
+			}
+			// 使用刚指定的配置项和数据显示图表。
+			this.myChart.setOption(options);
+			// 根据窗口大小，实现表格自适应
+			window.onresize = this.myChart.resize
+		},
 
 
-		}
+	}
 	}
 </script>
 
