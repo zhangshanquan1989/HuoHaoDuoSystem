@@ -306,13 +306,13 @@
 				driverList: [],
 				total: 0,			
 				// 上传身份证URL
-				updateUserIdUrl: "http://81.70.151.121:8080/jeecg-boot/kDriver/uploadImageUserid",
-				updateDrivingLicenseUrl: "http://81.70.151.121:8080/jeecg-boot/kDriver/uploadImageDriver",
-				updateWorkLicenseUrl: "http://81.70.151.121:8080/jeecg-boot/kDriver/uploadImagePostCard",
+				updateUserIdUrl: this.$baseUploadUrl+"/kDriver/uploadImageUserid",
+				updateDrivingLicenseUrl: this.$baseUploadUrl+"/kDriver/uploadImageDriver",
+				updateWorkLicenseUrl:this.$baseUploadUrl+ "/kDriver/uploadImagePostCard",
 				// 身份证B上传接口
-				updateUseridaUrl: "http://81.70.151.121:8080/jeecg-boot/kDriver/uploadImageUseridA",
+				updateUseridaUrl: this.$baseUploadUrl+"/kDriver/uploadImageUseridA",
 				// 驾驶证B
-				updateDrivingLicenseaUrl: "http://81.70.151.121:8080/jeecg-boot/kDriver/uploadImageDriverA",
+				updateDrivingLicenseaUrl: this.$baseUploadUrl+"/kDriver/uploadImageDriverA",
 				// 编辑数据
 				editDialogVisible:false,
 				editForm:{},

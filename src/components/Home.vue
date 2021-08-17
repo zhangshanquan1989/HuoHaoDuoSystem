@@ -297,7 +297,7 @@
 			// 获取代办提醒
 			async getDaiBan(){
 				const {data:res} = await this.$http.get('waybill/daiban?id='+this.userid)
-				// console.log(res)
+				console.log(res)
 				this.daibanData = res.result.代办流程数量
 			},
 			// 跳转到待办事项功能，目前跳转地址不明确

@@ -252,9 +252,11 @@
 					permit: '',
 				},
 				// 添加公司营业执照的网址
-				updateBusinessUrl: 'http://81.70.151.121:8080/jeecg-boot/base/company/uploadbusiness',
+				// updateBusinessUrl: 'https://tkhhd.com/jeecg-boot/base/company/uploadbusiness',
+				updateBusinessUrl: this.$baseUploadUrl+'/base/company/uploadbusiness',
 				// 添加运输许可证网址
-				updateTransportUrl: 'http://81.70.151.121:8080/jeecg-boot/base/company/uploadtransport',
+				updateTransportUrl: this.$baseUploadUrl+'/base/company/uploadtransport',
+				// updateTransportUrl: 'https://tkhhd.com/jeecg-boot/base/company/uploadtransport',
 
 				// 添加的表单验证规则
 				addCompanyFormRules: {
@@ -366,7 +368,9 @@
 		created() {
 			// this.myHeaders.satoken = window.sessionStorage.getItem('satoken')
 			// console.log(this.myHeaders)
+			// console.log('url',this.updateBusinessUrl)
 			this.getCompanyList()
+			
 		},
 		mounted() {
 

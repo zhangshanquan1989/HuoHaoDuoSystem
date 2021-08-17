@@ -491,6 +491,9 @@
 				<el-popconfirm title="完结后不可修改,确认完结？" style="margin-left: 10px;" @confirm="handleApproved" v-if="showApproved">
 					<el-button type="primary" slot="reference">订单完结</el-button>
 				</el-popconfirm>
+				<el-popconfirm title="取消后不可修复,确认取消？" style="margin-left: 10px;" @confirm="handleCancel()" v-if="showApproved">
+					<el-button type="primary" slot="reference">订单取消</el-button>
+				</el-popconfirm>
 			</span>
 
 		</el-dialog>
@@ -543,6 +546,10 @@
 				{
 					value: '5',
 					label: '待完结'
+				},
+				{
+					value: '6',
+					label: '订单取消'
 				}],
 				// 分页列表
 				pageList: [],
@@ -647,8 +654,8 @@
 				// 显示司机拒单原因：
 				showRefusenote: false,
 
-				updateReturnUrl: "http://81.70.151.121:8080/jeecg-boot/distribution/uploadreturnpicture",
-				updateRiskUrl: "http://81.70.151.121:8080/jeecg-boot/distribution/uploadriskpicture",
+				updateReturnUrl: this.$baseUploadUrl+"/distribution/uploadreturnpicture",
+				updateRiskUrl: this.$baseUploadUrl+"/distribution/uploadriskpicture",
 
 				// 微信转发的数据
 				// appid
@@ -772,6 +779,8 @@
 						v.stateText = "司机已拒单"
 					} else if (v.state == 5) {
 						v.stateText = "待完结"
+					}else if (v.state == 6) {
+						v.stateText = "订单取消"
 					}
 				})
 			},
@@ -842,6 +851,8 @@
 					this.showRefusenote = true
 				} else if (res.result[0].state == 5) {
 					this.showApproved = true
+				}else if (res.result[0].state == 6) {
+					
 				}
 				// 对订单号进行加密，用于复制链接
 				const {
@@ -954,7 +965,7 @@
 				})
 			},
 
-			// 提交审核通过
+			// 提交审核通过 handleCancel
 			handleApproved() {
 				this.$refs.approvedFormRef.validate(async valid => {
 					if (!valid) return
@@ -971,6 +982,22 @@
 					this.getPageList()
 					// this.$message.success('更新信息成功')
 				})
+			},
+			
+			// 取消订单 
+			async handleCancel() {
+				const {
+					data: res
+				} = await this.$http.get('waybill/quxiao?id=' + this.editForm.id)
+				
+				if (res.code !== 200) {
+					return this.$message.error(res.message)
+				}
+				// 更新成功，关闭对话框，刷新数据列表，提示修改成功
+				this.editDialogVisible = false
+				
+				this.getPageList()
+				
 			},
 
 			// 回单附件图片上传成功的回调

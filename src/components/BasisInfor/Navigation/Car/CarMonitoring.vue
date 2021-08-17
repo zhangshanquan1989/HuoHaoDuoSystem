@@ -172,7 +172,7 @@
 				setTimeout(() => {
 					for (var i = 0, markerList; i < allLocationList.length; i++) {
 						var markerList = new AMap.Marker({
-							icon: "http://81.70.151.121/imgs/kache.png",
+							icon: "https://tkhhd.com/imgs/kache.png",
 							position: allLocationList[i],
 							offset: new AMap.Pixel(-13, -30),
 							map: this.newmap

@@ -317,7 +317,8 @@
 				companyStates: [],
 				
 				// 上传身份证
-				updateIdCardUrl:'http://81.70.151.121:8080/jeecg-boot/kuser/uploadImageusering',
+				updateIdCardUrl:this.$baseUploadUrl+'/kuser/uploadImageusering',
+				// updateIdCardUrl:'http://81.70.151.121:8080/jeecg-boot/kuser/uploadImageusering',
 			}
 		},
 

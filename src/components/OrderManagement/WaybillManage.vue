@@ -757,6 +757,10 @@
 				{
 					value: '5',
 					label: '待完结'
+				},
+				{
+					value: '6',
+					label: '订单取消'
 				}],
 				// 分页列表
 				wybillList: [],
@@ -972,7 +976,7 @@
 				// 显示司机拒单原因：
 				showRefusenote: false,
 
-				updatePictureUrl: "http://81.70.151.121:8080/jeecg-boot/waybill/uploadpicture",
+				updatePictureUrl: this.$baseUploadUrl+"/waybill/uploadpicture",
 			}
 		},
 		created() {
@@ -1550,6 +1554,8 @@
 						v.stateText = "司机已拒单"
 					}else if (v.state == 5) {
 						v.stateText = "待完结"
+					}else if (v.state == 6) {
+						v.stateText = "订单取消"
 					}
 					
 				})

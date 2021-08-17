@@ -665,19 +665,19 @@
 				// 照片数量限制
 				uploadLimit: 1,
 
-				updateVehicleLicenseUrl: "http://81.70.151.121:8080/jeecg-boot/kCarinformation/uploadImagevehicleLicense",
-				updateInsuranceUrl1: "http://81.70.151.121:8080/jeecg-boot/kCarinformation/uploadImageinsurance",
-				updateInsuranceUrl2: "http://81.70.151.121:8080/jeecg-boot/kCarinformation/uploadImageinsuranceA",
-				updateInsuranceUrl3: "http://81.70.151.121:8080/jeecg-boot/kCarinformation/uploadImageinsuranceB",
-				updateInsuranceUrl4: "http://81.70.151.121:8080/jeecg-boot/kCarinformation/uploadImageinsuranceC",
-				updateInsuranceUrl5: "http://81.70.151.121:8080/jeecg-boot/kCarinformation/uploadImageinsuranceD",
-				updateInsuranceUrl6: "http://81.70.151.121:8080/jeecg-boot/kCarinformation/uploadImageinsuranceE",
-				updateInsuranceUrl7: "http://81.70.151.121:8080/jeecg-boot/kCarinformation/uploadImageinsuranceF",
-				updateInsuranceUrl8: "http://81.70.151.121:8080/jeecg-boot/kCarinformation/uploadImageinsuranceG",
-				updateInsuranceUrl9: "http://81.70.151.121:8080/jeecg-boot/kCarinformation/uploadImageinsuranceH",
-				updateInsuranceUrl10: "http://81.70.151.121:8080/jeecg-boot/kCarinformation/uploadImageinsuranceL",
-				updateCaroperatingUrl: "http://81.70.151.121:8080/jeecg-boot/kCarinformation/uploadImagecaroperating",
-				updatePayFeeUrl: "http://81.70.151.121:8080/jeecg-boot/kCarinformation/uploadImagepayFee",
+				updateVehicleLicenseUrl: this.$baseUploadUrl+"/kCarinformation/uploadImagevehicleLicense",
+				updateInsuranceUrl1: this.$baseUploadUrl+"/kCarinformation/uploadImageinsurance",
+				updateInsuranceUrl2: this.$baseUploadUrl+"/kCarinformation/uploadImageinsuranceA",
+				updateInsuranceUrl3: this.$baseUploadUrl+"/kCarinformation/uploadImageinsuranceB",
+				updateInsuranceUrl4: this.$baseUploadUrl+"/kCarinformation/uploadImageinsuranceC",
+				updateInsuranceUrl5: this.$baseUploadUrl+"/kCarinformation/uploadImageinsuranceD",
+				updateInsuranceUrl6: this.$baseUploadUrl+"/kCarinformation/uploadImageinsuranceE",
+				updateInsuranceUrl7: this.$baseUploadUrl+"/kCarinformation/uploadImageinsuranceF",
+				updateInsuranceUrl8: this.$baseUploadUrl+"/kCarinformation/uploadImageinsuranceG",
+				updateInsuranceUrl9: this.$baseUploadUrl+"/kCarinformation/uploadImageinsuranceH",
+				updateInsuranceUrl10: this.$baseUploadUrl+"/kCarinformation/uploadImageinsuranceL",
+				updateCaroperatingUrl: this.$baseUploadUrl+"/kCarinformation/uploadImagecaroperating",
+				updatePayFeeUrl: this.$baseUploadUrl+"/kCarinformation/uploadImagepayFee",
 
 				// 图片放大
 				showDriverCertificateDriver: false,
@@ -1172,7 +1172,7 @@
 						});
 					
 						var marker1 = new AMap.Marker({
-							icon: "http://81.70.151.121/imgs/kache.png",
+							icon: "https://tkhhd.com/imgs/kache.png",
 							position: [last_lon, last_lat],
 							offset: new AMap.Pixel(-13, -30)
 						});
@@ -1272,7 +1272,7 @@
 				this.carMarker = new AMap.Marker({
 					map: this.map,
 					position: this.firstArr,
-					icon: "http://81.70.151.121/imgs/kache1.png",
+					icon: "https://tkhhd.com/imgs/kache1.png",
 					offset: new AMap.Pixel(-26, -13), //调整图片偏移
 					autoRotation: true, //自动旋转
 					// angle: -90 //图片旋转角度

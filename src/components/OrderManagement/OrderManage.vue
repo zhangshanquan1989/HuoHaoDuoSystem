@@ -416,8 +416,19 @@
 					value: '2',
 					label: '审核完成'
 				}, {
+					value: '3',
+					label: '司机接单'
+				}, {
 					value: '4',
 					label: '司机拒单'
+				},
+				 {
+					value: '5',
+					label: '待完结'
+				},
+				{
+					value: '6',
+					label: '订单取消'
 				}],
 				selectTime: [],
 				// 分页列表
@@ -580,6 +591,10 @@
 						v.stateText = "司机已接单"
 					} else if (v.state == 4) {
 						v.stateText = "司机已拒单"
+					}else if (v.state == 5) {
+						v.stateText = "待完结"
+					}else if (v.state == 6) {
+						v.stateText = "订单取消"
 					}
 				})
 			},
