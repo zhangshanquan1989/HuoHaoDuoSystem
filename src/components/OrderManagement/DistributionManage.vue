@@ -29,6 +29,12 @@
 				</el-table-column>
 				<el-table-column fixed prop="no" label="运单编号" width="100px">
 				</el-table-column>
+				<el-table-column prop="driver" label="司机名" width="100px">
+				</el-table-column>
+				<el-table-column prop="lienses" label="车牌号" width="150px">
+				</el-table-column>
+				<el-table-column prop="creater" label="创建者" width="150px">
+				</el-table-column>
 				<el-table-column prop="waybilltype" label="派单类型" width="100px">
 				</el-table-column>
 				<el-table-column prop="source" label="订单来源" width="100px">
@@ -74,10 +80,7 @@
 				</el-table-column>
 				<!-- <el-table-column prop="kilometer" label="每公里成本" width="150px">
 				</el-table-column> -->
-				<el-table-column prop="lienses" label="车牌号" width="150px">
-				</el-table-column>
-				<el-table-column prop="creater" label="创建者" width="150px">
-				</el-table-column>
+				
 				<el-table-column prop="creatime" label="创建时间" width="180px">
 				</el-table-column>
 				<el-table-column prop="stateText" label="订单状态" width="120px" fixed="right">
@@ -112,6 +115,9 @@
 			<el-form :model="editForm" ref="editFormRef" label-width="140px">
 				<el-form-item v-if="showRefusenote" label="司机拒单原因:" prop="refusenote" class="redItem">
 					<div style="color: red;">{{this.editForm.refusenote}}</div>
+				</el-form-item>
+				<el-form-item v-if="showQuxiao" label="订单取消备注:" prop="quxiaonote" class="redItem">
+					<div style="color: red;">{{this.editForm.quxiaonote}}</div>
 				</el-form-item>
 				<div style="display: flex;">
 					<el-form-item label="运单编号" prop="no" class="rt-input">
@@ -491,13 +497,27 @@
 				<el-popconfirm title="完结后不可修改,确认完结？" style="margin-left: 10px;" @confirm="handleApproved" v-if="showApproved">
 					<el-button type="primary" slot="reference">订单完结</el-button>
 				</el-popconfirm>
-				<el-popconfirm title="取消后不可修复,确认取消？" style="margin-left: 10px;" @confirm="handleCancel()" v-if="showApproved">
-					<el-button type="primary" slot="reference">订单取消</el-button>
-				</el-popconfirm>
+
+					<el-button type="primary" slot="reference" style="margin-left: 10px;" @click="quxiaoDialogVisible = true" v-if="showApproved">订单取消</el-button>
+
 			</span>
 
 		</el-dialog>
 
+		<el-dialog title="订单取消" :visible.sync="quxiaoDialogVisible" width="80%" @close="quxiaoDialogClosed" :close-on-click-modal="false">
+			<el-form :model="quxiaoData" ref="quxiaoDataRef" label-width="140px">
+					<el-form-item label="取消原因" prop="note" >
+						<el-input  v-model="quxiaoData.note" ></el-input>
+					</el-form-item>
+			</el-form>
+			
+			<span slot="footer" class="dialog-footer">
+				<el-button @click="quxiaoDialogVisible = false">关 闭</el-button>
+				<el-popconfirm title="取消后不可修复,确认取消？" style="margin-left: 10px;" @confirm="handleCancel" v-if="showApproved">
+					<el-button type="primary" slot="reference">确 认</el-button>
+				</el-popconfirm>
+			</span>
+		</el-dialog>
 
 	</div>
 </template>
@@ -524,6 +544,12 @@
 					no: '',
 					noText: '',
 				},
+				// 订单取消
+				quxiaoData:{
+					id:0,
+					note:''
+				},
+				quxiaoDialogVisible:false,
 				stateOptions: [
 					{
 						value: '0',
@@ -588,6 +614,8 @@
 				showApproved: false,
 				// 订单完结，显示配送详情
 				showDisDetails: false,
+				// 订单取消
+				showQuxiao: false,
 
 				// 驳回数据
 				rejectedForm: {
@@ -852,7 +880,7 @@
 				} else if (res.result[0].state == 5) {
 					this.showApproved = true
 				}else if (res.result[0].state == 6) {
-					
+					this.showQuxiao = true
 				}
 				// 对订单号进行加密，用于复制链接
 				const {
@@ -965,7 +993,7 @@
 				})
 			},
 
-			// 提交审核通过 handleCancel
+			// 提交审核通过 
 			handleApproved() {
 				this.$refs.approvedFormRef.validate(async valid => {
 					if (!valid) return
@@ -986,18 +1014,26 @@
 			
 			// 取消订单 
 			async handleCancel() {
+				this.quxiaoData.id = this.editForm.id
 				const {
 					data: res
-				} = await this.$http.get('waybill/quxiao?id=' + this.editForm.id)
+				} = await this.$http.get('waybill/quxiao', {
+						params: this.quxiaoData
+					})
 				
 				if (res.code !== 200) {
 					return this.$message.error(res.message)
 				}
 				// 更新成功，关闭对话框，刷新数据列表，提示修改成功
 				this.editDialogVisible = false
+				this.quxiaoDialogVisible = false
 				
 				this.getPageList()
 				
+			},
+			quxiaoDialogClosed(){
+				this.quxiaoData.id = 0
+				this.quxiaoData.note = ''
 			},
 
 			// 回单附件图片上传成功的回调
@@ -1033,6 +1069,7 @@
 				this.showDriverReject = false
 				this.showRefusenote = false
 				this.showDisDetails = false
+				this.showQuxiao = false
 				
 			},
 		}

@@ -453,6 +453,7 @@
 				// console.log(this.addCompanyForm.business)
 			},
 			handleEditTransportSuccess(response, file, fileList) {
+				console.log(response)
 				this.editCompanyForm.permit = response.result.transportFileName
 				// console.log(this.addCompanyForm.permit)
 			},

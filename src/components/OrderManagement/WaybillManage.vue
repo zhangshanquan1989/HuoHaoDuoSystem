@@ -29,6 +29,12 @@
 				</el-table-column>
 				<el-table-column fixed prop="no" label="运单编号" width="100px">
 				</el-table-column>
+				<el-table-column prop="driver" label="司机名" width="100px">
+				</el-table-column>
+				<el-table-column prop="lienses" label="车牌号" width="150px">
+				</el-table-column>
+				<el-table-column prop="creater" label="创建者" width="150px">
+				</el-table-column>
 				<el-table-column prop="waybilltype" label="派单类型" width="100px">
 				</el-table-column>
 				<el-table-column prop="source" label="订单来源" width="100px">
@@ -74,10 +80,7 @@
 				</el-table-column>
 				<!-- <el-table-column prop="kilometer" label="每公里成本" width="150px">
 				</el-table-column> -->
-				<el-table-column prop="lienses" label="车牌号" width="150px">
-				</el-table-column>
-				<el-table-column prop="creater" label="创建者" width="150px">
-				</el-table-column>
+				
 				<el-table-column prop="creatime" label="创建时间" width="180px">
 				</el-table-column>
 				<el-table-column prop="stateText" label="订单状态" width="120px" fixed="right">
@@ -400,6 +403,10 @@
 
 				<el-form-item v-if="showRefusenote" label="司机拒单原因" prop="refusenote" class="redItem">
 					<div style="color: red;">{{this.editForm.refusenote}}</div>
+				</el-form-item>
+				
+				<el-form-item v-if="showQuxiao" label="订单取消备注:" prop="quxiaonote" class="redItem">
+					<div style="color: red;">{{this.editForm.quxiaonote}}</div>
 				</el-form-item>
 
 				<div style="display: flex;">
@@ -975,6 +982,8 @@
 				showDisDetails: false,
 				// 显示司机拒单原因：
 				showRefusenote: false,
+				// 订单取消
+				showQuxiao: false,
 
 				updatePictureUrl: this.$baseUploadUrl+"/waybill/uploadpicture",
 			}
@@ -1692,7 +1701,7 @@
 				this.editForm.Lidriver = this.editForm.cars.name
 				this.editForm.dispatch = this.editForm.liensess.dispatch
 				// if(this.editForm.refusenote){
-				// 	this.showRefusenote = true
+				// 	this.showRefusenote = true 
 				// }
 				if (res.result[0].state == 0) {
 					this.canClickEdit = false
@@ -1706,6 +1715,10 @@
 				} else if (res.result[0].state == 4) {
 					this.canClickEdit = true
 					this.showRefusenote = true
+				} else if (res.result[0].state == 5) {
+					
+				}else if (res.result[0].state == 6) {
+					this.showQuxiao = true
 				}
 
 				// 显示对话框
@@ -1724,6 +1737,8 @@
 				this.$refs.editFormRef.resetFields()
 				this.canEdit = true
 				this.showRefusenote = false
+				this.canClickEdit = true
+				this.showQuxiao = false
 			},
 			handlecanEdit() {
 				this.canEdit = false

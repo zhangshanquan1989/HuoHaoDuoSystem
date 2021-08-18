@@ -544,32 +544,54 @@
 					this.nianjianExcel.push(v.License_plate)
 				})
 			},
-			// 导出
+			// 年检导出
 			async nianjianExport() {
 				if (!this.nianjianExcel[0]) {
 					return this.$message.warning('请选择需要导出的数据！')
 				}
-				let url = 'https://tkhhd.com/jeecg-boot/ExcelController/ExcelNianjian?' + this.$qs.stringify({
-					ExcelNianjians: this.nianjianExcel
-				}, {
-					arrayFormat: 'repeat'
+				const {
+					data: res
+				} = await this.$http({
+					url: 'ExcelController/ExcelNianjian',
+					method: "post",
+					data: {
+						nianjan: this.nianjianExcel
+					},
+					responseType: 'blob',
 				})
-					var xhr = new XMLHttpRequest(); //定义http请求对象
-					xhr.open("get", url, true);
-					xhr.responseType = "blob"; // 转换流
-					xhr.setRequestHeader("satoken", window.sessionStorage.getItem('satoken'));
-					xhr.onload = function() {
-						// console.log(this)
-						var blob = this.response;
-						var a = document.createElement("a")
-						var url = window.URL.createObjectURL(blob)
-						a.href = url
-						a.download = "年检到期车辆.xlsx" // 文件名
-						a.click()
-						window.URL.revokeObjectURL(url)
-						a.remove()
-					}
-					xhr.send();
+				// console.log(res)
+				var blob = res
+				// console.log(blob)
+				const fileName = '年检到期车辆.xlsx'
+				var a = document.createElement("a");
+				a.href = window.URL.createObjectURL(blob);
+				console.log(a.href)
+				a.download = fileName
+				a.click()
+				a.remove()
+				
+				// 下面是拼接url的方法,全选的话拼接url过长！！
+				// let url = 'https://tkhhd.com/jeecg-boot/ExcelController/ExcelNianjian?' + this.$qs.stringify({
+				// 	ExcelNianjians: this.nianjianExcel
+				// }, {
+				// 	arrayFormat: 'repeat'
+				// })
+				// 	var xhr = new XMLHttpRequest(); //定义http请求对象
+				// 	xhr.open("get", url, true);
+				// 	xhr.responseType = "blob"; // 转换流
+				// 	xhr.setRequestHeader("satoken", window.sessionStorage.getItem('satoken'));
+				// 	xhr.onload = function() {
+				// 		// console.log(this)
+				// 		var blob = this.response;
+				// 		var a = document.createElement("a")
+				// 		var url = window.URL.createObjectURL(blob)
+				// 		a.href = url
+				// 		a.download = "年检到期车辆.xlsx" // 文件名
+				// 		a.click()
+				// 		window.URL.revokeObjectURL(url)
+				// 		a.remove()
+				// 	}
+					// xhr.send();
 					// !!!下面代码为location.href方法，不能携带token
 				// console.log(res)
 				// window.location.href = 'http://81.70.151.121:8080/jeecg-boot/ExcelController/ExcelNianjian?' + this.$qs.stringify({
@@ -591,27 +613,50 @@
 				if (!this.baoxianExcel[0]) {
 					return this.$message.warning('请选择需要导出的数据！')
 				}
-				let url = 'https://tkhhd.com/jeecg-boot/ExcelController/selectbaoxiandaoqi?' + this.$qs.stringify({
-					selectbaoxiandaoqis: this.baoxianExcel
-				}, {
-					arrayFormat: 'repeat'
+				const {
+					data: res
+				} = await this.$http({
+					url: 'ExcelController/selectbaoxiandaoqi',
+					method: "post",
+					data: {
+						baoxian: this.baoxianExcel
+					},
+					responseType: 'blob',
 				})
-					var xhr = new XMLHttpRequest(); //定义http请求对象
-					xhr.open("get", url, true);
-					xhr.responseType = "blob"; // 转换流
-					xhr.setRequestHeader("satoken", window.sessionStorage.getItem('satoken'));
-					xhr.onload = function() {
-						// console.log(this)
-						var blob = this.response;
-						var a = document.createElement("a")
-						var url = window.URL.createObjectURL(blob)
-						a.href = url
-						a.download = "保险到期车辆.xlsx" // 文件名
-						a.click()
-						window.URL.revokeObjectURL(url)
-						a.remove()
-					}
-				xhr.send();
+				// console.log(res)
+				var blob = res
+				// console.log(blob)
+				const fileName = '保险到期车辆.xlsx'
+				var a = document.createElement("a");
+				a.href = window.URL.createObjectURL(blob);
+				console.log(a.href)
+				a.download = fileName
+				a.click()
+				a.remove()
+				
+				
+				// 下面是拼接url的方法,全选的话拼接url过长！！
+				// let url = 'https://tkhhd.com/jeecg-boot/ExcelController/selectbaoxiandaoqi?' + this.$qs.stringify({
+				// 	selectbaoxiandaoqis: this.baoxianExcel
+				// }, {
+				// 	arrayFormat: 'repeat'
+				// })
+				// 	var xhr = new XMLHttpRequest(); //定义http请求对象
+				// 	xhr.open("get", url, true);
+				// 	xhr.responseType = "blob"; // 转换流
+				// 	xhr.setRequestHeader("satoken", window.sessionStorage.getItem('satoken'));
+				// 	xhr.onload = function() {
+				// 		// console.log(this)
+				// 		var blob = this.response;
+				// 		var a = document.createElement("a")
+				// 		var url = window.URL.createObjectURL(blob)
+				// 		a.href = url
+				// 		a.download = "保险到期车辆.xlsx" // 文件名
+				// 		a.click()
+				// 		window.URL.revokeObjectURL(url)
+				// 		a.remove()
+				// 	}
+				// xhr.send();
 				
 				// !!!下面代码为location.href方法，不能携带token
 				// const {
@@ -668,27 +713,50 @@
 				if (!this.yajinExcel[0]) {
 					return this.$message.warning('请选择需要导出的数据！')
 				}
-				let url = 'https://tkhhd.com/jeecg-boot/ExcelController/sdelectxiaoyuWB?' + this.$qs.stringify({
-					sdelectxiaoyuWBs: this.yajinExcel
-				}, {
-					arrayFormat: 'repeat'
+				const {
+					data: res
+				} = await this.$http({
+					url: 'ExcelController/sdelectxiaoyuWB',
+					method: "post",
+					data: {
+						yajin: this.yajinExcel
+					},
+					responseType: 'blob',
 				})
-					var xhr = new XMLHttpRequest(); //定义http请求对象
-					xhr.open("get", url, true);
-					xhr.responseType = "blob"; // 转换流
-					xhr.setRequestHeader("satoken", window.sessionStorage.getItem('satoken'));
-					xhr.onload = function() {
-						// console.log(this)
-						var blob = this.response;
-						var a = document.createElement("a")
-						var url = window.URL.createObjectURL(blob)
-						a.href = url
-						a.download = "保证金到期车辆.xlsx" // 文件名
-						a.click()
-						window.URL.revokeObjectURL(url)
-						a.remove()
-					}
-				xhr.send();
+				// console.log(res)
+				var blob = res
+				// console.log(blob)
+				const fileName = '保证金到期车辆.xlsx'
+				var a = document.createElement("a");
+				a.href = window.URL.createObjectURL(blob);
+				console.log(a.href)
+				a.download = fileName
+				a.click()
+				a.remove()
+				
+				
+				// 下面是拼接url的方法,全选的话拼接url过长！！
+				// let url = 'https://tkhhd.com/jeecg-boot/ExcelController/sdelectxiaoyuWB?' + this.$qs.stringify({
+				// 	sdelectxiaoyuWBs: this.yajinExcel
+				// }, {
+				// 	arrayFormat: 'repeat'
+				// })
+				// 	var xhr = new XMLHttpRequest(); //定义http请求对象
+				// 	xhr.open("get", url, true);
+				// 	xhr.responseType = "blob"; // 转换流
+				// 	xhr.setRequestHeader("satoken", window.sessionStorage.getItem('satoken'));
+				// 	xhr.onload = function() {
+				// 		// console.log(this)
+				// 		var blob = this.response;
+				// 		var a = document.createElement("a")
+				// 		var url = window.URL.createObjectURL(blob)
+				// 		a.href = url
+				// 		a.download = "保证金到期车辆.xlsx" // 文件名
+				// 		a.click()
+				// 		window.URL.revokeObjectURL(url)
+				// 		a.remove()
+				// 	}
+				// xhr.send();
 				
 				// const {
 				// 	data: res
@@ -711,32 +779,58 @@
 					this.diaodifeiExcel.push(v.License_plate)
 				})
 			},
-			// 调度费导出
+			// 调度费导出 selectDiaoDuFeiDQ  list = {} list = []
 			async diaodufeiExport() {
 				if (!this.diaodifeiExcel[0]) {
 					return this.$message.warning('请选择需要导出的数据！')
-				}
-				let url = 'https://tkhhd.com/jeecg-boot/ExcelController/selectDiaoDuFeiDQ?' + this.$qs.stringify({
-					selectDiaoDuFeiDQ: this.diaodifeiExcel
-				}, {
-					arrayFormat: 'repeat'
+				}				
+				const {
+					data: res
+				} = await this.$http({
+					url: 'ExcelController/selectDiaoDuFeiDQ',
+					method: "post",
+					data: {
+						chepai: this.diaodifeiExcel
+					},
+					// dataType: "json",
+					// traditional: true,  //使用该属性放置深度序列化
+					responseType: 'blob',
 				})
-				var xhr = new XMLHttpRequest(); //定义http请求对象
-				xhr.open("get", url, true);
-				xhr.responseType = "blob"; // 转换流
-				xhr.setRequestHeader("satoken", window.sessionStorage.getItem('satoken'));
-				xhr.onload = function() {
-					// console.log(this)
-					var blob = this.response;
-					var a = document.createElement("a")
-					var url = window.URL.createObjectURL(blob)
-					a.href = url
-					a.download = "调度费到期车辆.xlsx" // 文件名
-					a.click()
-					window.URL.revokeObjectURL(url)
-					a.remove()
-				}
-			xhr.send();
+				console.log(res)
+				var blob = res
+				// console.log(blob)
+				const fileName = '调度费到期车辆.xlsx'
+				var a = document.createElement("a");
+				a.href = window.URL.createObjectURL(blob);
+				console.log(a.href)
+				a.download = fileName
+				a.click()
+				a.remove()
+				
+				
+				
+				// 下面是拼接url的方法！！
+			// 	let url = 'https://tkhhd.com/jeecg-boot/ExcelController/selectDiaoDuFeiDQ?' + this.$qs.stringify({
+			// 		selectDiaoDuFeiDQ: this.diaodifeiExcel
+			// 	}, {
+			// 		arrayFormat: 'repeat'
+			// 	})
+			// 	var xhr = new XMLHttpRequest(); //定义http请求对象
+			// 	xhr.open("get", url, true);
+			// 	xhr.responseType = "blob"; // 转换流
+			// 	xhr.setRequestHeader("satoken", window.sessionStorage.getItem('satoken'));
+			// 	xhr.onload = function() {
+			// 		// console.log(this)
+			// 		var blob = this.response;
+			// 		var a = document.createElement("a")
+			// 		var url = window.URL.createObjectURL(blob)
+			// 		a.href = url
+			// 		a.download = "调度费到期车辆.xlsx" // 文件名
+			// 		a.click()
+			// 		window.URL.revokeObjectURL(url)
+			// 		a.remove()
+			// 	}
+			// xhr.send();
 
 			// !!!下面代码为location.href方法，不能携带token
 			// const {
@@ -764,27 +858,48 @@
 			if (!this.shanggangzhengExcel[0]) {
 				return this.$message.warning('请选择需要导出的数据！')
 			}
-			let url = 'https://tkhhd.com/jeecg-boot/SumController/EXshanggangzheng?' + this.$qs.stringify({
-				EXshanggangzheng: this.shanggangzhengExcel
-			}, {
-				arrayFormat: 'repeat'
+			const {
+				data: res
+			} = await this.$http({
+				url: 'SumController/EXshanggangzheng',
+				method: "post",
+				data: {
+					shanggangzheng: this.shanggangzhengExcel
+				},
+				responseType: 'blob',
 			})
-				var xhr = new XMLHttpRequest(); //定义http请求对象
-				xhr.open("get", url, true);
-				xhr.responseType = "blob"; // 转换流
-				xhr.setRequestHeader("satoken", window.sessionStorage.getItem('satoken'));
-				xhr.onload = function() {
-					// console.log(this)
-					var blob = this.response;
-					var a = document.createElement("a")
-					var url = window.URL.createObjectURL(blob)
-					a.href = url
-					a.download = "上岗证到期车辆.xlsx" // 文件名
-					a.click()
-					window.URL.revokeObjectURL(url)
-					a.remove()
-				}
-			xhr.send();
+			// console.log(res)
+			var blob = res
+			// console.log(blob)
+			const fileName = '上岗证到期车辆.xlsx'
+			var a = document.createElement("a");
+			a.href = window.URL.createObjectURL(blob);
+			console.log(a.href)
+			a.download = fileName
+			a.click()
+			a.remove()
+			// 下面是拼接url的方法,全选的话拼接url过长！！
+			// let url = 'https://tkhhd.com/jeecg-boot/SumController/EXshanggangzheng?' + this.$qs.stringify({
+			// 	EXshanggangzheng: this.shanggangzhengExcel
+			// }, {
+			// 	arrayFormat: 'repeat'
+			// })
+			// 	var xhr = new XMLHttpRequest(); //定义http请求对象
+			// 	xhr.open("get", url, true);
+			// 	xhr.responseType = "blob"; // 转换流
+			// 	xhr.setRequestHeader("satoken", window.sessionStorage.getItem('satoken'));
+			// 	xhr.onload = function() {
+			// 		// console.log(this)
+			// 		var blob = this.response;
+			// 		var a = document.createElement("a")
+			// 		var url = window.URL.createObjectURL(blob)
+			// 		a.href = url
+			// 		a.download = "上岗证到期车辆.xlsx" // 文件名
+			// 		a.click()
+			// 		window.URL.revokeObjectURL(url)
+			// 		a.remove()
+			// 	}
+			// xhr.send();
 			// const {
 			// 	data: res
 			// } = await this.$http.get('SumController/EXshanggangzheng?' + this.$qs.stringify({
@@ -810,27 +925,49 @@
 			if (!this.xingshizhengExcel[0]) {
 				return this.$message.warning('请选择需要导出的数据！')
 			}
-			let url = 'https://tkhhd.com/jeecg-boot/SumController/EXxingshizheng?' + this.$qs.stringify({
-				EXxingshizheng: this.xingshizhengExcel
-			}, {
-				arrayFormat: 'repeat'
+			const {
+				data: res
+			} = await this.$http({
+				url: 'SumController/EXxingshizheng',
+				method: "post",
+				data: {
+					xingshizheng: this.xingshizhengExcel
+				},
+				responseType: 'blob',
 			})
-				var xhr = new XMLHttpRequest(); //定义http请求对象
-				xhr.open("get", url, true);
-				xhr.responseType = "blob"; // 转换流
-				xhr.setRequestHeader("satoken", window.sessionStorage.getItem('satoken'));
-				xhr.onload = function() {
-					// console.log(this)
-					var blob = this.response;
-					var a = document.createElement("a")
-					var url = window.URL.createObjectURL(blob)
-					a.href = url
-					a.download = "行驶证到期车辆.xlsx" // 文件名
-					a.click()
-					window.URL.revokeObjectURL(url)
-					a.remove()
-				}
-			xhr.send();
+			// console.log(res)
+			var blob = res
+			// console.log(blob)
+			const fileName = '行驶证到期车辆.xlsx'
+			var a = document.createElement("a");
+			a.href = window.URL.createObjectURL(blob);
+			console.log(a.href)
+			a.download = fileName
+			a.click()
+			a.remove()
+			
+			// 下面是拼接url的方法,全选的话拼接url过长！！
+			// let url = 'https://tkhhd.com/jeecg-boot/SumController/EXxingshizheng?' + this.$qs.stringify({
+			// 	EXxingshizheng: this.xingshizhengExcel
+			// }, {
+			// 	arrayFormat: 'repeat'
+			// })
+			// 	var xhr = new XMLHttpRequest(); //定义http请求对象
+			// 	xhr.open("get", url, true);
+			// 	xhr.responseType = "blob"; // 转换流
+			// 	xhr.setRequestHeader("satoken", window.sessionStorage.getItem('satoken'));
+			// 	xhr.onload = function() {
+			// 		// console.log(this)
+			// 		var blob = this.response;
+			// 		var a = document.createElement("a")
+			// 		var url = window.URL.createObjectURL(blob)
+			// 		a.href = url
+			// 		a.download = "行驶证到期车辆.xlsx" // 文件名
+			// 		a.click()
+			// 		window.URL.revokeObjectURL(url)
+			// 		a.remove()
+			// 	}
+			// xhr.send();
 			// const {
 			// 	data: res
 			// } = await this.$http.get('SumController/EXxingshizheng?' + this.$qs.stringify({
@@ -856,27 +993,49 @@
 			if (!this.yingyunzhengExcel[0]) {
 				return this.$message.warning('请选择需要导出的数据！')
 			}
-			let url = 'https://tkhhd.com/jeecg-boot/SumController/EXyingyunzheng?' + this.$qs.stringify({
-				EXyingyunzheng: this.yingyunzhengExcel
-			}, {
-				arrayFormat: 'repeat'
+			const {
+				data: res
+			} = await this.$http({
+				url: 'SumController/EXyingyunzheng',
+				method: "post",
+				data: {
+					yingyunzheng: this.yingyunzhengExcel
+				},
+				responseType: 'blob',
 			})
-				var xhr = new XMLHttpRequest(); //定义http请求对象
-				xhr.open("get", url, true);
-				xhr.responseType = "blob"; // 转换流
-				xhr.setRequestHeader("satoken", window.sessionStorage.getItem('satoken'));
-				xhr.onload = function() {
-					// console.log(this)
-					var blob = this.response;
-					var a = document.createElement("a")
-					var url = window.URL.createObjectURL(blob)
-					a.href = url
-					a.download = "营运证到期车辆.xlsx" // 文件名
-					a.click()
-					window.URL.revokeObjectURL(url)
-					a.remove()
-				}
-			xhr.send();
+			// console.log(res)
+			var blob = res
+			// console.log(blob)
+			const fileName = '营运证到期车辆.xlsx'
+			var a = document.createElement("a");
+			a.href = window.URL.createObjectURL(blob);
+			console.log(a.href)
+			a.download = fileName
+			a.click()
+			a.remove()
+			
+				// 下面是拼接url的方法,全选的话拼接url过长！！
+			// let url = 'https://tkhhd.com/jeecg-boot/SumController/EXyingyunzheng?' + this.$qs.stringify({
+			// 	EXyingyunzheng: this.yingyunzhengExcel
+			// }, {
+			// 	arrayFormat: 'repeat'
+			// })
+			// 	var xhr = new XMLHttpRequest(); //定义http请求对象
+			// 	xhr.open("get", url, true);
+			// 	xhr.responseType = "blob"; // 转换流
+			// 	xhr.setRequestHeader("satoken", window.sessionStorage.getItem('satoken'));
+			// 	xhr.onload = function() {
+			// 		// console.log(this)
+			// 		var blob = this.response;
+			// 		var a = document.createElement("a")
+			// 		var url = window.URL.createObjectURL(blob)
+			// 		a.href = url
+			// 		a.download = "营运证到期车辆.xlsx" // 文件名
+			// 		a.click()
+			// 		window.URL.revokeObjectURL(url)
+			// 		a.remove()
+			// 	}
+			// xhr.send();
 			// const {
 			// 	data: res
 			// } = await this.$http.get('SumController/EXyingyunzheng?' + this.$qs.stringify({
@@ -902,27 +1061,50 @@
 			if (!this.jiashizhengExcel[0]) {
 				return this.$message.warning('请选择需要导出的数据！')
 			}
-			let url = 'https://tkhhd.com/jeecg-boot/SumController/EXjaishizheng?' + this.$qs.stringify({
-				EXjaishizheng: this.jiashizhengExcel
-			}, {
-				arrayFormat: 'repeat'
+			const {
+				data: res
+			} = await this.$http({
+				url: 'SumController/EXjaishizheng',
+				method: "post",
+				data: {
+					jiashizheng: this.jiashizhengExcel
+				},
+				responseType: 'blob',
 			})
-				var xhr = new XMLHttpRequest(); //定义http请求对象
-				xhr.open("get", url, true);
-				xhr.responseType = "blob"; // 转换流
-				xhr.setRequestHeader("satoken", window.sessionStorage.getItem('satoken'));
-				xhr.onload = function() {
-					// console.log(this)
-					var blob = this.response;
-					var a = document.createElement("a")
-					var url = window.URL.createObjectURL(blob)
-					a.href = url
-					a.download = "驾驶证到期车辆.xlsx" // 文件名
-					a.click()
-					window.URL.revokeObjectURL(url)
-					a.remove()
-				}
-			xhr.send();
+			// console.log(res)
+			var blob = res
+			// console.log(blob)
+			const fileName = '驾驶证到期车辆.xlsx'
+			var a = document.createElement("a");
+			a.href = window.URL.createObjectURL(blob);
+			console.log(a.href)
+			a.download = fileName
+			a.click()
+			a.remove()
+			
+			
+			// 下面是拼接url的方法,全选的话拼接url过长！！
+			// let url = 'https://tkhhd.com/jeecg-boot/SumController/EXjaishizheng?' + this.$qs.stringify({
+			// 	EXjaishizheng: this.jiashizhengExcel
+			// }, {
+			// 	arrayFormat: 'repeat'
+			// })
+			// 	var xhr = new XMLHttpRequest(); //定义http请求对象
+			// 	xhr.open("get", url, true);
+			// 	xhr.responseType = "blob"; // 转换流
+			// 	xhr.setRequestHeader("satoken", window.sessionStorage.getItem('satoken'));
+			// 	xhr.onload = function() {
+			// 		// console.log(this)
+			// 		var blob = this.response;
+			// 		var a = document.createElement("a")
+			// 		var url = window.URL.createObjectURL(blob)
+			// 		a.href = url
+			// 		a.download = "驾驶证到期车辆.xlsx" // 文件名
+			// 		a.click()
+			// 		window.URL.revokeObjectURL(url)
+			// 		a.remove()
+			// 	}
+			// xhr.send();
 			// const {
 			// 	data: res
 			// } = await this.$http.get('SumController/EXjaishizheng?' + this.$qs.stringify({

@@ -78,7 +78,7 @@
 		<!-- 分页区域 -->
 		<el-col>
 			<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="queryInfo.pageNo"
-			 :page-sizes="[5, 10, 15, 20]" :page-size="queryInfo.pageSize" layout="total, sizes, prev, pager, next, jumper"
+			 :page-sizes="[10, 20, 50, 100]" :page-size="queryInfo.pageSize" layout="total, sizes, prev, pager, next, jumper"
 			 :total="total" style="margin-top: 5px;">
 			</el-pagination>
 		</el-col>
@@ -348,8 +348,30 @@
 			// 导出
 			async baozhengjinExport(){
 				if(!this.baozhengjinExcel[0]){return this.$message.warning('请选择需要导出的数据！')}
-				const {data:res} = await this.$http.get('SumController/YouHaodaochu?'+this.$qs.stringify({ YouHaodaochu: this.baozhengjinExcel }, { arrayFormat: 'repeat' }))
-				window.location.href = 'http://81.70.151.121:8080/jeecg-boot/SumController/YouHaodaochu?'+this.$qs.stringify({ YouHaodaochu: this.baozhengjinExcel }, { arrayFormat: 'repeat' })
+				const {
+					data: res
+				} = await this.$http({
+					url: 'SumController/YouHaodaochu',
+					method: "post",
+					data: {
+						baozhengjin: this.baozhengjinExcel
+					},
+					responseType: 'blob',
+				})
+				// console.log(res)
+				var blob = res
+				// console.log(blob)
+				const fileName = '保证金详情报表.xlsx'
+				var a = document.createElement("a");
+				a.href = window.URL.createObjectURL(blob);
+				console.log(a.href)
+				a.download = fileName
+				a.click()
+				a.remove()
+				
+				// !!!下面代码为location.href方法，不能携带token
+				// const {data:res} = await this.$http.get('SumController/YouHaodaochu?'+this.$qs.stringify({ YouHaodaochu: this.baozhengjinExcel }, { arrayFormat: 'repeat' }))
+				// window.location.href = 'http://81.70.151.121:8080/jeecg-boot/SumController/YouHaodaochu?'+this.$qs.stringify({ YouHaodaochu: this.baozhengjinExcel }, { arrayFormat: 'repeat' })
 				
 			},
 			// 清空选中

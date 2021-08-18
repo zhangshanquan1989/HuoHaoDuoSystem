@@ -34,6 +34,10 @@
 				</el-table-column>
 				<el-table-column fixed prop="no" label="运单编号" width="100px">
 				</el-table-column>
+				<el-table-column prop="lienses" label="车牌号" width="150px">
+				</el-table-column>
+				<el-table-column prop="creater" label="创建者" width="150px">
+				</el-table-column>
 				<el-table-column prop="waybilltype" label="派单类型" width="100px">
 				</el-table-column>
 				<el-table-column prop="source" label="订单来源" width="100px">
@@ -79,10 +83,7 @@
 				</el-table-column>
 				<!-- <el-table-column prop="kilometer" label="每公里成本" width="150px">
 				</el-table-column> -->
-				<el-table-column prop="lienses" label="车牌号" width="150px">
-				</el-table-column>
-				<el-table-column prop="creater" label="创建者" width="150px">
-				</el-table-column>
+				
 				<el-table-column prop="creatime" label="创建时间" width="180px">
 				</el-table-column>
 				<el-table-column prop="stateText" label="订单状态" width="120px" fixed="right">
@@ -105,7 +106,7 @@
 		<!-- 分页区域 remoteMethod -->
 		<el-col>
 			<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="queryInfo.pageNo"
-			 :page-sizes="[5, 10, 15, 20]" :page-size="queryInfo.pageSize" layout="total, sizes, prev, pager, next, jumper"
+			 :page-sizes="[10, 20, 50, 100]" :page-size="queryInfo.pageSize" layout="total, sizes, prev, pager, next, jumper"
 			 :total="total" style="margin-top: 5px;">
 			</el-pagination>
 		</el-col>
@@ -117,6 +118,9 @@
 
 				<el-form-item v-if="showRefusenote" label="司机拒单原因" prop="refusenote" class="redItem">
 					<div style="color: red;">{{this.editForm.refusenote}}</div>
+				</el-form-item>
+				<el-form-item v-if="showQuxiao" label="订单取消备注:" prop="quxiaonote" class="redItem">
+					<div style="color: red;">{{this.editForm.quxiaonote}}</div>
 				</el-form-item>
 				<div style="display: flex;">
 					<el-form-item label="运单编号" prop="no" class="rt-input">
@@ -452,7 +456,8 @@
 				showDisDetails: false,
 				// 显示司机拒单原因：
 				showRefusenote: false,
-
+	// 订单取消
+				showQuxiao: false,
 				// 派单类型
 				waybilltypeList: [{
 					value: '前置派单',
@@ -521,7 +526,7 @@
 		methods: {
 			// 多选框保持选中
 			getLicense(row){
-				return row.license
+				return row.no
 			},
 			// 清空选中
 			handleClearBtn(){
@@ -544,27 +549,48 @@
 			// 导出
 			async handleExport(){
 				if(!this.no[0]){return this.$message.warning('请选择需要导出的数据！')}
+				const {
+					data: res
+				} = await this.$http({
+					url: 'YMpageController/selectDingDanX',
+					method: "post",
+					data: {
+						dingdanhao: this.no
+					},
+					responseType: 'blob',
+				})
+				// console.log(res)
+				var blob = res
+				// console.log(blob)
+				const fileName = '订单详情报表.xlsx'
+				var a = document.createElement("a");
+				a.href = window.URL.createObjectURL(blob);
+				console.log(a.href)
+				a.download = fileName
+				a.click()
+				a.remove()
 				
-				let url = 'https://tkhhd.com/jeecg-boot/YMpageController/selectDingDanX?'+this.$qs.stringify({ no: this.no }, { arrayFormat: 'repeat' })
-					var xhr = new XMLHttpRequest(); //定义http请求对象
-					xhr.open("get", url, true);
-					xhr.responseType = "blob"; // 转换流
-					xhr.setRequestHeader("satoken", window.sessionStorage.getItem('satoken'));
-					let that = this
-					xhr.onload = function() {
+				// 下面是拼接url的方法,全选的话拼接url过长！！
+				// let url = 'https://tkhhd.com/jeecg-boot/YMpageController/selectDingDanX?'+this.$qs.stringify({ no: this.no }, { arrayFormat: 'repeat' })
+				// 	var xhr = new XMLHttpRequest(); //定义http请求对象
+				// 	xhr.open("get", url, true);
+				// 	xhr.responseType = "blob"; // 转换流
+				// 	xhr.setRequestHeader("satoken", window.sessionStorage.getItem('satoken'));
+				// 	let that = this
+				// 	xhr.onload = function() {
 						
-						// console.log(this)
-						var blob = this.response;
-						var a = document.createElement("a")
-						var url = window.URL.createObjectURL(blob)
-						a.href = url
-						a.download = "订单报表.xlsx" // 文件名
-						a.click()
-						window.URL.revokeObjectURL(url)
-						a.remove()
-						that.fullscreenLoading = false;
-					}
-				xhr.send();
+				// 		// console.log(this)
+				// 		var blob = this.response;
+				// 		var a = document.createElement("a")
+				// 		var url = window.URL.createObjectURL(blob)
+				// 		a.href = url
+				// 		a.download = "订单报表.xlsx" // 文件名
+				// 		a.click()
+				// 		window.URL.revokeObjectURL(url)
+				// 		a.remove()
+				// 		that.fullscreenLoading = false;
+				// 	}
+				// xhr.send();
 				// !!!下面代码为location.href方法，不能携带token
 				// const {data:res} = await this.$http.get('YMpageController/selectDingDanX?'+this.$qs.stringify({ no: this.no }, { arrayFormat: 'repeat' }))
 				// window.location.href = 'http://81.70.151.121:8080/jeecg-boot/YMpageController/selectDingDanX?'+this.$qs.stringify({ no: this.no }, { arrayFormat: 'repeat' })
@@ -667,6 +693,10 @@
 				} else if (res.result[0].state == 4) {
 					this.canClickEdit = true
 					this.showRefusenote = true
+				} else if (res.result[0].state == 5) {
+					
+				} else if (res.result[0].state == 6) {
+					this.showQuxiao = true
 				}
 
 				// 显示对话框
@@ -677,7 +707,10 @@
 			editDialogClosed() {
 				this.$refs.editFormRef.resetFields()
 				this.canEdit = true
+				this.canClickEdit = true
 				this.showRefusenote = false
+				this.showQuxiao = false
+				this.showDisDetails = false
 			},
 			
 
