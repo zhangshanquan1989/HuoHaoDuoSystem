@@ -9,7 +9,7 @@
 
 		<!-- 卡片视图区 -->
 		<el-card class="box-card">
-			<!-- 创建按钮 -->
+			<!-- 创建按钮 装卸货工具-->
 			<el-input v-model="queryInfo.chepai" placeholder="车牌号" clearable style="width: 200px;"></el-input>
 			<el-input v-model="queryInfo.driver" placeholder="司机名" clearable style="width: 200px;margin-left: 30px;"></el-input>
 			<el-date-picker v-model="selectTime" type="datetimerange" range-separator="至" start-placeholder="订单查询开始日期"
@@ -208,7 +208,7 @@
 					<el-form-item label="卸货方式" prop="upiontway" class="rt-input">
 						<el-input disabled v-model="editForm.upiontway"></el-input>
 					</el-form-item>
-					<el-form-item label="卸货工具" prop="upiontgj" class="rt-input">
+					<el-form-item label="装卸货工具" prop="upiontgj" class="rt-input">
 						<el-input disabled v-model="editForm.upiontgj"></el-input>
 					</el-form-item>
 				</div>

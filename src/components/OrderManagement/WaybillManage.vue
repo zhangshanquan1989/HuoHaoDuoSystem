@@ -106,7 +106,7 @@
 			</el-pagination>
 		</el-col>
 
-		<!-- 创建的对话框 -->
+		<!-- 创建的对话框 卸货工具 -->
 		<el-dialog title="创建运单信息" :visible.sync="addDialogVisible" width="85%" :close-on-click-modal="false" @close="addDialogClosed">
 			<!-- 创建的表单   -->
 			<el-form :model="addForm" ref="addFormRef" label-width="140px" :rules="addRules">
@@ -218,7 +218,7 @@
 							</el-option>
 						</el-select>
 					</el-form-item>
-					<el-form-item label="卸货工具" prop="upiontgj">
+					<el-form-item label="装卸货工具" prop="upiontgj">
 						<el-input v-model="addForm.upiontgj"></el-input>
 					</el-form-item>
 				</div>
@@ -550,7 +550,7 @@
 							</el-option>
 						</el-select>
 					</el-form-item>
-					<el-form-item label="卸货工具" prop="upiontgj">
+					<el-form-item label="装卸货工具" prop="upiontgj">
 						<el-input :disabled="canEdit" v-model="editForm.upiontgj"></el-input>
 					</el-form-item>
 				</div>
@@ -1769,6 +1769,7 @@
 						.upoints[0].dprovince || !this.addForm.upoints[0].dcity || !this.addForm.upoints[0].darea) {
 						return this.$message.warning('请完善必填信息！')
 					}
+					
 					// 发起添加信息的数据请求
 					const {
 						data: res
