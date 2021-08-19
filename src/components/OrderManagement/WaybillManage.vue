@@ -11,15 +11,12 @@
 		<el-card class="box-card">
 			<!-- 创建按钮 -->
 			<el-button type="primary" plain @click="addDialogVisible = true">创建</el-button>
-			<el-input v-model="queryInfo.noText" placeholder="运单编号" clearable style="width: 200px;margin-left: 100px;"></el-input>
+			<el-input v-model="queryInfo.noText" placeholder="运单编号" clearable style="width: 200px;margin-left: 100px;" ></el-input>
+			<el-input v-model="queryInfo.driverNew" placeholder="司机名" clearable style="width: 200px;margin-left: 30px;"></el-input>
 			<el-select v-model="queryInfo.state" placeholder="状态查询" style="margin-left: 30px;">
-			    <el-option
-			      v-for="item in stateOptions"
-			      :key="item.value"
-			      :label="item.label"
-			      :value="item.value">
-			    </el-option>
-			  </el-select>
+				<el-option v-for="item in stateOptions" :key="item.value" :label="item.label" :value="item.value">
+				</el-option>
+			</el-select>
 			<el-button type="primary" plain @click="handleQueryBtn" style="margin-left: 30px;">查询</el-button>
 			<el-button type="primary" plain @click="handleQueryBackBtn" style="margin-left: 30px;">返回</el-button>
 
@@ -80,7 +77,7 @@
 				</el-table-column>
 				<!-- <el-table-column prop="kilometer" label="每公里成本" width="150px">
 				</el-table-column> -->
-				
+
 				<el-table-column prop="creatime" label="创建时间" width="180px">
 				</el-table-column>
 				<el-table-column prop="stateText" label="订单状态" width="120px" fixed="right">
@@ -113,6 +110,21 @@
 		<el-dialog title="创建运单信息" :visible.sync="addDialogVisible" width="85%" :close-on-click-modal="false" @close="addDialogClosed">
 			<!-- 创建的表单   -->
 			<el-form :model="addForm" ref="addFormRef" label-width="140px" :rules="addRules">
+				<div style="display: flex;">
+					<el-form-item label="司机名" prop="driver">
+						<el-select v-model="addForm.driver" clearable filterable remote placeholder="请输入司机名" :remote-method="chooseDriverName"
+						 :loading="driverNameLoading" @change="handleChooseDriverName">
+							<el-option v-for="item in driverNameOptions" :key="item.index" :label="item.label" :value="item.value">
+							</el-option>
+						</el-select>
+					</el-form-item>
+					<el-form-item label="车牌号" prop="lienses">
+						<el-input disabled v-model="addForm.lienses"></el-input>
+					</el-form-item>
+					<el-form-item label="负责配管" prop="dispatch">
+						<el-input disabled v-model="addForm.dispatch"></el-input>
+					</el-form-item>
+				</div>
 				<div style="display: flex;">
 					<el-form-item label="运单编号" prop="no">
 						<el-input disabled placeholder="自动生成"></el-input>
@@ -180,6 +192,7 @@
 					<el-form-item label="定金" prop="deposit">
 						<el-input clearable v-model="addForm.deposit" placeholder="元"></el-input>
 					</el-form-item>
+
 					<el-form-item label="到付" prop="pay">
 						<el-input v-model="addForm.pay" placeholder="元"></el-input>
 					</el-form-item>
@@ -194,21 +207,53 @@
 					</el-form-item>
 
 				</div>
+
 				<div style="display: flex;">
+					<el-form-item label="定金备注" prop="djnote">
+						<el-input clearable v-model="addForm.djnote" placeholder="请输入"></el-input>
+					</el-form-item>
 					<el-form-item label="卸货方式" prop="upiontway">
-						<el-input  v-model="addForm.upiontway" ></el-input>
+						<el-select v-model="addForm.upiontway" placeholder="请选择" clearable>
+							<el-option v-for="item in upiontwayList" :key="item.value" :label="item.label" :value="item.value">
+							</el-option>
+						</el-select>
+					</el-form-item>
+					<el-form-item label="卸货工具" prop="upiontgj">
+						<el-input v-model="addForm.upiontgj"></el-input>
+					</el-form-item>
+				</div>
+
+				<div style="display: flex;">
+
+					<el-form-item label="是否回单" prop="ishd">
+						<el-select v-model="addForm.ishd" placeholder="请选择" clearable @change="ishdChange">
+							<el-option v-for="item in ishdList" :key="item.value" :label="item.label" :value="item.value">
+							</el-option>
+						</el-select>
+					</el-form-item>
+					<el-form-item label="回单地址" prop="hdadd" v-if="showhdadd">
+						<el-input v-if="showhdadd" v-model="addForm.hdadd"></el-input>
 					</el-form-item>
 					<el-form-item label="	建议运输方式" prop="yunshu">
-						<el-input  v-model="addForm.yunshu"></el-input>
+						<el-input v-model="addForm.yunshu"></el-input>
 					</el-form-item>
 					<el-form-item label="建议到达装货时间" prop="daoda">
-						
-							<el-date-picker v-model="addForm.daoda" type="datetime" placeholder="选择日期时间" value-format="yyyy-MM-dd HH:mm:ss">
-							</el-date-picker>
-						
+
+						<el-date-picker v-model="addForm.daoda" type="datetime" placeholder="选择日期时间" value-format="yyyy-MM-dd HH:mm:ss">
+						</el-date-picker>
+
 					</el-form-item>
-					<el-form-item label="订单备注" prop="ordernote">
-						<el-input  v-model="addForm.ordernote"></el-input>
+
+				</div>
+				<div style="display: flex;">
+					<el-form-item label="订单备注1" prop="ordernote">
+						<el-input v-model="addForm.ordernote"></el-input>
+					</el-form-item>
+					<el-form-item label="订单备注2" prop="ordernotea">
+						<el-input v-model="addForm.ordernotea"></el-input>
+					</el-form-item>
+					<el-form-item label="订单备注3" prop="ordernoteb">
+						<el-input v-model="addForm.ordernoteb"></el-input>
 					</el-form-item>
 				</div>
 				<div style="display: flex;">
@@ -243,7 +288,7 @@
 						<el-table :data="addForm.apoints" style="width: 100%">
 							<el-table-column prop="spointphone" label="装货点电话">
 								<template slot-scope="scope">
-									<el-input v-model="scope.row.spointphone" class="rt-input" placeholder="电话(必填)" ></el-input>
+									<el-input v-model="scope.row.spointphone" class="rt-input" placeholder="电话(必填)"></el-input>
 								</template>
 							</el-table-column>
 							<el-table-column label="装货时间">
@@ -364,21 +409,7 @@
 					<el-button @click="addUpoints(addForm.upoints)">添加</el-button>
 				</el-form-item>
 
-				<div style="display: flex;">
-					<el-form-item label="司机名" prop="driver">
-						<el-select v-model="addForm.driver" clearable filterable remote placeholder="请输入司机名" :remote-method="chooseDriverName"
-						 :loading="driverNameLoading" @change="handleChooseDriverName">
-							<el-option v-for="item in driverNameOptions" :key="item.index" :label="item.label" :value="item.value">
-							</el-option>
-						</el-select>
-					</el-form-item>
-					<el-form-item label="车牌号" prop="lienses">
-						<el-input disabled v-model="addForm.lienses"></el-input>
-					</el-form-item>
-					<el-form-item label="负责配管" prop="dispatch">
-						<el-input disabled v-model="addForm.dispatch"></el-input>
-					</el-form-item>
-				</div>
+
 
 
 			</el-form>
@@ -404,10 +435,33 @@
 				<el-form-item v-if="showRefusenote" label="司机拒单原因" prop="refusenote" class="redItem">
 					<div style="color: red;">{{this.editForm.refusenote}}</div>
 				</el-form-item>
-				
+
 				<el-form-item v-if="showQuxiao" label="订单取消备注:" prop="quxiaonote" class="redItem">
 					<div style="color: red;">{{this.editForm.quxiaonote}}</div>
 				</el-form-item>
+
+				<div style="display: flex;">
+					<el-form-item label="司机名" prop="searchDriver">
+						<el-select v-model="editForm.Lidriver" :disabled="canEdit" clearable filterable remote placeholder="请输入司机名"
+						 :remote-method="chooseDriverName" :loading="driverNameLoading" @change="editChooseDriverName" class="rt-input">
+							<el-option v-for="item in driverNameOptions" :key="item.index" :label="item.label" :value="item.value">
+							</el-option>
+						</el-select>
+					</el-form-item>
+
+					<el-form-item label="车牌号" prop="searchDriver" class="rt-input">
+						<!-- <el-select disabled v-model="editForm.lienses" clearable filterable remote placeholder="请输入车牌号"
+						 :remote-method="chooseCarLicense" :loading="carLicenseLoading" @change="editChooseCarLicense">
+							<el-option v-for="item in carLicenseOptions" :key="item.index" :label="item.label" :value="item.value">
+							</el-option>
+						</el-select> -->
+						<el-input disabled v-model="editForm.lienses"></el-input>
+					</el-form-item>
+
+					<el-form-item label="负责配管" prop="lienses" class="rt-input">
+						<el-input disabled v-model="editForm.dispatch"></el-input>
+					</el-form-item>
+				</div>
 
 				<div style="display: flex;">
 					<el-form-item label="运单编号" prop="no" class="rt-input">
@@ -449,23 +503,23 @@
 							</el-option>
 						</el-select>
 					</el-form-item>
-					
+
 				</div>
 
 				<div style="display: flex;">
-					<el-form-item label="空车距离" prop="emptydistance" class="rt-input">
+					<el-form-item label="放空距离" prop="emptydistance" class="rt-input">
 						<el-input clearable :disabled="canEdit" v-model="editForm.emptydistance " @change="editCalculateKm"></el-input>
 					</el-form-item>
 					<el-form-item label="高速预计距离" prop="highspeed" class="rt-input">
 						<el-input clearable :disabled="canEdit" v-model="editForm.highspeed " @change="editCalculateKm"></el-input>
 					</el-form-item>
-					<el-form-item label="下道预计距离" prop="estimatedistance" class="rt-input" >
+					<el-form-item label="下道预计距离" prop="estimatedistance" class="rt-input">
 						<el-input clearable :disabled="canEdit" v-model="editForm.estimatedistance " @change="editCalculateKm"></el-input>
 					</el-form-item>
 					<el-form-item label="总距离" prop="km" class="rt-input">
 						<el-input disabled clearable v-model="editForm.km" placeholder="km"></el-input>
 					</el-form-item>
-					
+
 				</div>
 
 				<div style="display: flex;">
@@ -479,27 +533,58 @@
 						<el-input @change="editCalculateNearcost" :disabled="canEdit" v-model="editForm.car"></el-input>
 					</el-form-item>
 					<el-form-item label="费用" prop="cost" class="rt-input">
-						<el-input @change="editCalculateNearcost" :disabled="canEdit" clearable v-model="editForm.cost" placeholder="元" ></el-input>
+						<el-input @change="editCalculateNearcost" :disabled="canEdit" clearable v-model="editForm.cost" placeholder="元"></el-input>
 					</el-form-item>
 					<el-form-item label="利润" prop="nearcost" class="rt-input">
-						<el-input  disabled v-model="editForm.nearcost" placeholder="元"></el-input>
-					</el-form-item>					
+						<el-input disabled v-model="editForm.nearcost" placeholder="元"></el-input>
+					</el-form-item>
 				</div>
+
 				<div style="display: flex;">
+					<el-form-item label="定金备注" prop="djnote">
+						<el-input clearable :disabled="canEdit" v-model="editForm.djnote" placeholder="请输入"></el-input>
+					</el-form-item>
 					<el-form-item label="卸货方式" prop="upiontway">
-						<el-input  :disabled="canEdit" v-model="editForm.upiontway" ></el-input>
+						<el-select :disabled="canEdit" v-model="editForm.upiontway" placeholder="请选择" clearable>
+							<el-option v-for="item in upiontwayList" :key="item.value" :label="item.label" :value="item.value">
+							</el-option>
+						</el-select>
+					</el-form-item>
+					<el-form-item label="卸货工具" prop="upiontgj">
+						<el-input :disabled="canEdit" v-model="editForm.upiontgj"></el-input>
+					</el-form-item>
+				</div>
+
+				<div style="display: flex;">
+					<el-form-item label="是否回单" prop="ishd">
+						<el-select :disabled="canEdit" v-model="editForm.ishd" placeholder="请选择" clearable>
+							<el-option v-for="item in ishdList" :key="item.value" :label="item.label" :value="item.value">
+							</el-option>
+						</el-select>
+					</el-form-item>
+					<el-form-item label="回单地址" prop="hdadd">
+						<el-input :disabled="canEdit" v-model="editForm.hdadd"></el-input>
 					</el-form-item>
 					<el-form-item label="	建议运输方式" prop="yunshu">
-						<el-input  :disabled="canEdit" v-model="editForm.yunshu"></el-input>
+						<el-input :disabled="canEdit" v-model="editForm.yunshu"></el-input>
 					</el-form-item>
 					<el-form-item label="建议到达装货时间">
-						
-							<el-date-picker  :disabled="canEdit" v-model="editForm.daoda" type="datetime" placeholder="选择日期时间" value-format="yyyy-MM-dd HH:mm:ss">
-							</el-date-picker>
-						
+
+						<el-date-picker :disabled="canEdit" v-model="editForm.daoda" type="datetime" placeholder="选择日期时间" value-format="yyyy-MM-dd HH:mm:ss">
+						</el-date-picker>
+
 					</el-form-item>
-					<el-form-item label="订单备注" prop="ordernote">
-						<el-input  :disabled="canEdit" v-model="editForm.ordernote"></el-input>
+
+				</div>
+				<div style="display: flex;">
+					<el-form-item label="订单备注1" prop="ordernote">
+						<el-input :disabled="canEdit" v-model="editForm.ordernote"></el-input>
+					</el-form-item>
+					<el-form-item label="订单备注2" prop="ordernotea">
+						<el-input :disabled="canEdit" v-model="editForm.ordernotea"></el-input>
+					</el-form-item>
+					<el-form-item label="订单备注3" prop="ordernoteb">
+						<el-input :disabled="canEdit" v-model="editForm.ordernoteb"></el-input>
 					</el-form-item>
 				</div>
 				<div style="display: flex;">
@@ -640,34 +725,6 @@
 					<el-button :disabled="canEdit" @click="addUpoints(editForm.upoints)">添加</el-button>
 				</el-form-item>
 
-				<div style="display: flex;">
-					<!-- <el-form-item label="司机" prop="lienses" class="rt-input">
-						<el-input  :disabled="canEdit" v-model="editForm.Lidriver"></el-input>
-					</el-form-item> -->
-					
-					<el-form-item label="司机名" prop="searchDriver">
-						<el-select v-model="editForm.Lidriver" :disabled="canEdit" clearable filterable remote placeholder="请输入司机名" :remote-method="chooseDriverName"
-						 :loading="driverNameLoading" @change="editChooseDriverName" class="rt-input">
-							<el-option v-for="item in driverNameOptions" :key="item.index" :label="item.label" :value="item.value">
-							</el-option>
-						</el-select>
-					</el-form-item>
-					
-					<el-form-item label="车牌号" prop="searchDriver" class="rt-input">
-						<!-- <el-select disabled v-model="editForm.lienses" clearable filterable remote placeholder="请输入车牌号"
-						 :remote-method="chooseCarLicense" :loading="carLicenseLoading" @change="editChooseCarLicense">
-							<el-option v-for="item in carLicenseOptions" :key="item.index" :label="item.label" :value="item.value">
-							</el-option>
-						</el-select> -->
-						<el-input  disabled v-model="editForm.lienses"></el-input>
-					</el-form-item>
-					
-					<el-form-item label="负责配管" prop="lienses" class="rt-input">
-						<el-input disabled v-model="editForm.dispatch"></el-input>
-					</el-form-item>
-				</div>
-
-
 				<div v-if="showDisDetails">
 					<div style="display: flex;">
 						<el-form-item label="司机已交定金" prop="depositis" class="rt-input">
@@ -742,8 +799,7 @@
 					no: '',
 					noText: '',
 				},
-				stateOptions: [
-					{
+				stateOptions: [{
 						value: '0',
 						label: '已驳回'
 					},
@@ -754,21 +810,22 @@
 					{
 						value: '2',
 						label: '审核完成'
-					},{
-					value: '3',
-					label: '司机接单'
-				}, {
-					value: '4',
-					label: '司机拒单'
-				},
-				{
-					value: '5',
-					label: '待完结'
-				},
-				{
-					value: '6',
-					label: '订单取消'
-				}],
+					}, {
+						value: '3',
+						label: '司机接单'
+					}, {
+						value: '4',
+						label: '司机拒单'
+					},
+					{
+						value: '5',
+						label: '待完结'
+					},
+					{
+						value: '6',
+						label: '订单取消'
+					}
+				],
 				// 分页列表
 				wybillList: [],
 				// 总条数
@@ -788,6 +845,7 @@
 					highspeed: '',
 					estimatedistance: '',
 					ban: '',
+					djnote: '',
 					deposit: '',
 					pay: '',
 					car: '',
@@ -801,8 +859,10 @@
 					dispatch: '',
 					ordernote: '',
 					upiontway: '',
+					upiontgj: '',
+					ishd: '',
 					yunshu: '',
-					daoda	: '',
+					daoda: '',
 					apoints: [{
 						spointphone: "",
 						stime: "",
@@ -828,64 +888,119 @@
 						dareaOptions: []
 					}]
 				},
+				showhdadd: false,
 				// 添加的规则
-				addRules:{
-					source:[
-						{ required: true, message: '必填', trigger: 'blur' }
-					],
-					people:[
-						{ required: true, message: '必填', trigger: 'blur' }
-					],
-					goodsname:[
-						{ required: true, message: '必填', trigger: 'blur' }
-					],
-					goodsweight:[
-						{ required: true, message: '必填', trigger: 'blur' }
-					],
-					overweight:[
-						{ required: true, message: '必填', trigger: 'blur' }
-					],
-					ban:[
-						{ required: true, message: '必填', trigger: 'blur' }
-					],
-					emptydistance:[
-						{ required: true, message: '必填', trigger: 'blur' }
-					],
-					highspeed:[
-						{ required: true, message: '必填', trigger: 'blur' }
-					],
-					estimatedistance:[
-						{ required: true, message: '必填', trigger: 'blur' }
-					],
-					deposit:[
-						{ required: true, message: '必填', trigger: 'blur' }
-					],
-					pay:[
-						{ required: true, message: '必填', trigger: 'blur' }
-					],
-					car:[
-						{ required: true, message: '必填', trigger: 'blur' }
-					],
-					cost:[
-						{ required: true, message: '必填', trigger: 'blur' }
-					],
-					yunshu:[
-						{ required: true, message: '必填', trigger: 'blur' }
-					],
-					daoda:[
-						{ required: true, message: '必填', trigger: 'blur' }
-					],
+				addRules: {
+					hdadd: [{
+						required: true,
+						message: '必填',
+						trigger: 'blur'
+					}],
+					ishd: [{
+						required: true,
+						message: '必填',
+						trigger: 'blur'
+					}],
+					upiontway: [{
+						required: true,
+						message: '必填',
+						trigger: 'blur'
+					}],
+					waybilltype: [{
+						required: true,
+						message: '必填',
+						trigger: 'blur'
+					}],
+					source: [{
+						required: true,
+						message: '必填',
+						trigger: 'blur'
+					}],
+					people: [{
+						required: true,
+						message: '必填',
+						trigger: 'blur'
+					}],
+					goodsname: [{
+						required: true,
+						message: '必填',
+						trigger: 'blur'
+					}],
+					goodsweight: [{
+						required: true,
+						message: '必填',
+						trigger: 'blur'
+					}],
+					overweight: [{
+						required: true,
+						message: '必填',
+						trigger: 'blur'
+					}],
+					ban: [{
+						required: true,
+						message: '必填',
+						trigger: 'blur'
+					}],
+					emptydistance: [{
+						required: true,
+						message: '必填',
+						trigger: 'blur'
+					}],
+					highspeed: [{
+						required: true,
+						message: '必填',
+						trigger: 'blur'
+					}],
+					estimatedistance: [{
+						required: true,
+						message: '必填',
+						trigger: 'blur'
+					}],
+					deposit: [{
+						required: true,
+						message: '必填',
+						trigger: 'blur'
+					}],
+					pay: [{
+						required: true,
+						message: '必填',
+						trigger: 'blur'
+					}],
+					car: [{
+						required: true,
+						message: '必填',
+						trigger: 'blur'
+					}],
+					cost: [{
+						required: true,
+						message: '必填',
+						trigger: 'blur'
+					}],
+					yunshu: [{
+						required: true,
+						message: '必填',
+						trigger: 'blur'
+					}],
+					daoda: [{
+						required: true,
+						message: '必填',
+						trigger: 'blur'
+					}],
 					// apoints:[
 					// 	{ required: true, message: '必填', trigger: 'blur' }
 					// ],
-					driver:[
-						{ required: true, message: '必填', trigger: 'blur' }
-					],
-					
-					
-					aclient:[
-						{ required: true, message: '请选择（没有的话需要到基础→客户页面创建)', trigger: 'blur' }
-					],
+					driver: [{
+						required: true,
+						message: '必填',
+						trigger: 'blur'
+					}],
+
+
+					aclient: [{
+						required: true,
+						message: '请选择（没有的话需要到基础→客户页面创建)',
+						trigger: 'blur'
+					}],
 				},
 				// 派单类型
 				waybilltypeList: [{
@@ -898,11 +1013,33 @@
 					value: '补录派单',
 					label: '补录派单'
 				}],
+				// 卸货方式
+				upiontwayList: [{
+					value: '一装一卸',
+					label: '一装一卸'
+				}, {
+					value: '一装多卸',
+					label: '一装多卸'
+				}, {
+					value: '多装多卸',
+					label: '多装多卸'
+				}, {
+					value: '多装一卸',
+					label: '多装一卸'
+				}],
+				// 是否回单
+				ishdList: [{
+					value: '是',
+					label: '是'
+				}, {
+					value: '否',
+					label: '否'
+				}],
 				// 订单来源
 				sourceList: [{
 					value: '网络',
 					label: '网络'
-				},  {
+				}, {
 					value: '专线',
 					label: '专线'
 				}, {
@@ -971,7 +1108,7 @@
 				editDialogVisible: false,
 				editForm: {
 					Lidriver: '',
-					lienses:'',
+					lienses: '',
 					dispatch: '',
 				},
 				// 能否修改
@@ -985,7 +1122,7 @@
 				// 订单取消
 				showQuxiao: false,
 
-				updatePictureUrl: this.$baseUploadUrl+"/waybill/uploadpicture",
+				updatePictureUrl: this.$baseUploadUrl + "/waybill/uploadpicture",
 			}
 		},
 		created() {
@@ -993,7 +1130,7 @@
 			if (role == '管理员') {
 
 			} else if (role == '调度主管') {
-				
+
 			} else if (role == '调度配送') {
 				this.queryInfo.userid = window.sessionStorage.getItem('userID') - 0
 			} else if (role == '调度运单') {
@@ -1011,6 +1148,13 @@
 			this.findAllPeople()
 		},
 		methods: {
+			ishdChange(e) {
+				if (e == '是') {
+					this.showhdadd = true
+				} else {
+					this.showhdadd = false
+				}
+			},
 			// 上传图片限制
 			beforeAvatarUpload(file) {
 				console.log(file)
@@ -1111,7 +1255,7 @@
 				// console.log(res)
 				this.editForm.km = res.result.km
 			},
-			
+
 			// 获取所有客户公司名称
 			async getAllCompanyList() {
 				const {
@@ -1147,10 +1291,10 @@
 			},
 			// 选择公司后回复下拉列表
 			async searchUnloadingPoint(name) {
-				if(!name){
+				if (!name) {
 					this.companyOptions = this.companyList
 				}
-				
+
 				// if(name !== ''){
 				// 	const {
 				// 		data: res
@@ -1561,12 +1705,12 @@
 						v.stateText = "司机已接单"
 					} else if (v.state == 4) {
 						v.stateText = "司机已拒单"
-					}else if (v.state == 5) {
+					} else if (v.state == 5) {
 						v.stateText = "待完结"
-					}else if (v.state == 6) {
+					} else if (v.state == 6) {
 						v.stateText = "订单取消"
 					}
-					
+
 				})
 			},
 
@@ -1578,7 +1722,10 @@
 
 			// 点击查询按钮
 			handleQueryBtn() {
+				this.queryInfo.pageNo = 1
+				this.queryInfo.pageSize = 10
 				this.queryInfo.no = "*" + this.queryInfo.noText + "*"
+				this.queryInfo.driver = "*" + this.queryInfo.driverNew + "*"
 				this.getWaybillList()
 			},
 			// 返回按钮
@@ -1588,6 +1735,8 @@
 				this.queryInfo.no = ''
 				this.queryInfo.noText = ''
 				this.queryInfo.state = ''
+				this.queryInfo.driver = ''
+				this.queryInfo.driverNew = ''
 				this.getWaybillList()
 			},
 
@@ -1608,14 +1757,16 @@
 				// console.log(response)
 				this.addForm.picture = response.result.pictureFileName
 			},
-			
+
 
 			// 创建对话框
 			addInfo() {
 				this.$refs.addFormRef.validate(async valid => {
 					if (!valid) return
 					// 判断table中的必填
-					if(!this.addForm.apoints[0].spointphone || !this.addForm.apoints[0].stime || !this.addForm.apoints[0].sprovince || !this.addForm.apoints[0].scity || !this.addForm.apoints[0].sarea || !this.addForm.upoints[0].dtime || !this.addForm.upoints[0].dprovince || !this.addForm.upoints[0].dcity || !this.addForm.upoints[0].darea){
+					if (!this.addForm.apoints[0].spointphone || !this.addForm.apoints[0].stime || !this.addForm.apoints[0].sprovince ||
+						!this.addForm.apoints[0].scity || !this.addForm.apoints[0].sarea || !this.addForm.upoints[0].dtime || !this.addForm
+						.upoints[0].dprovince || !this.addForm.upoints[0].dcity || !this.addForm.upoints[0].darea) {
 						return this.$message.warning('请完善必填信息！')
 					}
 					// 发起添加信息的数据请求
@@ -1692,7 +1843,7 @@
 				const {
 					data: res
 				} = await this.$http.get('waybill/findListPage?plistNo=' + plistNo)
-				// console.log('详情', res)
+				console.log('详情', res)
 				if (res.code !== 200) {
 					return this.$message.error(res.message)
 				}
@@ -1716,8 +1867,8 @@
 					this.canClickEdit = true
 					this.showRefusenote = true
 				} else if (res.result[0].state == 5) {
-					
-				}else if (res.result[0].state == 6) {
+
+				} else if (res.result[0].state == 6) {
 					this.showQuxiao = true
 				}
 

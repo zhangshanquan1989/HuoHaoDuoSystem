@@ -10,29 +10,31 @@
 		<!-- 卡片视图区 -->
 		<el-card class="box-card">
 			<!-- 创建按钮 -->
-			<el-input v-model="queryInfo.chepai" placeholder="完整车牌号" clearable style="width: 200px;"></el-input>
+			<el-input v-model="queryInfo.chepai" placeholder="车牌号" clearable style="width: 200px;"></el-input>
+			<el-input v-model="queryInfo.driver" placeholder="司机名" clearable style="width: 200px;margin-left: 30px;"></el-input>
 			<el-date-picker v-model="selectTime" type="datetimerange" range-separator="至" start-placeholder="订单查询开始日期"
 			 end-placeholder="订单查询结束日期" format="yyyy 年 MM 月 dd 日 HH 时 mm 分 ss 秒" value-format="yyyy-MM-dd HH:mm:ss" style="margin-left: 20px;">
 			</el-date-picker>
 			<el-select v-model="queryInfo.state" placeholder="状态查询" style="margin-left: 30px;">
-			    <el-option
-			      v-for="item in stateOptions"
-			      :key="item.value"
-			      :label="item.label"
-			      :value="item.value">
-			    </el-option>
-			  </el-select>
+				<el-option v-for="item in stateOptions" :key="item.value" :label="item.label" :value="item.value">
+				</el-option>
+			</el-select>
 			<el-button type="primary" plain @click="handleQueryBtn" style="margin-left: 30px;">查询</el-button>
 			<el-button type="primary" plain @click="handleQueryBackBtn" style="margin-left: 30px;">返回</el-button>
-			<el-button type="primary" icon="el-icon-download" plain @click="handleExport" style="margin-left: 30px;">导出Excel</el-button>
+			<div style="margin-top: 20px;">
+			<el-button type="primary" icon="el-icon-download" plain @click="handleExport" s>导出Excel</el-button>
 			<el-button type="primary" plain @click="handleClearBtn" style="margin-left: 30px;">清空选中</el-button>
-
-			<el-table :data="List" ref="tableRef" border stripe style="width: 100%;margin-top: 8px;" :row-style="{height:'60px'}" :cell-style="{padding:'0px'}" :header-cell-style="{background:'#f8f8f9', color:'#000000'}" @selection-change="handleSelectionChange" :row-key="getLicense">
+</div>
+			<el-table :data="List" ref="tableRef" border stripe style="width: 100%;margin-top: 8px;" :row-style="{height:'60px'}"
+			 :cell-style="{padding:'0px'}" :header-cell-style="{background:'#f8f8f9', color:'#000000'}" @selection-change="handleSelectionChange"
+			 :row-key="getLicense">
 				<el-table-column type="selection" width="55" :reserve-selection="true">
 				</el-table-column>
 				<el-table-column prop="id" label="ID" v-if="false">
 				</el-table-column>
 				<el-table-column fixed prop="no" label="运单编号" width="100px">
+				</el-table-column>
+				<el-table-column prop="driver" label="司机名" width="150px">
 				</el-table-column>
 				<el-table-column prop="lienses" label="车牌号" width="150px">
 				</el-table-column>
@@ -83,7 +85,7 @@
 				</el-table-column>
 				<!-- <el-table-column prop="kilometer" label="每公里成本" width="150px">
 				</el-table-column> -->
-				
+
 				<el-table-column prop="creatime" label="创建时间" width="180px">
 				</el-table-column>
 				<el-table-column prop="stateText" label="订单状态" width="120px" fixed="right">
@@ -123,6 +125,18 @@
 					<div style="color: red;">{{this.editForm.quxiaonote}}</div>
 				</el-form-item>
 				<div style="display: flex;">
+					<el-form-item label="司机" prop="lienses" class="rt-input">
+						<el-input disabled v-model="editForm.Lidriver"></el-input>
+					</el-form-item>
+					<el-form-item label="车牌号" prop="searchDriver" class="rt-input">
+						<el-input :disabled="canEdit" v-model="editForm.lienses"></el-input>
+					</el-form-item>
+
+					<el-form-item label="负责配管" prop="lienses" class="rt-input">
+						<el-input disabled v-model="editForm.dispatch"></el-input>
+					</el-form-item>
+				</div>
+				<div style="display: flex;">
 					<el-form-item label="运单编号" prop="no" class="rt-input">
 						<el-input disabled v-model="editForm.no"></el-input>
 					</el-form-item>
@@ -151,12 +165,12 @@
 					<el-form-item label="是否禁行" prop="ban" class="rt-input">
 						<el-input :disabled="canEdit" v-model="editForm.ban"></el-input>
 					</el-form-item>
-					
+
 				</div>
 
 
 				<div style="display: flex;">
-					<el-form-item label="空车距离" prop="emptydistance" class="rt-input">
+					<el-form-item label="放空距离" prop="emptydistance" class="rt-input">
 						<el-input :disabled="canEdit" v-model="editForm.emptydistance + 'km'"></el-input>
 					</el-form-item>
 					<el-form-item label="高速预计距离" prop="highspeed" class="rt-input">
@@ -185,23 +199,46 @@
 					<el-form-item label="利润" prop="nearcost" class="rt-input">
 						<el-input :disabled="canEdit" v-model="editForm.nearcost + '元'"></el-input>
 					</el-form-item>
-					
+
 				</div>
 				<div style="display: flex;">
-					<el-form-item label="卸货方式" prop="upiontway">
-						<el-input disabled v-model="editForm.upiontway" ></el-input>
+					<el-form-item label="定金备注" prop="djnote" class="rt-input">
+						<el-input disabled v-model="editForm.djnote" placeholder="请输入"></el-input>
 					</el-form-item>
-					<el-form-item label="	建议运输方式" prop="yunshu">
+					<el-form-item label="卸货方式" prop="upiontway" class="rt-input">
+						<el-input disabled v-model="editForm.upiontway"></el-input>
+					</el-form-item>
+					<el-form-item label="卸货工具" prop="upiontgj" class="rt-input">
+						<el-input disabled v-model="editForm.upiontgj"></el-input>
+					</el-form-item>
+				</div>
+				<div style="display: flex;">
+					<el-form-item label="是否回单" prop="ishd" class="rt-input">
+						<el-input disabled v-model="editForm.ishd"></el-input>
+					</el-form-item>
+					<el-form-item label="回单地址" prop="hdadd" class="rt-input">
+						<el-input disabled v-model="editForm.hdadd"></el-input>
+					</el-form-item>
+					<el-form-item label="建议运输方式" prop="yunshu" class="rt-input">
 						<el-input disabled v-model="editForm.yunshu"></el-input>
 					</el-form-item>
-					<el-form-item label="建议到达装货时间">
-						
-							<el-date-picker disabled v-model="editForm.daoda" type="datetime" placeholder="选择日期时间" value-format="yyyy-MM-dd HH:mm:ss">
-							</el-date-picker>
-						
+					<el-form-item label="建议到达装货时间" class="rt-input">
+
+						<el-date-picker disabled v-model="editForm.daoda" type="datetime" placeholder="选择日期时间" value-format="yyyy-MM-dd HH:mm:ss">
+						</el-date-picker>
+
 					</el-form-item>
-					<el-form-item label="订单备注" prop="ordernote">
+
+				</div>
+				<div style="display: flex;">
+					<el-form-item label="订单备注1" prop="ordernote" class="rt-input">
 						<el-input disabled v-model="editForm.ordernote"></el-input>
+					</el-form-item>
+					<el-form-item label="订单备注2" prop="ordernotea" class="rt-input">
+						<el-input disabled v-model="editForm.ordernotea"></el-input>
+					</el-form-item>
+					<el-form-item label="订单备注3" prop="ordernoteb" class="rt-input">
+						<el-input disabled v-model="editForm.ordernoteb"></el-input>
 					</el-form-item>
 				</div>
 				<div style="display: flex;">
@@ -330,19 +367,6 @@
 					<!-- <el-button :disabled="canEdit" @click="addUpoints(editForm.upoints)">添加</el-button> -->
 				</el-form-item>
 
-				<div style="display: flex;">
-					<el-form-item label="司机" prop="lienses" class="rt-input">
-						<el-input disabled v-model="editForm.Lidriver"></el-input>
-					</el-form-item>
-					<el-form-item label="车牌号" prop="searchDriver" class="rt-input">
-						<el-input :disabled="canEdit" v-model="editForm.lienses"></el-input>
-					</el-form-item>
-					
-					<el-form-item label="负责配管" prop="lienses" class="rt-input">
-						<el-input disabled v-model="editForm.dispatch"></el-input>
-					</el-form-item>
-				</div>
-
 
 				<div v-if="showDisDetails">
 					<div style="display: flex;">
@@ -403,7 +427,7 @@
 		data() {
 			return {
 				// 多选框数据
-					no:[],
+				no: [],
 				// 查询数据 waybilltypeList
 				queryInfo: {
 					pageNo: 1,
@@ -417,23 +441,24 @@
 
 				},
 				stateOptions: [{
-					value: '2',
-					label: '审核完成'
-				}, {
-					value: '3',
-					label: '司机接单'
-				}, {
-					value: '4',
-					label: '司机拒单'
-				},
-				 {
-					value: '5',
-					label: '待完结'
-				},
-				{
-					value: '6',
-					label: '订单取消'
-				}],
+						value: '2',
+						label: '审核完成'
+					}, {
+						value: '3',
+						label: '司机接单'
+					}, {
+						value: '4',
+						label: '司机拒单'
+					},
+					{
+						value: '5',
+						label: '待完结'
+					},
+					{
+						value: '6',
+						label: '订单取消'
+					}
+				],
 				selectTime: [],
 				// 分页列表
 				List: [],
@@ -456,7 +481,7 @@
 				showDisDetails: false,
 				// 显示司机拒单原因：
 				showRefusenote: false,
-	// 订单取消
+				// 订单取消
 				showQuxiao: false,
 				// 派单类型
 				waybilltypeList: [{
@@ -505,7 +530,7 @@
 					value: '否',
 					label: '否'
 				}],
-				testList:['00071','00072','00073'],
+				testList: ['00071', '00072', '00073'],
 			}
 		},
 		created() {
@@ -513,7 +538,7 @@
 			if (role == '管理员') {
 
 			} else if (role == '调度主管') {
-				
+
 			} else if (role == '调度配送') {
 				this.queryInfo.userid = window.sessionStorage.getItem('userID') - 0
 			} else if (role == '调度运单') {
@@ -525,19 +550,19 @@
 		},
 		methods: {
 			// 多选框保持选中
-			getLicense(row){
+			getLicense(row) {
 				return row.no
 			},
 			// 清空选中
-			handleClearBtn(){
+			handleClearBtn() {
 				this.$refs.tableRef.clearSelection()
 			},
 			// 多选框变化
 			handleSelectionChange(e) {
 				// console.log(e)
-				this.no=[]
-				e.forEach(v=>{
-				this.no.push(v.no)
+				this.no = []
+				e.forEach(v => {
+					this.no.push(v.no)
 				})
 				// e.forEach(v=>{
 				// 	if(this.no.indexOf(v.no) == -1){
@@ -547,8 +572,10 @@
 				// console.log(this.no)
 			},
 			// 导出
-			async handleExport(){
-				if(!this.no[0]){return this.$message.warning('请选择需要导出的数据！')}
+			async handleExport() {
+				if (!this.no[0]) {
+					return this.$message.warning('请选择需要导出的数据！')
+				}
 				const {
 					data: res
 				} = await this.$http({
@@ -569,7 +596,7 @@
 				a.download = fileName
 				a.click()
 				a.remove()
-				
+
 				// 下面是拼接url的方法,全选的话拼接url过长！！
 				// let url = 'https://tkhhd.com/jeecg-boot/YMpageController/selectDingDanX?'+this.$qs.stringify({ no: this.no }, { arrayFormat: 'repeat' })
 				// 	var xhr = new XMLHttpRequest(); //定义http请求对象
@@ -578,7 +605,7 @@
 				// 	xhr.setRequestHeader("satoken", window.sessionStorage.getItem('satoken'));
 				// 	let that = this
 				// 	xhr.onload = function() {
-						
+
 				// 		// console.log(this)
 				// 		var blob = this.response;
 				// 		var a = document.createElement("a")
@@ -617,9 +644,9 @@
 						v.stateText = "司机已接单"
 					} else if (v.state == 4) {
 						v.stateText = "司机已拒单"
-					}else if (v.state == 5) {
+					} else if (v.state == 5) {
 						v.stateText = "待完结"
-					}else if (v.state == 6) {
+					} else if (v.state == 6) {
 						v.stateText = "订单取消"
 					}
 				})
@@ -633,6 +660,8 @@
 			// 点击查询按钮
 			handleQueryBtn() {
 				// console.log(this.selectTime)
+				this.queryInfo.pageNo = 1
+				this.queryInfo.pageSize = 10
 				this.queryInfo.startime = this.selectTime[0]
 				this.queryInfo.endtime = this.selectTime[1]
 				this.getList()
@@ -645,6 +674,7 @@
 				this.queryInfo.startime = ''
 				this.queryInfo.endtime = ''
 				this.queryInfo.state = ''
+				this.queryInfo.driver = ''
 				this.selectTime = []
 				this.getList()
 			},
@@ -694,7 +724,7 @@
 					this.canClickEdit = true
 					this.showRefusenote = true
 				} else if (res.result[0].state == 5) {
-					
+
 				} else if (res.result[0].state == 6) {
 					this.showQuxiao = true
 				}
@@ -712,7 +742,7 @@
 				this.showQuxiao = false
 				this.showDisDetails = false
 			},
-			
+
 
 		}
 	}

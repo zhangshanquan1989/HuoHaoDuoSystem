@@ -12,6 +12,7 @@
 			<!-- 创建按钮 -->
 
 			<el-input v-model="queryInfo.noText" placeholder="运单编号" clearable style="width: 200px;"></el-input>
+			<el-input v-model="queryInfo.driverNew" placeholder="司机名" clearable style="width: 200px;margin-left: 30px;"></el-input>
 			<el-select v-model="queryInfo.state" placeholder="状态查询" style="margin-left: 30px;">
 			    <el-option
 			      v-for="item in stateOptions"
@@ -120,6 +121,18 @@
 					<div style="color: red;">{{this.editForm.quxiaonote}}</div>
 				</el-form-item>
 				<div style="display: flex;">
+					<el-form-item label="司机" prop="Lidriver" class="rt-input">
+						<el-input disabled v-model="editForm.Lidriver"></el-input>
+					</el-form-item>
+					<el-form-item label="车牌号" prop="lienses" class="rt-input">
+						<el-input disabled v-model="editForm.lienses"></el-input>
+					</el-form-item>
+				
+					<el-form-item label="负责配管" prop="dispatch" class="rt-input">
+						<el-input disabled v-model="editForm.dispatch"></el-input>
+					</el-form-item>
+				</div>
+				<div style="display: flex;">
 					<el-form-item label="运单编号" prop="no" class="rt-input">
 						<el-input disabled v-model="editForm.no"></el-input>
 					</el-form-item>
@@ -153,7 +166,7 @@
 
 
 				<div style="display: flex;">
-					<el-form-item label="空车距离" prop="emptydistance" class="rt-input">
+					<el-form-item label="放空距离" prop="emptydistance" class="rt-input">
 						<el-input disabled v-model="editForm.emptydistance+'km'"></el-input>
 					</el-form-item>
 					<el-form-item label="高速预计距离" prop="highspeed" class="rt-input">
@@ -185,20 +198,43 @@
 					</el-form-item>
 				</div>
 				<div style="display: flex;">
-					<el-form-item label="卸货方式" prop="upiontway">
+					<el-form-item label="定金备注" prop="djnote" class="rt-input">
+						<el-input disabled  v-model="editForm.djnote" placeholder="请输入"></el-input>
+					</el-form-item>
+					<el-form-item label="卸货方式" prop="upiontway" class="rt-input">
 						<el-input disabled v-model="editForm.upiontway" ></el-input>
 					</el-form-item>
-					<el-form-item label="	建议运输方式" prop="yunshu">
+					<el-form-item label="卸货工具" prop="upiontgj" class="rt-input">
+						<el-input disabled v-model="editForm.upiontgj" ></el-input>
+					</el-form-item>
+				</div>
+				<div style="display: flex;">
+					<el-form-item label="是否回单" prop="ishd" class="rt-input">
+						<el-input disabled v-model="editForm.ishd" ></el-input>
+					</el-form-item>
+					<el-form-item label="回单地址" prop="hdadd" class="rt-input">
+						<el-input disabled v-model="editForm.hdadd"></el-input>
+					</el-form-item>
+					<el-form-item label="建议运输方式" prop="yunshu" class="rt-input">
 						<el-input disabled v-model="editForm.yunshu"></el-input>
 					</el-form-item>
-					<el-form-item label="建议到达装货时间">
+					<el-form-item label="建议到达装货时间" class="rt-input">
 						
 							<el-date-picker disabled v-model="editForm.daoda" type="datetime" placeholder="选择日期时间" value-format="yyyy-MM-dd HH:mm:ss">
 							</el-date-picker>
 						
 					</el-form-item>
-					<el-form-item label="订单备注" prop="ordernote">
+					
+				</div>
+				<div style="display: flex;">
+					<el-form-item label="订单备注1" prop="ordernote" class="rt-input">
 						<el-input disabled v-model="editForm.ordernote"></el-input>
+					</el-form-item>
+					<el-form-item label="订单备注2" prop="ordernotea" class="rt-input">
+						<el-input disabled v-model="editForm.ordernotea"></el-input>
+					</el-form-item>
+					<el-form-item label="订单备注3" prop="ordernoteb" class="rt-input">
+						<el-input disabled v-model="editForm.ordernoteb"></el-input>
 					</el-form-item>
 				</div>
 				<div style="display: flex;">
@@ -312,18 +348,7 @@
 					</template>
 				</el-form-item>
 
-				<div style="display: flex;">
-					<el-form-item label="司机" prop="Lidriver" class="rt-input">
-						<el-input disabled v-model="editForm.Lidriver"></el-input>
-					</el-form-item>
-					<el-form-item label="车牌号" prop="lienses" class="rt-input">
-						<el-input disabled v-model="editForm.lienses"></el-input>
-					</el-form-item>
-
-					<el-form-item label="负责配管" prop="dispatch" class="rt-input">
-						<el-input disabled v-model="editForm.dispatch"></el-input>
-					</el-form-item>
-				</div>
+				
 
 
 				<div v-if="showDisDetails">
@@ -417,7 +442,7 @@
 			</el-form>
 			<span v-if="showDriverReject" slot="footer" class="dialog-footer">
 				<!-- 			<el-button @click="editDialogVisible = false">关 闭</el-button> -->
-				<el-button type="primary" @click="handleDriverReject">确 定</el-button>
+				<el-button type="primary" style="margin-left: 10px;"  @click="handleDriverReject">确 定</el-button>
 			</span>
 
 			<el-divider v-if="showApproved">请完善以下内容</el-divider>
@@ -761,7 +786,7 @@
 			},
 			// 复制文字
 			async clickShareUrl() {
-				this.shareText = '司机名：'+this.editForm.Lidriver+'\n'+"发车时间："+this.editForm.apoints[0].stime+'\n'+"装货地点："+this.editForm.apoints[0].sprovince+this.editForm.apoints[0].scity+this.editForm.apoints[0].sarea+this.editForm.apoints[0].saddress+'\n'+'联系电话：'+this.editForm.apoints[0].spointphone+'\n'+'卸车时间：'+this.editForm.upoints[0].dtime+'\n'+'卸货地点：'+this.editForm.upoints[0].dprovince+this.editForm.upoints[0].dcity+this.editForm.upoints[0].darea+this.editForm.upoints[0].daddress+'\n'+'卸货方式：'+this.editForm.upiontway+'\n'+'装卸货是否禁行：'+this.editForm.ban+'\n'+'到车运费：'+this.editForm.car+'\n'+'定金：'+this.editForm.deposit+'\n'+'付款方式及金额：'+'到付'+this.editForm.pay+'\n'+'吨位：'+this.editForm.goodsweight+'\n'+'货物：'+this.editForm.goodsname+'\n'+'运输距离：'+'高速'+this.editForm.highspeed+'下道'+this.editForm.estimatedistance+'\n'+'放空距离：'+this.editForm.emptydistance+'\n'+'建议运输方式：'+this.editForm.yunshu+'\n'+'建议到达时间：'+this.editForm.daoda+'\n'+'订单备注：'+this.editForm.ordernote+'\n'+'提醒您：长途主意安全，雨季切记封好篷布，有问题找我不可与现场发生矛盾冲突，注意货物三不超！行车过程中注意安全，谨慎驾驶！杜绝疲劳驾驶！'
+				this.shareText = '司机名：'+this.editForm.Lidriver+'\n'+"发车时间："+this.editForm.apoints[0].stime+'\n'+"装货地点："+this.editForm.apoints[0].sprovince+this.editForm.apoints[0].scity+this.editForm.apoints[0].sarea+this.editForm.apoints[0].saddress+'\n'+'联系电话：'+this.editForm.apoints[0].spointphone+'\n'+'卸车时间：'+this.editForm.upoints[0].dtime+'\n'+'卸货地点：'+this.editForm.upoints[0].dprovince+this.editForm.upoints[0].dcity+this.editForm.upoints[0].darea+this.editForm.upoints[0].daddress+'\n'+'卸货方式：'+this.editForm.upiontway+'\n'+'卸货工具：'+this.editForm.upiontgj+'\n'+'装卸货是否禁行：'+this.editForm.ban+'\n'+'到车运费：'+this.editForm.car+'\n'+'定金：'+this.editForm.deposit+'\n'+'定金备注：'+this.editForm.djnote+'\n'+'付款方式及金额：'+'到付'+this.editForm.pay+'\n'+'是否回单：'+this.editForm.ishd+'\n'+'回单邮寄地址：'+this.editForm.hdadd+'\n'+'吨位：'+this.editForm.goodsweight+'\n'+'货物：'+this.editForm.goodsname+'\n'+'运输距离：'+'高速'+this.editForm.highspeed+'下道'+this.editForm.estimatedistance+'\n'+'放空距离：'+this.editForm.emptydistance+'\n'+'建议运输方式：'+this.editForm.yunshu+'\n'+'建议到达时间：'+this.editForm.daoda+'\n'+'订单备注1：'+this.editForm.ordernote+'\n'+'订单备注2：'+this.editForm.ordernotea+'\n'+'订单备注3：'+this.editForm.ordernoteb+'\n'+'提醒您：长途主意安全，雨季切记封好篷布，有问题找我不可与现场发生矛盾冲突，注意货物三不超！行车过程中注意安全，谨慎驾驶！杜绝疲劳驾驶！'
 				let clipboard = new this.Clipboard(".el-icon-document-copy");
 				clipboard.on("success", e => {
 					// 释放内存
@@ -822,7 +847,10 @@
 
 			// 点击查询按钮
 			handleQueryBtn() {
+				this.queryInfo.pageNo = 1
+				this.queryInfo.pageSize = 10
 				this.queryInfo.no = "*" + this.queryInfo.noText + "*"
+				this.queryInfo.driver = "*" + this.queryInfo.driverNew + "*"
 				this.getPageList()
 			},
 			// 返回按钮
@@ -832,6 +860,8 @@
 				this.queryInfo.no = ''
 				this.queryInfo.noText = ''
 				this.queryInfo.state = ''
+				this.queryInfo.driver = ''
+				this.queryInfo.driverNew = ''
 				this.getPageList()
 			},
 
