@@ -348,7 +348,7 @@
 		methods: {
 			// 上传图片限制
 			beforeAvatarUpload(file) {
-				console.log(file)
+				// console.log(file)
 				const isLt10M = file.size / 1024 / 1024 < 10;
 				if (!isLt10M) {
 					this.$message.error('上传图片大小不能超过 10MB!');

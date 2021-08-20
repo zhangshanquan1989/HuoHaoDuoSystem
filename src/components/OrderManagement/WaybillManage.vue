@@ -1205,7 +1205,7 @@
 			},
 			// 上传图片限制
 			beforeAvatarUpload(file) {
-				console.log(file)
+				// console.log(file)
 				const isLt10M = file.size / 1024 / 1024 < 10;
 				if (!isLt10M) {
 					this.$message.error('上传图片大小不能超过 10MB!');
@@ -1410,12 +1410,12 @@
 			},
 			// 修改选择司机名后发起请求
 			async editChooseDriverName(name) {
-				console.log(name)
+				// console.log(name)
 				if (name !== '') {
 					const {
 						data: res
 					} = await this.$http.get('/waybill/findDriverByDriver?driver=' + name)
-					console.log(res)
+					// console.log(res)
 					if (res.code !== 200) {
 						return this.$message.error(res.message)
 					}
@@ -1892,7 +1892,7 @@
 				const {
 					data: res
 				} = await this.$http.get('waybill/findListPage?plistNo=' + plistNo)
-				console.log('详情', res)
+				// console.log('详情', res)
 				if (res.code !== 200) {
 					return this.$message.error(res.message)
 				}

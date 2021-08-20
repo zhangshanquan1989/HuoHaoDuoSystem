@@ -432,11 +432,11 @@
 		methods: {
 			// 点击车辆总数
 			async numberCarClick(name){
-				console.log(name)
+				// console.log(name)
 				const {
 					data: res
 				} = await this.$http.get('base/company/getAllCarinfo?name='+name)
-				console.log(res)
+				// console.log(res)
 				if (res.code !== 200) {
 					return this.$message.error(res.message)
 				}
@@ -523,7 +523,7 @@
 				// console.log(this.addCompanyForm.business)
 			},
 			handleEditTransportSuccess(response, file, fileList) {
-				console.log(response)
+				// console.log(response)
 				this.editCompanyForm.permit = response.result.transportFileName
 				// console.log(this.addCompanyForm.permit)
 			},

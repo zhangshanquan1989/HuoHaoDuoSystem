@@ -350,7 +350,7 @@
 		},
 		methods: {
 			sortChange(e){
-				console.log(e)
+				// console.log(e)
 				this.queryInfo.column = e.prop
 				if(e.order == "descending"){
 					this.queryInfo.order = "desc"
@@ -368,7 +368,7 @@
 				} = await this.$http.get('kmanagement/list', {
 					params: this.queryInfo
 				})
-				console.log(res)
+				// console.log(res)
 				if (res.code !== 200) {
 					return this.$message.error(res.message)
 				}
@@ -425,7 +425,7 @@
 				const {
 					data: res
 				} = await this.$http.get('kmanagementRecords/list?licensePlate=' + row.licensePlate)
-				console.log(res)
+				// console.log(res)
 				if (res.code !== 200) {
 					return this.$message.error(res.message)
 				}
@@ -442,7 +442,7 @@
 			},
 			// ！！新需求，根据缴费日期和缴费周期判断到期时间 
 			async paytimeChange(e) {
-				console.log(e)
+				// console.log(e)
 				if (!this.selectManagementcycle) {
 					return
 				}
@@ -484,7 +484,7 @@
 				// if(!this.selectStopmonth){
 				if (e == '月付') {
 					this.selectAsoftime = this.getAfterDate(this.addDate(new Date(this.selectPaytime), 1), -1)
-					console.log(this.selectAsoftime)
+					// console.log(this.selectAsoftime)
 				} else if (e == '季度付') {
 					this.selectAsoftime = this.getAfterDate(this.addDate(new Date(this.selectPaytime), 3), -1)
 				} else if (e == '半年付') {
@@ -610,7 +610,7 @@
 				const {
 					data: res
 				} = await this.$http.get('kmanagementRecords/list?licensePlate=' + row.licensePlate)
-				console.log(res)
+				// console.log(res)
 				if (res.code !== 200) {
 					return this.$message.error(res.message)
 				}
