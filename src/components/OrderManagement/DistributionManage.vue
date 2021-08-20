@@ -353,7 +353,7 @@
 
 				<div v-if="showDisDetails">
 					<div style="display: flex;">
-						<el-form-item label="司机已交订单" prop="depositis" class="rt-input">
+						<el-form-item label="司机已交定金" prop="depositis" class="rt-input">
 							<el-input disabled v-model="editForm.depositis"></el-input>
 						</el-form-item>
 						<el-form-item label="定金是否已退还" prop="returnd" class="rt-input">
@@ -451,7 +451,7 @@
 					<el-input v-model="approvedForm.id" v-if="false"></el-input>
 				</el-form-item>
 				<div style="display: flex;">
-					<el-form-item label="司机已交订单" prop="depositis" class="rt-input">
+					<el-form-item label="司机已交定金" prop="depositis" class="rt-input">
 						<el-select v-model="approvedForm.depositis" clearable>
 							<el-option v-for="item in depositisList" :key="item.value" :label="item.label" :value="item.value">
 							</el-option>
@@ -568,7 +568,10 @@
 					column: "id",
 					no: '',
 					noText: '',
+					driver: '',
+					driverNew:'',
 				},
+				
 				// 订单取消
 				quxiaoData:{
 					id:0,
@@ -578,7 +581,7 @@
 				stateOptions: [
 					{
 						value: '0',
-						label: '已驳回'
+						label: '驳回'
 					},
 					{
 						value: '1',
@@ -710,7 +713,7 @@
 				updateReturnUrl: this.$baseUploadUrl+"/distribution/uploadreturnpicture",
 				updateRiskUrl: this.$baseUploadUrl+"/distribution/uploadriskpicture",
 
-				// 微信转发的数据
+				// 微信转发的数据 司机已交
 				// appid
 				appid: 'wx46f6d9e34185a909',
 				// 当前网址：

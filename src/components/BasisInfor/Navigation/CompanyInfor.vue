@@ -22,6 +22,11 @@
 				</el-table-column>
 				<el-table-column prop="name" label="公司名称" width="350px">
 				</el-table-column>
+				<el-table-column prop="numberCar" label="总车辆数" width="100px">
+					<template slot-scope="scope">
+						<el-tag type="success" disable-transitions @click="numberCarClick(scope.row.name)">{{scope.row.numberCar}}</el-tag>
+					</template>
+				</el-table-column>
 				<el-table-column prop="personname" label="法人姓名" width="150px">
 				</el-table-column>
 				<el-table-column prop="phone" label="法人手机号" width="150px">
@@ -82,7 +87,8 @@
 		</el-pagination>
 
 		<!-- 创建公司的对话框 -->
-		<el-dialog class="dialog" title="创建公司信息" :visible.sync="addDialogVisible" width="35%" @close="addDialogClosed" :close-on-click-modal="false">
+		<el-dialog class="dialog" title="创建公司信息" :visible.sync="addDialogVisible" width="35%" @close="addDialogClosed"
+		 :close-on-click-modal="false">
 			<!-- 添加公司的表单 -->
 			<el-form :model="addForm" :rules="addCompanyFormRules" ref="addFormRef" label-width="150px">
 				<el-form-item label="公司名称:" prop="name">
@@ -129,7 +135,8 @@
 				</el-form-item>
 				<el-form-item label="运输许可证:">
 					<el-image v-if="addForm.permit" style="width: 150px;" :src="addForm.permit"></el-image>
-					<el-upload name="imgFile" :action="updateTransportUrl" :headers="myHeaders" :auto-upload="true" :on-success="handleTransportSuccess" :show-file-list="false" :before-upload="beforeAvatarUpload">
+					<el-upload name="imgFile" :action="updateTransportUrl" :headers="myHeaders" :auto-upload="true" :on-success="handleTransportSuccess"
+					 :show-file-list="false" :before-upload="beforeAvatarUpload">
 						<el-button size="small" type="primary" plain>点击上传</el-button>
 					</el-upload>
 				</el-form-item>
@@ -141,7 +148,8 @@
 		</el-dialog>
 
 		<!-- 编辑公司的对话框 -->
-		<el-dialog title="编辑公司信息" :visible.sync="editDialogVisible" width="35%" @close="editCompanyDialogClosed" :close-on-click-modal="false">
+		<el-dialog title="编辑公司信息" :visible.sync="editDialogVisible" width="35%" @close="editCompanyDialogClosed"
+		 :close-on-click-modal="false">
 			<!-- 编辑公司的表单 -->
 			<el-form :model="editCompanyForm" ref="editCompanyFormRef" label-width="120px">
 				<el-form-item label="id:">
@@ -183,14 +191,16 @@
 					<el-input v-model="editCompanyForm.housenumber" style="width: 80%;"></el-input>
 				</el-form-item>
 				<el-form-item label="营业执照:">
-					<el-image v-if="editCompanyForm.business" style="width: 150px; " :src="editCompanyForm.business" :preview-src-list="srcList" @click="handleClickImage(editCompanyForm.business)"></el-image>
+					<el-image v-if="editCompanyForm.business" style="width: 150px; " :src="editCompanyForm.business" :preview-src-list="srcList"
+					 @click="handleClickImage(editCompanyForm.business)"></el-image>
 					<el-upload name="imgFile" :action="updateBusinessUrl" :auto-upload="true" :on-success="handleEditBusinessSuccess"
 					 :show-file-list="false" :headers="myHeaders" :before-upload="beforeAvatarUpload">
 						<el-button size="small" type="primary" plain>点击上传</el-button>
 					</el-upload>
 				</el-form-item>
 				<el-form-item label="运输许可证:">
-					<el-image v-if="editCompanyForm.permit" style="width: 150px; " :src="editCompanyForm.permit" :preview-src-list="srcList" @click="handleClickImage(editCompanyForm.permit)"></el-image>
+					<el-image v-if="editCompanyForm.permit" style="width: 150px; " :src="editCompanyForm.permit" :preview-src-list="srcList"
+					 @click="handleClickImage(editCompanyForm.permit)"></el-image>
 					<el-upload name="imgFile" :action="updateTransportUrl" :headers="myHeaders" :auto-upload="true" :on-success="handleEditTransportSuccess"
 					 :show-file-list="false" :before-upload="beforeAvatarUpload">
 						<el-button size="small" type="primary" plain>点击上传</el-button>
@@ -203,6 +213,47 @@
 			</span>
 
 		</el-dialog>
+		
+		<el-dialog title="车辆信息" :visible.sync="carNoDialogVisible" width="70%" @close="carNoDialogClosed"
+		 :close-on-click-modal="false">
+			<el-table :data="allCarList" border stripe style="width: 100%;margin-top: 8px;" :row-style="{height:'60px'}"
+			 :cell-style="{padding:'0px'}" :header-cell-style="{background:'#f8f8f9', color:'#000000'}">
+				<el-table-column prop="id" label="ID" v-if="false">
+				</el-table-column>
+				<el-table-column prop="License_plate" label="车牌号" width="100px">
+				</el-table-column>
+				<el-table-column prop="Carstate" label="车辆状态" width="100px" style="colot:">
+					<template slot-scope="scope">
+						<span :style="{'color':scope.row.Carstate=='正常'?'#303133FF':'red'}">{{scope.row.Carstate}}</span>
+					</template>
+				</el-table-column>
+				<el-table-column prop="name" label="车主姓名" width="100px">
+				</el-table-column>
+				<el-table-column prop="phoneno" label="车主手机号" width="150px">
+				</el-table-column>
+				<el-table-column prop="driver" label="对应司机" width="100px">
+				</el-table-column>
+				<el-table-column prop="driverphone" label="司机电话" width="150px">
+				</el-table-column>
+				<el-table-column prop="Vehiclelicensedate" label="行驶证到期时间" width="150px">
+				</el-table-column>
+				<el-table-column prop="check_date" label="年检到期时间" width="150px">
+				</el-table-column>
+				<el-table-column prop="insurance_date" label="保险到期日期" width="150px">
+				</el-table-column>
+				<el-table-column prop="OperatingDate" label="营运证到期时间" width="150px">
+				</el-table-column>
+				<el-table-column prop="starttime" label="首次出车时间" width="150px">
+				</el-table-column>
+				<el-table-column prop="createuser" label="创建人" width="150px">
+				</el-table-column>
+				<el-table-column prop="ct_time" label="创建时间" width="180px">
+				</el-table-column>
+				<el-table-column prop="ut_time" label="最近更新时间" width="180px">
+				</el-table-column>
+				
+			</el-table>
+		 </el-dialog>
 
 
 	</div>
@@ -228,6 +279,7 @@
 				},
 				// 公司列表
 				companylist: [],
+				allCarList: [],
 				// 公司总条数
 				total: 0,
 
@@ -253,9 +305,9 @@
 				},
 				// 添加公司营业执照的网址
 				// updateBusinessUrl: 'https://tkhhd.com/jeecg-boot/base/company/uploadbusiness',
-				updateBusinessUrl: this.$baseUploadUrl+'/base/company/uploadbusiness',
+				updateBusinessUrl: this.$baseUploadUrl + '/base/company/uploadbusiness',
 				// 添加运输许可证网址
-				updateTransportUrl: this.$baseUploadUrl+'/base/company/uploadtransport',
+				updateTransportUrl: this.$baseUploadUrl + '/base/company/uploadtransport',
 				// updateTransportUrl: 'https://tkhhd.com/jeecg-boot/base/company/uploadtransport',
 
 				// 添加的表单验证规则
@@ -315,7 +367,7 @@
 						message: "必填",
 						trigger: 'blur'
 					}],
-					
+
 				},
 				// 编辑公司的表单验证规则
 				editCompanyFormRules: {
@@ -359,6 +411,8 @@
 				// 编辑公司对话框显示与隐藏
 				editDialogVisible: false,
 				editCompanyForm: {},
+				// 所有车辆详情
+				carNoDialogVisible:false,
 
 			}
 		},
@@ -370,12 +424,28 @@
 			// console.log(this.myHeaders)
 			// console.log('url',this.updateBusinessUrl)
 			this.getCompanyList()
-			
+
 		},
 		mounted() {
 
 		},
 		methods: {
+			// 点击车辆总数
+			async numberCarClick(name){
+				console.log(name)
+				const {
+					data: res
+				} = await this.$http.get('base/company/getAllCarinfo?name='+name)
+				console.log(res)
+				if (res.code !== 200) {
+					return this.$message.error(res.message)
+				}
+				this.allCarList = res.result
+				this.carNoDialogVisible = true
+			},
+			carNoDialogClosed(){
+				this.allCarList = []
+			},
 			// 上传图片限制
 			beforeAvatarUpload(file) {
 				console.log(file)

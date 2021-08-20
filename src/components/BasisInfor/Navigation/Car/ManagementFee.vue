@@ -14,17 +14,17 @@
 			<el-button type="primary" plain @click="handleQueryBtn" style="margin-left: 30px;">查询</el-button>
 			<el-button type="primary" plain @click="handleQueryBackBtn" style="margin-left: 30px;">返回</el-button>
 
-			<el-table :data="pageList" border stripe style="width: 100%;margin-top: 8px;" :row-style="{height:'60px'}"
-			 :cell-style="{padding:'0px'}" :header-cell-style="{background:'#f8f8f9', color:'#000000'}">
+			<el-table :data="pageList" ref="table" border stripe style="width: 100%;margin-top: 8px;" :row-style="{height:'60px'}"
+			 :cell-style="{padding:'0px'}" :header-cell-style="{background:'#f8f8f9', color:'#000000'}" @sort-change="sortChange">
 				<el-table-column prop="id" label="id" v-if="false">
 				</el-table-column>
 				<el-table-column prop="licensePlate" label="车牌号">
 				</el-table-column>
 				<el-table-column prop="managementcycle" label="缴费周期">
 				</el-table-column>
-				<el-table-column prop="paytime" label="缴费时间">
+				<el-table-column prop="paytime" label="缴费时间" sortable="custom">
 				</el-table-column>
-				<el-table-column prop="asoftime" label="到期时间">
+				<el-table-column prop="asoftime" label="到期时间" sortable="custom">
 					<template slot-scope="scope">
 						<span :style="{'color':scope.row.owe == '是'?'red':'black'}">{{scope.row.asoftime}}</span>
 					</template>
@@ -34,7 +34,7 @@
 						<span :style="{'color':scope.row.owe == '是'?'red':'black'}">{{scope.row.owe}}</span>
 					</template>
 				</el-table-column>
-				<el-table-column prop="starttime" label="出车时间">
+				<el-table-column prop="starttime" label="出车时间" sortable="custom">
 				</el-table-column>
 				<el-table-column prop="carstate" label="车辆状态">
 					<template slot-scope="scope">
@@ -349,6 +349,18 @@
 			this.getPageList();
 		},
 		methods: {
+			sortChange(e){
+				console.log(e)
+				this.queryInfo.column = e.prop
+				if(e.order == "descending"){
+					this.queryInfo.order = "desc"
+				}else if(e.order == "ascending"){
+					this.queryInfo.order = "asc"
+				}
+				this.queryInfo.pageNo = 1
+				this.queryInfo.pageSize = 10
+				this.getPageList();
+			},
 			// 根据分页查询列表
 			async getPageList() {
 				const {
@@ -383,13 +395,18 @@
 				this.queryInfo.pageNo = 1
 				this.queryInfo.pageSize = 10
 				this.getPageList()
+				this.$refs.table.clearSort()
 			},
 			handleQueryNearBtn() {
+				this.queryInfo.pageNo = 1
+				this.queryInfo.pageSize = 10
 				this.queryInfo.owe = "*是*"
+				this.queryInfo.carstate = "*正常*"
 				this.getPageList()
 			},
 			// 返回按钮order: 
 			handleQueryBackBtn() {
+				this.$refs.table.clearSort()
 				this.queryInfo.pageNo = 1
 				this.queryInfo.pageSize = 10
 				this.queryInfo.order = "desc"
@@ -397,6 +414,7 @@
 				this.queryInfo.licensePlate = ''
 				this.queryInfo.carName = ''
 				this.queryInfo.owe = ""
+				this.queryInfo.carstate = ""
 				this.getPageList()
 			},
 

@@ -106,7 +106,7 @@
 			</el-pagination>
 		</el-col>
 
-		<!-- 创建的对话框 卸货工具 -->
+		<!-- 创建的对话框  -->
 		<el-dialog title="创建运单信息" :visible.sync="addDialogVisible" width="85%" :close-on-click-modal="false" @close="addDialogClosed">
 			<!-- 创建的表单   -->
 			<el-form :model="addForm" ref="addFormRef" label-width="140px" :rules="addRules">
@@ -124,6 +124,10 @@
 					<el-form-item label="负责配管" prop="dispatch">
 						<el-input disabled v-model="addForm.dispatch"></el-input>
 					</el-form-item>
+					<!-- <el-form-item >
+						<el-button type="primary"  style="margin-left: 10px;" @click="showLocationDialog">查看车辆位置</el-button>
+					</el-form-item> -->
+					
 				</div>
 				<div style="display: flex;">
 					<el-form-item label="运单编号" prop="no">
@@ -213,10 +217,11 @@
 						<el-input clearable v-model="addForm.djnote" placeholder="请输入"></el-input>
 					</el-form-item>
 					<el-form-item label="卸货方式" prop="upiontway">
-						<el-select v-model="addForm.upiontway" placeholder="请选择" clearable>
+						<!-- <el-select v-model="addForm.upiontway" placeholder="请选择" clearable>
 							<el-option v-for="item in upiontwayList" :key="item.value" :label="item.label" :value="item.value">
 							</el-option>
-						</el-select>
+						</el-select> -->
+						<el-input clearable v-model="addForm.upiontway" placeholder="请输入"></el-input>
 					</el-form-item>
 					<el-form-item label="装卸货工具" prop="upiontgj">
 						<el-input v-model="addForm.upiontgj"></el-input>
@@ -545,10 +550,11 @@
 						<el-input clearable :disabled="canEdit" v-model="editForm.djnote" placeholder="请输入"></el-input>
 					</el-form-item>
 					<el-form-item label="卸货方式" prop="upiontway">
-						<el-select :disabled="canEdit" v-model="editForm.upiontway" placeholder="请选择" clearable>
+						<!-- <el-select :disabled="canEdit" v-model="editForm.upiontway" placeholder="请选择" clearable>
 							<el-option v-for="item in upiontwayList" :key="item.value" :label="item.label" :value="item.value">
 							</el-option>
-						</el-select>
+						</el-select> -->
+						<el-input :disabled="canEdit" v-model="editForm.upiontway"></el-input>
 					</el-form-item>
 					<el-form-item label="装卸货工具" prop="upiontgj">
 						<el-input :disabled="canEdit" v-model="editForm.upiontgj"></el-input>
@@ -776,6 +782,13 @@
 			</span>
 
 		</el-dialog>
+		
+		<!-- 位置 -->
+		<el-dialog title="车辆位置" :visible.sync="locationDialog" width="50%" :close-on-click-modal="false">
+		
+			<div id="locition" style="width: 100%;height: 500px;"></div>
+		
+		</el-dialog>
 
 
 	</div>
@@ -833,6 +846,8 @@
 				srcList: [],
 				// 创建对话框数据
 				addDialogVisible: false,
+				// 位置
+				locationDialog: false,
 				addForm: {
 					waybilltype: '',
 					source: '',
@@ -891,11 +906,6 @@
 				showhdadd: false,
 				// 添加的规则
 				addRules: {
-					hdadd: [{
-						required: true,
-						message: '必填',
-						trigger: 'blur'
-					}],
 					ishd: [{
 						required: true,
 						message: '必填',
@@ -1148,6 +1158,44 @@
 			this.findAllPeople()
 		},
 		methods: {
+			// 地图
+			async showLocationDialog(){
+				
+				if(!this.addForm.lienses){
+					return this.$message.warning('请先选择车辆信息！')
+				}
+				
+				const {data:res} = await this.$http.get('kCarinformation/GetCarCurrent?string=' + this.addForm.lienses)
+				if (res.code !== 200) {
+					return this.$message.error(res.message)
+				}
+				if(res.result.anyType.GPSPoint){
+					const carInfo = res.result.anyType.GPSPoint
+					const {last_lon} = res.result.anyType.GPSPoint
+					const {last_lat} = res.result.anyType.GPSPoint
+					this.locationDialog = true
+					setTimeout(() => {
+						var map1 = new AMap.Map("locition", {
+							resizeEnable: true, //窗口大小调整
+							center: [last_lon, last_lat], //中心 firstArr: [116.478935, 39.997761],
+							zoom: 10
+						});
+					
+						var marker1 = new AMap.Marker({
+							icon: "https://tkhhd.com/imgs/kache.png",
+							position: [last_lon, last_lat],
+							offset: new AMap.Pixel(-13, -30)
+						});
+						marker1.setTitle(carInfo.carMark +":"+ carInfo.location)
+						// marker1.setMap(map1);
+						map1.add(marker1)
+					}, 200)
+				}else{
+					this.$message.warning('暂无位置信息')
+				}
+				
+			},
+			
 			ishdChange(e) {
 				if (e == '是') {
 					this.showhdadd = true
@@ -1169,7 +1217,7 @@
 				rows.splice(index, 1);
 			},
 			addApoints(apoints, event) {
-				// console.log(apoints)
+				// console.log(apoints) 司机已交
 				// console.log(event)
 				apoints.push({
 					spointphone: "",

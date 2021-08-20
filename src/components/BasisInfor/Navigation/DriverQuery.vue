@@ -13,6 +13,7 @@
 			<!-- 创建司机  el-select-->
 			<el-button type="primary" plain @click="addDialogVisible = true">创建</el-button>
 			<el-input v-model="queryInfo.driverName" placeholder="司机名" clearable style="width: 200px;margin-left: 100px;"></el-input>
+			<el-input v-model="queryInfo.licensePlateNew" placeholder="车牌号" clearable style="width: 200px;margin-left: 30px;"></el-input>
 			<el-button type="primary" plain @click="handleQueryBtn" style="margin-left: 30px;">查询</el-button>
 			<el-button type="primary" plain @click="handleQueryBackBtn" style="margin-left: 30px;">返回</el-button>
 			
@@ -25,12 +26,13 @@
 				</el-table-column>
 				<el-table-column prop="company" label="所属分公司" width="250px">
 				</el-table-column>
+				<el-table-column prop="licensePlate" label="对应车辆" width="150px">
+				</el-table-column>
 				<el-table-column prop="joinDate" label="加入日期" width="150px">
 				</el-table-column>
 				<el-table-column prop="region" label="地区" width="200px">
 				</el-table-column>
-				<el-table-column prop="licensePlate" label="对应车辆" width="150px">
-				</el-table-column>
+				
 				<!-- <el-table-column prop="userid" label="身份证" width="150px">
 					<template slot-scope="scope">
 						<el-tooltip class="item" effect="dark" content="点击查看大图" placement="top">
@@ -300,7 +302,11 @@
 					pageSize: 10,
 					// 倒叙必填
 					order: "desc",
-					column: "id"
+					column: "id",
+					driverName:'',
+					name:'',
+					licensePlateNew:'',
+					licensePlate:'',
 				},
 				// 分页列表
 				driverList: [],
@@ -466,9 +472,10 @@
 				this.getDriverList()
 			},
 			
-			// 点击查询按钮
+			// 点击查询按钮 licensePlateNew
 			handleQueryBtn() {
 				this.queryInfo.name = "*" + this.queryInfo.driverName + "*"
+				this.queryInfo.licensePlate = "*" + this.queryInfo.licensePlateNew + "*"
 				this.queryInfo.pageNo = 1
 				this.queryInfo.pageSize = 10
 				this.getDriverList()
@@ -479,6 +486,8 @@
 				this.queryInfo.pageSize = 10
 				this.queryInfo.driverName = ''
 				this.queryInfo.name = ''
+				this.queryInfo.licensePlate = ''
+				this.queryInfo.licensePlateNew = ''
 				this.getDriverList()
 			},
 			
