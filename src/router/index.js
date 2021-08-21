@@ -38,6 +38,9 @@ import UserManage from '../components/RightsManage/UserManage.vue'
 import RightsManage from '../components/RightsManage/RightsManage.vue'
 import RoleManage from '../components/RightsManage/RoleManage.vue'
 
+// 数据汇总
+import DataAggregation from '../components/DataAggregation/DataAggregation.vue'
+
 
 
 import Text from '../components/text/text.vue'
@@ -79,6 +82,7 @@ const routes = [
 		{path:'/manage/departManage', component:DepartManage},
 		{path:'/manage/userManage', component:UserManage},
 		{path:'/manage/roleManage', component:RoleManage},
+		{path:'/dataAggregation', component:DataAggregation},
 		{path:'/text', component:Text},
 		{path:'/test2', component:Test2}
 		]

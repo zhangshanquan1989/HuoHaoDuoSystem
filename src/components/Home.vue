@@ -234,6 +234,12 @@
 							}
 						]
 					},
+					{
+						id: 9,
+						authName: '数据汇总',
+						path: '/dataAggregation',
+						icon: "el-icon-collection",
+					},
 					// {
 					// 	id: 5,
 					// 	authName: '数据工厂',

@@ -45,7 +45,7 @@
 		<!-- 分页区域 -->
 		<el-col>
 			<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="queryInfo.pageNo"
-			 :page-sizes="[5, 10, 15, 20]" :page-size="queryInfo.pageSize" layout="total, sizes, prev, pager, next, jumper"
+			 :page-sizes="[10, 20, 50, 100]" :page-size="queryInfo.pageSize" layout="total, sizes, prev, pager, next, jumper"
 			 :total="total" style="margin-top: 5px;">
 			</el-pagination>
 		</el-col>
@@ -345,6 +345,7 @@
 				this.allExportInfo.finishtime = this.exportDate[1]
 				this.fullscreenLoading = true;
 				let url = 'https://tkhhd.com/jeecg-boot/SumController/HHDkaoqinAll?begintime=' + this.allExportInfo.begintime + '&finishtime=' + this.allExportInfo.finishtime
+				// let url = 'https://82.157.15.221:8080/jeecg-boot/SumController/HHDkaoqinAll?begintime=' + this.allExportInfo.begintime + '&finishtime=' + this.allExportInfo.finishtime
 					var xhr = new XMLHttpRequest(); //定义http请求对象
 					xhr.open("get", url, true);
 					xhr.responseType = "blob"; // 转换流
