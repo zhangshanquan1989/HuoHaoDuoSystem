@@ -438,6 +438,8 @@
 					chepai: '',
 					startime: '',
 					endtime: '',
+					state: '',
+					driver: '',
 
 				},
 				stateOptions: [{

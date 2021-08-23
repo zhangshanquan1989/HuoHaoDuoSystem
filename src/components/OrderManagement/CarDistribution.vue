@@ -15,7 +15,7 @@
 			</el-select> -->
 
 			<el-input v-model="newlp" placeholder="车牌号查询" clearable style="width: 200px;"></el-input>
-			<el-input v-model="newdiaodu" placeholder="调度查询" clearable style="width: 200px;margin-left: 30px;"></el-input>
+			<el-input v-model="newdiaodu" placeholder="配管查询" clearable style="width: 200px;margin-left: 30px;"></el-input>
 
 			<el-button type="primary" plain icon="el-icon-search" style="margin-left: 30px;" @click="search">搜索</el-button>
 			<el-button type="primary" plain @click="handleQueryBackBtn" style="margin-left: 30px;">返回</el-button>
@@ -31,6 +31,8 @@
 				<el-table-column prop="lp" label="车牌号" width="250px">
 				</el-table-column>
 				<el-table-column prop="diaodu" label="负责配管" width="250">
+				</el-table-column>
+				<el-table-column prop="chuchetime" label="首次出车时间" width="250">
 				</el-table-column>
 				<el-table-column prop="people" label="操作人" width="250">
 				</el-table-column>

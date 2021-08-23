@@ -14,6 +14,7 @@
 			<el-button type="primary" plain @click="allExportBtn" style="margin-left: 30px;">导出全部</el-button>
 			<el-input v-model="queryInfo.chepai" placeholder="输入车牌号" clearable style="width: 200px;margin-left: 30px;"></el-input>
 			<el-input v-model="queryInfo.dirver" placeholder="输入司机名" clearable style="width: 200px;margin-left: 30px;"></el-input>
+			<el-input v-model="queryInfo.peiguan" placeholder="输入配管" clearable style="width: 200px;margin-left: 30px;"></el-input>
 
 			<el-button type="primary" plain icon="el-icon-search" style="margin-left: 30px;" @click="search">搜索</el-button>
 			<el-button type="primary" plain @click="handleQueryBackBtn" style="margin-left: 30px;">返回</el-button>
@@ -23,6 +24,8 @@
 				<el-table-column prop="license" label="车牌号">
 				</el-table-column>
 				<el-table-column prop="name" label="司机名">
+				</el-table-column>
+				<el-table-column prop="peiguan" label="配管">
 				</el-table-column>
 				<el-table-column prop="attendance" label="车辆状态">
 				</el-table-column>
@@ -51,7 +54,7 @@
 		</el-col>
 
 		<!-- 考勤日历的对话框 -->
-		<el-dialog class="dialog" title="考勤日历" :visible.sync="detailsDialogVisible" width="35%" @close="detailsDialogClosed" :close-on-click-modal="false">
+		<el-dialog class="dialog" title="考勤日历" :visible.sync="detailsDialogVisible" width="40%" @close="detailsDialogClosed" :close-on-click-modal="false">
 			<el-calendar>
 				<template slot="dateCell" slot-scope="{date, data}">
 					<!-- <p :class="data.isSelected ? 'is-selected' : ''" @click="changeTime(date, data)">
@@ -61,7 +64,7 @@
 						<div>
 							{{ data.day.split('-').slice(1).join('-') }}
 						</div>
-						<div style="text-align: center;color: #409EFFFF;margin-top: 12px;">修改</div>
+						<!-- <div style="text-align: center;color: #409EFFFF;margin-top: 12px;">修改</div> -->
 						<div v-for="item in calendarData">
 							<div v-if="item.genggaitime == data.day">
 
@@ -204,6 +207,7 @@
 				this.queryInfo.pageSize = 10
 				this.queryInfo.chepai = ''
 				this.queryInfo.dirver = ''
+				this.queryInfo.peiguan = ''
 				this.getDataList()
 			},
 
@@ -387,7 +391,8 @@
 	}
 
 	.text {
-		margin-top: 5px;
+		margin-top: 20px;
 		text-align: center;
+		font-size: 16px;
 	}
 </style>

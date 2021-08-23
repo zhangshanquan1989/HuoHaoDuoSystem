@@ -811,6 +811,9 @@
 					column: "id",
 					no: '',
 					noText: '',
+					state: '',
+					driver: '',
+					driverNew: '',
 				},
 				stateOptions: [{
 						value: '0',
@@ -1421,11 +1424,13 @@
 					}
 					this.driverNameOptions = this.allDriverNameList
 					this.editForm.lienses = res.result.chepai
+					this.editForm.driver = name
 					this.editForm.dispatch = res.result.dispatch
 				} else {
 					this.driverNameOptions = this.allDriverNameList
 					this.editForm.lienses = ''
 					this.editForm.dispatch = ''
+					this.editForm.driver = ''
 				}
 			},
 

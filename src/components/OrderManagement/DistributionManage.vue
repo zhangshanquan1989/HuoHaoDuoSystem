@@ -568,6 +568,7 @@
 					column: "id",
 					no: '',
 					noText: '',
+					state: '',
 					driver: '',
 					driverNew:'',
 				},

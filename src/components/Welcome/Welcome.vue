@@ -183,11 +183,25 @@
 				</div>
 			</el-card>
 		</div>
-		<!-- 图标展示区域 -->
+		<!-- 柱状图展示区域 -->
 		<el-card class="box-card" style="margin-top: 30px;height: 430px;margin-left:8px;">
 			<div>
 				<!-- echarts图表 -->
 				<div id="main" style="width:100%;height: 400px;margin-top: 50px;"></div>
+			</div>
+		</el-card>
+		<!-- 平均每公里收入折线图展示区域 -->
+		<el-card class="box-card" style="margin-top: 30px;height: 430px;margin-left:8px;">
+			<div>
+				<!-- echarts图表 -->
+				<div id="everyday" style="width:100%;height: 400px;margin-top: 50px;"></div>
+			</div>
+		</el-card>
+		<!-- 当日动销车辆折线图展示区域 -->
+		<el-card class="box-card" style="margin-top: 30px;height: 430px;margin-left:8px;">
+			<div>
+				<!-- echarts图表 -->
+				<div id="everycar" style="width:100%;height: 400px;margin-top: 50px;"></div>
 			</div>
 		</el-card>
 
@@ -516,22 +530,35 @@
 					plistCtime1: '', // 开始时间  例如：2020-09-16 14:25:23  
 					plistCtime2: '' // 结束时间  例如：2020-10-16 14:25:23  
 				},
-				// 图表
+				// 柱状图表
 				sourceData: [],
 				xDataArr: [],
 				yDataArr1: [],
 				yDataArr2: [],
+				// 平均每公里折线图
+				everydayData:[],
+				xDataEveryday: [],
+				yDataEveryday: [],
+				// 当日动销车辆折线图
+				everycarData:[],
+				xDataEverycar: [],
+				yDataEverycar: [],
 			}
 		},
 		created() {
 			this.getAllData()
 			this.initTime(); // 初始化时间
 			this.getQueryData(); // 获取图表数据
+			this.getEverydayData(); // 获取图表数据
+			this.getEverycarData(); // 获取图表数据
 		},
 		// mounted中新建图表，created中的数据还没有获取到，展示不成功
 		mounted() {
 			setTimeout(() => {
 				this.creatEchartsMethod()
+				this.creatEverydayMethod()
+				this.creatEverycarMethod()
+				
 			}, 1000);
 
 			// window.onresize = this.myChart.resize
@@ -1483,6 +1510,139 @@
 			this.myChart.setOption(options);
 			// 根据窗口大小，实现表格自适应
 			window.onresize = this.myChart.resize
+		},
+		
+		// 获取平均每公里收入数据
+		async getEverydayData() {
+			this.everydayData = []
+			this.xDataEveryday = []
+			this.yDataEveryday = []
+			const {
+				data: res
+			} = await this.$http.get('data/findIncomeBykmEveryday', {
+				params: this.queryInfo
+			})
+			console.log('Everyday',res)
+			if (res.code !== 200) {
+				return this.$message.error(res.message)
+			}
+			this.everydayData = res.result
+			this.everydayData.forEach(v => {
+				this.xDataEveryday.push(v.总日期)
+				this.yDataEveryday.push(v.平均每公里收入)
+			})
+		},
+		// 创建everyday折线图
+		creatEverydayMethod() {
+			this.everydayChart = this.$echarts.init(document.getElementById('everyday'));
+		
+			var options = {
+				xAxis: {
+					name: '时间',
+					nameTextStyle: {
+						fontWeight: 600,
+						fontSize: 16,
+		
+					},
+					type: 'category',
+					data: this.xDataEveryday
+				},
+				yAxis: {
+					name: '每公里平均收入',
+					nameTextStyle: {
+						fontWeight: 600,
+						fontSize: 16,
+						align: 'center',
+						lineHeight: 56,
+					},
+					type: 'value'
+				},
+				tooltip: {
+					trigger: 'axis',
+					axisPointer: { // 坐标轴指示器，坐标轴触发有效
+						type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+					}
+				},
+				series: [{
+						name: '平均',
+						type: 'line',
+						data: this.yDataEveryday,
+						color: '#409EFF',
+
+					},
+				],
+			}
+			// 使用刚指定的配置项和数据显示图表。
+			this.everydayChart.setOption(options);
+			// 根据窗口大小，实现表格自适应
+			window.onresize = this.everydayChart.resize
+		},
+		
+		// 获取当日动销车辆数据
+		async getEverycarData() {
+			this.everycarData = []
+			this.xDataEverycar = []
+			this.yDataEverycar = []
+			const {
+				data: res
+			} = await this.$http.get('data/findCarNumberEveryday', {
+				params: this.queryInfo
+			})
+			console.log('Everycar',res)
+			if (res.code !== 200) {
+				return this.$message.error(res.message)
+			}
+			this.everycarData = res.result
+			this.everycarData.forEach(v => {
+				this.xDataEverycar.push(v.总日期)
+				this.yDataEverycar.push(v.每天跑单车辆数)
+			})
+		},
+		
+		// 创建everycar折线图
+		creatEverycarMethod() {
+			this.everycarChart = this.$echarts.init(document.getElementById('everycar'));
+		
+			var options = {
+				xAxis: {
+					name: '时间',
+					nameTextStyle: {
+						fontWeight: 600,
+						fontSize: 16,
+		
+					},
+					type: 'category',
+					data: this.xDataEverycar
+				},
+				yAxis: {
+					name: '当日动销车辆数',
+					nameTextStyle: {
+						fontWeight: 600,
+						fontSize: 16,
+						align: 'center',
+						lineHeight: 56,
+					},
+					type: 'value'
+				},
+				tooltip: {
+					trigger: 'axis',
+					axisPointer: { // 坐标轴指示器，坐标轴触发有效
+						type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+					}
+				},
+				series: [{
+						name: '车辆数',
+						type: 'line',
+						data: this.yDataEverycar,
+						color: '#E6AE5C',
+		
+					},
+				],
+			}
+			// 使用刚指定的配置项和数据显示图表。
+			this.everycarChart.setOption(options);
+			// 根据窗口大小，实现表格自适应
+			window.onresize = this.everycarChart.resize
 		},
 
 

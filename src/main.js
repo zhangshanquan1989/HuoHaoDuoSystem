@@ -32,6 +32,7 @@ Vue.prototype.Clipboard=Clipboard;
 Vue.prototype.$echarts = echarts
 // 挂载echarts
 Vue.prototype.$baseUploadUrl = 'https://tkhhd.com/jeecg-boot'
+// Vue.prototype.$baseUploadUrl = 'http://82.157.15.221:8080/jeecg-boot'
 
 // axios 请求拦截器 ，为请求头添加token权限
 //     request方法是请求拦截器  通过use挂载一个回调函数  config为请求对象

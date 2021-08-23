@@ -5,7 +5,7 @@
 			<el-breadcrumb-item>数据汇总</el-breadcrumb-item>
 		</el-breadcrumb>
 
-		<el-card class="box-card">
+		<el-card class="box-card" v-loading.fullscreen.lock="fullscreenLoading">
 			<el-date-picker v-model="exportDate" type="daterange" range-separator="至" start-placeholder="导出的开始日期"
 			 end-placeholder="导出的结束日期" format="yyyy 年 MM 月 dd 日" value-format="yyyy-MM-dd">
 			</el-date-picker>
@@ -93,6 +93,8 @@
 					pageSize: 10,
 				},
 				total: 0,
+				// 遮罩层
+				fullscreenLoading:false,
 				dataList: [],
 				// 导出所需数据
 				// allExportInfo: {
@@ -168,7 +170,7 @@
 				this.queryInfo.startime = this.exportDate[0]
 				this.queryInfo.endtime = this.exportDate[1]
 				this.fullscreenLoading = true;
-				let url = 'http://tkhhd.com/jeecg-boot/SumController/pageQuery?startime=' + this.queryInfo.startime + '&endtime=' + this.queryInfo.endtime + '&chepai=' + this.queryInfo.chepai + '&peiguan=' + this.queryInfo.peiguan
+				let url = this.$baseUploadUrl +'/SumController/pageQuery?startime=' + this.queryInfo.startime + '&endtime=' + this.queryInfo.endtime + '&chepai=' + this.queryInfo.chepai + '&peiguan=' + this.queryInfo.peiguan
 					var xhr = new XMLHttpRequest(); //定义http请求对象
 					xhr.open("get", url, true);
 					xhr.responseType = "blob"; // 转换流
