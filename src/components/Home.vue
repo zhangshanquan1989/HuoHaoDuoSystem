@@ -6,22 +6,42 @@
 				<img src="../assets/天康系统3.png" alt="">
 				<!-- <span>天康系统</span> -->
 			</div>
-			<div>
-				<span style="font-size: 18px ;margin-right: 10px;margin-top: 5px;">欢迎您：{{name}}</span>
-				<el-badge :value="daibanData"  style="margin-right: 30px;margin-top: 5px;font-size: 18px ;">
-					
-				  <span >待办事项</span>
+			<div style="margin-right: 20px;">
+			<!-- 	<span style="font-size: 18px ;margin-right: 20px;margin-top: 5px;">欢迎您：{{name}}</span> -->
+				<!-- <el-badge :value="daibanData" style="margin-right: 30px;margin-top: 5px;font-size: 18px ;"> -->
+
+					<!-- <span>待办事项</span> -->
 					<!-- <el-button style="font-size: 18px ;color: #FFFFFF;"  type="text" @click="turnTo">待办事项</el-button> -->
+				<!-- </el-badge> -->
+				<el-badge :is-dot="showDot" class="item">
+				<el-dropdown @command="handleCommand" trigger="click" >
+					<el-button style="background-color: #02446a;color: #fff;font-size: 15px;">
+						{{name}}<i class="el-icon-arrow-down el-icon--right"></i>
+					</el-button>
+					<el-dropdown-menu slot="dropdown">
+						<el-dropdown-item icon="el-icon-edit"  command="c">
+							<el-badge :value="daibanData" >
+							
+								<span>待办事项</span>
+								<!-- <el-button style="font-size: 18px ;color: #FFFFFF;"  type="text" @click="turnTo">待办事项</el-button> -->
+							</el-badge>
+						</el-dropdown-item>
+						<el-dropdown-item icon="el-icon-setting" divided command="a">修改密码</el-dropdown-item>
+						<el-dropdown-item icon="el-icon-guide" divided command="b">退出登录</el-dropdown-item>
+					</el-dropdown-menu>
+				</el-dropdown>
 				</el-badge>
-				<el-button type="info" @click="logout">退出</el-button>
+
+				<!-- <el-button type="info" @click="logout">个人中心</el-button> -->
 			</div>
-			
+
 		</el-header>
 		<!-- 页面主体 -->
 		<el-container>
 			<el-aside width="200px" style="background-color: #0f4f7d;">
 				<!-- 侧边栏菜单区域 -->
-				<el-menu background-color="#0f4f7d" text-color="#fff" active-text-color="#FFFFFF" :unique-opened="true" :router="true" :default-active="activePath">
+				<el-menu background-color="#0f4f7d" text-color="#fff" active-text-color="#FFFFFF" :unique-opened="true" :router="true"
+				 :default-active="activePath">
 					<template v-for="one in menulist">
 						<template v-if="one.children">
 							<el-submenu :index="one.path" :key="one.id" @click="saveNavState(one.path)">
@@ -67,9 +87,31 @@
 			<el-main>
 				<!-- 路由占位符 -->
 				<router-view></router-view>
+				
+				<el-dialog class="dialog" title="修改密码" :visible.sync="addDialogVisible" width="35%" @close="addDialogClosed" :close-on-click-modal="false">
+					<!-- 添加的表单 -->
+					<el-form :model="addForm" :rules="addFormRules" ref="addFormRef" label-width="150px">
+						<el-form-item label="旧密码:" prop="oldpassword">
+							<el-input v-model="addForm.oldpassword" style="width: 350px;"></el-input>
+						</el-form-item>
+						<el-form-item label="新密码:" prop="newpassword">
+							<el-input v-model="addForm.newpassword" style="width: 350px;"></el-input>
+						</el-form-item>
+						<el-form-item label="再次输入新密码:" prop="newpasswordTwo">
+							<el-input v-model="addForm.newpasswordTwo" style="width: 350px;"></el-input>
+						</el-form-item>
+						
+					</el-form>
+					<span slot="footer" class="dialog-footer">
+						<el-button @click="addDialogVisible = false">取 消</el-button>
+						<el-button type="primary" @click="addHandle">确 定</el-button>
+					</span>
+				</el-dialog>
 			</el-main>
 		</el-container>
 	</el-container>
+	
+	
 </template>
 
 <script>
@@ -77,7 +119,33 @@
 		data() {
 			return {
 				// 用户名
-				name:'',
+				name: '',
+				addDialogVisible: false,
+				addForm:{
+					oldpassword:'',
+					newpassword:'',
+					newpasswordTwo:'',
+				},
+				// 添加的表单验证规则
+				addFormRules: {
+					oldpassword: [{
+						required: true,
+						message: "必填",
+						trigger: 'blur'
+					}],
+					newpassword: [{
+						required: true,
+						message: "必填",
+						trigger: 'blur'
+					}],
+					newpasswordTwo: [{
+						required: true,
+						message: "必填",
+						trigger: 'blur'
+					}],
+
+				
+				},
 				// 左侧菜单数据
 				menulist: [{
 						id: 0,
@@ -269,9 +337,10 @@
 				// 被激活的链接地址
 				activePath: '',
 				// 用户id
-				userid:'',
+				userid: '',
 				// 代办数量
-				daibanData:''
+				daibanData: '',
+				showDot:false
 			}
 		},
 		created() {
@@ -287,6 +356,37 @@
 				window.sessionStorage.clear()
 				this.$router.push('/login')
 			},
+
+			handleCommand(command) {
+				if(command == 'a'){
+					this.addDialogVisible = true
+				}else if(command == 'b'){
+					this.logout()
+				}
+			},
+			
+			addDialogClosed(){},
+			addHandle(){
+				this.$refs.addFormRef.validate(async valid => {
+					if (!valid) return
+					
+					if(this.addForm.newpassword == this.addForm.newpasswordTwo){
+						const {
+							data: res
+						} = await this.$http.post('kaccount/editpassword', this.addForm)
+						// console.log(res)
+						if (res.code !== 200) {
+							return this.$message.error(res.message)
+						}
+						this.$message.success(res.message)
+						this.addDialogVisible = false
+						
+					}else{
+						return this.$message.warning('两次输入新密码不一致！')
+					}
+
+				})
+			},
 			//获取所有菜单
 			// async getMenuList(){
 			// 	const {data: res} = await this.$http.get('menus')
@@ -301,17 +401,24 @@
 				this.activePath = activePath
 			},
 			// 获取代办提醒
-			async getDaiBan(){
-				const {data:res} = await this.$http.get('waybill/daiban?id='+this.userid)
+			async getDaiBan() {
+				const {
+					data: res
+				} = await this.$http.get('waybill/daiban?id=' + this.userid)
 				console.log(res)
 				this.daibanData = res.result.代办流程数量
+				if(this.daibanData-0 > 0){
+					this.showDot = true
+				}else{
+					this.showDot = false
+				}
 			},
 			// 跳转到待办事项功能，目前跳转地址不明确
 			// turnTo(){
 			// 	this.$router.push('/distributionManage')
 			// 	this.activePath = '/distributionManage'
 			// },
-			
+
 			// // 加密订单号
 			// async jiaMi(){
 			// 	const {data:res} = await this.$http.get('waybill/jiami?plistNo=0000096')
@@ -371,10 +478,10 @@
 	.el-menu-item.is-active {
 		background-color: #03395f !important;
 	}
-	
-	.el-badge /deep/.el-badge__content.is-fixed{
-	       right: 5px
-	    }
+
+	.el-badge /deep/.el-badge__content.is-fixed {
+		right: 5px
+	}
 
 
 	// .el-submenu {

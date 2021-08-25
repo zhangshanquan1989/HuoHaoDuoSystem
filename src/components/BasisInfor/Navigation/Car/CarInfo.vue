@@ -260,18 +260,37 @@
 					</el-upload>
 				</el-form-item>
 				
+				<el-form-item label="交强险到期时间:" prop="insuranceDate">
+					<el-date-picker v-model="addForm.insuranceDate" type="date" placeholder="选择日期" format="yyyy 年 MM 月 dd 日"
+					 value-format="yyyy-MM-dd"  style="width: 350px;">
+					</el-date-picker>
+				</el-form-item>
+				<el-form-item label="交强险单据:" prop="insurance">
+					<el-upload name="imgFile" :action="updateInsuranceUrl1" :headers="myHeaders" :auto-upload="true" :on-success="handleInsuranceUrlSuccess1"
+					 :show-file-list="false" :before-upload="beforeAvatarUpload">
+						<el-button size="small" type="primary" plain>上传交强险PDF</el-button>
+					</el-upload>
+					 <a  v-if="addForm.insurance" :href="addForm.insurance" target="_blank">查看交强险PDF</a>
+				</el-form-item>
+				
 				
 				<el-form-item label="商业险到期时间:" prop="businesstime">
 					<el-date-picker v-model="addForm.businesstime" type="date" placeholder="选择日期" format="yyyy 年 MM 月 dd 日"
 					 value-format="yyyy-MM-dd"  style="width: 350px;">
 					</el-date-picker>
 				</el-form-item>
-				<el-form-item label="商业险图片:" prop="insurancesyx">
-					<el-image v-if="addForm.insurancesyx" style="width: 150px;" :src="addForm.insurancesyx" :preview-src-list="srcList" @click="handleClickImage(addForm.insurancesyx)"></el-image>
-					<el-upload name="imgFile" :action="updateInsurancesyxUrl" :headers="myHeaders" :auto-upload="true" :on-success="handleInsurancesyxUrlSuccess"
-					 :show-file-list="false" :before-upload="beforeAvatarUpload">
-						<el-button size="small" type="primary" plain>上传商业险照片</el-button>
+				
+				<el-form-item label="商业险单据1:" prop="insurancesyx">
+					<el-upload name="imgFile" :action="updateInsurancesyxUrl" :headers="myHeaders" :auto-upload="true" :on-success="handleInsurancesyxUrlSuccess" :show-file-list="false" :before-upload="beforeAvatarUpload">
+						<el-button size="small" type="primary" plain>上传商业险PDF</el-button>
 					</el-upload>
+					 <a  v-if="addForm.insurancesyx" :href="addForm.insurancesyx" target="_blank">查看商业险PDF1</a>
+				</el-form-item>
+				<el-form-item label="商业险单据2:" prop="insurancesyxa">
+					<el-upload name="imgFile" :action="updateInsurancesyxaUrl" :headers="myHeaders" :auto-upload="true" :on-success="handleInsurancesyxaUrlSuccess" :show-file-list="false" :before-upload="beforeAvatarUpload">
+						<el-button size="small" type="primary" plain>上传商业险PDF</el-button>
+					</el-upload>
+					 <a  v-if="addForm.insurancesyxa" :href="addForm.insurancesyxa" target="_blank">查看商业险PDF2</a>
 				</el-form-item>
 				
 				<el-form-item label="非车险到期时间:" prop="nokcrtime">
@@ -279,92 +298,54 @@
 					 value-format="yyyy-MM-dd"  style="width: 350px;">
 					</el-date-picker>
 				</el-form-item>
-				<el-form-item label="非车险图片:" prop="insurancefcx">
-					<el-image v-if="addForm.insurancefcx" style="width: 150px;" :src="addForm.insurancefcx" :preview-src-list="srcList" @click="handleClickImage(addForm.insurancefcx)"></el-image>
+				<el-form-item label="非车险单据1:" prop="insurancefcx">
 					<el-upload name="imgFile" :action="updateInsurancefcxUrl" :headers="myHeaders" :auto-upload="true" :on-success="handleInsurancefcxUrlSuccess"
 					 :show-file-list="false" :before-upload="beforeAvatarUpload">
-						<el-button size="small" type="primary" plain>上传非车险照片</el-button>
-					</el-upload>
+						<el-button size="small" type="primary" plain>上传非车险PDF</el-button>
+						</el-upload>
+						 <a  v-if="addForm.insurancefcx" :href="addForm.insurancefcx" target="_blank">查看非车险PDF1</a>
+					
 				</el-form-item>
-				
-				<el-form-item label="交强险到期时间:" prop="insuranceDate">
-					<el-date-picker v-model="addForm.insuranceDate" type="date" placeholder="选择日期" format="yyyy 年 MM 月 dd 日"
-					 value-format="yyyy-MM-dd"  style="width: 350px;">
-					</el-date-picker>
-				</el-form-item>
-				<el-form-item label="交强险单据1:" prop="insurance">
-					<el-image v-if="addForm.insurance" style="width: 150px;" :src="addForm.insurance" :preview-src-list="srcList" @click="handleClickImage(addForm.insurance)"></el-image>
-					<el-upload name="imgFile" :action="updateInsuranceUrl1" :headers="myHeaders" :auto-upload="true" :on-success="handleInsuranceUrlSuccess1"
+				<el-form-item label="非车险单据2:" prop="insurancefcxa">
+					<el-upload name="imgFile" :action="updateInsurancefcxaUrl" :headers="myHeaders" :auto-upload="true" :on-success="handleInsurancefcxaUrlSuccess"
 					 :show-file-list="false" :before-upload="beforeAvatarUpload">
-						<el-button size="small" type="primary" plain>上传交强险单据1</el-button>
-					</el-upload>
+						<el-button size="small" type="primary" plain>上传非车险PDF2</el-button>
+						</el-upload>
+						 <a  v-if="addForm.insurancefcxa" :href="addForm.insurancefcxa" target="_blank">查看非车险PDF2</a>
+					
 				</el-form-item>
-				<el-form-item label="交强险单据2:" prop="insurancea">
-					<el-image v-if="addForm.insurancea" style="width: 150px;" :src="addForm.insurancea" :preview-src-list="srcList" @click="handleClickImage(addForm.insurancea)"></el-image>
-					<el-upload name="imgFile" :action="updateInsuranceUrl2" :headers="myHeaders" :auto-upload="true" :on-success="handleInsuranceUrlSuccess2"
+				<el-form-item label="非车险单据3:" prop="insurancefcxb">
+					<el-upload name="imgFile" :action="updateInsurancefcxbUrl" :headers="myHeaders" :auto-upload="true" :on-success="handleInsurancefcxbUrlSuccess"
 					 :show-file-list="false" :before-upload="beforeAvatarUpload">
-						<el-button size="small" type="primary" plain>上传交强险单据2</el-button>
-					</el-upload>
+						<el-button size="small" type="primary" plain>上传非车险PDF3</el-button>
+						</el-upload>
+						 <a  v-if="addForm.insurancefcxb" :href="addForm.insurancefcxb" target="_blank">查看非车险PDF3</a>
+					
 				</el-form-item>
-				<el-form-item label="交强险单据3:" prop="insuranceb">
-					<el-image v-if="addForm.insuranceb" style="width: 150px;" :src="addForm.insuranceb" :preview-src-list="srcList" @click="handleClickImage(addForm.insuranceb)"></el-image>
-					<el-upload name="imgFile" :action="updateInsuranceUrl3" :headers="myHeaders" :auto-upload="true" :on-success="handleInsuranceUrlSuccess3"
+				<el-form-item label="非车险单据4:" prop="insurancefcxc">
+					<el-upload name="imgFile" :action="updateInsurancefcxcUrl" :headers="myHeaders" :auto-upload="true" :on-success="handleInsurancefcxcUrlSuccess"
 					 :show-file-list="false" :before-upload="beforeAvatarUpload">
-						<el-button size="small" type="primary" plain>上传交强险单据3</el-button>
-					</el-upload>
+						<el-button size="small" type="primary" plain>上传非车险PDF4</el-button>
+						</el-upload>
+						 <a  v-if="addForm.insurancefcxc" :href="addForm.insurancefcxc" target="_blank">查看非车险PDF4</a>
+					
 				</el-form-item>
-				<el-form-item label="交强险单据4:" prop="insurancec">
-					<el-image v-if="addForm.insurancec" style="width: 150px;" :src="addForm.insurancec" :preview-src-list="srcList" @click="handleClickImage(addForm.insurancec)"></el-image>
-					<el-upload name="imgFile" :action="updateInsuranceUrl4" :headers="myHeaders" :auto-upload="true" :on-success="handleInsuranceUrlSuccess4"
+				<el-form-item label="非车险单据5:" prop="insurancefcxd">
+					<el-upload name="imgFile" :action="updateInsurancefcxdUrl" :headers="myHeaders" :auto-upload="true" :on-success="handleInsurancefcxdUrlSuccess"
 					 :show-file-list="false" :before-upload="beforeAvatarUpload">
-						<el-button size="small" type="primary" plain>上传交强险单据4</el-button>
-					</el-upload>
+						<el-button size="small" type="primary" plain>上传非车险PDF5</el-button>
+						</el-upload>
+						 <a  v-if="addForm.insurancefcxd" :href="addForm.insurancefcxd" target="_blank">查看非车险PDF5</a>
+					
 				</el-form-item>
-				<el-form-item label="交强险单据5:" prop="insuranced">
-					<el-image v-if="addForm.insuranced" style="width: 150px;" :src="addForm.insuranced" :preview-src-list="srcList" @click="handleClickImage(addForm.insuranced)"></el-image>
-					<el-upload name="imgFile" :action="updateInsuranceUrl5" :headers="myHeaders" :auto-upload="true" :on-success="handleInsuranceUrlSuccess5"
+				<el-form-item label="非车险单据6:" prop="insurancefcxe">
+					<el-upload name="imgFile" :action="updateInsurancefcxeUrl" :headers="myHeaders" :auto-upload="true" :on-success="handleInsurancefcxeUrlSuccess"
 					 :show-file-list="false" :before-upload="beforeAvatarUpload">
-						<el-button size="small" type="primary" plain>上传交强险单据5</el-button>
-					</el-upload>
-				</el-form-item>
-				<el-form-item label="交强险单据6:" prop="insurancee">
-					<el-image v-if="addForm.insurancee" style="width: 150px;" :src="addForm.insurancee" :preview-src-list="srcList" @click="handleClickImage(addForm.insurancee)"></el-image>
-					<el-upload name="imgFile" :action="updateInsuranceUrl6" :headers="myHeaders" :auto-upload="true" :on-success="handleInsuranceUrlSuccess6"
-					 :show-file-list="false" :before-upload="beforeAvatarUpload">
-						<el-button size="small" type="primary" plain>上传交强险单据6</el-button>
-					</el-upload>
-				</el-form-item>
-				<el-form-item label="交强险单据7:" prop="insurancef">
-					<el-image v-if="addForm.insurancef" style="width: 150px;" :src="addForm.insurancef" :preview-src-list="srcList" @click="handleClickImage(addForm.insurancef)"></el-image>
-					<el-upload name="imgFile" :action="updateInsuranceUrl7" :headers="myHeaders" :auto-upload="true" :on-success="handleInsuranceUrlSuccess7"
-					 :show-file-list="false" :before-upload="beforeAvatarUpload">
-						<el-button size="small" type="primary" plain>上传交强险单据7</el-button>
-					</el-upload>
-				</el-form-item>
-				<el-form-item label="交强险单据8:" prop="insuranceg">
-					<el-image v-if="addForm.insuranceg" style="width: 150px;" :src="addForm.insuranceg" :preview-src-list="srcList" @click="handleClickImage(addForm.insuranceg)"></el-image>
-					<el-upload name="imgFile" :action="updateInsuranceUrl8" :headers="myHeaders" :auto-upload="true" :on-success="handleInsuranceUrlSuccess8"
-					 :show-file-list="false" :before-upload="beforeAvatarUpload">
-						<el-button size="small" type="primary" plain>上传交强险单据8</el-button>
-					</el-upload>
-				</el-form-item>
-				<el-form-item label="交强险单据9:" prop="insuranceh">
-					<el-image v-if="addForm.insuranceh" style="width: 150px;" :src="addForm.insuranceh" :preview-src-list="srcList" @click="handleClickImage(addForm.insuranceh)"></el-image>
-					<el-upload name="imgFile" :action="updateInsuranceUrl9" :headers="myHeaders" :auto-upload="true" :on-success="handleInsuranceUrlSuccess9"
-					 :show-file-list="false" :before-upload="beforeAvatarUpload">
-						<el-button size="small" type="primary" plain>上传交强险单据9</el-button>
-					</el-upload>
-				</el-form-item>
-				<el-form-item label="交强险单据10:" prop="insurancel">
-					<el-image v-if="addForm.insurancel" style="width: 150px;" :src="addForm.insurancel" :preview-src-list="srcList" @click="handleClickImage(addForm.insurancel)"></el-image>
-					<el-upload name="imgFile" :action="updateInsuranceUrl10" :headers="myHeaders" :auto-upload="true" :on-success="handleInsuranceUrlSuccess10"
-					 :show-file-list="false" :before-upload="beforeAvatarUpload">
-						<el-button size="small" type="primary" plain>上传交强险单据10</el-button>
-					</el-upload>
-				</el-form-item>
-				
-				
-				
+						<el-button size="small" type="primary" plain>上传非车险PDF6</el-button>
+						</el-upload>
+						 <a  v-if="addForm.insurancefcxe" :href="addForm.insurancefcxe" target="_blank">查看非车险PDF6</a>
+					
+				</el-form-item>		
 			</el-form>
 
 			<span slot="footer" class="dialog-footer">
@@ -451,17 +432,35 @@
 					</el-upload>
 				</el-form-item>
 				
+				<el-form-item label="保险到期时间:" prop="insuranceDate">
+					<el-date-picker v-model="editForm.insuranceDate" type="date" placeholder="选择日期" format="yyyy 年 MM 月 dd 日"
+					 value-format="yyyy-MM-dd"  style="width: 350px;">
+					</el-date-picker>
+				</el-form-item>
+				<el-form-item label="交强险单据:" prop="insurance">				
+					<el-upload name="imgFile" :action="updateInsuranceUrl1" :headers="myHeaders" :auto-upload="true" :on-success="editInsuranceUrlSuccess"	 :show-file-list="false" :before-upload="beforeAvatarUpload">
+						<el-button size="small" type="primary" plain>上传交强险PDF</el-button>
+					</el-upload>
+					<a  v-if="editForm.insurance" :href="editForm.insurance" target="_blank">查看交强险PDF</a>
+				</el-form-item>
+				
 				<el-form-item label="商业险到期时间:" prop="businesstime">
 					<el-date-picker v-model="editForm.businesstime" type="date" placeholder="选择日期" format="yyyy 年 MM 月 dd 日"
 					 value-format="yyyy-MM-dd"  style="width: 350px;">
 					</el-date-picker>
 				</el-form-item>
-				<el-form-item label="商业险图片:" prop="insurancesyx">
-					<el-image v-if="editForm.insurancesyx" style="width: 150px;" :src="editForm.insurancesyx" :preview-src-list="srcList" @click="handleClickImage(editForm.insurancesyx)"></el-image>
-					<el-upload name="imgFile" :action="updateInsurancesyxUrl" :headers="myHeaders" :auto-upload="true" :on-success="handleEditInsurancesyxUrlSuccess"
-					 :show-file-list="false" :before-upload="beforeAvatarUpload">
-						<el-button size="small" type="primary" plain>上传商业险照片</el-button>
+				
+				<el-form-item label="商业险单据1:" prop="insurancesyx">
+					<el-upload name="imgFile" :action="updateInsurancesyxUrl" :headers="myHeaders" :auto-upload="true" :on-success="editInsurancesyxUrlSuccess" :show-file-list="false" :before-upload="beforeAvatarUpload">
+						<el-button size="small" type="primary" plain>上传商业险PDF</el-button>
 					</el-upload>
+					 <a  v-if="editForm.insurancesyx" :href="editForm.insurancesyx" target="_blank">查看商业险PDF1</a>
+				</el-form-item>
+				<el-form-item label="商业险单据2:" prop="insurancesyxa">
+					<el-upload name="imgFile" :action="updateInsurancesyxaUrl" :headers="myHeaders" :auto-upload="true" :on-success="editInsurancesyxaUrlSuccess" :show-file-list="false" :before-upload="beforeAvatarUpload">
+						<el-button size="small" type="primary" plain>上传商业险PDF</el-button>
+					</el-upload>
+					 <a  v-if="editForm.insurancesyxa" :href="editForm.insurancesyxa" target="_blank">查看商业险PDF2</a>
 				</el-form-item>
 				
 				<el-form-item label="非车险到期时间:" prop="nokcrtime">
@@ -469,89 +468,54 @@
 					 value-format="yyyy-MM-dd"  style="width: 350px;">
 					</el-date-picker>
 				</el-form-item>
-				<el-form-item label="非车险图片:" prop="insurancefcx">
-					<el-image v-if="editForm.insurancefcx" style="width: 150px;" :src="editForm.insurancefcx" :preview-src-list="srcList" @click="handleClickImage(editForm.insurancefcx)"></el-image>
-					<el-upload name="imgFile" :action="updateInsurancefcxUrl" :headers="myHeaders" :auto-upload="true" :on-success="handleEditInsurancefcxUrlSuccess"
+<el-form-item label="非车险单据1:" prop="insurancefcx">
+					<el-upload name="imgFile" :action="updateInsurancefcxUrl" :headers="myHeaders" :auto-upload="true" :on-success="editInsurancefcxUrlSuccess"
 					 :show-file-list="false" :before-upload="beforeAvatarUpload">
-						<el-button size="small" type="primary" plain>上传非车险照片</el-button>
-					</el-upload>
+						<el-button size="small" type="primary" plain>上传非车险PDF</el-button>
+						</el-upload>
+						 <a  v-if="editForm.insurancefcx" :href="editForm.insurancefcx" target="_blank">查看非车险PDF1</a>
+					
 				</el-form-item>
-				
-				<el-form-item label="保险到期时间:" prop="insuranceDate">
-					<el-date-picker v-model="editForm.insuranceDate" type="date" placeholder="选择日期" format="yyyy 年 MM 月 dd 日"
-					 value-format="yyyy-MM-dd"  style="width: 350px;">
-					</el-date-picker>
-				</el-form-item>
-				<el-form-item label="交强险单据1:" prop="insurance">
-					<el-image v-if="editForm.insurance" style="width: 150px;" :src="editForm.insurance" :preview-src-list="srcList" @click="handleClickImage(editForm.insurance)"></el-image>
-					<el-upload name="imgFile" :action="updateInsuranceUrl1" :headers="myHeaders" :auto-upload="true" :on-success="handleEditInsuranceUrlSuccess1"	 :show-file-list="false" :before-upload="beforeAvatarUpload">
-						<el-button size="small" type="primary" plain>上传交强险单据1</el-button>
-					</el-upload>
-				</el-form-item>
-				<el-form-item label="交强险单据2:" prop="insurance">
-					<el-image v-if="editForm.insurancea" style="width: 150px;" :src="editForm.insurancea" :preview-src-list="srcList" @click="handleClickImage(editForm.insurancea)"></el-image>
-					<el-upload name="imgFile" :action="updateInsuranceUrl2" :headers="myHeaders" :auto-upload="true" :on-success="handleEditInsuranceUrlSuccess2"
+				<el-form-item label="非车险单据2:" prop="insurancefcxa">
+					<el-upload name="imgFile" :action="updateInsurancefcxaUrl" :headers="myHeaders" :auto-upload="true" :on-success="editInsurancefcxaUrlSuccess"
 					 :show-file-list="false" :before-upload="beforeAvatarUpload">
-						<el-button size="small" type="primary" plain>上传交强险单据2</el-button>
-					</el-upload>
+						<el-button size="small" type="primary" plain>上传非车险PDF2</el-button>
+						</el-upload>
+						 <a  v-if="editForm.insurancefcxa" :href="editForm.insurancefcxa" target="_blank">查看非车险PDF2</a>
+					
 				</el-form-item>
-				<el-form-item label="交强险单据3:" prop="insurance">
-					<el-image v-if="editForm.insuranceb" style="width: 150px;" :src="editForm.insuranceb" :preview-src-list="srcList" @click="handleClickImage(editForm.insuranceb)"></el-image>
-					<el-upload name="imgFile" :action="updateInsuranceUrl3" :headers="myHeaders" :auto-upload="true" :on-success="handleEditInsuranceUrlSuccess3"
+				<el-form-item label="非车险单据3:" prop="insurancefcxb">
+					<el-upload name="imgFile" :action="updateInsurancefcxbUrl" :headers="myHeaders" :auto-upload="true" :on-success="editInsurancefcbxUrlSuccess"
 					 :show-file-list="false" :before-upload="beforeAvatarUpload">
-						<el-button size="small" type="primary" plain>上传交强险单据3</el-button>
-					</el-upload>
+						<el-button size="small" type="primary" plain>上传非车险PDF3</el-button>
+						</el-upload>
+						 <a  v-if="editForm.insurancefcxb" :href="editForm.insurancefcxb" target="_blank">查看非车险PDF3</a>
+					
 				</el-form-item>
-				<el-form-item label="交强险单据4:" prop="insurance">
-					<el-image v-if="editForm.insurancec" style="width: 150px;" :src="editForm.insurancec" :preview-src-list="srcList" @click="handleClickImage(editForm.insurancec)"></el-image>
-					<el-upload name="imgFile" :action="updateInsuranceUrl4" :headers="myHeaders" :auto-upload="true" :on-success="handleEditInsuranceUrlSuccess4"
+				<el-form-item label="非车险单据4:" prop="insurancefcxc">
+					<el-upload name="imgFile" :action="updateInsurancefcxcUrl" :headers="myHeaders" :auto-upload="true" :on-success="editInsurancefcxcUrlSuccess"
 					 :show-file-list="false" :before-upload="beforeAvatarUpload">
-						<el-button size="small" type="primary" plain>上传交强险单据4</el-button>
-					</el-upload>
+						<el-button size="small" type="primary" plain>上传非车险PDF4</el-button>
+						</el-upload>
+						 <a  v-if="editForm.insurancefcxc" :href="editForm.insurancefcxc" target="_blank">查看非车险PDF4</a>
+					
 				</el-form-item>
-				<el-form-item label="交强险单据5:" prop="insurance">
-					<el-image v-if="editForm.insuranced" style="width: 150px;" :src="editForm.insuranced" :preview-src-list="srcList" @click="handleClickImage(editForm.insuranced)"></el-image>
-					<el-upload name="imgFile" :action="updateInsuranceUrl5" :headers="myHeaders" :auto-upload="true" :on-success="handleEditInsuranceUrlSuccess5"
+				<el-form-item label="非车险单据5:" prop="insurancefcxd">
+					<el-upload name="imgFile" :action="updateInsurancefcxdUrl" :headers="myHeaders" :auto-upload="true" :on-success="editInsurancefcxdUrlSuccess"
 					 :show-file-list="false" :before-upload="beforeAvatarUpload">
-						<el-button size="small" type="primary" plain>上传交强险单据5</el-button>
-					</el-upload>
+						<el-button size="small" type="primary" plain>上传非车险PDF5</el-button>
+						</el-upload>
+						 <a  v-if="editForm.insurancefcxd" :href="editForm.insurancefcxd" target="_blank">查看非车险PDF5</a>
+					
 				</el-form-item>
-				<el-form-item label="交强险单据6:" prop="insurance">
-					<el-image v-if="editForm.insurancee" style="width: 150px;" :src="editForm.insurancee" :preview-src-list="srcList" @click="handleClickImage(editForm.insurancee)"></el-image>
-					<el-upload name="imgFile" :action="updateInsuranceUrl6" :headers="myHeaders" :auto-upload="true" :on-success="handleEditInsuranceUrlSuccess6"
+				<el-form-item label="非车险单据6:" prop="insurancefcxe">
+					<el-upload name="imgFile" :action="updateInsurancefcxeUrl" :headers="myHeaders" :auto-upload="true" :on-success="editInsurancefcxeUrlSuccess"
 					 :show-file-list="false" :before-upload="beforeAvatarUpload">
-						<el-button size="small" type="primary" plain>上传交强险单据6</el-button>
-					</el-upload>
-				</el-form-item>
-				<el-form-item label="交强险单据7:" prop="insurance">
-					<el-image v-if="editForm.insurancef" style="width: 150px;" :src="editForm.insurancef" :preview-src-list="srcList" @click="handleClickImage(editForm.insurancef)"></el-image>
-					<el-upload name="imgFile" :action="updateInsuranceUrl7" :headers="myHeaders" :auto-upload="true" :on-success="handleEditInsuranceUrlSuccess7"
-					 :show-file-list="false" :before-upload="beforeAvatarUpload">
-						<el-button size="small" type="primary" plain>上传交强险单据7</el-button>
-					</el-upload>
-				</el-form-item>
-				<el-form-item label="交强险单据8:" prop="insurance">
-					<el-image v-if="editForm.insuranceg" style="width: 150px;" :src="editForm.insuranceg" :preview-src-list="srcList" @click="handleClickImage(editForm.insuranceg)"></el-image>
-					<el-upload name="imgFile" :action="updateInsuranceUrl8" :headers="myHeaders" :auto-upload="true" :on-success="handleEditInsuranceUrlSuccess8"
-					 :show-file-list="false" :before-upload="beforeAvatarUpload">
-						<el-button size="small" type="primary" plain>上传交强险单据8</el-button>
-					</el-upload>
-				</el-form-item>
-				<el-form-item label="交强险单据9:" prop="insurance">
-					<el-image v-if="editForm.insuranceh" style="width: 150px;" :src="editForm.insuranceh" :preview-src-list="srcList" @click="handleClickImage(editForm.insuranceh)"></el-image>
-					<el-upload name="imgFile" :action="updateInsuranceUrl9" :headers="myHeaders" :auto-upload="true" :on-success="handleEditInsuranceUrlSuccess9"
-					 :show-file-list="false" :before-upload="beforeAvatarUpload">
-						<el-button size="small" type="primary" plain>上传交强险单据9</el-button>
-					</el-upload>
-				</el-form-item>
-				<el-form-item label="交强险单据10:" prop="insurance">
-					<el-image v-if="editForm.insurancel" style="width: 150px;" :src="editForm.insurancel" :preview-src-list="srcList" @click="handleClickImage(editForm.insurancel)"></el-image>
-					<el-upload name="imgFile" :action="updateInsuranceUrl10" :headers="myHeaders" :auto-upload="true" :on-success="handleEditInsuranceUrlSuccess10"
-					 :show-file-list="false" :before-upload="beforeAvatarUpload">
-						<el-button size="small" type="primary" plain>上传交强险单据10</el-button>
-					</el-upload>
-				</el-form-item>
-				
+						<el-button size="small" type="primary" plain>上传非车险PDF6</el-button>
+						</el-upload>
+						 <a  v-if="editForm.insurancefcxe" :href="editForm.insurancefcxe" target="_blank">查看非车险PDF6</a>
+					
+				</el-form-item>			
 			</el-form>
 			<span slot="footer" class="dialog-footer">
 				<el-button @click="editDialogVisible = false">取 消</el-button>
@@ -654,20 +618,26 @@
 					starttime: "",
 					checkDate: "",
 					insurance: "",
-					insurancea: "",
-					insuranceb: "",
-					insurancec: "",
-					insuranced: "",
-					insurancee: "",
-					insurancef: "",
-					insuranceg: "",
-					insuranceh: "",
-					insurancel: "",
+					// insurancea: "",
+					// insuranceb: "",
+					// insurancec: "",
+					// insuranced: "",
+					// insurancee: "",
+					// insurancef: "",
+					// insuranceg: "",
+					// insuranceh: "",
+					// insurancel: "",
 					insuranceDate: "",
 					businesstime: "",
+					insurancesyxa: "",
 					insurancesyx: "",
 					nokcrtime: "",
 					insurancefcx: "",
+					insurancefcxa: "",
+					insurancefcxb: "",
+					insurancefcxc: "",
+					insurancefcxd: "",
+					insurancefcxe: "",
 					caroperating: "",
 					operatingdate: "",
 					carmargin: "",
@@ -751,7 +721,7 @@
 				uploadLimit: 1,
 
 				updateVehicleLicenseUrl: this.$baseUploadUrl+"/kCarinformation/uploadImagevehicleLicense",
-				updateInsuranceUrl1: this.$baseUploadUrl+"/kCarinformation/uploadImageinsurance",
+				updateInsuranceUrl1: this.$baseUploadUrl+"/kCarinformation/uploadInsurance",
 				updateInsuranceUrl2: this.$baseUploadUrl+"/kCarinformation/uploadImageinsuranceA",
 				updateInsuranceUrl3: this.$baseUploadUrl+"/kCarinformation/uploadImageinsuranceB",
 				updateInsuranceUrl4: this.$baseUploadUrl+"/kCarinformation/uploadImageinsuranceC",
@@ -763,8 +733,14 @@
 				updateInsuranceUrl10: this.$baseUploadUrl+"/kCarinformation/uploadImageinsuranceL",
 				updateCaroperatingUrl: this.$baseUploadUrl+"/kCarinformation/uploadImagecaroperating",
 				updatePayFeeUrl: this.$baseUploadUrl+"/kCarinformation/uploadImagepayFee",
-				updateInsurancesyxUrl: this.$baseUploadUrl+"/kCarinformation/uploadImageinsurancesyx",
-				updateInsurancefcxUrl: this.$baseUploadUrl+"/kCarinformation/uploadImageinsurancefcx",
+				updateInsurancesyxUrl: this.$baseUploadUrl+"/kCarinformation/uploadBusiness",
+				updateInsurancesyxaUrl: this.$baseUploadUrl+"/kCarinformation/uploadBusinessA",
+				updateInsurancefcxUrl: this.$baseUploadUrl+"/kCarinformation/uploadpdNOnCar",
+				updateInsurancefcxaUrl: this.$baseUploadUrl+"/kCarinformation/uploadpdNOnCarA",
+				updateInsurancefcxbUrl: this.$baseUploadUrl+"/kCarinformation/uploadpdNOnCarB",
+				updateInsurancefcxcUrl: this.$baseUploadUrl+"/kCarinformation/uploadpdNOnCarC",
+				updateInsurancefcxdUrl: this.$baseUploadUrl+"/kCarinformation/uploadpdNOnCarD",
+				updateInsurancefcxeUrl: this.$baseUploadUrl+"/kCarinformation/uploadpdNOnCarE",
 
 				// 图片放大
 				showDriverCertificateDriver: false,
@@ -827,7 +803,7 @@
 				console.log(file)
 				const isLt10M = file.size / 1024 / 1024 < 10;
 				if (!isLt10M) {
-					this.$message.error('上传图片大小不能超过 10MB!');
+					this.$message.error('上传大小不能超过 10MB!');
 				}
 				return isLt10M;
 			},
@@ -998,11 +974,11 @@
 				this.addForm.vehicleLicense = response.result.vehicleLicenseFileName
 			},
 			handleInsuranceUrlSuccess1(response, file, fileList) {
-				// console.log(response)
-				this.addForm.insurance = response.result.insuranceFileName
+				console.log(response)
+				this.addForm.insurance = response.result.insurance
 			},
 			handleInsuranceUrlSuccess2(response, file, fileList) {
-				// console.log(response)
+				console.log(response)
 				this.addForm.insurancea = response.result.insuranceFileNameA
 			},
 			handleInsuranceUrlSuccess3(response, file, fileList) {
@@ -1047,13 +1023,39 @@
 				this.addForm.payFee = response.result.payFeeFileName
 			},
 			handleInsurancesyxUrlSuccess(response, file, fileList) {
-				console.log(response)
-				this.addForm.insurancesyx = response.result.insurancesyxFileName
+				console.log('syx',response)
+				this.addForm.insurancesyx = response.result.business
+			},
+			handleInsurancesyxaUrlSuccess(response, file, fileList) {
+				console.log('syxa',response)
+				this.addForm.insurancesyxa = response.result.businessA
 			},
 			handleInsurancefcxUrlSuccess(response, file, fileList) {
 			
-				this.addForm.insurancefcx = response.result.insurancefcxFileName
+				this.addForm.insurancefcx = response.result.NOnCar
 			},
+			handleInsurancefcxaUrlSuccess(response, file, fileList) {
+			
+				this.addForm.insurancefcxa = response.result.NOnCarA
+			},
+			handleInsurancefcxbUrlSuccess(response, file, fileList) {
+			
+				this.addForm.insurancefcxb = response.result.NOnCarB
+			},
+			handleInsurancefcxcUrlSuccess(response, file, fileList) {
+			
+				this.addForm.insurancefcxc = response.result.NOnCarC
+			},
+			handleInsurancefcxdUrlSuccess(response, file, fileList) {
+			
+				this.addForm.insurancefcxd = response.result.NOnCarD
+			},
+			handleInsurancefcxeUrlSuccess(response, file, fileList) {
+			
+				this.addForm.insurancefcxe = response.result.NOnCarE
+			},
+			
+			
 			handleWarning() {
 				this.$message.error('请先删除后再添加')
 			},
@@ -1129,7 +1131,7 @@
 				this.editForm.vehicleLicense = response.result.vehicleLicenseFileName
 			},
 			handleEditInsuranceUrlSuccess1(response, file, fileList) {
-		
+				console.log(response)
 				this.editForm.insurance = response.result.insuranceFileName
 			},
 			handleEditInsuranceUrlSuccess2(response, file, fileList) {
@@ -1184,6 +1186,37 @@
 			handleEditPayFeeUrlSuccess(response, file, fileList) {
 				this.editForm.payFee = response.result.payFeeFileName
 			},
+			
+			editInsuranceUrlSuccess(response, file, fileList) {
+				this.editForm.insurance = response.result.insurance
+			},
+			editInsurancesyxUrlSuccess(response, file, fileList) {
+				this.editForm.insurancesyx = response.result.business
+			},
+			editInsurancesyxaUrlSuccess(response, file, fileList) {
+				this.editForm.insurancesyxa = response.result.businessA
+			},
+			
+			editInsurancefcxUrlSuccess(response, file, fileList) {
+				this.editForm.insurancefcx = response.result.NOnCar
+			},
+			editInsurancefcxaUrlSuccess(response, file, fileList) {
+				this.editForm.insurancefcxa = response.result.NOnCarA
+			},
+			
+			editInsurancefcbxUrlSuccess(response, file, fileList) {
+				this.editForm.insurancefcxb = response.result.NOnCarB
+			},
+			editInsurancefcxcUrlSuccess(response, file, fileList) {
+				this.editForm.insurancefcxc = response.result.NOnCarC
+			},
+			editInsurancefcxdUrlSuccess(response, file, fileList) {
+				this.editForm.insurancefcxd = response.result.NOnCarD
+			},
+			editInsurancefcxeUrlSuccess(response, file, fileList) {
+				this.editForm.insurancefcxe = response.result.NOnCarE
+			},
+			
 			// 展示编辑公司的对话框
 			async showEditDialog(id) {
 				// console.log(driverNo)

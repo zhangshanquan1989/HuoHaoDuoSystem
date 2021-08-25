@@ -32,10 +32,10 @@
 					<div>
 						<div style="display: flex;">
 							<div style="width:48px;height: 54px;font-size: 41px;">{{baoxianCarData}}</div>
-							<div style="margin-left: 5px;font-size: 23px;margin-top: 15px;font-weight: bold;">车辆保险</div>
+							<div style="margin-left: 5px;font-size: 23px;margin-top: 15px;font-weight: bold;">交强险</div>
 						</div>
 
-						<div style="width:166px;height: 16px;font-size: 15px;color: #999999;">1个月内保险到期车辆</div>
+						<div style="width:166px;height: 16px;font-size: 15px;color: #999999;">1个月内交强险到期车辆</div>
 					</div>
 					<div>
 						<el-image :src="require('../../assets/welcome/baoxian.png')" style="width: 55px; height: 55px;margin-left:35px ;margin-top: 10px;"></el-image>
@@ -242,19 +242,19 @@
 				<el-table-column type="selection" width="55"></el-table-column>
 				<el-table-column prop="License_plate" label="车牌号" width="100px">
 				</el-table-column>
-				<el-table-column prop="companyl" label="所属公司">
+				<el-table-column prop="companyl" label="所属公司" width="280px">
 				</el-table-column>
 				<el-table-column prop="name" label="车主姓名" width="120px">
 				</el-table-column>
 				<el-table-column prop="phoneno" label="车主电话" width="150px">
 				</el-table-column>
-
+				<el-table-column prop="insurance_date" label="保险到期时间" width="150px">
+				</el-table-column>
 				<el-table-column prop="name1" label="对应司机" width="120px">
 				</el-table-column>
 				<el-table-column prop="phoneno1" label="司机电话" width="150px">
 				</el-table-column>
-				<el-table-column prop="insurance_date" label="保险到期时间" width="150px">
-				</el-table-column>
+				
 			</el-table>
 			<!-- 操作区域 -->
 			<span slot="footer" class="dialog-footer">
@@ -559,7 +559,7 @@
 				this.creatEverydayMethod()
 				this.creatEverycarMethod()
 				
-			}, 1000);
+			}, 1500);
 
 			// window.onresize = this.myChart.resize
 		},
@@ -1566,6 +1566,7 @@
 				series: [{
 						name: '平均',
 						type: 'line',
+						 smooth: true,
 						data: this.yDataEveryday,
 						color: '#409EFF',
 
@@ -1633,6 +1634,7 @@
 				series: [{
 						name: '车辆数',
 						type: 'line',
+						 smooth: true,
 						data: this.yDataEverycar,
 						color: '#E6AE5C',
 		
