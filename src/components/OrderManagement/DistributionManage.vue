@@ -82,7 +82,7 @@
 				<!-- <el-table-column prop="kilometer" label="每公里成本" width="150px">
 				</el-table-column> -->
 				
-				<el-table-column prop="creatime" label="创建时间" width="180px">
+				<el-table-column prop="creatime" label="创建时间" width="180px" fixed="right">
 				</el-table-column>
 				<el-table-column prop="stateText" label="订单状态" width="120px" fixed="right">
 					<template slot-scope="scope">

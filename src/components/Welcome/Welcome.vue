@@ -182,6 +182,46 @@
 					<div style="font-size: 15px;color: #FFFFFF;margin-left: 22px;padding-top: 4px;">总车辆数：{{allCarData}}</div>
 				</div>
 			</el-card>
+			
+			<el-card shadow="hover" style="width: 300px;height: 144px;margin-left:40px;" @click.native="showShangYeXian"
+			 v-loading.fullscreen.lock="fullscreenLoading">
+				<div style="display: flex;margin-left: 22px;margin-top: 12px;">
+					<div>
+						<div style="display: flex;">
+							<div style="width:57px;height: 54px;font-size: 41px;">{{shangyexianCarData}}</div>
+							<div style="margin-left: 5px;font-size: 23px;margin-top: 15px;font-weight: bold;">商业险</div>
+						</div>
+			
+						<div style="width:176px;height: 16px;font-size: 15px;color: #999999;">45天内商业险到期车辆</div>
+					</div>
+					<div>
+						<el-image :src="require('../../assets/welcome/nianjian.png')" style="width: 55px; height: 55px;margin-left:25px ;margin-top: 10px;"></el-image>
+					</div>
+				</div>
+				<div style="height: 29px;background-color: #1F81FEFF;margin-top: 30px;">
+					<div style="font-size: 15px;color: #FFFFFF;margin-left: 22px;padding-top: 4px;">总车辆数：{{allCarData}}</div>
+				</div>
+			</el-card>
+			
+			<el-card shadow="hover" style="width: 300px;height: 144px;margin-left:40px;" @click.native="showFeiCheXian"
+			 v-loading.fullscreen.lock="fullscreenLoading">
+				<div style="display: flex;margin-left: 22px;margin-top: 12px;">
+					<div>
+						<div style="display: flex;">
+							<div style="width:57px;height: 54px;font-size: 41px;">{{feichexianCarData}}</div>
+							<div style="margin-left: 5px;font-size: 23px;margin-top: 15px;font-weight: bold;">非车险</div>
+						</div>
+			
+						<div style="width:176px;height: 16px;font-size: 15px;color: #999999;">45天内非车险到期车辆</div>
+					</div>
+					<div>
+						<el-image :src="require('../../assets/welcome/baoxian.png')" style="width: 55px; height: 55px;margin-left:25px ;margin-top: 10px;"></el-image>
+					</div>
+				</div>
+				<div style="height: 29px;background-color: #FF9C00FF;margin-top: 30px;">
+					<div style="font-size: 15px;color: #FFFFFF;margin-left: 22px;padding-top: 4px;">总车辆数：{{allCarData}}</div>
+				</div>
+			</el-card>
 		</div>
 		<!-- 柱状图展示区域 -->
 		<el-card class="box-card" style="margin-top: 30px;height: 430px;margin-left:8px;">
@@ -464,6 +504,64 @@
 				<el-button @click="jiashizhengDialogVisible = false">关 闭</el-button>
 			</span>
 		</el-dialog>
+		
+		<!-- 商业险对话框 -->
+		<el-dialog title="商业险到期车辆" :visible.sync="shangyexianDialogVisible" width="70%" >
+			<el-button type="primary" plain @click="shangyexianExport" icon="el-icon-download">导出Excel</el-button>
+			<el-table :data="shangyexianCarList" border stripe style="width: 100%;margin-top: 8px;" :row-style="{height:'60px'}"
+			 :cell-style="{padding:'0px'}" :header-cell-style="{background:'#f8f8f9', color:'#000000'}" @selection-change="shangyexianSelectionChange">
+				<el-table-column type="selection" width="55"></el-table-column>
+		
+				<el-table-column prop="License_plate" label="车牌号" width="150px">
+				</el-table-column>
+				<el-table-column prop="companyl" label="所属公司" width="280px">
+				</el-table-column>
+				<el-table-column prop="name" label="车主名" width="150px">
+				</el-table-column>
+				<el-table-column prop="phoneno" label="车主电话" width="150px">
+				</el-table-column>
+		
+				<el-table-column prop="businesstime" label="商业险到期时间" width="150px">
+				</el-table-column>
+				<el-table-column prop="name1" label="司机名" width="150px">
+				</el-table-column>
+				<el-table-column prop="phoneno1" label="司机电话" width="150px">
+				</el-table-column>
+			</el-table>
+			<!-- 操作区域 -->
+			<span slot="footer" class="dialog-footer">
+				<el-button @click="shangyexianDialogVisible = false">关 闭</el-button>
+			</span>
+		</el-dialog>
+		
+		<!-- 非车险对话框 -->
+		<el-dialog title="非车险到期车辆" :visible.sync="feichexianDialogVisible" width="70%" >
+			<el-button type="primary" plain @click="feichexianExport" icon="el-icon-download">导出Excel</el-button>
+			<el-table :data="feichexianCarList" border stripe style="width: 100%;margin-top: 8px;" :row-style="{height:'60px'}"
+			 :cell-style="{padding:'0px'}" :header-cell-style="{background:'#f8f8f9', color:'#000000'}" @selection-change="feichexianSelectionChange">
+				<el-table-column type="selection" width="55"></el-table-column>
+		
+				<el-table-column prop="License_plate" label="车牌号" width="150px">
+				</el-table-column>
+				<el-table-column prop="companyl" label="所属公司" width="280px">
+				</el-table-column>
+				<el-table-column prop="name" label="车主名" width="150px">
+				</el-table-column>
+				<el-table-column prop="phoneno" label="车主电话" width="150px">
+				</el-table-column>		
+				<el-table-column prop="nokcrtime" label="非车险到期时间" width="150px">
+				</el-table-column>
+				<el-table-column prop="name1" label="司机名" width="150px">
+				</el-table-column>
+				<el-table-column prop="phoneno1" label="司机电话" width="150px">
+				</el-table-column>
+			</el-table>
+			<!-- 操作区域 -->
+			<span slot="footer" class="dialog-footer">
+				<el-button @click="feichexianDialogVisible = false">关 闭</el-button>
+			</span>
+		</el-dialog>
+		
 	</div>
 </template>
 
@@ -520,6 +618,16 @@
 				jiashizhengDialogVisible: false,
 				jiashizhengCarList: [],
 				jiashizhengExcel: [],
+				// 商业险到期车辆
+				shangyexianCarData: '',
+				shangyexianDialogVisible: false,
+				shangyexianCarList: [],
+				shangyexianExcel: [],
+				// 非车险到期车辆
+				feichexianCarData: '',
+				feichexianDialogVisible: false,
+				feichexianCarList: [],
+				feichexianExcel: [],
 
 
 				// 加载查询
@@ -1145,6 +1253,76 @@
 			// 	arrayFormat: 'repeat'
 			// })
 		},
+		
+		// 商业险多选框变化
+		shangyexianSelectionChange(e) {
+			this.shangyexianExcel = []
+			e.forEach(v => {
+				this.shangyexianExcel.push(v.License_plate)
+			})
+		},
+		
+		// 商业险导出
+		async shangyexianExport() {
+			if (!this.shangyexianExcel[0]) {
+				return this.$message.warning('请选择需要导出的数据！')
+			}
+			const {
+				data: res
+			} = await this.$http({
+				url: 'YMbaoxianController/kcarinformationE',
+				method: "post",
+				data: {
+					shangyexian: this.shangyexianExcel
+				},
+				responseType: 'blob',
+			})
+			// console.log(res)
+			var blob = res
+			// console.log(blob)
+			const fileName = '商业险到期车辆.xlsx'
+			var a = document.createElement("a");
+			a.href = window.URL.createObjectURL(blob);
+			console.log(a.href)
+			a.download = fileName
+			a.click()
+			a.remove()
+			},
+			
+			// 非车险多选框变化
+			feichexianSelectionChange(e) {
+				this.feichexianExcel = []
+				e.forEach(v => {
+					this.feichexianExcel.push(v.License_plate)
+				})
+			},
+			
+			// 非车险导出
+			async feichexianExport() {
+				if (!this.feichexianExcel[0]) {
+					return this.$message.warning('请选择需要导出的数据！')
+				}
+				const {
+					data: res
+				} = await this.$http({
+					url: 'YMbaoxianController/kcarinformationFE',
+					method: "post",
+					data: {
+						feichexian: this.feichexianExcel
+					},
+					responseType: 'blob',
+				})
+				// console.log(res)
+				var blob = res
+				// console.log(blob)
+				const fileName = '非车险到期车辆.xlsx'
+				var a = document.createElement("a");
+				a.href = window.URL.createObjectURL(blob);
+				console.log(a.href)
+				a.download = fileName
+				a.click()
+				a.remove()
+				},
 
 
 		// 获取面板数据
@@ -1200,7 +1378,7 @@
 			const {
 				data: res7
 			} = await this.$http.get('SumController/HHDxingshizhengD')
-			if (res6.code !== 200) {
+			if (res7.code !== 200) {
 				this.$message.error(res7.message)
 			}
 			this.xingshizhengCarData = res7.result.行驶证到期总数
@@ -1208,7 +1386,7 @@
 			const {
 				data: res8
 			} = await this.$http.get('SumController/HHDyingyunzhengD')
-			if (res6.code !== 200) {
+			if (res8.code !== 200) {
 				this.$message.error(res8.message)
 			}
 			this.yingyunzhengCarData = res8.result.营运证到期总数
@@ -1216,7 +1394,7 @@
 			const {
 				data: res9
 			} = await this.$http.get('SumController/HHDjaishizhengD')
-			if (res6.code !== 200) {
+			if (res9.code !== 200) {
 				this.$message.error(res9.message)
 			}
 			this.jiashizhengCarData = res9.result.司机驾驶证到期总数
@@ -1224,10 +1402,26 @@
 			const {
 				data: res10
 			} = await this.$http.get('SumController/HHDshanggangzhengD')
-			if (res6.code !== 200) {
+			if (res10.code !== 200) {
 				this.$message.error(res10.message)
 			}
 			this.shanggangzhengCarData = res10.result.司机上岗证到期总数
+			
+			const {
+				data: res11
+			} = await this.$http.get('YMbaoxianController/YmShangyexiansize')
+			if (res11.code !== 200) {
+				this.$message.error(res11.message)
+			}
+			this.shangyexianCarData = res11.result.商业险到期车辆总数
+			
+			const {
+				data: res12
+			} = await this.$http.get('YMbaoxianController/kcarinformationFsive')
+			if (res12.code !== 200) {
+				this.$message.error(res12.message)
+			}
+			this.feichexianCarData = res12.result.非车险到期车辆总数
 		},
 		// 年检
 		async showNianJian() {
@@ -1383,11 +1577,45 @@
 
 		},
 		jiashizhengDialogClosed() {},
+		
+		// 商业险
+		async showShangYeXian() {
+			this.fullscreenLoading = true;
+			const {
+				data: res
+			} = await this.$http.get('YMbaoxianController/YmShangyexian')
+			if (res.code !== 200) {
+				this.$message.error(res.message)
+			}
+			this.shangyexianCarList = res.result.商业险到期车辆详情
+			setTimeout(() => {
+				this.fullscreenLoading = false;
+				this.shangyexianDialogVisible = true
+			}, 500)
+		
+		},
+		
+		// 非车险
+		async showFeiCheXian() {
+			this.fullscreenLoading = true;
+			const {
+				data: res
+			} = await this.$http.get('YMbaoxianController/kcarinformationF')
+			if (res.code !== 200) {
+				this.$message.error(res.message)
+			}
+			this.feichexianCarList = res.result.非车险到期车辆详情
+			setTimeout(() => {
+				this.fullscreenLoading = false;
+				this.feichexianDialogVisible = true
+			}, 500)
+		
+		},
 
 		// 获取时间
 		// 初始化时间
 		initTime() {
-			const plistCtime2 = this.getFormatDate(new Date()).substr(0, 11) + '23:59:59'
+			const plistCtime2 = this.getFormatDate(new Date(new Date() - 3600 * 1000 * 24)).substr(0, 11) + '23:59:59'
 			const plistCtime1 = this.getFormatDate(new Date(new Date() - 3600 * 1000 * 24 * 29)).substr(0, 11) + '00:00:00'
 			this.queryInfo = {
 				'plistCtime1': plistCtime1,
@@ -1408,6 +1636,7 @@
 				':' + date.getSeconds()
 			return currentDate
 		},
+		
 
 		// 获取面板数据
 		// 根据查询列表
