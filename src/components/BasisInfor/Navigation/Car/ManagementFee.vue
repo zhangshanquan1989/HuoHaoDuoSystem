@@ -8,14 +8,20 @@
 			<el-breadcrumb-item>车辆管理费</el-breadcrumb-item>
 		</el-breadcrumb>
 
-		<el-card class="box-card">
+		<el-card class="box-card" v-loading.fullscreen.lock="fullscreenLoading">
 			<el-button type="primary" plain @click="handleQueryNearBtn">显示快到期车辆</el-button>
-			<el-input v-model="queryInfo.carName" placeholder="车牌号" clearable style="width: 200px;margin-left: 100px;"></el-input>
+			<el-input v-model="queryInfo.carName" placeholder="车牌号" clearable style="width: 200px;margin-left: 80px;"></el-input>
 			<el-button type="primary" plain @click="handleQueryBtn" style="margin-left: 30px;">查询</el-button>
-			<el-button type="primary" plain @click="handleQueryBackBtn" style="margin-left: 30px;">返回</el-button>
-
+			<el-button type="primary" plain @click="handleQueryBackBtn" style="margin-left: 20px;">返回</el-button>
+			<!-- <div style="margin-top: 15px;"> -->
+			<el-button type="primary" plain icon="el-icon-download" style="margin-left: 80px;"  @click="allExport">导出全部</el-button>
+			<el-button type="primary" plain icon="el-icon-download" style="margin-left: 20px;" @click="singleExport">导出选中</el-button>
+			<el-button type="primary" plain style="margin-left: 20px;" @click="clearExport">清除选中</el-button>
+			<!-- </div> -->
 			<el-table :data="pageList" ref="table" border stripe style="width: 100%;margin-top: 8px;" :row-style="{height:'60px'}"
-			 :cell-style="{padding:'0px'}" :header-cell-style="{background:'#f8f8f9', color:'#000000'}" @sort-change="sortChange">
+			 :cell-style="{padding:'0px'}" :header-cell-style="{background:'#f8f8f9', color:'#000000'}" @sort-change="sortChange" @selection-change="selectionChange" :row-key="getLicense">
+			 <el-table-column type="selection" width="55" :reserve-selection="true">
+			 </el-table-column>
 				<el-table-column prop="id" label="id" v-if="false">
 				</el-table-column>
 				<el-table-column prop="licensePlate" label="车牌号">
@@ -292,7 +298,9 @@
 					value: '年付',
 					label: '年付'
 				}],
-
+				// 加载查询
+				fullscreenLoading: false,
+				licenseplateList:[],
 				// 报停时长
 				monthOptions: [{
 						value: '1',
@@ -349,6 +357,76 @@
 			this.getPageList();
 		},
 		methods: {
+			// 多选框保持选中
+			getLicense(row) {
+				return row.licensePlate
+			},
+			
+			// 导出全部
+			async allExport(){
+				this.fullscreenLoading = true;				
+				let url = 'https://tkhhd.com/jeecg-boot/kmanagement/exportKmanagement'
+					var xhr = new XMLHttpRequest(); //定义http请求对象
+					xhr.open("get", url, true);
+					xhr.responseType = "blob"; // 转换流
+					xhr.setRequestHeader("satoken", window.sessionStorage.getItem('satoken'));
+					let that = this
+					xhr.onload = function() {
+						
+						// console.log(this)
+						var blob = this.response;
+						var a = document.createElement("a")
+						var url = window.URL.createObjectURL(blob)
+						a.href = url
+						a.download = "全部管理费报表.xlsx" // 文件名
+						a.click()
+						window.URL.revokeObjectURL(url)
+						a.remove()
+						that.fullscreenLoading = false;
+					}
+				xhr.send();
+			},
+			
+			//导出所需的数据
+			// 选择框变化
+			selectionChange(e) {
+				this.licenseplateList = []
+				e.forEach(v => {
+					this.licenseplateList.push(v.licensePlate)
+				})
+			},
+			// 导出选中部分
+			async singleExport() {
+				if (!this.licenseplateList[0]) {
+					return this.$message.warning('请选择需要导出的数据！')
+				}
+				const {
+					data: res
+				} = await this.$http({
+					url: 'kmanagement/exportKmanagementlist',
+					method: "post",
+					data: {
+						licenseplate: this.licenseplateList
+					},
+					responseType: 'blob',
+				})
+			
+				var blob = res
+				// console.log(blob)
+				const fileName = '选中管理费报表.xlsx'
+				var a = document.createElement("a");
+				a.href = window.URL.createObjectURL(blob);
+				// console.log(a.href)
+				a.download = fileName
+				a.click()
+				a.remove()
+			},
+			
+			// 清除选中
+			clearExport(){
+				this.$refs.table.clearSelection()
+			},
+			
 			sortChange(e){
 				// console.log(e)
 				this.queryInfo.column = e.prop

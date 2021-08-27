@@ -347,11 +347,11 @@
 					})
 				
 					var blob = res
-					console.log(blob)
+					// console.log(blob)
 					const fileName = '车辆里程报表.xlsx'
 					var a = document.createElement("a");
 					a.href = window.URL.createObjectURL(blob);
-					console.log(a.href)
+					// console.log(a.href)
 					a.download = fileName
 					a.click()
 					a.remove()
