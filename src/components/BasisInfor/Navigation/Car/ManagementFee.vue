@@ -166,7 +166,7 @@
 				</el-form-item> -->
 					<el-form-item label="报停开始时间:" prop="stoptime">
 						<el-date-picker :disabled="canSelect" v-model="selectStoptime" clearable type="date" placeholder="选择日期" format="yyyy 年 MM 月 dd 日"
-						 value-format="yyyy-MM-dd" style="width: 250px;" @change="stoptimeChange">
+						 value-format="yyyy-MM-dd" style="width: 250px;" >
 						</el-date-picker>
 					</el-form-item>
 					<el-form-item label="报停天数:" prop="stopday">
@@ -446,7 +446,7 @@
 				} = await this.$http.get('kmanagement/list', {
 					params: this.queryInfo
 				})
-				// console.log(res)
+				console.log(res)
 				if (res.code !== 200) {
 					return this.$message.error(res.message)
 				}
@@ -710,12 +710,12 @@
 				this.stopDialogVisible = true
 			},
 			// 报停开始时间变化
-			stoptimeChange(e) {
-				if (new Date(e) - new Date(this.selectStopAsoftime) > 0) {
-					this.selectStoptime = ""
-					return this.$message.warning("报停开始时间不能晚于到期时间！")
-				}
-			},
+			// stoptimeChange(e) {
+			// 	if (new Date(e) - new Date(this.selectStopAsoftime) > 0) {
+			// 		this.selectStoptime = ""
+			// 		return this.$message.warning("报停开始时间不能晚于到期时间！")
+			// 	}
+			// },
 			// 报停天数变化
 			async stopdayChange(e) {
 				if (!this.selectStoptime) {

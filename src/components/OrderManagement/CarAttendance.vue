@@ -348,8 +348,8 @@
 				this.allExportInfo.begintime = this.exportDate[0]
 				this.allExportInfo.finishtime = this.exportDate[1]
 				this.fullscreenLoading = true;
-				let url = 'https://tkhhd.com/jeecg-boot/SumController/HHDkaoqinAll?begintime=' + this.allExportInfo.begintime + '&finishtime=' + this.allExportInfo.finishtime
-				// let url = 'https://82.157.15.221:8080/jeecg-boot/SumController/HHDkaoqinAll?begintime=' + this.allExportInfo.begintime + '&finishtime=' + this.allExportInfo.finishtime
+				let url = this.$baseUploadUrl+'/YMbaoxianController/kaoqindaochuliaxni?kaishi=' + this.allExportInfo.begintime + '&jieshu=' + this.allExportInfo.finishtime
+				// let url = this.$baseUploadUrl+'/YMbaoxianController/kaoqindaochuliaxni?kaishi=' + this.allExportInfo.begintime + '&jieshu=' + this.allExportInfo.finishtime
 					var xhr = new XMLHttpRequest(); //定义http请求对象
 					xhr.open("get", url, true);
 					xhr.responseType = "blob"; // 转换流

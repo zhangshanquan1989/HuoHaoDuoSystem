@@ -92,13 +92,13 @@
 					<!-- 添加的表单 -->
 					<el-form :model="addForm" :rules="addFormRules" ref="addFormRef" label-width="150px">
 						<el-form-item label="旧密码:" prop="oldpassword">
-							<el-input v-model="addForm.oldpassword" style="width: 350px;"></el-input>
+							<el-input v-model="addForm.oldpassword" clearable style="width: 350px;" show-password></el-input>
 						</el-form-item>
 						<el-form-item label="新密码:" prop="newpassword">
-							<el-input v-model="addForm.newpassword" style="width: 350px;"></el-input>
+							<el-input v-model="addForm.newpassword" clearable style="width: 350px;" show-password></el-input>
 						</el-form-item>
 						<el-form-item label="再次输入新密码:" prop="newpasswordTwo">
-							<el-input v-model="addForm.newpasswordTwo" style="width: 350px;"></el-input>
+							<el-input v-model="addForm.newpasswordTwo" clearable style="width: 350px;" show-password></el-input>
 						</el-form-item>
 						
 					</el-form>
@@ -365,7 +365,9 @@
 				}
 			},
 			
-			addDialogClosed(){},
+			addDialogClosed(){
+				this.$refs.addFormRef.resetFields()
+			},
 			addHandle(){
 				this.$refs.addFormRef.validate(async valid => {
 					if (!valid) return

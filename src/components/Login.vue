@@ -27,7 +27,7 @@
 					</el-form-item>
 					<!-- 密码 -->
 					<el-form-item prop="password" class="form_box_password">
-						<input type="password" v-model="loginForm.password" class="inputpassword">
+						<input type="password" v-model="loginForm.password" class="inputpassword" >
 						<!-- 						<el-input type="password" v-model="loginForm.password" prefix-icon="el-icon-goods"></el-input> -->
 					</el-form-item>
 
