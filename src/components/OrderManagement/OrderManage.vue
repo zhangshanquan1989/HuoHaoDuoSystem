@@ -12,6 +12,7 @@
 			<!-- 创建按钮 装卸货工具-->
 			<el-input v-model="queryInfo.chepai" placeholder="车牌号" clearable style="width: 200px;"></el-input>
 			<el-input v-model="queryInfo.driver" placeholder="司机名" clearable style="width: 200px;margin-left: 30px;"></el-input>
+			<el-input v-model="queryInfo.creater" placeholder="创建者" clearable style="width: 200px;margin-left: 30px;"></el-input>
 			<el-date-picker v-model="selectTime" type="datetimerange" range-separator="至" start-placeholder="订单查询开始日期"
 			 end-placeholder="订单查询结束日期" format="yyyy 年 MM 月 dd 日 HH 时 mm 分 ss 秒" value-format="yyyy-MM-dd HH:mm:ss" style="margin-left: 20px;">
 			</el-date-picker>
@@ -440,6 +441,7 @@
 					endtime: '',
 					state: '',
 					driver: '',
+					creater: '',
 
 				},
 				stateOptions: [{
@@ -677,6 +679,7 @@
 				this.queryInfo.endtime = ''
 				this.queryInfo.state = ''
 				this.queryInfo.driver = ''
+				this.queryInfo.creater = ''
 				this.selectTime = []
 				this.getList()
 			},

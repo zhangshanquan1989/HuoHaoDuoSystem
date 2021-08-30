@@ -11,13 +11,17 @@
 		<el-card class="box-card">
 			<!-- 创建按钮 -->
 			<el-button type="primary" plain @click="addDialogVisible = true">创建</el-button>
-			<el-input v-model="queryInfo.noText" placeholder="运单编号" clearable style="width: 200px;margin-left: 100px;" ></el-input>
-			<el-input v-model="queryInfo.driverNew" placeholder="司机名" clearable style="width: 200px;margin-left: 30px;"></el-input>
-			<el-select v-model="queryInfo.state" placeholder="状态查询" style="margin-left: 30px;">
+			<el-input v-model="queryInfo.noText" placeholder="运单编号" clearable style="width: 200px;margin-left: 50px;" ></el-input>
+			<el-input v-model="queryInfo.driverNew" placeholder="司机名" clearable style="width: 200px;margin-left: 20px;"></el-input>
+			<el-input v-model="queryInfo.createrNew" placeholder="创建者" clearable style="width: 200px;margin-left: 20px;"></el-input>
+			<!-- <el-date-picker v-model="queryInfo.creatimeNew" type="date" placeholder="创建日期"  format="yyyy 年 MM 月 dd 日"
+      value-format="yyyy-MM-dd" style="width: 200px;margin-left: 20px;">
+			    </el-date-picker> -->
+			<el-select v-model="queryInfo.state" placeholder="状态查询" style="margin-left: 20px;">
 				<el-option v-for="item in stateOptions" :key="item.value" :label="item.label" :value="item.value">
 				</el-option>
 			</el-select>
-			<el-button type="primary" plain @click="handleQueryBtn" style="margin-left: 30px;">查询</el-button>
+			<el-button type="primary" plain @click="handleQueryBtn" style="margin-left: 20px;">查询</el-button>
 			<el-button type="primary" plain @click="handleQueryBackBtn" style="margin-left: 30px;">返回</el-button>
 
 			<el-table :data="wybillList" border stripe style="width: 100%;margin-top: 8px;" :row-style="{height:'60px'}"
@@ -77,7 +81,6 @@
 				</el-table-column>
 				<!-- <el-table-column prop="kilometer" label="每公里成本" width="150px">
 				</el-table-column> -->
-
 				<el-table-column prop="creatime" label="创建时间" width="180px" fixed="right">
 				</el-table-column>
 				<el-table-column prop="stateText" label="订单状态" width="120px" fixed="right">
@@ -814,6 +817,10 @@
 					state: '',
 					driver: '',
 					driverNew: '',
+					creater: '',
+					createrNew: '',
+					// creatime: '',
+					// creatimeNew: '',
 				},
 				stateOptions: [{
 						value: '0',
@@ -1779,6 +1786,11 @@
 				this.queryInfo.pageSize = 10
 				this.queryInfo.no = "*" + this.queryInfo.noText + "*"
 				this.queryInfo.driver = "*" + this.queryInfo.driverNew + "*"
+				this.queryInfo.creater = "*" + this.queryInfo.createrNew + "*"
+				// if(this.queryInfo.creatimeNew){
+				// 	this.queryInfo.creatime = "*" + this.queryInfo.creatimeNew + "*"
+				// }
+				
 				this.getWaybillList()
 			},
 			// 返回按钮
@@ -1790,6 +1802,10 @@
 				this.queryInfo.state = ''
 				this.queryInfo.driver = ''
 				this.queryInfo.driverNew = ''
+				this.queryInfo.creater = ''
+				this.queryInfo.createrNew = ''
+				// this.queryInfo.creatime = ''
+				// this.queryInfo.creatimeNew = ''
 				this.getWaybillList()
 			},
 

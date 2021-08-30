@@ -13,6 +13,10 @@
 
 			<el-input v-model="queryInfo.noText" placeholder="运单编号" clearable style="width: 200px;"></el-input>
 			<el-input v-model="queryInfo.driverNew" placeholder="司机名" clearable style="width: 200px;margin-left: 30px;"></el-input>
+			<el-input v-model="queryInfo.createrNew" placeholder="创建者" clearable style="width: 200px;margin-left: 30px;"></el-input>
+			<!-- <el-date-picker v-model="queryInfo.creatimeNew" type="date" placeholder="创建日期"  format="yyyy 年 MM 月 dd 日"
+			value-format="yyyy-MM-dd" style="width: 200px;margin-left: 30px;">
+			    </el-date-picker> -->
 			<el-select v-model="queryInfo.state" placeholder="状态查询" style="margin-left: 30px;">
 			    <el-option
 			      v-for="item in stateOptions"
@@ -571,6 +575,10 @@
 					state: '',
 					driver: '',
 					driverNew:'',
+					creater: '',
+					createrNew: '',
+					// creatime: '',
+					// creatimeNew: '',
 				},
 				
 				// 订单取消
@@ -855,6 +863,10 @@
 				this.queryInfo.pageSize = 10
 				this.queryInfo.no = "*" + this.queryInfo.noText + "*"
 				this.queryInfo.driver = "*" + this.queryInfo.driverNew + "*"
+				this.queryInfo.creater = "*" + this.queryInfo.createrNew + "*"
+				// if(this.queryInfo.creatimeNew){
+				// 	this.queryInfo.creatime = "*" + this.queryInfo.creatimeNew + "*"
+				// }
 				this.getPageList()
 			},
 			// 返回按钮
@@ -866,6 +878,10 @@
 				this.queryInfo.state = ''
 				this.queryInfo.driver = ''
 				this.queryInfo.driverNew = ''
+				this.queryInfo.creater = ''
+				this.queryInfo.createrNew = ''
+				// this.queryInfo.creatime = ''
+				// this.queryInfo.creatimeNew = ''
 				this.getPageList()
 			},
 

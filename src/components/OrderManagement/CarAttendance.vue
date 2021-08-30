@@ -101,6 +101,9 @@
 						</el-option>
 					</el-select>
 				</el-form-item>
+				<el-form-item label="考勤备注:" prop="kqnote">
+					<el-input  v-model="editForm.kqnote" style="width: 75%;"></el-input>
+				</el-form-item>
 				<el-form-item label="行驶距离(km):" prop="km">
 					<el-input disabled v-model="editForm.km" style="width: 75%;"></el-input>
 				</el-form-item>
