@@ -133,6 +133,37 @@
 					
 				</div>
 				<div style="display: flex;">
+					<el-form-item label="行驶证" prop="xingshizhengSrc" width="200px">
+						<el-image  style="width: 150px;" :src="xingshizhengSrc" :preview-src-list="srcList" @click="handleClickImage(xingshizhengSrc)">
+							<div slot="error" class="image-slot">
+							        <i class="el-icon-picture-outline"></i>
+							      </div>
+						</el-image>
+					</el-form-item>
+					<el-form-item label="驾驶证" prop="jiashizhengSrc" width="200px">
+						<el-image  style="width: 150px;" :src="jiashizhengSrc" :preview-src-list="srcList" @click="handleClickImage(jiashizhengSrc)">
+							<div slot="error" class="image-slot">
+							        <i class="el-icon-picture-outline"></i>
+							      </div>
+						</el-image>
+					</el-form-item>
+					<el-form-item label="身份证" prop="shenfenzhengSrc" width="200px">
+						<el-image  style="width: 150px;" :src="shenfenzhengSrc" :preview-src-list="srcList" @click="handleClickImage(shenfenzhengSrc)">
+							<div slot="error" class="image-slot">
+							        <i class="el-icon-picture-outline"></i>
+							      </div>
+						</el-image>
+					</el-form-item>
+					<el-form-item label="上岗证" prop="shanggangzhengSrc" width="200px">
+						<el-image  style="width: 150px;" :src="shanggangzhengSrc" :preview-src-list="srcList" @click="handleClickImage(shanggangzhengSrc)">
+							<div slot="error" class="image-slot">
+							        <i class="el-icon-picture-outline"></i>
+							      </div>
+						</el-image>
+					</el-form-item>
+					
+				</div>
+				<div style="display: flex;">
 					<el-form-item label="运单编号" prop="no">
 						<el-input disabled placeholder="自动生成"></el-input>
 					</el-form-item>
@@ -913,6 +944,10 @@
 						dareaOptions: []
 					}]
 				},
+				xingshizhengSrc:'',
+				jiashizhengSrc:'',
+				shenfenzhengSrc:'',
+				shanggangzhengSrc:'',
 				showhdadd: false,
 				// 添加的规则
 				addRules: {
@@ -1412,6 +1447,17 @@
 					this.driverNameOptions = this.allDriverNameList
 					this.addForm.lienses = res.result.chepai
 					this.addForm.dispatch = res.result.dispatch
+					
+					const {
+						data: res1
+					} = await this.$http.get('/kCarinformation/getinformation?licenseplate=' + res.result.chepai)
+					console.log(res1)
+					this.xingshizhengSrc = res1.result.driving_license
+					this.jiashizhengSrc = res1.result.vehicle_license
+					this.shenfenzhengSrc = res1.result.userid
+					this.shanggangzhengSrc = res1.result.work_license
+					
+					
 				} else {
 					this.driverNameOptions = this.allDriverNameList
 					this.addForm.lienses = ''
@@ -1900,7 +1946,11 @@
 						dcityOptions: [],
 						dareaOptions: []
 					}]
-				}
+				},
+				this.xingshizhengSrc = ''
+				this.jiashizhengSrc = ''
+				this.shenfenzhengSrc = ''
+				this.shanggangzhengSrc = ''
 
 			},
 

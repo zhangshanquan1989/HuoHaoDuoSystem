@@ -30,7 +30,7 @@
 				</el-table-column>
 				<el-table-column prop="paytime" label="缴费时间" sortable="custom">
 				</el-table-column>
-				<el-table-column prop="asoftime" label="到期时间" sortable="custom">
+				<el-table-column prop="asoftime" label="缴费到期时间" sortable="custom">
 					<template slot-scope="scope">
 						<span :style="{'color':scope.row.owe == '是'?'red':'black'}">{{scope.row.asoftime}}</span>
 					</template>
@@ -40,6 +40,11 @@
 						<span :style="{'color':scope.row.owe == '是'?'red':'black'}">{{scope.row.owe}}</span>
 					</template>
 				</el-table-column>
+				<el-table-column prop="stoptime" label="报停开始时间" >
+				</el-table-column>
+				<el-table-column prop="endtime" label="报停结束时间" >
+				</el-table-column>
+				
 				<el-table-column prop="starttime" label="出车时间" sortable="custom">
 				</el-table-column>
 				<el-table-column prop="carstate" label="车辆状态">
@@ -94,7 +99,7 @@
 						</el-option>
 					</el-select>
 				</el-form-item> -->
-					<el-form-item label="到期时间:" prop="asoftime">
+					<el-form-item label="缴费到期时间:" prop="asoftime">
 						<el-date-picker v-model="selectAsoftime" type="date" clearable placeholder="选择日期" format="yyyy 年 MM 月 dd 日"
 						 value-format="yyyy-MM-dd" style="width: 250px;">
 						</el-date-picker>
@@ -120,7 +125,7 @@
 				</el-table-column>
 				<el-table-column prop="paytime" label="缴费时间">
 				</el-table-column>
-				<el-table-column prop="asoftime" label="到期时间">
+				<el-table-column prop="asoftime" label="缴费到期时间">
 				</el-table-column>
 				<el-table-column prop="stoptime" label="报停开始时间" width="170px">
 				</el-table-column>
@@ -185,7 +190,7 @@
 						 value-format="yyyy-MM-dd" style="width: 250px;">
 						</el-date-picker>
 					</el-form-item>
-					<el-form-item label="到期时间:" prop="asoftime">
+					<el-form-item label="缴费到期时间:" prop="asoftime">
 						<el-date-picker :disabled="canSelect" v-model="selectStopAsoftime" clearable type="date" placeholder="选择日期"
 						 format="yyyy 年 MM 月 dd 日" value-format="yyyy-MM-dd" style="width: 250px;">
 						</el-date-picker>
@@ -211,7 +216,7 @@
 				</el-table-column>
 				<el-table-column prop="paytime" label="缴费时间" width="110px">
 				</el-table-column>
-				<el-table-column prop="asoftime" label="到期时间" width="110px">
+				<el-table-column prop="asoftime" label="缴费到期时间" width="110px">
 				</el-table-column>
 				<el-table-column prop="stoptime" label="报停开始时间" width="110px">
 				</el-table-column>
@@ -270,6 +275,7 @@
 				selectStopmonth: '',
 				selectEndtime: '',
 				selectStopAsoftime: '',
+				selectStopAsoftimeStar: '',
 				selectStopNote: '',
 				// 保亭页面不可以操作
 				canSelect: false,
@@ -703,6 +709,7 @@
 					this.monthCanSelect = true
 				} else {
 					this.selectStopAsoftime = row.asoftime
+					this.selectStopAsoftimeStar = row.asoftime
 					this.canSelect = false
 					this.dayCanSelect = false
 					this.monthCanSelect = false
@@ -725,15 +732,21 @@
 				if (!this.selectStopday) {
 					this.monthCanSelect = false
 					this.selectEndtime = ""
+					this.selectStopAsoftime = this.selectStopAsoftimeStar
 				} else {
+					
 					this.monthCanSelect = true
 					this.selectEndtime = this.getAfterDate(new Date(this.selectStoptime), e - 0)
-				}
+				
+				console.log(new Date(this.selectStoptime) > new Date(this.selectStopAsoftime))
+				if(new Date(this.selectStoptime) > new Date(this.selectStopAsoftime)){ return}
+				
 				this.selectStopAsoftime = this.getAfterDate(new Date(this.stopForm.asoftime), e - 0)
-
+}
 			},
 			// 报停月数变化
 			async stopmonthChange() {
+				console.log(!this.selectStopmonth)
 				if (!this.selectStoptime) {
 					this.selectStopmonth = ""
 					return this.$message.warning("请先选择报停开始时间！")
@@ -741,15 +754,17 @@
 				if (!this.selectStopmonth) {
 					this.dayCanSelect = false
 					this.selectEndtime = ""
+					this.selectStopAsoftime = this.selectStopAsoftimeStar
 				} else {
 					this.dayCanSelect = true
 					// 报停结束时间
 					this.selectEndtime = this.getAfterDate(this.addDate(new Date(this.selectStoptime), this.selectStopmonth - 0), -1)
-				}
+				
+				if(new Date(this.selectStoptime) > new Date(this.selectStopAsoftime)){ return}
 				// 到期时间
 				this.selectStopAsoftime = this.getAfterDate(this.addDate(new Date(this.stopForm.asoftime), this.selectStopmonth -
 					0), -1)
-
+}
 				// if (this.stopForm.managementcycle == '月付') {
 				// 	this.selectStopAsoftime = this.addDate(new Date(this.selectPaytime), this.selectStopmonth-0+1)
 				// } else if (this.selectManagementcycle == '季度付') {
