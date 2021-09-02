@@ -41,6 +41,8 @@
 				</el-table-column>
 				<el-table-column prop="creater" label="创建者" width="150px">
 				</el-table-column>
+				<el-table-column prop="companyname" label="创建者" width="250px">
+				</el-table-column>
 				<el-table-column prop="waybilltype" label="派单类型" width="100px">
 				</el-table-column>
 				<el-table-column prop="source" label="订单来源" width="100px">
@@ -538,18 +540,25 @@
 			}
 		},
 		created() {
+			const companyLogin = window.sessionStorage.getItem('company')			
 			const role = window.sessionStorage.getItem('role')
-			if (role == '管理员') {
-
-			} else if (role == '调度主管') {
-
-			} else if (role == '调度配送') {
-				this.queryInfo.userid = window.sessionStorage.getItem('userID') - 0
-			} else if (role == '调度运单') {
-				this.queryInfo.userid = window.sessionStorage.getItem('userID') - 0
-			} else {
-				this.queryInfo.userid = window.sessionStorage.getItem('userID') - 0
+			if(companyLogin == '货好多科技有限公司'){
+				if (role == '管理员') {
+				
+				} else if (role == '调度主管') {
+				
+				} else if (role == '调度配送') {
+					this.queryInfo.userid = window.sessionStorage.getItem('userID') - 0
+				} else if (role == '调度运单') {
+					this.queryInfo.userid = window.sessionStorage.getItem('userID') - 0
+				} else {
+					this.queryInfo.userid = window.sessionStorage.getItem('userID') - 0
+				}
+				
+			}else{
+				this.queryInfo.companyname = companyLogin
 			}
+			
 			this.getList()
 		},
 		methods: {

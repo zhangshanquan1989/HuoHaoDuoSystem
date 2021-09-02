@@ -11,7 +11,7 @@
 		<el-card class="box-card">
 			<!-- 创建按钮 -->
 			<el-button type="primary" plain @click="addDialogVisible = true">创建</el-button>
-			<el-input v-model="queryInfo.noText" placeholder="运单编号" clearable style="width: 200px;margin-left: 50px;" ></el-input>
+			<el-input v-model="queryInfo.noText" placeholder="运单编号" clearable style="width: 200px;margin-left: 50px;"></el-input>
 			<el-input v-model="queryInfo.driverNew" placeholder="司机名" clearable style="width: 200px;margin-left: 20px;"></el-input>
 			<el-input v-model="queryInfo.createrNew" placeholder="创建者" clearable style="width: 200px;margin-left: 20px;"></el-input>
 			<!-- <el-date-picker v-model="queryInfo.creatimeNew" type="date" placeholder="创建日期"  format="yyyy 年 MM 月 dd 日"
@@ -35,6 +35,8 @@
 				<el-table-column prop="lienses" label="车牌号" width="150px">
 				</el-table-column>
 				<el-table-column prop="creater" label="创建者" width="150px">
+				</el-table-column>
+				<el-table-column prop="companyname" label="创建者" width="250px">
 				</el-table-column>
 				<el-table-column prop="waybilltype" label="派单类型" width="100px">
 				</el-table-column>
@@ -130,38 +132,38 @@
 					<!-- <el-form-item >
 						<el-button type="primary"  style="margin-left: 10px;" @click="showLocationDialog">查看车辆位置</el-button>
 					</el-form-item> -->
-					
+
 				</div>
 				<div style="display: flex;">
 					<el-form-item label="行驶证" prop="xingshizhengSrc" width="200px">
-						<el-image  style="width: 150px;" :src="xingshizhengSrc" :preview-src-list="srcList" @click="handleClickImage(xingshizhengSrc)">
+						<el-image style="width: 150px;" :src="xingshizhengSrc" :preview-src-list="srcList" @click="handleClickImage(xingshizhengSrc)">
 							<div slot="error" class="image-slot">
-							        <i class="el-icon-picture-outline"></i>
-							      </div>
+								<i class="el-icon-picture-outline"></i>
+							</div>
 						</el-image>
 					</el-form-item>
 					<el-form-item label="驾驶证" prop="jiashizhengSrc" width="200px">
-						<el-image  style="width: 150px;" :src="jiashizhengSrc" :preview-src-list="srcList" @click="handleClickImage(jiashizhengSrc)">
+						<el-image style="width: 150px;" :src="jiashizhengSrc" :preview-src-list="srcList" @click="handleClickImage(jiashizhengSrc)">
 							<div slot="error" class="image-slot">
-							        <i class="el-icon-picture-outline"></i>
-							      </div>
+								<i class="el-icon-picture-outline"></i>
+							</div>
 						</el-image>
 					</el-form-item>
 					<el-form-item label="身份证" prop="shenfenzhengSrc" width="200px">
-						<el-image  style="width: 150px;" :src="shenfenzhengSrc" :preview-src-list="srcList" @click="handleClickImage(shenfenzhengSrc)">
+						<el-image style="width: 150px;" :src="shenfenzhengSrc" :preview-src-list="srcList" @click="handleClickImage(shenfenzhengSrc)">
 							<div slot="error" class="image-slot">
-							        <i class="el-icon-picture-outline"></i>
-							      </div>
+								<i class="el-icon-picture-outline"></i>
+							</div>
 						</el-image>
 					</el-form-item>
 					<el-form-item label="上岗证" prop="shanggangzhengSrc" width="200px">
-						<el-image  style="width: 150px;" :src="shanggangzhengSrc" :preview-src-list="srcList" @click="handleClickImage(shanggangzhengSrc)">
+						<el-image style="width: 150px;" :src="shanggangzhengSrc" :preview-src-list="srcList" @click="handleClickImage(shanggangzhengSrc)">
 							<div slot="error" class="image-slot">
-							        <i class="el-icon-picture-outline"></i>
-							      </div>
+								<i class="el-icon-picture-outline"></i>
+							</div>
 						</el-image>
 					</el-form-item>
-					
+
 				</div>
 				<div style="display: flex;">
 					<el-form-item label="运单编号" prop="no">
@@ -454,7 +456,7 @@
 			</el-form>
 			<span slot="footer" class="dialog-footer">
 				<el-button @click="addDialogVisible = false">取 消</el-button>
-				<el-popconfirm title="确定创建？" @confirm="addInfo" style="margin-left: 10px;">
+				<el-popconfirm title="确定创建？" @confirm="addInfoThrottle" style="margin-left: 10px;">
 					<el-button type="primary" slot="reference">提 交</el-button>
 				</el-popconfirm>
 				<!-- <el-button type="primary" @click="addInfo">提 交</el-button> -->
@@ -816,12 +818,12 @@
 			</span>
 
 		</el-dialog>
-		
+
 		<!-- 位置 -->
 		<el-dialog title="车辆位置" :visible.sync="locationDialog" width="50%" :close-on-click-modal="false">
-		
+
 			<div id="locition" style="width: 100%;height: 500px;"></div>
-		
+
 		</el-dialog>
 
 
@@ -944,10 +946,10 @@
 						dareaOptions: []
 					}]
 				},
-				xingshizhengSrc:'',
-				jiashizhengSrc:'',
-				shenfenzhengSrc:'',
-				shanggangzhengSrc:'',
+				xingshizhengSrc: '',
+				jiashizhengSrc: '',
+				shenfenzhengSrc: '',
+				shanggangzhengSrc: '',
 				showhdadd: false,
 				// 添加的规则
 				addRules: {
@@ -1176,26 +1178,35 @@
 				showRefusenote: false,
 				// 订单取消
 				showQuxiao: false,
+				// 节流
+				canRun: true,
 
 				updatePictureUrl: this.$baseUploadUrl + "/waybill/uploadpicture",
 			}
 		},
 		created() {
+			const companyLogin = window.sessionStorage.getItem('company')
 			const role = window.sessionStorage.getItem('role')
-			if (role == '管理员') {
+			if (companyLogin == '货好多科技有限公司') {
+				if (role == '管理员') {
 
-			} else if (role == '调度主管') {
+				} else if (role == '调度主管') {
 
-			} else if (role == '调度配送') {
-				this.queryInfo.userid = window.sessionStorage.getItem('userID') - 0
-			} else if (role == '调度运单') {
-				this.queryInfo.userid = window.sessionStorage.getItem('userID') - 0
+				} else if (role == '调度配送') {
+					this.queryInfo.userid = window.sessionStorage.getItem('userID') - 0
+				} else if (role == '调度运单') {
+					this.queryInfo.userid = window.sessionStorage.getItem('userID') - 0
+				} else {
+					this.queryInfo.userid = window.sessionStorage.getItem('userID') - 0
+				}
+
 			} else {
-				this.queryInfo.userid = window.sessionStorage.getItem('userID') - 0
+				this.queryInfo.companyname = companyLogin
 			}
+			this.getWaybillList()
 
 			// console.log(this.queryInfo)
-			this.getWaybillList()
+
 			this.getAllCompanyList()
 			this.findAllCarLicense()
 			this.findAllSprovince()
@@ -1204,20 +1215,26 @@
 		},
 		methods: {
 			// 地图
-			async showLocationDialog(){
-				
-				if(!this.addForm.lienses){
+			async showLocationDialog() {
+
+				if (!this.addForm.lienses) {
 					return this.$message.warning('请先选择车辆信息！')
 				}
-				
-				const {data:res} = await this.$http.get('kCarinformation/GetCarCurrent?string=' + this.addForm.lienses)
+
+				const {
+					data: res
+				} = await this.$http.get('kCarinformation/GetCarCurrent?string=' + this.addForm.lienses)
 				if (res.code !== 200) {
 					return this.$message.error(res.message)
 				}
-				if(res.result.anyType.GPSPoint){
+				if (res.result.anyType.GPSPoint) {
 					const carInfo = res.result.anyType.GPSPoint
-					const {last_lon} = res.result.anyType.GPSPoint
-					const {last_lat} = res.result.anyType.GPSPoint
+					const {
+						last_lon
+					} = res.result.anyType.GPSPoint
+					const {
+						last_lat
+					} = res.result.anyType.GPSPoint
 					this.locationDialog = true
 					setTimeout(() => {
 						var map1 = new AMap.Map("locition", {
@@ -1225,22 +1242,22 @@
 							center: [last_lon, last_lat], //中心 firstArr: [116.478935, 39.997761],
 							zoom: 10
 						});
-					
+
 						var marker1 = new AMap.Marker({
 							icon: "https://tkhhd.com/imgs/kache.png",
 							position: [last_lon, last_lat],
 							offset: new AMap.Pixel(-13, -30)
 						});
-						marker1.setTitle(carInfo.carMark +":"+ carInfo.location)
+						marker1.setTitle(carInfo.carMark + ":" + carInfo.location)
 						// marker1.setMap(map1);
 						map1.add(marker1)
 					}, 200)
-				}else{
+				} else {
 					this.$message.warning('暂无位置信息')
 				}
-				
+
 			},
-			
+
 			ishdChange(e) {
 				if (e == '是') {
 					this.showhdadd = true
@@ -1447,17 +1464,17 @@
 					this.driverNameOptions = this.allDriverNameList
 					this.addForm.lienses = res.result.chepai
 					this.addForm.dispatch = res.result.dispatch
-					
+
 					const {
 						data: res1
 					} = await this.$http.get('/kCarinformation/getinformation?licenseplate=' + res.result.chepai)
 					console.log(res1)
-					this.xingshizhengSrc = res1.result.driving_license
-					this.jiashizhengSrc = res1.result.vehicle_license
+					this.xingshizhengSrc = res1.result.vehicle_license
+					this.jiashizhengSrc = res1.result.driving_license
 					this.shenfenzhengSrc = res1.result.userid
 					this.shanggangzhengSrc = res1.result.work_license
-					
-					
+
+
 				} else {
 					this.driverNameOptions = this.allDriverNameList
 					this.addForm.lienses = ''
@@ -1836,7 +1853,7 @@
 				// if(this.queryInfo.creatimeNew){
 				// 	this.queryInfo.creatime = "*" + this.queryInfo.creatimeNew + "*"
 				// }
-				
+
 				this.getWaybillList()
 			},
 			// 返回按钮
@@ -1872,7 +1889,18 @@
 				// console.log(response)
 				this.addForm.picture = response.result.pictureFileName
 			},
+			// 节流创建
+			addInfoThrottle() {
+				console.log('节流')
+				if (!this.canRun) return;
+				this.canRun = false;
+				setTimeout(() => {
+					console.log('创建')
+					this.addInfo()
+					this.canRun = true;
+				}, 1000);
 
+			},
 
 			// 创建对话框
 			addInfo() {
@@ -1884,7 +1912,7 @@
 						.upoints[0].dprovince || !this.addForm.upoints[0].dcity || !this.addForm.upoints[0].darea) {
 						return this.$message.warning('请完善必填信息！')
 					}
-					
+
 					// 发起添加信息的数据请求
 					const {
 						data: res
@@ -1903,51 +1931,51 @@
 			addDialogClosed() {
 				this.$refs.addFormRef.resetFields()
 				this.addForm = {
-					waybilltype: '',
-					source: '',
-					people: '',
-					goodsname: '',
-					goodsweight: '',
-					overweight: '',
-					picture: '',
-					emptydistance: '',
-					highspeed: '',
-					estimatedistance: '',
-					ban: '',
-					deposit: '',
-					pay: '',
-					car: '',
-					aclient: '',
-					uclient: '',
-					lienses: '',
-					Lidriver: '',
-					dispatch: '',
-					apoints: [{
-						spointphone: "",
-						stime: "",
-						sprovince: "",
-						scity: "",
-						sarea: "",
-						saddress: "",
-						sgrade: "",
-						shuafen: "",
-						scityOptions: [],
-						sareaOptions: [],
-					}],
-					upoints: [{
-						dpointphone: "",
-						dtime: "",
-						dprovince: "",
-						dcity: "",
-						darea: "",
-						daddress: "",
-						dgrade: "",
-						dhuafen: "",
-						dcityOptions: [],
-						dareaOptions: []
-					}]
-				},
-				this.xingshizhengSrc = ''
+						waybilltype: '',
+						source: '',
+						people: '',
+						goodsname: '',
+						goodsweight: '',
+						overweight: '',
+						picture: '',
+						emptydistance: '',
+						highspeed: '',
+						estimatedistance: '',
+						ban: '',
+						deposit: '',
+						pay: '',
+						car: '',
+						aclient: '',
+						uclient: '',
+						lienses: '',
+						Lidriver: '',
+						dispatch: '',
+						apoints: [{
+							spointphone: "",
+							stime: "",
+							sprovince: "",
+							scity: "",
+							sarea: "",
+							saddress: "",
+							sgrade: "",
+							shuafen: "",
+							scityOptions: [],
+							sareaOptions: [],
+						}],
+						upoints: [{
+							dpointphone: "",
+							dtime: "",
+							dprovince: "",
+							dcity: "",
+							darea: "",
+							daddress: "",
+							dgrade: "",
+							dhuafen: "",
+							dcityOptions: [],
+							dareaOptions: []
+						}]
+					},
+					this.xingshizhengSrc = ''
 				this.jiashizhengSrc = ''
 				this.shenfenzhengSrc = ''
 				this.shanggangzhengSrc = ''
@@ -1963,7 +1991,7 @@
 				const {
 					data: res
 				} = await this.$http.get('waybill/findListPage?plistNo=' + plistNo)
-				// console.log('详情', res)
+				console.log('详情', res)
 				if (res.code !== 200) {
 					return this.$message.error(res.message)
 				}
