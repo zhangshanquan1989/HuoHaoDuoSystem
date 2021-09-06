@@ -23,7 +23,7 @@
 			<el-button type="primary" plain @click="handleQueryBtn" style="margin-left: 30px;">查询</el-button>
 			<el-button type="primary" plain @click="handleQueryBackBtn" style="margin-left: 30px;">返回</el-button>
 			<div style="margin-top: 20px;">
-			<el-button type="primary" icon="el-icon-download" plain @click="handleExport" s>导出Excel</el-button>
+			<el-button type="primary" icon="el-icon-download" plain @click="handleExport" >导出Excel</el-button>
 			<el-button type="primary" plain @click="handleClearBtn" style="margin-left: 30px;">清空选中</el-button>
 </div>
 			<el-table :data="List" ref="tableRef" border stripe style="width: 100%;margin-top: 8px;" :row-style="{height:'60px'}"

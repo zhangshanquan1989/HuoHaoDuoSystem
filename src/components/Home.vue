@@ -84,6 +84,7 @@
 				</el-menu>
 			</el-aside>
 			<!-- 右侧内容主体 -->
+			<!-- <el-main :class="[fengongsi? 'fensongsiStyle':'zonggongsiStyle']"> -->
 			<el-main>
 				<!-- 路由占位符 -->
 				<router-view></router-view>
@@ -118,6 +119,7 @@
 	export default {
 		data() {
 			return {
+				// fengongsi:false,
 				// 用户名
 				name: '',
 				addDialogVisible: false,
@@ -345,6 +347,305 @@
 		},
 		created() {
 			// this.getMenuList()userID
+			// console.log(window.sessionStorage.getItem('role'))
+			if(window.sessionStorage.getItem('role') == '分公司'){
+				// this.fengongsi = true
+				this.menulist = [
+					{
+							id: 0,
+							authName: '首页',
+							path: '/imageWelcome',
+							icon: "el-icon-s-open"
+						},
+					{
+						id: 1,
+						authName: '基础信息管理',
+						icon: "el-icon-s-order",
+						path: '/basis',
+						children: [
+							
+							{
+								id: 13,
+								authName: '司机信息',
+								path: '/basis/driver',
+								icon: "el-icon-caret-right"
+							},							
+							{
+								id: 16,
+								authName: '车辆信息',
+								path: '/basis/car/carInfo',
+								icon: "el-icon-caret-right"
+							},
+						]
+						// path:'basis'
+					},
+					{
+						id: 2,
+						authName: '订单管理',
+						path: '/orderManage',
+						icon: "el-icon-document",
+						children: [{
+								id: 21,
+								authName: '订单查询',
+								path: '/orderManage',
+								icon: "el-icon-caret-right"
+							},																										
+						]
+					},
+				]
+			}else if(window.sessionStorage.getItem('role') == '调度主管' || window.sessionStorage.getItem('role') == '调度配送' || window.sessionStorage.getItem('role') == '调度运单'){
+				this.menulist = [{
+						id: 0,
+						authName: '我的司机',
+						path: '/MyDriver',
+						icon: "el-icon-truck"
+					},
+
+					{
+						id: 2,
+						authName: '订单管理',
+						path: '/orderManage',
+						icon: "el-icon-document",
+						children: [{
+								id: 21,
+								authName: '订单查询',
+								path: '/orderManage',
+								icon: "el-icon-caret-right"
+							},
+							{
+								id: 22,
+								authName: '运单管理',
+								path: '/waybillManage',
+								icon: "el-icon-caret-right"
+							},
+							{
+								id: 23,
+								authName: '配送管理',
+								path: '/distributionManage',
+								icon: "el-icon-caret-right",
+							},
+							{
+								id: 24,
+								authName: '车辆分配',
+								path: '/carDistribution',
+								icon: "el-icon-caret-right",
+							},
+							{
+								id: 25,
+								authName: '车辆考勤',
+								path: '/carAttendance',
+								icon: "el-icon-caret-right",
+							},
+						]
+					},
+					{
+						id: 4,
+						authName: '权限管理',
+						icon: "el-icon-unlock",
+						path: '/manage',
+						children: [{
+								id: 41,
+								authName: '部门管理',
+								path: '/manage/departManage',
+								icon: "el-icon-caret-right"
+							},
+							{
+								id: 42,
+								authName: '角色管理',
+								path: '/manage/roleManage',
+								icon: "el-icon-caret-right"
+							},
+							{
+								id: 43,
+								authName: '用户管理',
+								path: '/manage/userManage',
+								icon: "el-icon-caret-right"
+							}
+						]
+					},
+					{
+						id: 9,
+						authName: '数据汇总',
+						path: '/dataAggregation',
+						icon: "el-icon-collection",
+					},
+				]
+			}else{
+				this.menulist = [{
+						id: 0,
+						authName: '首页',
+						path: '/welcome',
+						icon: "el-icon-s-open"
+					},
+					{
+						id: 1,
+						authName: '基础信息管理',
+						icon: "el-icon-s-order",
+						path: '/basis',
+						children: [{
+								id: 11,
+								authName: '公司信息',
+								path: '/basis/company',
+								icon: "el-icon-caret-right"
+							},
+							{
+								id: 12,
+								authName: '员工信息',
+								path: '/basis/worker',
+								icon: "el-icon-caret-right"
+							},
+							{
+								id: 13,
+								authName: '司机信息',
+								path: '/basis/driver',
+								icon: "el-icon-caret-right"
+							},
+							{
+								id: 15,
+								authName: '客户信息',
+								path: '/basis/customer',
+								icon: "el-icon-caret-right"
+							},
+							// {
+							// 	id: 16,
+							// 	authName: '地区信息',
+							// 	path: '/basis/region',
+							// 	icon: "el-icon-caret-right"
+							// },
+							{
+								id: 14,
+								authName: '车辆管理',
+								icon: "el-icon-menu",
+								children: [{
+										id: 111,
+										authName: '车辆信息',
+										path: '/basis/car/carInfo',
+										icon: "el-icon-caret-right"
+									},
+									{
+										id: 112,
+										authName: '车辆保证金',
+										path: '/basis/car/earnestMoney',
+										icon: "el-icon-caret-right"
+									},
+									{
+										id: 113,
+										authName: '车辆管理费',
+										path: '/basis/car/managementFee',
+										icon: "el-icon-caret-right"
+									},
+									{
+										id: 114,
+										authName: '实时监控',
+										path: '/basis/car/CarMonitoring',
+										icon: "el-icon-caret-right"
+									},
+									{
+										id: 115,
+										authName: '车辆里程',
+										path: '/basis/car/carMileage',
+										icon: "el-icon-caret-right"
+									},
+									{
+										id: 116,
+										authName: '车辆油耗',
+										path: '/basis/car/carEnergy',
+										icon: "el-icon-caret-right"
+									},
+									// {
+									// 	id: 114,
+									// 	authName: '违章信息',
+									// 	path: '/basis/car/illegal',
+									// 	icon: "el-icon-caret-right"
+									// }
+								],
+								path: '/basis/car'
+							},
+						]
+						// path:'basis'
+					},
+					{
+						id: 2,
+						authName: '订单管理',
+						path: '/orderManage',
+						icon: "el-icon-document",
+						children: [{
+								id: 21,
+								authName: '订单查询',
+								path: '/orderManage',
+								icon: "el-icon-caret-right"
+							},
+							{
+								id: 22,
+								authName: '运单管理',
+								path: '/waybillManage',
+								icon: "el-icon-caret-right"
+							},
+							{
+								id: 23,
+								authName: '配送管理',
+								path: '/distributionManage',
+								icon: "el-icon-caret-right",
+							},
+							{
+								id: 24,
+								authName: '车辆分配',
+								path: '/carDistribution',
+								icon: "el-icon-caret-right",
+							},
+							{
+								id: 25,
+								authName: '车辆考勤',
+								path: '/carAttendance',
+								icon: "el-icon-caret-right",
+							},
+						]
+					},
+					{
+						id: 4,
+						authName: '权限管理',
+						icon: "el-icon-unlock",
+						path: '/manage',
+						children: [{
+								id: 41,
+								authName: '部门管理',
+								path: '/manage/departManage',
+								icon: "el-icon-caret-right"
+							},
+							{
+								id: 42,
+								authName: '角色管理',
+								path: '/manage/roleManage',
+								icon: "el-icon-caret-right"
+							},
+							{
+								id: 43,
+								authName: '用户管理',
+								path: '/manage/userManage',
+								icon: "el-icon-caret-right"
+							}
+						]
+					},
+					{
+						id: 9,
+						authName: '数据汇总',
+						path: '/dataAggregation',
+						icon: "el-icon-collection",
+					},
+					{
+						id: 10,
+						authName: '我的司机',
+						path: '/MyDriver',
+						icon: "el-icon-truck",
+					},
+					// {
+					// 	id: 11,
+					// 	authName: '分公司首页',
+					// 	path: '/imageWelcome',
+					// 	icon: "el-icon-truck",
+					// },
+				]
+			}
 			this.userid = window.sessionStorage.getItem('userID')
 			this.name = window.sessionStorage.getItem('name')
 			this.activePath = window.sessionStorage.getItem('activePath')
@@ -483,6 +784,13 @@
 
 	.el-badge /deep/.el-badge__content.is-fixed {
 		right: 5px
+	}
+	
+	.fensongsiStyle{
+		padding: 0;
+	}
+	.zonggongsiStyle{
+		padding: 20;
 	}
 
 

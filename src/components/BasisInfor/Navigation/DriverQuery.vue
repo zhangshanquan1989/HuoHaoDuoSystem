@@ -11,8 +11,8 @@
 		<!-- 卡片视图区 -->
 		<el-card class="box-card">
 			<!-- 创建司机  el-select-->
-			<el-button type="primary" plain @click="addDialogVisible = true">创建</el-button>
-			<el-input v-model="queryInfo.driverName" placeholder="司机名" clearable style="width: 200px;margin-left: 100px;"></el-input>
+			<el-button v-if="showBtn" type="primary" plain @click="addDialogVisible = true" style="margin-right: 80px;">创建</el-button>
+			<el-input v-model="queryInfo.driverName" placeholder="司机名" clearable style="width: 200px;"></el-input>
 			<el-input v-model="queryInfo.licensePlateNew" placeholder="车牌号" clearable style="width: 200px;margin-left: 30px;"></el-input>
 			<el-button type="primary" plain @click="handleQueryBtn" style="margin-left: 30px;">查询</el-button>
 			<el-button type="primary" plain @click="handleQueryBackBtn" style="margin-left: 30px;">返回</el-button>
@@ -58,6 +58,10 @@
 				</el-table-column> -->
 				<el-table-column prop="worklicensedate" label="上岗证有效期" width="150px">
 					</el-table-column>
+					<el-table-column prop="emergencyname" label="紧急联系人姓名" width="180px">
+					</el-table-column>
+					<el-table-column prop="emergencyphone" label="紧急联系人电话" width="180px">
+					</el-table-column>
 				<el-table-column prop="createuser" label="创建人" width="150px">
 				</el-table-column>
 				<el-table-column prop="ctTime" label="创建时间" width="180px">
@@ -67,10 +71,11 @@
 				<el-table-column label="操作" width="200px" fixed="right">
 					<template slot-scope="scope">
 						<!-- 修改按钮 -->
-						<el-button type="primary" size="mini" @click="showEditDialog(scope.row.id)">编辑</el-button>
+						<el-button v-if="showBtn" type="primary" size="mini" @click="showEditDialog(scope.row.id)">编辑</el-button>
+						<el-button v-else type="primary" size="mini" @click="showEditDialog(scope.row.id)">查看详情</el-button>
 						<!-- 删除按钮 -->
-						<el-popconfirm title="确定删除吗？" @confirm="removeById(scope.row.id)" style="margin-left: 10px;">
-							<el-button type="danger" size="mini" slot="reference">删除</el-button>
+						<el-popconfirm v-if="showBtn" title="确定删除吗？" @confirm="removeById(scope.row.id)" style="margin-left: 10px;">
+							<el-button  type="danger" size="mini" slot="reference">删除</el-button>
 						</el-popconfirm>
 					</template>
 				</el-table-column>
@@ -87,10 +92,10 @@
 		<el-dialog title="创建司机信息" :visible.sync="addDialogVisible" width="35%" @close="addDialogClosed" :close-on-click-modal="false">
 			<!-- 创建的表单 -->
 			<el-form :model="addForm" :rules="addFormRules" ref="addFormRef" label-width="120px">
-				<el-form-item label="司机姓名:" prop="name">
+				<el-form-item label="司机姓名" prop="name">
 					<el-input v-model="addForm.name" style="width: 300px;"></el-input>
 				</el-form-item>
-				<el-form-item label="手机号码:" prop="phoneno">
+				<el-form-item label="手机号码" prop="phoneno">
 					<el-input v-model="addForm.phoneno" style="width: 300px;"></el-input>
 				</el-form-item>
 				<el-form-item label="所属分公司" prop="company">
@@ -156,6 +161,12 @@
 				<el-form-item label="上岗证有效期" prop="worklicensedate">
 					<el-date-picker v-model="addForm.worklicensedate" type="date" placeholder="选择日期" format="yyyy 年 MM 月 dd 日"	 value-format="yyyy-MM-dd" style="width: 300px;">
 					</el-date-picker>
+				</el-form-item>
+				<el-form-item label="紧急联系人姓名" prop="emergencyname">
+					<el-input v-model="addForm.emergencyname" style="width: 300px;"></el-input>
+				</el-form-item>
+				<el-form-item label="紧急联系人电话" prop="emergencyphone">
+					<el-input v-model="addForm.emergencyphone" style="width: 300px;"></el-input>
 				</el-form-item>
 			</el-form>
 			<!-- 操作区域 -->
@@ -239,10 +250,16 @@
 					<el-date-picker v-model="editForm.worklicensedate" type="date" placeholder="选择日期" format="yyyy 年 MM 月 dd 日" value-format="yyyy-MM-dd" style="width: 300px;">
 					</el-date-picker>
 				</el-form-item>
+				<el-form-item label="紧急联系人姓名" prop="emergencyname">
+					<el-input v-model="editForm.emergencyname" style="width: 300px;"></el-input>
+				</el-form-item>
+				<el-form-item label="紧急联系人电话" prop="emergencyphone">
+					<el-input v-model="editForm.emergencyphone" style="width: 300px;"></el-input>
+				</el-form-item>
 			</el-form>
 			<span slot="footer" class="dialog-footer">
 				<el-button @click="editDialogVisible = false">取 消</el-button>
-				<el-button type="primary" @click="editInfo">确 定</el-button>
+				<el-button v-if="showBtn" type="primary" @click="editInfo">确 定</el-button>
 			</span>
 		
 		</el-dialog>
@@ -276,6 +293,9 @@
 					drivingLicensea: null,
 					drivingLicenseTime: null,
 					workLicense:null,
+					worklicensedate:null,
+					emergencyname:null,
+					emergencyphone:null,
 				},
 				// 添加的表单验证规则
 				addFormRules: {
@@ -338,9 +358,17 @@
 				plateNumberList: [],
 				newPlateNumberList: [],
 				newPlateNumberStates: [],
+				
+				// 根据是否是分公司显示
+				showBtn:true,
 			}
 		},
 		created() {
+			if(window.sessionStorage.getItem('role') == '分公司'){
+				this.showBtn = false
+			}else{
+				this.showBtn = true
+			}
 			this.getDriverList()
 			this.getAllCompanyList()
 			this.getAllPlateNumberList()
@@ -577,7 +605,7 @@
 				this.editForm.workLicense = response.result.PostCardFileName
 			},
 			handleEditUseridaUrlSuccess(response, file, fileList) {
-				console.log('editForm.userida',response)
+				// console.log('editForm.userida',response)
 				this.editForm.userida = response.result.UseridFileNameA
 			},
 			handleEditDrivingLicenseaUrlSuccess(response, file, fileList) {

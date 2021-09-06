@@ -16,8 +16,8 @@
 		<!-- 卡片视图区 -->
 		<el-card class="box-card">
 			<!-- 创建按钮 -->
-			<el-button type="primary" plain @click="addDialogVisible = true">创建</el-button>
-			<el-input v-model="queryCarName" placeholder="车牌号" clearable style="width: 200px;margin-left: 100px;"></el-input>
+			<el-button v-if="showBtn" style="margin-right: 80px;" type="primary" plain @click="addDialogVisible = true">创建</el-button>
+			<el-input v-model="queryCarName" placeholder="车牌号" clearable style="width: 200px;"></el-input>
 			<el-input v-model="queryName" placeholder="车主姓名" clearable style="width: 200px;margin-left: 10px;"></el-input>
 			<el-input v-model="queryPhoneno" placeholder="车主手机号" clearable style="width: 200px;margin-left: 10px;"></el-input>
 			<el-input v-model="queryDriver" placeholder="司机姓名" clearable style="width: 200px;margin-left: 10px;"></el-input>
@@ -145,7 +145,7 @@
 				</el-table-column>
 				<el-table-column prop="nokcrtime" label="非车险到期时间" width="150px">
 				</el-table-column>
-				
+
 				<!-- <el-table-column prop="carmargin" label="车辆保证金" width="100px">
 					<template slot-scope="scope">
 						<span :style="{'color':scope.row.carmargin < 500?'red':'black'}">{{scope.row.carmargin}}</span>
@@ -159,16 +159,17 @@
 				</el-table-column>
 				<el-table-column label="操作" width="380px" fixed="right">
 					<template slot-scope="scope">
-						
+
 						<!-- 查违章按钮 -->
-						<el-button type="warning" size="mini"  @click="showQueryViolationDialog(scope.row.licensePlate)">查违章</el-button>
+						<el-button type="warning" size="mini" @click="showQueryViolationDialog(scope.row.licensePlate)">查违章</el-button>
 						<el-button type="warning" size="mini" style="margin-left: 10px;" @click="showLocationDialog(scope.row.licensePlate)">位置</el-button>
 						<el-button type="warning" size="mini" style="margin-left: 10px;" @click="showHistoryDialog(scope.row.licensePlate)">历史轨迹</el-button>
-						
+
 						<!-- 修改按钮 -->
-						<el-button type="primary" size="mini" style="margin-left: 10px;" @click="showEditDialog(scope.row.id)">编辑</el-button>
+						<el-button v-if="showBtn" type="primary" size="mini" style="margin-left: 10px;" @click="showEditDialog(scope.row.id)">编辑</el-button>
+						<el-button v-else type="primary" size="mini" style="margin-left: 10px;" @click="showEditDialog(scope.row.id)">查看详情</el-button>
 						<!-- 删除按钮 -->
-						<el-popconfirm title="确定删除吗？" @confirm="removeById(scope.row.id)" style="margin-left: 10px;">
+						<el-popconfirm v-if="showBtn" title="确定删除吗？" @confirm="removeById(scope.row.id)" style="margin-left: 10px;">
 							<el-button type="danger" size="mini" slot="reference">删除</el-button>
 						</el-popconfirm>
 
@@ -194,26 +195,26 @@
 					<el-input v-model="addForm.licensePlate" style="width: 350px;"></el-input>
 				</el-form-item>
 				<el-form-item label="车辆状态:" prop="carstate">
-					<el-select v-model="addForm.carstate" placeholder="全部" clearable  style="width: 350px;">
+					<el-select v-model="addForm.carstate" placeholder="全部" clearable style="width: 350px;">
 						<el-option v-for="item in carstateList" :key="item.value" :label="item.label" :value="item.value">
 						</el-option>
 					</el-select>
 				</el-form-item>
 				<el-form-item label="车架号:" prop="frame">
-					<el-input v-model="addForm.frame"  style="width: 350px;"></el-input>
+					<el-input v-model="addForm.frame" style="width: 350px;"></el-input>
 				</el-form-item>
 				<el-form-item label="发动机号:" prop="engine">
-					<el-input v-model="addForm.engine"  style="width: 350px;"></el-input>
+					<el-input v-model="addForm.engine" style="width: 350px;"></el-input>
 				</el-form-item>
 				<el-form-item label="车主姓名:" prop="name">
-					<el-input v-model="addForm.name"  style="width: 350px;"></el-input>
+					<el-input v-model="addForm.name" style="width: 350px;"></el-input>
 				</el-form-item>
 				<el-form-item label="车主手机号:" prop="phoneno">
-					<el-input v-model="addForm.phoneno"  style="width: 350px;"></el-input>
+					<el-input v-model="addForm.phoneno" style="width: 350px;"></el-input>
 				</el-form-item>
 				<el-form-item label="所属分公司:" prop="companyl">
 					<el-select v-model="addForm.companyl" clearable filterable remote placeholder="请输入公司名称" :remote-method="remoteCompanyMethod"
-					 :loading="companyLoading" @change="companylChange"  style="width: 350px;">
+					 :loading="companyLoading" @change="companylChange" style="width: 350px;">
 						<el-option v-for="item in companyOptions" :key="item.index" :label="item.label" :value="item.value">
 						</el-option>
 					</el-select>
@@ -225,7 +226,8 @@
 					</el-select>
 				</el-form-item> -->
 				<el-form-item label="行驶证:" prop="vehicleLicense">
-					<el-image v-if="addForm.vehicleLicense" style="width: 150px;" :src="addForm.vehicleLicense" :preview-src-list="srcList" @click="handleClickImage(addForm.vehicleLicense)"></el-image>
+					<el-image v-if="addForm.vehicleLicense" style="width: 150px;" :src="addForm.vehicleLicense" :preview-src-list="srcList"
+					 @click="handleClickImage(addForm.vehicleLicense)"></el-image>
 					<el-upload name="imgFile" :action="updateVehicleLicenseUrl" :headers="myHeaders" :auto-upload="true" :on-success="handleVehicleLicenseUrlSuccess"
 					 :show-file-list="false" :before-upload="beforeAvatarUpload">
 						<el-button size="small" type="primary" plain>上传行驶证照片</el-button>
@@ -233,36 +235,38 @@
 				</el-form-item>
 				<el-form-item label="行驶证到期时间:" prop="vehiclelicensedate">
 					<el-date-picker v-model="addForm.vehiclelicensedate" type="date" placeholder="选择日期" format="yyyy 年 MM 月 dd 日"
-					 value-format="yyyy-MM-dd"  style="width: 350px;">
+					 value-format="yyyy-MM-dd" style="width: 350px;">
 					</el-date-picker>
 				</el-form-item>
 				<el-form-item label="年检到期时间:" prop="checkDate">
-					<el-date-picker v-model="addForm.checkDate" type="date" placeholder="选择日期" format="yyyy 年 MM 月 dd 日" value-format="yyyy-MM-dd"  style="width: 350px;">
+					<el-date-picker v-model="addForm.checkDate" type="date" placeholder="选择日期" format="yyyy 年 MM 月 dd 日" value-format="yyyy-MM-dd"
+					 style="width: 350px;">
 					</el-date-picker>
 				</el-form-item>
 				<el-form-item label="出车时间:" prop="starttime">
-					<el-date-picker v-model="addForm.starttime" type="date" placeholder="选择日期" format="yyyy 年 MM 月 dd 日"
-					 value-format="yyyy-MM-dd"  style="width: 350px;">
+					<el-date-picker v-model="addForm.starttime" type="date" placeholder="选择日期" format="yyyy 年 MM 月 dd 日" value-format="yyyy-MM-dd"
+					 style="width: 350px;">
 					</el-date-picker>
 				</el-form-item>
 
-			
+
 				<el-form-item label="营运证到期时间:" prop="operatingdate">
 					<el-date-picker v-model="addForm.operatingdate" type="date" placeholder="选择日期" format="yyyy 年 MM 月 dd 日"
-					 value-format="yyyy-MM-dd"  style="width: 350px;">
+					 value-format="yyyy-MM-dd" style="width: 350px;">
 					</el-date-picker>
 				</el-form-item>
 				<el-form-item label="车辆营运证:" prop="caroperating">
-					<el-image v-if="addForm.caroperating" style="width: 150px;" :src="addForm.caroperating" :preview-src-list="srcList" @click="handleClickImage(addForm.caroperating)"></el-image>
+					<el-image v-if="addForm.caroperating" style="width: 150px;" :src="addForm.caroperating" :preview-src-list="srcList"
+					 @click="handleClickImage(addForm.caroperating)"></el-image>
 					<el-upload name="imgFile" :action="updateCaroperatingUrl" :headers="myHeaders" :auto-upload="true" :on-success="handleCaroperatingUrlSuccess"
 					 :show-file-list="false" :before-upload="beforeAvatarUpload">
 						<el-button size="small" type="primary" plain>上传营运证照片</el-button>
 					</el-upload>
 				</el-form-item>
-				
-				<el-form-item label="交强险到期时间:" prop="insuranceDate">
+
+				<el-form-item label="交强险到期时间:" >
 					<el-date-picker v-model="addForm.insuranceDate" type="date" placeholder="选择日期" format="yyyy 年 MM 月 dd 日"
-					 value-format="yyyy-MM-dd"  style="width: 350px;">
+					 value-format="yyyy-MM-dd" style="width: 350px;">
 					</el-date-picker>
 				</el-form-item>
 				<el-form-item label="交强险单据:" prop="insurance">
@@ -270,82 +274,84 @@
 					 :show-file-list="false" :before-upload="beforeAvatarUpload">
 						<el-button size="small" type="primary" plain>上传交强险PDF</el-button>
 					</el-upload>
-					 <a  v-if="addForm.insurance" :href="addForm.insurance" target="_blank">查看交强险PDF</a>
+					<a v-if="addForm.insurance" :href="addForm.insurance" target="_blank">查看交强险PDF</a>
 				</el-form-item>
-				
-				
-				<el-form-item label="商业险到期时间:" prop="businesstime">
+
+
+				<el-form-item label="商业险到期时间:" >
 					<el-date-picker v-model="addForm.businesstime" type="date" placeholder="选择日期" format="yyyy 年 MM 月 dd 日"
-					 value-format="yyyy-MM-dd"  style="width: 350px;">
+					 value-format="yyyy-MM-dd" style="width: 350px;">
 					</el-date-picker>
 				</el-form-item>
-				
+
 				<el-form-item label="商业险单据1:" prop="insurancesyx">
-					<el-upload name="imgFile" :action="updateInsurancesyxUrl" :headers="myHeaders" :auto-upload="true" :on-success="handleInsurancesyxUrlSuccess" :show-file-list="false" :before-upload="beforeAvatarUpload">
+					<el-upload name="imgFile" :action="updateInsurancesyxUrl" :headers="myHeaders" :auto-upload="true" :on-success="handleInsurancesyxUrlSuccess"
+					 :show-file-list="false" :before-upload="beforeAvatarUpload">
 						<el-button size="small" type="primary" plain>上传商业险PDF</el-button>
 					</el-upload>
-					 <a  v-if="addForm.insurancesyx" :href="addForm.insurancesyx" target="_blank">查看商业险PDF1</a>
+					<a v-if="addForm.insurancesyx" :href="addForm.insurancesyx" target="_blank">查看商业险PDF1</a>
 				</el-form-item>
 				<el-form-item label="商业险单据2:" prop="insurancesyxa">
-					<el-upload name="imgFile" :action="updateInsurancesyxaUrl" :headers="myHeaders" :auto-upload="true" :on-success="handleInsurancesyxaUrlSuccess" :show-file-list="false" :before-upload="beforeAvatarUpload">
+					<el-upload name="imgFile" :action="updateInsurancesyxaUrl" :headers="myHeaders" :auto-upload="true" :on-success="handleInsurancesyxaUrlSuccess"
+					 :show-file-list="false" :before-upload="beforeAvatarUpload">
 						<el-button size="small" type="primary" plain>上传商业险PDF</el-button>
 					</el-upload>
-					 <a  v-if="addForm.insurancesyxa" :href="addForm.insurancesyxa" target="_blank">查看商业险PDF2</a>
+					<a v-if="addForm.insurancesyxa" :href="addForm.insurancesyxa" target="_blank">查看商业险PDF2</a>
 				</el-form-item>
-				
-				<el-form-item label="非车险到期时间:" prop="nokcrtime">
-					<el-date-picker v-model="addForm.nokcrtime" type="date" placeholder="选择日期" format="yyyy 年 MM 月 dd 日"
-					 value-format="yyyy-MM-dd"  style="width: 350px;">
+
+				<el-form-item label="非车险到期时间:" >
+					<el-date-picker v-model="addForm.nokcrtime" type="date" placeholder="选择日期" format="yyyy 年 MM 月 dd 日" value-format="yyyy-MM-dd"
+					 style="width: 350px;">
 					</el-date-picker>
 				</el-form-item>
 				<el-form-item label="非车险单据1:" prop="insurancefcx">
 					<el-upload name="imgFile" :action="updateInsurancefcxUrl" :headers="myHeaders" :auto-upload="true" :on-success="handleInsurancefcxUrlSuccess"
 					 :show-file-list="false" :before-upload="beforeAvatarUpload">
 						<el-button size="small" type="primary" plain>上传非车险PDF</el-button>
-						</el-upload>
-						 <a  v-if="addForm.insurancefcx" :href="addForm.insurancefcx" target="_blank">查看非车险PDF1</a>
-					
+					</el-upload>
+					<a v-if="addForm.insurancefcx" :href="addForm.insurancefcx" target="_blank">查看非车险PDF1</a>
+
 				</el-form-item>
 				<el-form-item label="非车险单据2:" prop="insurancefcxa">
 					<el-upload name="imgFile" :action="updateInsurancefcxaUrl" :headers="myHeaders" :auto-upload="true" :on-success="handleInsurancefcxaUrlSuccess"
 					 :show-file-list="false" :before-upload="beforeAvatarUpload">
 						<el-button size="small" type="primary" plain>上传非车险PDF2</el-button>
-						</el-upload>
-						 <a  v-if="addForm.insurancefcxa" :href="addForm.insurancefcxa" target="_blank">查看非车险PDF2</a>
-					
+					</el-upload>
+					<a v-if="addForm.insurancefcxa" :href="addForm.insurancefcxa" target="_blank">查看非车险PDF2</a>
+
 				</el-form-item>
 				<el-form-item label="非车险单据3:" prop="insurancefcxb">
 					<el-upload name="imgFile" :action="updateInsurancefcxbUrl" :headers="myHeaders" :auto-upload="true" :on-success="handleInsurancefcxbUrlSuccess"
 					 :show-file-list="false" :before-upload="beforeAvatarUpload">
 						<el-button size="small" type="primary" plain>上传非车险PDF3</el-button>
-						</el-upload>
-						 <a  v-if="addForm.insurancefcxb" :href="addForm.insurancefcxb" target="_blank">查看非车险PDF3</a>
-					
+					</el-upload>
+					<a v-if="addForm.insurancefcxb" :href="addForm.insurancefcxb" target="_blank">查看非车险PDF3</a>
+
 				</el-form-item>
 				<el-form-item label="非车险单据4:" prop="insurancefcxc">
 					<el-upload name="imgFile" :action="updateInsurancefcxcUrl" :headers="myHeaders" :auto-upload="true" :on-success="handleInsurancefcxcUrlSuccess"
 					 :show-file-list="false" :before-upload="beforeAvatarUpload">
 						<el-button size="small" type="primary" plain>上传非车险PDF4</el-button>
-						</el-upload>
-						 <a  v-if="addForm.insurancefcxc" :href="addForm.insurancefcxc" target="_blank">查看非车险PDF4</a>
-					
+					</el-upload>
+					<a v-if="addForm.insurancefcxc" :href="addForm.insurancefcxc" target="_blank">查看非车险PDF4</a>
+
 				</el-form-item>
 				<el-form-item label="非车险单据5:" prop="insurancefcxd">
 					<el-upload name="imgFile" :action="updateInsurancefcxdUrl" :headers="myHeaders" :auto-upload="true" :on-success="handleInsurancefcxdUrlSuccess"
 					 :show-file-list="false" :before-upload="beforeAvatarUpload">
 						<el-button size="small" type="primary" plain>上传非车险PDF5</el-button>
-						</el-upload>
-						 <a  v-if="addForm.insurancefcxd" :href="addForm.insurancefcxd" target="_blank">查看非车险PDF5</a>
-					
+					</el-upload>
+					<a v-if="addForm.insurancefcxd" :href="addForm.insurancefcxd" target="_blank">查看非车险PDF5</a>
+
 				</el-form-item>
 				<el-form-item label="非车险单据6:" prop="insurancefcxe">
 					<el-upload name="imgFile" :action="updateInsurancefcxeUrl" :headers="myHeaders" :auto-upload="true" :on-success="handleInsurancefcxeUrlSuccess"
 					 :show-file-list="false" :before-upload="beforeAvatarUpload">
 						<el-button size="small" type="primary" plain>上传非车险PDF6</el-button>
-						</el-upload>
-						 <a  v-if="addForm.insurancefcxe" :href="addForm.insurancefcxe" target="_blank">查看非车险PDF6</a>
-					
-				</el-form-item>		
+					</el-upload>
+					<a v-if="addForm.insurancefcxe" :href="addForm.insurancefcxe" target="_blank">查看非车险PDF6</a>
+
+				</el-form-item>
 			</el-form>
 
 			<span slot="footer" class="dialog-footer">
@@ -357,31 +363,33 @@
 
 
 		<!-- 编辑的对话框 -->
-		<el-dialog title="编辑车辆信息" :visible.sync="editDialogVisible" width="35%" @close="editDialogClosed" :close-on-click-modal="false">
+		<el-dialog title="编辑车辆信息" :visible.sync="editDialogVisible" width="35%" @close="editDialogClosed"
+		 :close-on-click-modal="false">
 			<el-form :model="editForm" ref="editFormRef" label-width="120px">
 				<el-form-item label="车牌号:" prop="licensePlate">
-					<el-input v-model="editForm.licensePlate"  style="width: 350px;"></el-input>
+					<el-input :disabled="xingzhengCan" v-model="editForm.licensePlate" style="width: 350px;"></el-input>
 				</el-form-item>
 				<el-form-item label="车辆状态:" prop="carstate">
-					<el-select v-model="editForm.carstate" placeholder="全部" clearable  style="width: 350px;">
+					<el-select :disabled="caiwuCan" v-model="editForm.carstate" placeholder="全部" clearable style="width: 350px;">
 						<el-option v-for="item in carstateList" :key="item.value" :label="item.label" :value="item.value">
 						</el-option>
 					</el-select>
 				</el-form-item>
 				<el-form-item label="车架号:" prop="frame">
-					<el-input v-model="editForm.frame"  style="width: 350px;"></el-input>
+					<el-input :disabled="xingzhengCan" v-model="editForm.frame" style="width: 350px;"></el-input>
 				</el-form-item>
 				<el-form-item label="发动机号:" prop="engine">
-					<el-input v-model="editForm.engine"  style="width: 350px;"></el-input>
+					<el-input :disabled="xingzhengCan" v-model="editForm.engine" style="width: 350px;"></el-input>
 				</el-form-item>
 				<el-form-item label="车主姓名:" prop="name">
-					<el-input v-model="editForm.name"  style="width: 350px;"></el-input>
+					<el-input :disabled="xingzhengCan" v-model="editForm.name" style="width: 350px;"></el-input>
 				</el-form-item>
 				<el-form-item label="车主手机号:" prop="phoneno">
-					<el-input v-model="editForm.phoneno"  style="width: 350px;"></el-input>
+					<el-input :disabled="xingzhengCan" v-model="editForm.phoneno" style="width: 350px;"></el-input>
 				</el-form-item>
 				<el-form-item label="所属分公司:" prop="companyl">
-					<el-select v-model="editForm.companyl" clearable filterable remote placeholder="请输入公司名称" :remote-method="remoteCompanyMethod" :loading="companyLoading" @change="companylChange"  style="width: 350px;">
+					<el-select :disabled="xingzhengCan" v-model="editForm.companyl" clearable filterable remote placeholder="请输入公司名称"
+					 :remote-method="remoteCompanyMethod" :loading="companyLoading" @change="companylChange" style="width: 350px;">
 						<el-option v-for="item in companyOptions" :key="item.index" :label="item.label" :value="item.value">
 						</el-option>
 					</el-select>
@@ -394,132 +402,138 @@
 					</el-select>
 				</el-form-item> -->
 				<el-form-item label="行驶证:" prop="vehicleLicense">
-					<el-image v-if="editForm.vehicleLicense" style="width: 150px;" :src="editForm.vehicleLicense" :preview-src-list="srcList" @click="handleClickImage(editForm.vehicleLicense)"></el-image>
+					<el-image v-if="editForm.vehicleLicense" style="width: 150px;" :src="editForm.vehicleLicense" :preview-src-list="srcList"
+					 @click="handleClickImage(editForm.vehicleLicense)"></el-image>
 					<el-upload name="imgFile" :action="updateVehicleLicenseUrl" :headers="myHeaders" :auto-upload="true" :on-success="handleEditVehicleLicenseUrlSuccess"
 					 :show-file-list="false" :before-upload="beforeAvatarUpload">
-						<el-button size="small" type="primary" plain>上传行驶证照片</el-button>
+						<el-button :disabled="xingzhengCan" size="small" type="primary" plain>上传行驶证照片</el-button>
 					</el-upload>
 				</el-form-item>
 				<el-form-item label="行驶证到期时间:" prop="vehiclelicensedate">
-					<el-date-picker v-model="editForm.vehiclelicensedate" type="date" placeholder="选择日期" format="yyyy 年 MM 月 dd 日"
-					 value-format="yyyy-MM-dd"  style="width: 350px;">
+					<el-date-picker :disabled="xingzhengCan" v-model="editForm.vehiclelicensedate" type="date" placeholder="选择日期"
+					 format="yyyy 年 MM 月 dd 日" value-format="yyyy-MM-dd" style="width: 350px;">
 					</el-date-picker>
 				</el-form-item>
 				<el-form-item label="年检到期时间:" prop="checkDate">
-					<el-date-picker v-model="editForm.checkDate" type="date" placeholder="选择日期" format="yyyy 年 MM 月 dd 日" value-format="yyyy-MM-dd"  style="width: 350px;">
+					<el-date-picker :disabled="xingzhengCan" v-model="editForm.checkDate" type="date" placeholder="选择日期" format="yyyy 年 MM 月 dd 日"
+					 value-format="yyyy-MM-dd" style="width: 350px;">
 					</el-date-picker>
 				</el-form-item>
 				<el-form-item label="出车时间:" prop="starttime">
-					<el-date-picker v-model="editForm.starttime" type="date" placeholder="选择日期" format="yyyy 年 MM 月 dd 日"
-					 value-format="yyyy-MM-dd"  style="width: 350px;">
+					<el-date-picker :disabled="xingzhengCan" v-model="editForm.starttime" type="date" placeholder="选择日期" format="yyyy 年 MM 月 dd 日"
+					 value-format="yyyy-MM-dd" style="width: 350px;">
 					</el-date-picker>
 				</el-form-item>
-<!-- 				<el-form-item label="出车时间:" prop="starttime">
+				<!-- 				<el-form-item label="出车时间:" prop="starttime">
 					<el-date-picker v-model="editForm.starttime" type="date" placeholder="选择日期" format="yyyy 年 MM 月 dd 日"
 					 value-format="yyyy-MM-dd"  style="width: 350px;">
 					</el-date-picker>
 				</el-form-item> -->
 				<el-form-item label="营运证到期时间:" prop="operatingdate">
-					<el-date-picker v-model="editForm.operatingdate" type="date" placeholder="选择日期" format="yyyy 年 MM 月 dd 日"
-					 value-format="yyyy-MM-dd"  style="width: 350px;">
+					<el-date-picker :disabled="xingzhengCan" v-model="editForm.operatingdate" type="date" placeholder="选择日期" format="yyyy 年 MM 月 dd 日"
+					 value-format="yyyy-MM-dd" style="width: 350px;">
 					</el-date-picker>
 				</el-form-item>
 				<el-form-item label="车辆营运证:" prop="caroperating">
-					<el-image v-if="editForm.caroperating" style="width: 150px;" :src="editForm.caroperating" :preview-src-list="srcList" @click="handleClickImage(editForm.caroperating)"></el-image>
+					<el-image v-if="editForm.caroperating" style="width: 150px;" :src="editForm.caroperating" :preview-src-list="srcList"
+					 @click="handleClickImage(editForm.caroperating)"></el-image>
 					<el-upload name="imgFile" :action="updateCaroperatingUrl" :headers="myHeaders" :auto-upload="true" :on-success="handleEditCaroperatingUrlSuccess"
 					 :show-file-list="false" :before-upload="beforeAvatarUpload">
-						<el-button size="small" type="primary" plain>上传营运证照片</el-button>
+						<el-button :disabled="xingzhengCan" size="small" type="primary" plain>上传营运证照片</el-button>
 					</el-upload>
 				</el-form-item>
-				
-				<el-form-item label="保险到期时间:" prop="insuranceDate">
-					<el-date-picker v-model="editForm.insuranceDate" type="date" placeholder="选择日期" format="yyyy 年 MM 月 dd 日"
-					 value-format="yyyy-MM-dd"  style="width: 350px;">
+
+				<el-form-item label="交强险到期时间:" prop="insuranceDate">
+					<el-date-picker :disabled="baoxianCan" v-model="editForm.insuranceDate" type="date" placeholder="选择日期" format="yyyy 年 MM 月 dd 日"
+					 value-format="yyyy-MM-dd" style="width: 350px;">
 					</el-date-picker>
 				</el-form-item>
-				<el-form-item label="交强险单据:" prop="insurance">				
-					<el-upload name="imgFile" :action="updateInsuranceUrl1" :headers="myHeaders" :auto-upload="true" :on-success="editInsuranceUrlSuccess"	 :show-file-list="false" :before-upload="beforeAvatarUpload">
-						<el-button size="small" type="primary" plain>上传交强险PDF</el-button>
+				<el-form-item label="交强险单据:" prop="insurance">
+					<el-upload name="imgFile" :action="updateInsuranceUrl1" :headers="myHeaders" :auto-upload="true" :on-success="editInsuranceUrlSuccess"
+					 :show-file-list="false" :before-upload="beforeAvatarUpload">
+						<el-button :disabled="baoxianCan" size="small" type="primary" plain>上传交强险PDF</el-button>
 					</el-upload>
-					<a  v-if="editForm.insurance" :href="editForm.insurance" target="_blank">查看交强险PDF</a>
+					<a v-if="editForm.insurance" :href="editForm.insurance" target="_blank">查看交强险PDF</a>
 				</el-form-item>
-				
+
 				<el-form-item label="商业险到期时间:" prop="businesstime">
-					<el-date-picker v-model="editForm.businesstime" type="date" placeholder="选择日期" format="yyyy 年 MM 月 dd 日"
-					 value-format="yyyy-MM-dd"  style="width: 350px;">
+					<el-date-picker :disabled="baoxianCan" v-model="editForm.businesstime" type="date" placeholder="选择日期" format="yyyy 年 MM 月 dd 日"
+					 value-format="yyyy-MM-dd" style="width: 350px;">
 					</el-date-picker>
 				</el-form-item>
-				
+
 				<el-form-item label="商业险单据1:" prop="insurancesyx">
-					<el-upload name="imgFile" :action="updateInsurancesyxUrl" :headers="myHeaders" :auto-upload="true" :on-success="editInsurancesyxUrlSuccess" :show-file-list="false" :before-upload="beforeAvatarUpload">
-						<el-button size="small" type="primary" plain>上传商业险PDF</el-button>
+					<el-upload name="imgFile" :action="updateInsurancesyxUrl" :headers="myHeaders" :auto-upload="true" :on-success="editInsurancesyxUrlSuccess"
+					 :show-file-list="false" :before-upload="beforeAvatarUpload">
+						<el-button :disabled="baoxianCan" size="small" type="primary" plain>上传商业险PDF</el-button>
 					</el-upload>
-					 <a  v-if="editForm.insurancesyx" :href="editForm.insurancesyx" target="_blank">查看商业险PDF1</a>
+					<a v-if="editForm.insurancesyx" :href="editForm.insurancesyx" target="_blank">查看商业险PDF1</a>
 				</el-form-item>
 				<el-form-item label="商业险单据2:" prop="insurancesyxa">
-					<el-upload name="imgFile" :action="updateInsurancesyxaUrl" :headers="myHeaders" :auto-upload="true" :on-success="editInsurancesyxaUrlSuccess" :show-file-list="false" :before-upload="beforeAvatarUpload">
-						<el-button size="small" type="primary" plain>上传商业险PDF</el-button>
+					<el-upload name="imgFile" :action="updateInsurancesyxaUrl" :headers="myHeaders" :auto-upload="true" :on-success="editInsurancesyxaUrlSuccess"
+					 :show-file-list="false" :before-upload="beforeAvatarUpload">
+						<el-button :disabled="baoxianCan" size="small" type="primary" plain>上传商业险PDF</el-button>
 					</el-upload>
-					 <a  v-if="editForm.insurancesyxa" :href="editForm.insurancesyxa" target="_blank">查看商业险PDF2</a>
+					<a v-if="editForm.insurancesyxa" :href="editForm.insurancesyxa" target="_blank">查看商业险PDF2</a>
 				</el-form-item>
-				
+
 				<el-form-item label="非车险到期时间:" prop="nokcrtime">
-					<el-date-picker v-model="editForm.nokcrtime" type="date" placeholder="选择日期" format="yyyy 年 MM 月 dd 日"
-					 value-format="yyyy-MM-dd"  style="width: 350px;">
+					<el-date-picker :disabled="baoxianCan" v-model="editForm.nokcrtime" type="date" placeholder="选择日期" format="yyyy 年 MM 月 dd 日"
+					 value-format="yyyy-MM-dd" style="width: 350px;">
 					</el-date-picker>
 				</el-form-item>
-<el-form-item label="非车险单据1:" prop="insurancefcx">
+				<el-form-item label="非车险单据1:" prop="insurancefcx">
 					<el-upload name="imgFile" :action="updateInsurancefcxUrl" :headers="myHeaders" :auto-upload="true" :on-success="editInsurancefcxUrlSuccess"
 					 :show-file-list="false" :before-upload="beforeAvatarUpload">
-						<el-button size="small" type="primary" plain>上传非车险PDF</el-button>
-						</el-upload>
-						 <a  v-if="editForm.insurancefcx" :href="editForm.insurancefcx" target="_blank">查看非车险PDF1</a>
-					
+						<el-button :disabled="baoxianCan" size="small" type="primary" plain>上传非车险PDF</el-button>
+					</el-upload>
+					<a v-if="editForm.insurancefcx" :href="editForm.insurancefcx" target="_blank">查看非车险PDF1</a>
+
 				</el-form-item>
 				<el-form-item label="非车险单据2:" prop="insurancefcxa">
 					<el-upload name="imgFile" :action="updateInsurancefcxaUrl" :headers="myHeaders" :auto-upload="true" :on-success="editInsurancefcxaUrlSuccess"
 					 :show-file-list="false" :before-upload="beforeAvatarUpload">
-						<el-button size="small" type="primary" plain>上传非车险PDF2</el-button>
-						</el-upload>
-						 <a  v-if="editForm.insurancefcxa" :href="editForm.insurancefcxa" target="_blank">查看非车险PDF2</a>
-					
+						<el-button :disabled="baoxianCan" size="small" type="primary" plain>上传非车险PDF2</el-button>
+					</el-upload>
+					<a v-if="editForm.insurancefcxa" :href="editForm.insurancefcxa" target="_blank">查看非车险PDF2</a>
+
 				</el-form-item>
 				<el-form-item label="非车险单据3:" prop="insurancefcxb">
 					<el-upload name="imgFile" :action="updateInsurancefcxbUrl" :headers="myHeaders" :auto-upload="true" :on-success="editInsurancefcbxUrlSuccess"
 					 :show-file-list="false" :before-upload="beforeAvatarUpload">
-						<el-button size="small" type="primary" plain>上传非车险PDF3</el-button>
-						</el-upload>
-						 <a  v-if="editForm.insurancefcxb" :href="editForm.insurancefcxb" target="_blank">查看非车险PDF3</a>
-					
+						<el-button :disabled="baoxianCan" size="small" type="primary" plain>上传非车险PDF3</el-button>
+					</el-upload>
+					<a v-if="editForm.insurancefcxb" :href="editForm.insurancefcxb" target="_blank">查看非车险PDF3</a>
+
 				</el-form-item>
 				<el-form-item label="非车险单据4:" prop="insurancefcxc">
 					<el-upload name="imgFile" :action="updateInsurancefcxcUrl" :headers="myHeaders" :auto-upload="true" :on-success="editInsurancefcxcUrlSuccess"
 					 :show-file-list="false" :before-upload="beforeAvatarUpload">
-						<el-button size="small" type="primary" plain>上传非车险PDF4</el-button>
-						</el-upload>
-						 <a  v-if="editForm.insurancefcxc" :href="editForm.insurancefcxc" target="_blank">查看非车险PDF4</a>
-					
+						<el-button :disabled="baoxianCan" size="small" type="primary" plain>上传非车险PDF4</el-button>
+					</el-upload>
+					<a v-if="editForm.insurancefcxc" :href="editForm.insurancefcxc" target="_blank">查看非车险PDF4</a>
+
 				</el-form-item>
 				<el-form-item label="非车险单据5:" prop="insurancefcxd">
 					<el-upload name="imgFile" :action="updateInsurancefcxdUrl" :headers="myHeaders" :auto-upload="true" :on-success="editInsurancefcxdUrlSuccess"
 					 :show-file-list="false" :before-upload="beforeAvatarUpload">
-						<el-button size="small" type="primary" plain>上传非车险PDF5</el-button>
-						</el-upload>
-						 <a  v-if="editForm.insurancefcxd" :href="editForm.insurancefcxd" target="_blank">查看非车险PDF5</a>
-					
+						<el-button :disabled="baoxianCan" size="small" type="primary" plain>上传非车险PDF5</el-button>
+					</el-upload>
+					<a v-if="editForm.insurancefcxd" :href="editForm.insurancefcxd" target="_blank">查看非车险PDF5</a>
+
 				</el-form-item>
 				<el-form-item label="非车险单据6:" prop="insurancefcxe">
 					<el-upload name="imgFile" :action="updateInsurancefcxeUrl" :headers="myHeaders" :auto-upload="true" :on-success="editInsurancefcxeUrlSuccess"
 					 :show-file-list="false" :before-upload="beforeAvatarUpload">
-						<el-button size="small" type="primary" plain>上传非车险PDF6</el-button>
-						</el-upload>
-						 <a  v-if="editForm.insurancefcxe" :href="editForm.insurancefcxe" target="_blank">查看非车险PDF6</a>
-					
-				</el-form-item>			
+						<el-button :disabled="baoxianCan" size="small" type="primary" plain>上传非车险PDF6</el-button>
+					</el-upload>
+					<a v-if="editForm.insurancefcxe" :href="editForm.insurancefcxe" target="_blank">查看非车险PDF6</a>
+
+				</el-form-item>
 			</el-form>
 			<span slot="footer" class="dialog-footer">
 				<el-button @click="editDialogVisible = false">取 消</el-button>
-				<el-button type="primary" @click="editInfo">确 定</el-button>
+				<el-button v-if="showBtn" type="primary" @click="editInfo">确 定</el-button>
 			</span>
 
 		</el-dialog>
@@ -553,17 +567,18 @@
 		<!-- 历史轨迹 -->
 		<el-dialog title="历史轨迹" :visible.sync="historyDialog" width="80%" @close="historyDialogClosed" :close-on-click-modal="false">
 			<div>
-				<el-date-picker v-model="selectTime" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" format="yyyy 年 MM 月 dd 日 HH 时 mm 分 ss 秒" value-format="yyyy-MM-dd HH:mm:ss">
+				<el-date-picker v-model="selectTime" type="datetimerange" range-separator="至" start-placeholder="开始日期"
+				 end-placeholder="结束日期" format="yyyy 年 MM 月 dd 日 HH 时 mm 分 ss 秒" value-format="yyyy-MM-dd HH:mm:ss">
 				</el-date-picker>
-				<el-button @click="handleSelectHistoryTrack" style="margin-left: 20px;"  v-loading.fullscreen.lock="fullscreenLoading">查询</el-button>
+				<el-button @click="handleSelectHistoryTrack" style="margin-left: 20px;" v-loading.fullscreen.lock="fullscreenLoading">查询</el-button>
 			</div>
 			<div id="container" style="width: 100%;height: 500px;"></div>
 			<div class="input-card">
 				<h4>轨迹回放控制</h4>
-					<el-button @click="startAnimation">开始</el-button>
-					<el-button @click="pauseAnimation">暂停</el-button>
-					<el-button @click="resumeAnimation">继续</el-button>
-				</div>
+				<el-button @click="startAnimation">开始</el-button>
+				<el-button @click="pauseAnimation">暂停</el-button>
+				<el-button @click="resumeAnimation">继续</el-button>
+			</div>
 		</el-dialog>
 	</div>
 </template>
@@ -573,17 +588,17 @@
 		data() {
 			return {
 				// 上传图片需要携带token
-				myHeaders:{
-					satoken:window.sessionStorage.getItem('satoken')
+				myHeaders: {
+					satoken: window.sessionStorage.getItem('satoken')
 				},
 				showImageSrc: '',
 				// 查询的车牌、车主名、车主手机号、司机名、司机手机号
-				queryCarName:'',
-				queryName:'',
-				queryPhoneno:'',
-				queryDriver:'',
-				queryDriverphone:'',
-				
+				queryCarName: '',
+				queryName: '',
+				queryPhoneno: '',
+				queryDriver: '',
+				queryDriverphone: '',
+
 				// 分页查询数据
 				queryInfo: {
 					pageNo: 1,
@@ -647,7 +662,7 @@
 					management: "",
 					managementDate: "",
 					payFee: "",
-					dispatch:"",
+					dispatch: "",
 				},
 				// 创建表单验证规则
 				addFormRules: {
@@ -720,27 +735,27 @@
 				// 照片数量限制
 				uploadLimit: 1,
 
-				updateVehicleLicenseUrl: this.$baseUploadUrl+"/kCarinformation/uploadImagevehicleLicense",
-				updateInsuranceUrl1: this.$baseUploadUrl+"/kCarinformation/uploadInsurance",
-				updateInsuranceUrl2: this.$baseUploadUrl+"/kCarinformation/uploadImageinsuranceA",
-				updateInsuranceUrl3: this.$baseUploadUrl+"/kCarinformation/uploadImageinsuranceB",
-				updateInsuranceUrl4: this.$baseUploadUrl+"/kCarinformation/uploadImageinsuranceC",
-				updateInsuranceUrl5: this.$baseUploadUrl+"/kCarinformation/uploadImageinsuranceD",
-				updateInsuranceUrl6: this.$baseUploadUrl+"/kCarinformation/uploadImageinsuranceE",
-				updateInsuranceUrl7: this.$baseUploadUrl+"/kCarinformation/uploadImageinsuranceF",
-				updateInsuranceUrl8: this.$baseUploadUrl+"/kCarinformation/uploadImageinsuranceG",
-				updateInsuranceUrl9: this.$baseUploadUrl+"/kCarinformation/uploadImageinsuranceH",
-				updateInsuranceUrl10: this.$baseUploadUrl+"/kCarinformation/uploadImageinsuranceL",
-				updateCaroperatingUrl: this.$baseUploadUrl+"/kCarinformation/uploadImagecaroperating",
-				updatePayFeeUrl: this.$baseUploadUrl+"/kCarinformation/uploadImagepayFee",
-				updateInsurancesyxUrl: this.$baseUploadUrl+"/kCarinformation/uploadBusiness",
-				updateInsurancesyxaUrl: this.$baseUploadUrl+"/kCarinformation/uploadBusinessA",
-				updateInsurancefcxUrl: this.$baseUploadUrl+"/kCarinformation/uploadpdNOnCar",
-				updateInsurancefcxaUrl: this.$baseUploadUrl+"/kCarinformation/uploadpdNOnCarA",
-				updateInsurancefcxbUrl: this.$baseUploadUrl+"/kCarinformation/uploadpdNOnCarB",
-				updateInsurancefcxcUrl: this.$baseUploadUrl+"/kCarinformation/uploadpdNOnCarC",
-				updateInsurancefcxdUrl: this.$baseUploadUrl+"/kCarinformation/uploadpdNOnCarD",
-				updateInsurancefcxeUrl: this.$baseUploadUrl+"/kCarinformation/uploadpdNOnCarE",
+				updateVehicleLicenseUrl: this.$baseUploadUrl + "/kCarinformation/uploadImagevehicleLicense",
+				updateInsuranceUrl1: this.$baseUploadUrl + "/kCarinformation/uploadInsurance",
+				updateInsuranceUrl2: this.$baseUploadUrl + "/kCarinformation/uploadImageinsuranceA",
+				updateInsuranceUrl3: this.$baseUploadUrl + "/kCarinformation/uploadImageinsuranceB",
+				updateInsuranceUrl4: this.$baseUploadUrl + "/kCarinformation/uploadImageinsuranceC",
+				updateInsuranceUrl5: this.$baseUploadUrl + "/kCarinformation/uploadImageinsuranceD",
+				updateInsuranceUrl6: this.$baseUploadUrl + "/kCarinformation/uploadImageinsuranceE",
+				updateInsuranceUrl7: this.$baseUploadUrl + "/kCarinformation/uploadImageinsuranceF",
+				updateInsuranceUrl8: this.$baseUploadUrl + "/kCarinformation/uploadImageinsuranceG",
+				updateInsuranceUrl9: this.$baseUploadUrl + "/kCarinformation/uploadImageinsuranceH",
+				updateInsuranceUrl10: this.$baseUploadUrl + "/kCarinformation/uploadImageinsuranceL",
+				updateCaroperatingUrl: this.$baseUploadUrl + "/kCarinformation/uploadImagecaroperating",
+				updatePayFeeUrl: this.$baseUploadUrl + "/kCarinformation/uploadImagepayFee",
+				updateInsurancesyxUrl: this.$baseUploadUrl + "/kCarinformation/uploadBusiness",
+				updateInsurancesyxaUrl: this.$baseUploadUrl + "/kCarinformation/uploadBusinessA",
+				updateInsurancefcxUrl: this.$baseUploadUrl + "/kCarinformation/uploadpdNOnCar",
+				updateInsurancefcxaUrl: this.$baseUploadUrl + "/kCarinformation/uploadpdNOnCarA",
+				updateInsurancefcxbUrl: this.$baseUploadUrl + "/kCarinformation/uploadpdNOnCarB",
+				updateInsurancefcxcUrl: this.$baseUploadUrl + "/kCarinformation/uploadpdNOnCarC",
+				updateInsurancefcxdUrl: this.$baseUploadUrl + "/kCarinformation/uploadpdNOnCarD",
+				updateInsurancefcxeUrl: this.$baseUploadUrl + "/kCarinformation/uploadpdNOnCarE",
 
 				// 图片放大
 				showDriverCertificateDriver: false,
@@ -754,7 +769,7 @@
 				companyList: [],
 				companyLoading: false,
 				companyStates: [],
-				
+
 				// 调度选择框数据
 				dispatchOptions: [],
 				dispatchList: [],
@@ -766,28 +781,61 @@
 				// 历史轨迹数据
 				historyDialog: false,
 				// 历史轨迹查询的数据
-				historyQueryInfo:{
-					
-					string:'鲁AG6870',
-					begintime:'2021-04-14 10:30:10',
-					endtime:'2021-04-14 11:30:10'
+				historyQueryInfo: {
+
+					string: '鲁AG6870',
+					begintime: '2021-04-14 10:30:10',
+					endtime: '2021-04-14 11:30:10'
 				},
 				// 历史轨迹查询的时间
-				selectTime:'',
+				selectTime: '',
 				// 历史轨迹查询加载
 				fullscreenLoading: false,
 				firstArr: [116.478935, 39.997761],
 				lineArr: {},
 				// 历史轨迹相关数据
 				map: {},
-				carMarker:{},
-				carWindow:{},
-				pathPolyline:{},
-				passedPolyline:{}
+				carMarker: {},
+				carWindow: {},
+				pathPolyline: {},
+				passedPolyline: {},
+
+				// 根据是否是分公司显示
+				showBtn: true,
+				xingzhengCan: true,
+				baoxianCan: true,
+				caiwuCan: true,
+
 			}
 		},
 
 		created() {
+			let roleR = window.sessionStorage.getItem('role')
+			console.log(roleR)
+			if (roleR == '分公司') {
+				this.showBtn = false
+			} else if (roleR == '行政') {
+				this.xingzhengCan = false
+				this.baoxianCan = true
+				this.caiwuCan = true
+			} else if (roleR == '保险') {
+				this.xingzhengCan = true
+				this.baoxianCan = false
+				this.caiwuCan = true
+			} else if (roleR == '财务') {
+				this.xingzhengCan = true
+				this.baoxianCan = true
+				this.caiwuCan = false
+			} else if (roleR == '管理员'){
+				this.xingzhengCan = false
+				this.baoxianCan = false
+				this.caiwuCan = false
+			}else{
+				this.xingzhengCan = true
+				this.baoxianCan = true
+				this.caiwuCan = true
+			}
+			console.log(this.xingzhengCan,this.baoxianCan,this.caiwuCan)
 			this.getCarList()
 			this.getAllCompanyList()
 			this.getAllDispatchList()
@@ -817,7 +865,7 @@
 					return
 				}
 				res.result.forEach(v => {
-				    this.companyStates.push(v.name)
+					this.companyStates.push(v.name)
 				})
 				this.companyList = this.companyStates.map(item => {
 					return {
@@ -843,12 +891,12 @@
 				}
 			},
 			// 公司变化
-			companylChange(e){
-				if(!e){
+			companylChange(e) {
+				if (!e) {
 					this.companyOptions = this.companyList
 				}
 			},
-			
+
 			// 获取所有员工
 			async getAllDispatchList() {
 				const {
@@ -859,7 +907,7 @@
 					return
 				}
 				this.dispatchStates = res.result
-			
+
 				this.dispatchList = this.dispatchStates.map(item => {
 					return {
 						value: `${item}`,
@@ -868,7 +916,7 @@
 				});
 				this.dispatchOptions = this.dispatchList
 			},
-			
+
 			// 选择员工方法
 			remoteDispatchMethod(query) {
 				if (query !== '') {
@@ -892,7 +940,7 @@
 				} = await this.$http.get('kCarinformation/list', {
 					params: this.queryInfo
 				})
-				console.log('list',res)
+				console.log('list', res)
 				if (!res.result.records) {
 					return this.$message.error(res.message)
 				}
@@ -970,7 +1018,7 @@
 			// },
 			// 创建图片上传成功的回调
 			handleVehicleLicenseUrlSuccess(response, file, fileList) {
-				
+
 				this.addForm.vehicleLicense = response.result.vehicleLicenseFileName
 			},
 			handleInsuranceUrlSuccess1(response, file, fileList) {
@@ -982,40 +1030,40 @@
 				this.addForm.insurancea = response.result.insuranceFileNameA
 			},
 			handleInsuranceUrlSuccess3(response, file, fileList) {
-				
+
 				this.addForm.insuranceb = response.result.insuranceFileNameB
 			},
 			handleInsuranceUrlSuccess4(response, file, fileList) {
-				
+
 				this.addForm.insurancec = response.result.insuranceFileNameC
 			},
 			handleInsuranceUrlSuccess5(response, file, fileList) {
-				
+
 				this.addForm.insuranced = response.result.insuranceFileNameD
 			},
 			handleInsuranceUrlSuccess6(response, file, fileList) {
-				
+
 				this.addForm.insurancee = response.result.insuranceFileNameE
 			},
 			handleInsuranceUrlSuccess7(response, file, fileList) {
-				
+
 				this.addForm.insurancef = response.result.insuranceFileNameF
 			},
 			handleInsuranceUrlSuccess8(response, file, fileList) {
-				
+
 				this.addForm.insuranceg = response.result.insuranceFileNameG
 			},
 			handleInsuranceUrlSuccess9(response, file, fileList) {
-				
+
 				this.addForm.insuranceh = response.result.insuranceFileNameH
 			},
 			handleInsuranceUrlSuccess10(response, file, fileList) {
-				
+
 				this.addForm.insurancel = response.result.insuranceFileNameL
 			},
-			
+
 			handleCaroperatingUrlSuccess(response, file, fileList) {
-				
+
 				this.addForm.caroperating = response.result.caroperatingFileName
 			},
 			handlePayFeeUrlSuccess(response, file, fileList) {
@@ -1023,39 +1071,39 @@
 				this.addForm.payFee = response.result.payFeeFileName
 			},
 			handleInsurancesyxUrlSuccess(response, file, fileList) {
-				console.log('syx',response)
+				console.log('syx', response)
 				this.addForm.insurancesyx = response.result.business
 			},
 			handleInsurancesyxaUrlSuccess(response, file, fileList) {
-				console.log('syxa',response)
+				console.log('syxa', response)
 				this.addForm.insurancesyxa = response.result.businessA
 			},
 			handleInsurancefcxUrlSuccess(response, file, fileList) {
-			
+
 				this.addForm.insurancefcx = response.result.NOnCar
 			},
 			handleInsurancefcxaUrlSuccess(response, file, fileList) {
-			
+
 				this.addForm.insurancefcxa = response.result.NOnCarA
 			},
 			handleInsurancefcxbUrlSuccess(response, file, fileList) {
-			
+
 				this.addForm.insurancefcxb = response.result.NOnCarB
 			},
 			handleInsurancefcxcUrlSuccess(response, file, fileList) {
-			
+
 				this.addForm.insurancefcxc = response.result.NOnCarC
 			},
 			handleInsurancefcxdUrlSuccess(response, file, fileList) {
-			
+
 				this.addForm.insurancefcxd = response.result.NOnCarD
 			},
 			handleInsurancefcxeUrlSuccess(response, file, fileList) {
-			
+
 				this.addForm.insurancefcxe = response.result.NOnCarE
 			},
-			
-			
+
+
 			handleWarning() {
 				this.$message.error('请先删除后再添加')
 			},
@@ -1069,7 +1117,7 @@
 					const {
 						data: res
 					} = await this.$http.post('kCarinformation/add', this.addForm)
-					
+
 					if (res.code !== 200) {
 						return this.$message.error(res.message)
 					}
@@ -1127,7 +1175,7 @@
 
 			// 创建图片上传成功的回调
 			handleEditVehicleLicenseUrlSuccess(response, file, fileList) {
-				
+
 				this.editForm.vehicleLicense = response.result.vehicleLicenseFileName
 			},
 			handleEditInsuranceUrlSuccess1(response, file, fileList) {
@@ -1139,54 +1187,54 @@
 				this.editForm.insurancea = response.result.insuranceFileNameA
 			},
 			handleEditInsuranceUrlSuccess3(response, file, fileList) {
-				
+
 				this.editForm.insuranceb = response.result.insuranceFileNameB
 			},
 			handleEditInsuranceUrlSuccess4(response, file, fileList) {
-				
+
 				this.editForm.insurancec = response.result.insuranceFileNameC
 			},
 			handleEditInsuranceUrlSuccess5(response, file, fileList) {
-				
+
 				this.editForm.insuranced = response.result.insuranceFileNameD
 			},
 			handleEditInsuranceUrlSuccess6(response, file, fileList) {
-				
+
 				this.editForm.insurancee = response.result.insuranceFileNameE
 			},
 			handleEditInsuranceUrlSuccess7(response, file, fileList) {
-				
+
 				this.editForm.insurancef = response.result.insuranceFileNameF
 			},
 			handleEditInsuranceUrlSuccess8(response, file, fileList) {
-				
+
 				this.editForm.insuranceg = response.result.insuranceFileNameG
 			},
 			handleEditInsuranceUrlSuccess9(response, file, fileList) {
-				
+
 				this.editForm.insuranceh = response.result.insuranceFileNameH
 			},
 			handleEditInsuranceUrlSuccess10(response, file, fileList) {
-				
+
 				this.editForm.insurancel = response.result.insuranceFileNameL
 			},
-			
+
 			handleEditCaroperatingUrlSuccess(response, file, fileList) {
-		
+
 				this.editForm.caroperating = response.result.caroperatingFileName
 			},
 			handleEditInsurancesyxUrlSuccess(response, file, fileList) {
-					
+
 				this.editForm.insurancesyx = response.result.insurancesyxFileName
 			},
 			handleEditInsurancefcxUrlSuccess(response, file, fileList) {
-					
+
 				this.editForm.insurancefcx = response.result.insurancefcxFileName
 			},
 			handleEditPayFeeUrlSuccess(response, file, fileList) {
 				this.editForm.payFee = response.result.payFeeFileName
 			},
-			
+
 			editInsuranceUrlSuccess(response, file, fileList) {
 				this.editForm.insurance = response.result.insurance
 			},
@@ -1196,14 +1244,14 @@
 			editInsurancesyxaUrlSuccess(response, file, fileList) {
 				this.editForm.insurancesyxa = response.result.businessA
 			},
-			
+
 			editInsurancefcxUrlSuccess(response, file, fileList) {
 				this.editForm.insurancefcx = response.result.NOnCar
 			},
 			editInsurancefcxaUrlSuccess(response, file, fileList) {
 				this.editForm.insurancefcxa = response.result.NOnCarA
 			},
-			
+
 			editInsurancefcbxUrlSuccess(response, file, fileList) {
 				this.editForm.insurancefcxb = response.result.NOnCarB
 			},
@@ -1216,14 +1264,15 @@
 			editInsurancefcxeUrlSuccess(response, file, fileList) {
 				this.editForm.insurancefcxe = response.result.NOnCarE
 			},
-			
+
 			// 展示编辑公司的对话框
 			async showEditDialog(id) {
 				// console.log(driverNo)
+
 				const {
 					data: res
 				} = await this.$http.get('kCarinformation/list?id=' + id)
-			
+
 				if (res.code !== 200) {
 					return this.$message.error(res.message)
 				}
@@ -1279,7 +1328,7 @@
 				const {
 					data: res
 				} = await this.$http.get('killegal/list?carNumber=' + carNumber)
-				
+
 				if (res.code !== 200) {
 					return this.$message.error(res.message)
 				}
@@ -1294,15 +1343,21 @@
 
 			// 位置
 			async showLocationDialog(licensePlate) {
-				const {data:res} = await this.$http.get('kCarinformation/GetCarCurrent?string=' + licensePlate)
+				const {
+					data: res
+				} = await this.$http.get('kCarinformation/GetCarCurrent?string=' + licensePlate)
 				if (res.code !== 200) {
 					return this.$message.error(res.message)
 				}
-				
-				if(res.result.anyType.GPSPoint){
+
+				if (res.result.anyType.GPSPoint) {
 					const carInfo = res.result.anyType.GPSPoint
-					const {last_lon} = res.result.anyType.GPSPoint
-					const {last_lat} = res.result.anyType.GPSPoint
+					const {
+						last_lon
+					} = res.result.anyType.GPSPoint
+					const {
+						last_lat
+					} = res.result.anyType.GPSPoint
 					this.locationDialog = true
 					setTimeout(() => {
 						var map1 = new AMap.Map("locition", {
@@ -1310,23 +1365,23 @@
 							center: [last_lon, last_lat], //中心 firstArr: [116.478935, 39.997761],
 							zoom: 10
 						});
-					
+
 						var marker1 = new AMap.Marker({
 							icon: "https://tkhhd.com/imgs/kache.png",
 							position: [last_lon, last_lat],
 							offset: new AMap.Pixel(-13, -30)
 						});
-						marker1.setTitle(carInfo.carMark +":"+ carInfo.location)
+						marker1.setTitle(carInfo.carMark + ":" + carInfo.location)
 						// marker1.setMap(map1);
 						map1.add(marker1)
 					}, 200)
-				}else{
+				} else {
 					this.$message.warning('暂无数据')
 				}
 			},
 			// 历史轨迹查询
-			async handleSelectHistoryTrack(){
-				
+			async handleSelectHistoryTrack() {
+
 				if (!this.selectTime) {
 					return this.$message.warning('请选择时间！')
 				}
@@ -1334,14 +1389,18 @@
 				this.historyQueryInfo.begintime = this.selectTime[0]
 				this.historyQueryInfo.endtime = this.selectTime[1]
 				// console.log(this.historyQueryInfo.selectTime)
-				const {data:res} = await this.$http.get('kCarinformation/GetHistoryTrackBycarMark',{params:this.historyQueryInfo})
+				const {
+					data: res
+				} = await this.$http.get('kCarinformation/GetHistoryTrackBycarMark', {
+					params: this.historyQueryInfo
+				})
 				this.fullscreenLoading = false;
-				
+
 				if (res.code !== 200) {
 					return this.$message.error(res.message)
 				}
-				if(res.result.anyType.HistoryTrack){
-					this.lineArr = res.result.anyType.HistoryTrack.map( item =>{
+				if (res.result.anyType.HistoryTrack) {
+					this.lineArr = res.result.anyType.HistoryTrack.map(item => {
 						return {
 							last_lon: `${item.last_lon}`,
 							last_lat: `${item.last_lat}`,
@@ -1349,37 +1408,43 @@
 						}
 					})
 					// console.log(this.lineArr)
-					this.firstArr = [this.lineArr[0].last_lon,this.lineArr[0].last_lat]
+					this.firstArr = [this.lineArr[0].last_lon, this.lineArr[0].last_lat]
 					setTimeout(() => {
 						this.initMap();
 						// this.initroad();speed
 					}, 200);
-				}else{
+				} else {
 					this.$message.warning('未查询到线路信息')
 				}
 			},
-			
+
 			// 历史轨迹
 			async showHistoryDialog(string) {
-				
+
 				this.historyQueryInfo.string = string
-				const {data:res} = await this.$http.get('kCarinformation/GetCarCurrent?string=' + string)
+				const {
+					data: res
+				} = await this.$http.get('kCarinformation/GetCarCurrent?string=' + string)
 				if (res.code !== 200) {
 					return this.$message.error(res.message)
 				}
 				// console.log(res)
-				if(res.result.anyType.GPSPoint){				
-					const {last_lon} = res.result.anyType.GPSPoint
-					const {last_lat} = res.result.anyType.GPSPoint
-					this.firstArr = [last_lon,last_lat]
+				if (res.result.anyType.GPSPoint) {
+					const {
+						last_lon
+					} = res.result.anyType.GPSPoint
+					const {
+						last_lat
+					} = res.result.anyType.GPSPoint
+					this.firstArr = [last_lon, last_lat]
 					setTimeout(() => {
 						this.initMap();
 					}, 200)
-				}else{
+				} else {
 					this.$message.warning('暂无位置信息数据')
 				}
 				// const {data:res} = await this.$http.get('kCarinformation/GetHistoryTrackBycarMark',{params:this.historyQueryInfo})
-				
+
 				// console.log(res)
 				// if (res.code !== 200) {
 				// 	return this.$message.error('查询信息失败')
@@ -1407,8 +1472,8 @@
 					center: this.firstArr, //中心 firstArr: [116.478935, 39.997761],
 					zoom: 12
 				});
-				
-					// 2.创建小汽车marker
+
+				// 2.创建小汽车marker
 				this.carMarker = new AMap.Marker({
 					map: this.map,
 					position: this.firstArr,
@@ -1417,20 +1482,20 @@
 					autoRotation: true, //自动旋转
 					// angle: -90 //图片旋转角度
 				});
-				
+
 				// 3.创建跟速度信息展示框
 				this.carWindow = new AMap.InfoWindow({
 					offset: new AMap.Pixel(6, -25),
 					content: ""
 				});
-				
+
 				// 4.生成车辆回放轨迹
 				this.pathPolyline = this.initializePaths(this.lineArr, this.map);
-				
+
 				// 8.地图自适应缩放
 				this.map.setFitView();
-				
-				
+
+
 				// 设置label标签
 				// label默认蓝框白底左上角显示，样式className为：amap-marker-label
 				// this.marker.setLabel({
@@ -1498,27 +1563,27 @@
 
 			startAnimation() {
 				// 绘制车辆走过了的颜色
-					this.passedPolyline = new AMap.Polyline({
-						map: this.map,
-						strokeColor: "#AF5", //线颜色-绿色
-						//path: this.lineArr,
-						// strokeOpacity: 1,     //线透明度
-						strokeWeight: 6 //线宽
-						// strokeStyle: "solid"  //线样式
-					});
+				this.passedPolyline = new AMap.Polyline({
+					map: this.map,
+					strokeColor: "#AF5", //线颜色-绿色
+					//path: this.lineArr,
+					// strokeOpacity: 1,     //线透明度
+					strokeWeight: 6 //线宽
+					// strokeStyle: "solid"  //线样式
+				});
 				// 5.车辆随轨迹移动
 				this.carMarker.moveAlong(this.pathPolyline.getPath(), 1000, function(k) {
 					return k
 				}, false);
-				
+
 				// 6.速度框随车辆移动
-				AMap.event.addListener(this.carMarker, 'moving', (e)=> {
+				AMap.event.addListener(this.carMarker, 'moving', (e) => {
 					this.passedPolyline.setPath(e.passedPath);
 					var lastLocation = e.passedPath[e.passedPath.length - 1];
 					this.carWindow.setPosition(lastLocation);
 					this.setVehicleSpeedInWidowns(lastLocation);
 				});
-				
+
 				// 7.打开速度框setPosition
 				this.carWindow.open(this.map, this.carMarker.getPosition());
 			},
@@ -1532,16 +1597,16 @@
 				this.carMarker.stopMove();
 			},
 			// 历史轨迹对话框关闭事件carWindow.setPosition
-			historyDialogClosed(){
+			historyDialogClosed() {
 				this.stopAnimation();
 				this.selectTime = []
-				this.lineArr ={}
-				this.map ={}
-				this.carMarker ={}
-				this.carWindow ={}
-				this.pathPolyline ={}
-				this.lineArr ={}
-				
+				this.lineArr = {}
+				this.map = {}
+				this.carMarker = {}
+				this.carWindow = {}
+				this.pathPolyline = {}
+				this.lineArr = {}
+
 			},
 
 		}

@@ -118,7 +118,7 @@
 				<div style="display: flex;">
 					<el-form-item label="司机名" prop="driver">
 						<el-select v-model="addForm.driver" clearable filterable remote placeholder="请输入司机名" :remote-method="chooseDriverName"
-						 :loading="driverNameLoading" @change="handleChooseDriverName">
+						 :loading="driverNameLoading" @change="handleChooseDriverName" style="width: 200px;">
 							<el-option v-for="item in driverNameOptions" :key="item.index" :label="item.label" :value="item.value">
 							</el-option>
 						</el-select>
@@ -129,10 +129,22 @@
 					<el-form-item label="负责配管" prop="dispatch">
 						<el-input disabled v-model="addForm.dispatch"></el-input>
 					</el-form-item>
+					<el-form-item label="司机电话" prop="phoneno">
+						<el-input disabled v-model="addForm.phoneno"></el-input>
+					</el-form-item>
+					
 					<!-- <el-form-item >
 						<el-button type="primary"  style="margin-left: 10px;" @click="showLocationDialog">查看车辆位置</el-button>
 					</el-form-item> -->
 
+				</div>
+				<div style="display: flex;">
+					<el-form-item label="紧急联系人姓名" prop="emergencyname">
+						<el-input disabled v-model="addForm.emergencyname"></el-input>
+					</el-form-item>
+					<el-form-item label="紧急联系人电话" prop="emergencyphone">
+						<el-input disabled v-model="addForm.emergencyphone"></el-input>
+					</el-form-item>
 				</div>
 				<div style="display: flex;">
 					<el-form-item label="行驶证" prop="xingshizhengSrc" width="200px">
@@ -1464,6 +1476,9 @@
 					this.driverNameOptions = this.allDriverNameList
 					this.addForm.lienses = res.result.chepai
 					this.addForm.dispatch = res.result.dispatch
+					this.addForm.phoneno = res.result.phoneno
+					this.addForm.emergencyname = res.result.emergencyname
+					this.addForm.emergencyphone = res.result.emergencyphone
 
 					const {
 						data: res1

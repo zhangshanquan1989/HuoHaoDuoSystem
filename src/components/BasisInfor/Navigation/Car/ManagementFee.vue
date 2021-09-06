@@ -24,30 +24,32 @@
 			 </el-table-column>
 				<el-table-column prop="id" label="id" v-if="false">
 				</el-table-column>
-				<el-table-column prop="licensePlate" label="车牌号">
+				<el-table-column prop="licensePlate" label="车牌号" width="150px">
 				</el-table-column>
-				<el-table-column prop="managementcycle" label="缴费周期">
+				<el-table-column prop="managementcycle" label="缴费周期" width="120px">
 				</el-table-column>
-				<el-table-column prop="paytime" label="缴费时间" sortable="custom">
+				<el-table-column prop="paytime" label="缴费时间" sortable="custom" width="150px">
 				</el-table-column>
-				<el-table-column prop="asoftime" label="缴费到期时间" sortable="custom">
+				<el-table-column prop="asoftime" label="缴费到期时间" sortable="custom" width="150px">
 					<template slot-scope="scope">
 						<span :style="{'color':scope.row.owe == '是'?'red':'black'}">{{scope.row.asoftime}}</span>
 					</template>
 				</el-table-column>
-				<el-table-column prop="owe" label="是否快到期">
+				<el-table-column prop="owe" label="是否快到期" width="120px">
 					<template slot-scope="scope">
 						<span :style="{'color':scope.row.owe == '是'?'red':'black'}">{{scope.row.owe}}</span>
 					</template>
 				</el-table-column>
-				<el-table-column prop="stoptime" label="报停开始时间" >
+				<el-table-column prop="stoptime" label="报停开始时间" width="150px">
 				</el-table-column>
-				<el-table-column prop="endtime" label="报停结束时间" >
+				<el-table-column prop="endtime" label="报停结束时间" width="150px">
 				</el-table-column>
 				
-				<el-table-column prop="starttime" label="出车时间" sortable="custom">
+				<el-table-column prop="starttime" label="出车时间" sortable="custom" width="150px">
 				</el-table-column>
-				<el-table-column prop="carstate" label="车辆状态">
+				<el-table-column prop="operationtime" label="最后操作时间" width="150px">
+				</el-table-column>
+				<el-table-column prop="carstate" label="车辆状态" width="120px">
 					<template slot-scope="scope">
 						<span :style="{'color':scope.row.carstate=='正常'?'#303133FF':'red'}">{{scope.row.carstate}}</span>
 					</template>

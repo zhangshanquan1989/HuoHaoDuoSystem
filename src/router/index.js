@@ -11,6 +11,8 @@ import DataFactory from '../components/DataFactory/DataFactory.vue'
 import PerformanceInfor from '../components/PerformanceInfor/PerformanceInfor.vue'
 // 首页
 import Welcome from '../components/Welcome/Welcome.vue'
+import ImageWelcome from '../components/Welcome/ImageWelcome.vue'
+import MyDriver from '../components/MyDriver/MyDriver.vue'
 // 订单管理
 import WaybillManage from '../components/OrderManagement/WaybillManage.vue'
 import DistributionManage from '../components/OrderManagement/DistributionManage.vue'
@@ -52,9 +54,21 @@ const routes = [
 	{path:'/',redirect:'/login'},
   {path: '/login',component: Login},
   {path: '/phonePage/:id',component: PhonePage},
-  {path: '/home',component: Home,redirect:'/welcome',
+  // {path: '/home',component: Home,redirect:'/welcome',
+	// 路由重定向，可以接受一个函数
+  {path: '/home',component: Home,redirect: to => {
+		if(window.sessionStorage.getItem('role') == '调度主管' || window.sessionStorage.getItem('role') == '调度配送' || window.sessionStorage.getItem('role') == '调度运单'){
+			return '/MyDriver'
+		}else if(window.sessionStorage.getItem('role') == '分公司'){
+			return '/imageWelcome'
+		}else{
+			return '/welcome'
+		}
+	},
 	children:[
 		{path:'/welcome', component:Welcome},
+		{path:'/imageWelcome', component:ImageWelcome},
+		{path:'/MyDriver', component:MyDriver},
 	  {path:'/basis', component:BasisInfor,
 			children:[
 				{path: '/basis/company',component: CompanyInfor},

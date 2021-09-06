@@ -9,6 +9,9 @@
 
 		<!-- 卡片视图区 -->
 		<el-card class="box-card">
+			<el-input v-model="queryInfo.usernameNew" placeholder="姓名" clearable style="width: 200px;"></el-input>
+			<el-button type="primary" plain @click="handleQueryBtn" style="margin-left: 50px;">查询</el-button>
+			<el-button type="primary" plain @click="handleQueryBackBtn" style="margin-left: 30px;">返回</el-button>
 			<el-table :data="dataList" border stripe style="width: 100%;margin-top: 8px;" :row-style="{height:'60px'}"
 			 :cell-style="{padding:'0px'}" :header-cell-style="{background:'#f8f8f9', color:'#000000'}">
 				<el-table-column prop="id" label="ID" width="200">
@@ -21,7 +24,7 @@
 					<template slot-scope="scope">
 						<!-- 角色分配按钮 -->
 						<el-button type="primary" size="mini" @click="showRoleDialog(scope.row.id)" style="margin-left: 15px;">分配角色</el-button>
-						<!-- 分配部门或者小组 -->
+						<!-- 分配部门或者小组 v-for -->
 						<el-button type="primary" size="mini" @click="showAddDepartDialog(scope.row.id)" style="margin-left: 15px;">分配组织</el-button>
 						<!-- 分配部门或者小组 -->
 						<el-button type="primary" size="mini" @click="showDelDepartDialog(scope.row.id)" style="margin-left: 15px;">组织详情</el-button>
@@ -44,7 +47,7 @@
 		
 		<!-- 分配角色 -->
 		<el-dialog title="分配角色" :visible.sync="roleDialogVisible" width="35%" @close="roleDialogClosed">
-			<el-radio v-for="item in roleData" v-model="roleAddData.roleid" :label="item.id" @change="groupchange">{{item.roleName}}</el-radio>
+			<el-radio v-for="item in roleData" v-model="roleAddData.roleid" :label="item.id" :key="item.index" @change="groupchange">{{item.roleName}}</el-radio>
 			<!-- 首版，复选框，传递给后端多个角色的id，已废弃 -->
 			<!-- <el-checkbox-group v-model="roleGroupList" @change="groupchange">
 				<el-checkbox v-for="value in roleData" :label="value.roleName" @change="boxchange(value.id)"></el-checkbox>
@@ -58,7 +61,7 @@
 		<!-- 分配部门dialog -->
 		<el-dialog title="分配部门/小组" :visible.sync="departAddDialogVisible" width="35%" @close="departDialogClosed">
 							<el-select v-model="userAddDepartData.addDepart" clearable filterable placeholder="部门" @change="addDepartNameChange" style="margin-left: 20px;">
-								<el-option v-for="item in allDepartOptions" :key="item.index" :label="item.label" :value="item.value">
+								<el-option v-for="item in allDepartOptions" :key="item.index" :label="item.label" :value="item.value" >
 								</el-option>
 							</el-select>
 							<el-select v-model="userAddDepartData.addGroup" clearable filterable placeholder="小组" @change="addGroupNameChange" style="margin-left: 20px;">
@@ -108,7 +111,9 @@
 					pageSize: 10,
 					// 倒叙必填
 					order: "desc",
-					column: "id"
+					column: "id",
+					username:'',
+					usernameNew:'',
 				},
 				// 分页列表
 				dataList: [],
@@ -340,6 +345,22 @@
 							label: `${item.name}`
 						};				
 					});
+				},
+				
+				// 点击查询按钮
+				handleQueryBtn() {
+					this.queryInfo.pageNo = 1
+					this.queryInfo.pageSize = 10
+					this.queryInfo.username = "*" + this.queryInfo.usernameNew + "*"				
+					this.getDataList()
+				},
+				// 返回按钮
+				handleQueryBackBtn() {
+					this.queryInfo.pageNo = 1
+					this.queryInfo.pageSize = 10
+					this.queryInfo.username = ''
+					this.queryInfo.usernameNew = ''
+					this.getDataList()
 				},
 				
 		}
