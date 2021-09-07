@@ -400,6 +400,93 @@
 						path: '/MyDriver',
 						icon: "el-icon-truck"
 					},
+					{
+						id: 1,
+						authName: '基础信息管理',
+						icon: "el-icon-s-order",
+						path: '/basis',
+						children: [{
+								id: 11,
+								authName: '公司信息',
+								path: '/basis/company',
+								icon: "el-icon-caret-right"
+							},
+							{
+								id: 12,
+								authName: '员工信息',
+								path: '/basis/worker',
+								icon: "el-icon-caret-right"
+							},
+							{
+								id: 13,
+								authName: '司机信息',
+								path: '/basis/driver',
+								icon: "el-icon-caret-right"
+							},
+							{
+								id: 15,
+								authName: '客户信息',
+								path: '/basis/customer',
+								icon: "el-icon-caret-right"
+							},
+							// {
+							// 	id: 16,
+							// 	authName: '地区信息',
+							// 	path: '/basis/region',
+							// 	icon: "el-icon-caret-right"
+							// },
+							{
+								id: 14,
+								authName: '车辆管理',
+								icon: "el-icon-menu",
+								children: [{
+										id: 111,
+										authName: '车辆信息',
+										path: '/basis/car/carInfo',
+										icon: "el-icon-caret-right"
+									},
+									{
+										id: 112,
+										authName: '车辆保证金',
+										path: '/basis/car/earnestMoney',
+										icon: "el-icon-caret-right"
+									},
+									{
+										id: 113,
+										authName: '车辆管理费',
+										path: '/basis/car/managementFee',
+										icon: "el-icon-caret-right"
+									},
+									{
+										id: 114,
+										authName: '实时监控',
+										path: '/basis/car/CarMonitoring',
+										icon: "el-icon-caret-right"
+									},
+									{
+										id: 115,
+										authName: '车辆里程',
+										path: '/basis/car/carMileage',
+										icon: "el-icon-caret-right"
+									},
+									{
+										id: 116,
+										authName: '车辆油耗',
+										path: '/basis/car/carEnergy',
+										icon: "el-icon-caret-right"
+									},
+									// {
+									// 	id: 114,
+									// 	authName: '违章信息',
+									// 	path: '/basis/car/illegal',
+									// 	icon: "el-icon-caret-right"
+									// }
+								],
+								path: '/basis/car'
+							},
+						]
+						// path:'basis'
+					},
 
 					{
 						id: 2,
@@ -770,6 +857,7 @@
 
 	.el-aside {
 		background-color: #536080;
+		// background-color: red;
 		// border-right: none;
 	}
 

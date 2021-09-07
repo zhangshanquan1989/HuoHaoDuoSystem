@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<img style="width: 1725px;" src="../../assets/welcome/fengongsi.png" />
+		<img style="width: 1725px;left: 200px;top: 78px;position: absolute;" src="../../assets/welcome/fengongsiWelcome.png" />
 	</div>
 </template>
 
