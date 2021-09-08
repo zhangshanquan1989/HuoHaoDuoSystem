@@ -167,7 +167,7 @@
 
 						<!-- 修改按钮 -->
 						<el-button v-if="showBtn" type="primary" size="mini" style="margin-left: 10px;" @click="showEditDialog(scope.row.id)">编辑</el-button>
-						<el-button v-else type="primary" size="mini" style="margin-left: 10px;" @click="showEditDialog(scope.row.id)">查看详情</el-button>
+						<!-- <el-button v-else type="primary" size="mini" style="margin-left: 10px;" @click="showEditDialog(scope.row.id)">查看详情</el-button> -->
 						<!-- 删除按钮 -->
 						<el-popconfirm v-if="showBtn" title="确定删除吗？" @confirm="removeById(scope.row.id)" style="margin-left: 10px;">
 							<el-button type="danger" size="mini" slot="reference">删除</el-button>

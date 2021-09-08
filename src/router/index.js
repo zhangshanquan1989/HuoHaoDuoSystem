@@ -57,8 +57,10 @@ const routes = [
   // {path: '/home',component: Home,redirect:'/welcome',
 	// 路由重定向，可以接受一个函数
   {path: '/home',component: Home,redirect: to => {
-		if(window.sessionStorage.getItem('role') == '调度主管' || window.sessionStorage.getItem('role') == '调度配送' || window.sessionStorage.getItem('role') == '调度运单'){
+		if(window.sessionStorage.getItem('role') == '调度主管' || window.sessionStorage.getItem('role') == '调度配送' ){
 			return '/MyDriver'
+		}else if(window.sessionStorage.getItem('role') == '调度运单'){
+			return '/imageWelcome'
 		}else if(window.sessionStorage.getItem('role') == '分公司'){
 			return '/imageWelcome'
 		}else{
