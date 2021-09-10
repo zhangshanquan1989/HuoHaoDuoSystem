@@ -899,9 +899,9 @@
 				// 总条数
 				total: 0,
 				srcList: [],
-				// 创建对话框数据
+				// 创建对话框数据 
 				addDialogVisible: false,
-				// 位置
+				// 位置 
 				locationDialog: false,
 				addForm: {
 					waybilltype: '',
@@ -928,6 +928,9 @@
 					Lidriver: '',
 					dispatch: '',
 					ordernote: '',
+					ordernotea: '',
+					ordernoteb: '',
+					hdadd: '',
 					upiontway: '',
 					upiontgj: '',
 					ishd: '',

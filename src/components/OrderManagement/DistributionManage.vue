@@ -800,12 +800,12 @@
 			},
 			
 			// 展示二维码 装卸货工具
-			clickShareUrl(){
-				this.qrcodeShow = !this.qrcodeShow
-			},
+			// clickShareUrl(){
+			// 	this.qrcodeShow = !this.qrcodeShow
+			// },
 			// 复制文字
 			async clickShareUrl() {
-				this.shareText = '司机名：'+this.editForm.Lidriver+'\n'+"发车时间："+this.editForm.apoints[0].stime+'\n'+"装货地点："+this.editForm.apoints[0].sprovince+this.editForm.apoints[0].scity+this.editForm.apoints[0].sarea+this.editForm.apoints[0].saddress+'\n'+'联系电话：'+this.editForm.apoints[0].spointphone+'\n'+'卸车时间：'+this.editForm.upoints[0].dtime+'\n'+'卸货地点：'+this.editForm.upoints[0].dprovince+this.editForm.upoints[0].dcity+this.editForm.upoints[0].darea+this.editForm.upoints[0].daddress+'\n'+'卸货方式：'+this.editForm.upiontway+'\n'+'装卸货工具：'+this.editForm.upiontgj+'\n'+'装卸货是否禁行：'+this.editForm.ban+'\n'+'到车运费：'+this.editForm.car+'\n'+'定金：'+this.editForm.deposit+'\n'+'定金备注：'+this.editForm.djnote+'\n'+'付款方式及金额：'+'到付'+this.editForm.pay+'\n'+'是否回单：'+this.editForm.ishd+'\n'+'回单邮寄地址：'+this.editForm.hdadd+'\n'+'吨位：'+this.editForm.goodsweight+'\n'+'货物：'+this.editForm.goodsname+'\n'+'运输距离：'+'高速'+this.editForm.highspeed+'下道'+this.editForm.estimatedistance+'\n'+'放空距离：'+this.editForm.emptydistance+'\n'+'建议运输方式：'+this.editForm.yunshu+'\n'+'建议到达时间：'+this.editForm.daoda+'\n'+'订单备注1：'+this.editForm.ordernote+'\n'+'订单备注2：'+this.editForm.ordernotea+'\n'+'订单备注3：'+this.editForm.ordernoteb+'\n'+'提醒您：长途主意安全，雨季切记封好篷布，有问题找我不可与现场发生矛盾冲突，注意货物三不超！行车过程中注意安全，谨慎驾驶！杜绝疲劳驾驶！'
+				this.shareText = '司机名：'+this.editForm.Lidriver+'\n'+"发车时间："+this.editForm.apoints[0].stime+'\n'+"装货地点："+this.editForm.apoints[0].sprovince+this.editForm.apoints[0].scity+this.editForm.apoints[0].sarea+this.editForm.apoints[0].saddress+'\n'+'联系电话：'+this.editForm.apoints[0].spointphone+'\n'+'卸车时间：'+this.editForm.upoints[0].dtime+'\n'+'卸货地点：'+this.editForm.upoints[0].dprovince+this.editForm.upoints[0].dcity+this.editForm.upoints[0].darea+this.editForm.upoints[0].daddress+'\n'+'卸货方式：'+this.editForm.upiontway+'\n'+'装卸货工具：'+this.editForm.upiontgj+'\n'+'装卸货是否禁行：'+this.editForm.ban+'\n'+'到车运费：'+this.editForm.car+'\n'+'定金：'+this.editForm.deposit+'\n'+'定金备注：'+this.editForm.djnote+'\n'+'付款方式及金额：'+'到付'+this.editForm.pay+'\n'+'是否回单：'+this.editForm.ishd+'\n'+'回单邮寄地址：'+this.editForm.hdadd+'\n'+'吨位：'+this.editForm.goodsweight+'\n'+'货物：'+this.editForm.goodsname+'\n'+'运输距离：'+'高速'+this.editForm.highspeed+'下道'+this.editForm.estimatedistance+'\n'+'放空距离：'+this.editForm.emptydistance+'\n'+'建议运输方式：'+this.editForm.yunshu+'\n'+'建议到达时间：'+this.editForm.daoda+'\n'+'订单备注：'+this.editForm.ordernote+'\xa0\xa0'+this.editForm.ordernotea+'\xa0\xa0'+this.editForm.ordernoteb+'\n'+'提醒您：'+'\n'+'1.长途主意安全，雨季切记封好篷布，有问题找我不可与现场发生矛盾冲突，注意货物三不超！'+'\n'+'2.行车过程中注意安全，谨慎驾驶！杜绝疲劳驾驶！'+'\n'+'3.接到信息后第一时间与装货方取得联系，沟通好装货时间。'+'\n'+'4.装货后第一时间与卸货地联系，告知预计到货时间，问能不能卸货。根据可卸货时间到货。如果卸货时间太晚，立即与调度取得联系。'+'\n'+'下班时间：如不能立即回复信息，急事可联系朴朴：15711470091'
 				let clipboard = new this.Clipboard(".el-icon-document-copy");
 				clipboard.on("success", e => {
 					// 释放内存
