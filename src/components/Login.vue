@@ -1,11 +1,74 @@
 <template>
 	<div class="login_container">
-		<div class="background">
-			<img src="../assets/login/登陆背景图S.jpg" alt="">
+		<div class="backgroundImg">
+			<img src="../assets/loginTwo/LoginBg3.png" alt="">
 		</div>
 
-		<div class="login_box">
-			<!-- 左侧图片区域 -->
+		<div class="loginTwo_box">	
+			<div>
+				<!-- 文字 -->
+				<div class="box_text">
+					<span>账号登陆</span>
+				</div>
+				<el-form ref="loginFormRef" :model="loginForm" :rules="loginFormRules" label-width="0px">
+					<el-form-item prop="username" >					
+				<!-- 用户名 -->
+				<div class="box_name">
+					<div class="box_name_icon">
+						<img src="../assets/loginTwo/user1.png" />
+					</div>
+					<div class="box_name_input">
+						<el-input clearable placeholder="用户名" v-model="loginForm.username"></el-input>
+					</div>
+				</div>
+				</el-form-item>
+				
+				<el-form-item prop="password" >
+				<!-- 密码 -->
+				<div class="box_name" style="margin-top: 10px;">
+					<div class="box_name_icon">
+						<img src="../assets/loginTwo/password.png" />
+					</div>
+					<div class="box_name_input">
+						<el-input  placeholder="密码" v-model="loginForm.password" show-password></el-input>
+					</div>
+				</div>
+				</el-form-item>
+				
+				
+				<el-form-item prop="captcha" >
+				<div class="box_YZM">
+					<div class="box_YZM_hang">
+						<div class="box_YZM_icon">
+							<img src="../assets/loginTwo/yanzhengma.png" />
+						</div>
+						<div class="box_YZM_input">
+							<el-input  placeholder="验证码" v-model="loginForm.captcha" ></el-input>
+						</div>
+					</div>
+
+					<div class="box_YZM_img_row">
+						<div class="box_YZM_img">
+							<img :src="randomImage" @click="handleChangeRandomImage" />
+						</div>
+					</div>
+				</div>
+				</el-form-item>
+				<el-form-item >
+					<!-- 登录按钮 -->
+				<div class="box_btn">
+					<el-button type="primary"  @click="login" @keyup.enter="loginBtn" style="width: 398px;margin-top: 45px;margin-left: 75px;height: 60px;font-size:26px ;">登 录</el-button>
+				</div>
+				</el-form-item>
+				</el-form>
+			</div>
+
+		</div>
+
+
+
+		<!-- 下面是版本1 -->
+		<!-- 		<div class="login_box">
 			<div class="tiankangxitong">
 				<img src="../assets/login/天康系统@2x.png" alt="">
 			</div>
@@ -13,40 +76,35 @@
 				<img src="../assets/login/登录侧边图S.png" alt="">
 			</div>
 			<div class="form_box">
-				<!-- 登录表单区域 -->
+				
 				<div class="form_box_text">
 					<span>欢迎登录货好多天康系统</span>
 				</div>
 				<el-form ref="loginFormRef" :model="loginForm" :rules="loginFormRules" label-width="0px" class="login_form">
-					<!-- 用户名 -->
-					<el-form-item prop="username" class="form_box_username">
-						<!-- <i class="iconfont icon-yonghu"></i> -->
+					
+					<el-form-item prop="username" class="form_box_username">					
 						<input v-model="loginForm.username" class="inputUsername">
-
-						<!-- <el-input class="inputName" v-model="loginForm.username" prefix-icon="el-icon-user"></el-input> -->
 					</el-form-item>
-					<!-- 密码 -->
+					
 					<el-form-item prop="password" class="form_box_password">
 						<input type="password" v-model="loginForm.password" class="inputpassword" >
-						<!-- 						<el-input type="password" v-model="loginForm.password" prefix-icon="el-icon-goods"></el-input> -->
 					</el-form-item>
 
-					<!-- 验证码 -->
+					
 					<el-form-item prop="captcha" class="form_box_captcha">
 						<input v-model="loginForm.captcha" class="inputcaptcha" placeholder="验证码">
-						<img :src="randomImage" alt="" @click="handleChangeRandomImage">
-						<!-- <el-button size="mini"  @click="handleChangeRandomImage" style="position: absolute;">换一张</el-button> -->
+						<img :src="randomImage" alt="" @click="handleChangeRandomImage">						
 					</el-form-item>
-
-					<!-- 按钮 -->
+					
 					<el-form-item class="btns">
 						<el-button type="primary" round @click="login" @keyup.enter="loginBtn" style="width: 335px;margin-top: 30px;height: 56px;border-radius: 28px;font-size:22px ;">登录</el-button>
 						<el-button plain type="info" round @click="resetLoginForm" style="display: block;margin-top: 20px;width: 335px;height: 56px;border-radius: 28px;font-size:22px ;margin-left: 0;">重置</el-button>
 					</el-form-item>
 				</el-form>
 			</div>
+		</div> -->
 
-		</div>
+
 	</div>
 </template>
 
@@ -94,7 +152,7 @@
 			keyDown(e) {
 				// 回车则执行登录方法 enter键的ASCII是13
 				if (e.keyCode === 13) {
-						this.login(); // 定义的登录方法
+					this.login(); // 定义的登录方法
 				}
 			},
 
@@ -166,13 +224,15 @@
 <style lang="less" scoped>
 	.login_container {
 		// background-color: #2b4b6b;
-		height: 100%;
-	}
-
-	.background {
 		width: 100%;
 		height: 100%;
-		z-index: -1;
+		position: relative;
+	}
+
+	.backgroundImg {
+		width: 100%;
+		height: 100%;
+		z-index: -2;
 		position: absolute;
 
 		img {
@@ -181,6 +241,119 @@
 		}
 	}
 
+	.loginTwo_box {
+		width: 550px;
+		height: 531px;
+		right: 125px;
+		top: 20%;
+		position: absolute;
+		background-image: url(../assets/loginTwo/denglujuxing.png);
+		
+	}
+	.box_text {
+		font-size: 33px;
+		color: #FFf;
+		margin-left: 75px;
+		padding-top: 50px;
+	}
+
+	
+	.box_name_input /deep/ .el-input__inner {
+		width: 340px;
+	  background-color: rgba(6,135,205,0.2);
+		border:0;
+		height: 45.2px;		
+		color: #fff;
+		font-size: 18px;
+	}
+
+	.box_name {
+		width: 398px;
+		height: 45.2px;
+		display: flex;
+		border: 2px solid rgba(255,255,255,0.5);
+		border-radius: 4px;
+		margin-left: 75px;
+		margin-top: 30px;
+	}
+
+	.box_name_icon {
+		width: 45px;
+		img{
+			width: 19px;
+			height: 19px;
+			margin-left: 13px;
+			margin-top: 13px;
+		}
+	}
+
+// 	.box_name_input {
+// 		width: 340px;
+		
+// 		margin-top: 2.5px;
+// 		font-size: 18px;
+// 		color: #FFF
+// 	}
+	
+.box_name_input /deep/input::-webkit-input-placeholder{
+  -webkit-text-fill-color: #fff;
+}
+
+.box_YZM{
+	display: flex;
+}
+.box_YZM_hang{
+	width: 260px;
+	height: 45.2px;
+	display: flex;
+	border: 2px solid rgba(255,255,255,0.5);
+	border-radius: 4px;
+	margin-left: 75px;
+	margin-top: 10px;
+}
+.box_YZM_icon{
+	width: 45px;
+	img{
+		width: 19px;
+		height: 19px;
+		margin-left: 13px;
+		margin-top: 13px;
+	}
+}
+
+	.box_YZM_input /deep/ .el-input__inner {
+		width: 200px;
+	  background-color: rgba(6,135,205,0.2);
+		border:0;
+		height: 45.2px;		
+		color: #fff;
+		font-size: 18px;
+	}
+	
+	.box_YZM_img_row{
+		width: 126.6px;
+		height: 45.2px;
+		border: 2px solid rgba(255,255,255,0.5);
+		border-radius: 4px;
+		margin-left: 10px;
+		margin-top: 10px;		
+	}
+	
+.box_YZM_img{
+	width: 92px;
+	margin-left: 13px;
+	margin-top: 4px;
+	opacity: 0.7;
+}
+
+
+
+
+
+
+
+
+// 下面的是版本1的样式
 	.login_box {
 		width: 1342px;
 		height: 662px;

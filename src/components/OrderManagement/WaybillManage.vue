@@ -11,13 +11,15 @@
 		<el-card class="box-card">
 			<!-- 创建按钮 -->
 			<el-button type="primary" plain @click="addDialogVisible = true">创建</el-button>
-			<el-input v-model="queryInfo.noText" placeholder="运单编号" clearable style="width: 200px;margin-left: 50px;"></el-input>
-			<el-input v-model="queryInfo.driverNew" placeholder="司机名" clearable style="width: 200px;margin-left: 20px;"></el-input>
-			<el-input v-model="queryInfo.createrNew" placeholder="创建者" clearable style="width: 200px;margin-left: 20px;"></el-input>
+			<el-input v-model="queryInfo.noText" placeholder="运单编号" clearable style="width: 180px;margin-left: 50px;"></el-input>
+			<el-input v-model="queryInfo.driverNew" placeholder="司机名" clearable style="width: 180px;margin-left: 20px;"></el-input>
+			<el-input v-model="queryInfo.createrNew" placeholder="创建者" clearable style="width: 180px;margin-left: 20px;"></el-input>
+			<el-input v-model="queryInfo.peopleNew" placeholder="司机对接人" clearable style="width: 180px;margin-left: 30px;"></el-input>
+			<el-input v-model="queryInfo.fuzepeiguanNew" placeholder="负责配管" clearable style="width: 180px;margin-left: 30px;"></el-input>
 			<!-- <el-date-picker v-model="queryInfo.creatimeNew" type="date" placeholder="创建日期"  format="yyyy 年 MM 月 dd 日"
       value-format="yyyy-MM-dd" style="width: 200px;margin-left: 20px;">
 			    </el-date-picker> -->
-			<el-select v-model="queryInfo.state" placeholder="状态查询" style="margin-left: 20px;">
+			<el-select v-model="queryInfo.state" placeholder="状态查询" style="margin-left: 20px;width: 180px;">
 				<el-option v-for="item in stateOptions" :key="item.value" :label="item.label" :value="item.value">
 				</el-option>
 			</el-select>
@@ -36,14 +38,17 @@
 				</el-table-column>
 				<el-table-column prop="creater" label="创建者" width="150px">
 				</el-table-column>
-				<el-table-column prop="companyname" label="创建者" width="250px">
+				<el-table-column prop="people" label="司机对接人" width="100px">
+				</el-table-column>
+				<el-table-column prop="fuzepeiguan" label="负责配管" width="100px">
+				</el-table-column>
+				<el-table-column prop="companyname" label="公司" width="250px">
 				</el-table-column>
 				<el-table-column prop="waybilltype" label="派单类型" width="100px">
 				</el-table-column>
 				<el-table-column prop="source" label="订单来源" width="100px">
 				</el-table-column>
-				<el-table-column prop="people" label="司机对接人" width="100px">
-				</el-table-column>
+				
 				<el-table-column prop="goodsname" label="货物名称" width="150px">
 				</el-table-column>
 				<el-table-column prop="goodsweight" label="货物重量/方数" width="150px">
@@ -864,6 +869,10 @@
 					driverNew: '',
 					creater: '',
 					createrNew: '',
+					people: '',
+					peopleNew: '',
+					fuzepeiguan: '',
+					fuzepeiguanNew: '',
 					// creatime: '',
 					// creatimeNew: '',
 				},
@@ -1868,6 +1877,8 @@
 				this.queryInfo.no = "*" + this.queryInfo.noText + "*"
 				this.queryInfo.driver = "*" + this.queryInfo.driverNew + "*"
 				this.queryInfo.creater = "*" + this.queryInfo.createrNew + "*"
+				this.queryInfo.people = "*" + this.queryInfo.peopleNew + "*"
+				this.queryInfo.fuzepeiguan = "*" + this.queryInfo.fuzepeiguanNew + "*"
 				// if(this.queryInfo.creatimeNew){
 				// 	this.queryInfo.creatime = "*" + this.queryInfo.creatimeNew + "*"
 				// }
@@ -1885,6 +1896,10 @@
 				this.queryInfo.driverNew = ''
 				this.queryInfo.creater = ''
 				this.queryInfo.createrNew = ''
+				this.queryInfo.people = ''
+				this.queryInfo.peopleNew = ''
+				this.queryInfo.fuzepeiguan = ''
+				this.queryInfo.fuzepeiguanNew = ''
 				// this.queryInfo.creatime = ''
 				// this.queryInfo.creatimeNew = ''
 				this.getWaybillList()

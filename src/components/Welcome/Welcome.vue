@@ -192,7 +192,7 @@
 							<div style="margin-left: 5px;font-size: 23px;margin-top: 15px;font-weight: bold;">商业险</div>
 						</div>
 			
-						<div style="width:176px;height: 16px;font-size: 15px;color: #999999;">45天内商业险到期车辆</div>
+						<div style="width:176px;height: 16px;font-size: 15px;color: #999999;">1个月内商业险到期车辆</div>
 					</div>
 					<div>
 						<el-image :src="require('../../assets/welcome/nianjian.png')" style="width: 55px; height: 55px;margin-left:25px ;margin-top: 10px;"></el-image>
@@ -212,7 +212,7 @@
 							<div style="margin-left: 5px;font-size: 23px;margin-top: 15px;font-weight: bold;">非车险</div>
 						</div>
 			
-						<div style="width:176px;height: 16px;font-size: 15px;color: #999999;">45天内非车险到期车辆</div>
+						<div style="width:176px;height: 16px;font-size: 15px;color: #999999;">1个月内非车险到期车辆</div>
 					</div>
 					<div>
 						<el-image :src="require('../../assets/welcome/baoxian.png')" style="width: 55px; height: 55px;margin-left:25px ;margin-top: 10px;"></el-image>

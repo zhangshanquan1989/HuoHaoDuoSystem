@@ -267,6 +267,12 @@
 				myHeaders: {
 					satoken: window.sessionStorage.getItem('satoken')
 				},
+				ceshiData:{
+					ceshi1:'aaa',
+					ceshi2:'bbb',
+					ceshi3:234,
+					ceshi4:false,
+				},
 				// 放大图片的列表
 				srcList: [],
 				// 查询参数对象
@@ -424,7 +430,8 @@
 			// console.log(this.myHeaders)
 			// console.log('url',this.updateBusinessUrl)
 			this.getCompanyList()
-
+			let mses = 'ceshi4'
+			console.log(this.ceshiData[mses])
 		},
 		mounted() {
 

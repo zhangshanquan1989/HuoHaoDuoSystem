@@ -13,15 +13,21 @@
 			<el-input v-model="queryInfo.chepai" placeholder="车牌号" clearable style="width: 200px;"></el-input>
 			<el-input v-model="queryInfo.driver" placeholder="司机名" clearable style="width: 200px;margin-left: 30px;"></el-input>
 			<el-input v-model="queryInfo.creater" placeholder="创建者" clearable style="width: 200px;margin-left: 30px;"></el-input>
-			<el-date-picker v-model="selectTime" type="datetimerange" range-separator="至" start-placeholder="订单查询开始日期"
-			 end-placeholder="订单查询结束日期" format="yyyy 年 MM 月 dd 日 HH 时 mm 分 ss 秒" value-format="yyyy-MM-dd HH:mm:ss" style="margin-left: 20px;">
-			</el-date-picker>
-			<el-select v-model="queryInfo.state" placeholder="状态查询" style="margin-left: 30px;">
-				<el-option v-for="item in stateOptions" :key="item.value" :label="item.label" :value="item.value">
-				</el-option>
-			</el-select>
+			<el-input v-model="queryInfo.people" placeholder="司机对接人" clearable style="width: 200px;margin-left: 30px;"></el-input>
+			<el-input v-model="queryInfo.fuzepeiguan" placeholder="负责配管" clearable style="width: 200px;margin-left: 30px;"></el-input>
 			<el-button type="primary" plain @click="handleQueryBtn" style="margin-left: 30px;">查询</el-button>
 			<el-button type="primary" plain @click="handleQueryBackBtn" style="margin-left: 30px;">返回</el-button>
+			<div style="margin-top: 20px;">
+				<el-date-picker v-model="selectTime" type="datetimerange" range-separator="至" start-placeholder="订单查询开始日期"
+				 end-placeholder="订单查询结束日期" format="yyyy 年 MM 月 dd 日 HH 时 mm 分 ss 秒" value-format="yyyy-MM-dd HH:mm:ss">
+				</el-date-picker>
+				<el-select v-model="queryInfo.state" placeholder="状态查询" style="margin-left: 30px;">
+					<el-option v-for="item in stateOptions" :key="item.value" :label="item.label" :value="item.value">
+					</el-option>
+				</el-select>
+			</div>
+			
+			
 			<div style="margin-top: 20px;">
 			<el-button type="primary" icon="el-icon-download" plain @click="handleExport" >导出Excel</el-button>
 			<el-button type="primary" plain @click="handleClearBtn" style="margin-left: 30px;">清空选中</el-button>
@@ -41,14 +47,17 @@
 				</el-table-column>
 				<el-table-column prop="creater" label="创建者" width="150px">
 				</el-table-column>
-				<el-table-column prop="companyname" label="创建者" width="250px">
+				<el-table-column prop="people" label="司机对接人" width="100px">
+				</el-table-column>
+				<el-table-column prop="fuzepeiguan" label="负责配管" width="100px">
+				</el-table-column>
+				<el-table-column prop="companyname" label="公司" width="250px">
 				</el-table-column>
 				<el-table-column prop="waybilltype" label="派单类型" width="100px">
 				</el-table-column>
 				<el-table-column prop="source" label="订单来源" width="100px">
 				</el-table-column>
-				<el-table-column prop="people" label="司机对接人" width="100px">
-				</el-table-column>
+				
 				<el-table-column prop="goodsname" label="货物名称" width="150px">
 				</el-table-column>
 				<el-table-column prop="goodsweight" label="货物重量/方数" width="150px">
@@ -444,6 +453,8 @@
 					state: '',
 					driver: '',
 					creater: '',
+					people: '',
+					fuzepeiguan: '',
 
 				},
 				stateOptions: [{
@@ -689,6 +700,8 @@
 				this.queryInfo.state = ''
 				this.queryInfo.driver = ''
 				this.queryInfo.creater = ''
+				this.queryInfo.people = ''
+				this.queryInfo.fuzepeiguan = ''
 				this.selectTime = []
 				this.getList()
 			},
