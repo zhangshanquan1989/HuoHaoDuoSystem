@@ -523,6 +523,12 @@
 								path: '/carAttendance',
 								icon: "el-icon-caret-right",
 							},
+							{
+								id: 26,
+								authName: '司机预警',
+								path: '/driverWarning',
+								icon: "el-icon-caret-right",
+							},
 						]
 					},
 					{
@@ -687,6 +693,12 @@
 								path: '/carAttendance',
 								icon: "el-icon-caret-right",
 							},
+							{
+								id: 26,
+								authName: '司机预警',
+								path: '/driverWarning',
+								icon: "el-icon-caret-right",
+							},
 						]
 					},
 					{
@@ -848,6 +860,12 @@
 								id: 25,
 								authName: '车辆考勤',
 								path: '/carAttendance',
+								icon: "el-icon-caret-right",
+							},
+							{
+								id: 26,
+								authName: '司机预警',
+								path: '/driverWarning',
 								icon: "el-icon-caret-right",
 							},
 						]

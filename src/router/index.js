@@ -19,6 +19,7 @@ import DistributionManage from '../components/OrderManagement/DistributionManage
 import OrderManage from '../components/OrderManagement/OrderManage.vue'
 import CarDistribution from '../components/OrderManagement/CarDistribution.vue'
 import CarAttendance from '../components/OrderManagement/CarAttendance.vue'
+import DriverWarning from '../components/OrderManagement/DriverWarning.vue'
 
 // Basis基础子组件
 import CompanyInfor from '../components/BasisInfor/Navigation/CompanyInfor.vue'
@@ -94,6 +95,7 @@ const routes = [
 		{path:'/orderManage', component:OrderManage},		
 		{path:'/carDistribution', component:CarDistribution},		
 		{path:'/carAttendance', component:CarAttendance},		
+		{path:'/driverWarning', component:DriverWarning},		
 		{path:'/rights', component:RightsManage},
 		{path:'/manage/departManage', component:DepartManage},
 		{path:'/manage/userManage', component:UserManage},
