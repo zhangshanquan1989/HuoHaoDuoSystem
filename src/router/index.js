@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 import Login from '../components/Login.vue'
 import Home from '../components/Home.vue'
 import PhonePage from '../components/PhonePage.vue'
+import EchartsScreen from '../components/EchartsScreen.vue'
 
 import Assembly from '../components/Assembly/Assembly.vue'
 import BasisInfor from '../components/BasisInfor/BasisInfor.vue'
@@ -55,6 +56,7 @@ const routes = [
 	{path:'/',redirect:'/login'},
   {path: '/login',component: Login},
   {path: '/phonePage/:id',component: PhonePage},
+  {path: '/echartsScreen',component: EchartsScreen},
   // {path: '/home',component: Home,redirect:'/welcome',
 	// 路由重定向，可以接受一个函数
   {path: '/home',component: Home,redirect: to => {

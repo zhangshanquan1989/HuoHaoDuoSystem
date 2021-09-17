@@ -14,6 +14,9 @@ import * as echarts from 'echarts';
 // 引入二维码生成qrcodejs2
 import QRCode from "qrcodejs2";
 
+// 引入flexble.js，手淘适配
+import flexible from './plugins/flexible.js'
+Vue.use(flexible)
 
 // 设置element ui中 Dialog 层级问题
 import elementui from 'element-ui'
@@ -22,8 +25,8 @@ Vue.use(elementui, { zIndex: 500 })
 // 导入axios
 import axios from 'axios' 
 // 配置请求的根路径
-axios.defaults.baseURL = 'https://tkhhd.com/jeecg-boot/'
-// axios.defaults.baseURL = 'http://82.157.15.221:8080/jeecg-boot/'
+// axios.defaults.baseURL = 'https://tkhhd.com/jeecg-boot/'
+axios.defaults.baseURL = 'http://82.157.15.221:8080/jeecg-boot/'
 // axios.defaults.baseURL = 'http://81.70.151.121:8080/jeecg-boot/'
 
 // 挂在复制文本
