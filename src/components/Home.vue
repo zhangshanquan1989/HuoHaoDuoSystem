@@ -389,7 +389,13 @@
 								authName: '订单查询',
 								path: '/orderManage',
 								icon: "el-icon-caret-right"
-							},																										
+							},
+							{
+								id: 25,
+								authName: '车辆考勤',
+								path: '/carAttendance',
+								icon: "el-icon-caret-right",
+							},
 						]
 					},
 				]
@@ -912,6 +918,30 @@
 					// 	authName: '分公司首页',
 					// 	path: '/imageWelcome',
 					// 	icon: "el-icon-truck",
+					// },
+					// {
+					// 	id: 5,
+					// 	authName: '数据工厂',
+					// 	path: '/dataFactory',
+					// 	icon: "el-icon-data-line",
+					// },
+					// {
+					// 	id: 6,
+					// 	authName: 'text',
+					// 	path: '/text',
+					// 	icon: "el-icon-orange",
+					// },
+					// {
+					// 	id: 7,
+					// 	authName: 'test2',
+					// 	path: '/test2',
+					// 	icon: "el-icon-orange",
+					// },
+					// {
+					// 	id: 8,
+					// 	authName: '转发页面',
+					// 	path: '/phonePage/MDAwMDA5Ng==',
+					// 	icon: "el-icon-orange",
 					// },
 				]
 			}

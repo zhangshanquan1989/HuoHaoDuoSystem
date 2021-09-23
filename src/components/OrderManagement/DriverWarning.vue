@@ -12,11 +12,17 @@
 		  <el-input v-model="queryInfo.dirver" placeholder="司机名" clearable style="width: 200px;"></el-input>
 			<el-input v-model="queryInfo.chepai" placeholder="车牌号" clearable style="width: 200px;margin-left: 30px;"></el-input>
 			<el-input v-model="queryInfo.peiguan" placeholder="配管" clearable style="width: 200px;margin-left: 30px;"></el-input>
-			<el-input v-model="queryInfo.startnumber" placeholder="开始利润" clearable style="width: 150px;margin-left: 40px;" sortable="custom"></el-input>
+			
+			<el-input v-model="queryInfo.startnumber" placeholder="开始利润" clearable style="width: 130px;margin-left: 40px;" sortable="custom"></el-input>
 			<span style="margin-left: 5px;margin-right: 5px;">-</span>
-			<el-input v-model="queryInfo.endnumber" placeholder="结束利润" clearable style="width: 150px;"></el-input>
+			<el-input v-model="queryInfo.endnumber" placeholder="结束利润" clearable style="width: 130px;"></el-input>
+			
+			<el-input v-model="queryInfo.startday" placeholder="开始天数" clearable style="width: 130px;margin-left: 40px;" sortable="custom"></el-input>
+			<span style="margin-left: 5px;margin-right: 5px;">-</span>
+			<el-input v-model="queryInfo.endday" placeholder="结束天数" clearable style="width: 130px;"></el-input>
+			
 		  <el-button type="primary" plain @click="handleQueryBtn" style="margin-left: 30px;">查询</el-button>
-		  <el-button type="primary" plain @click="handleQueryBackBtn" style="margin-left: 30px;">返回</el-button>
+		  <el-button type="primary" plain @click="handleQueryBackBtn" style="margin-left: 20px;">返回</el-button>
 			<div style="margin-top: 20px;">
 						<el-button type="primary" icon="el-icon-download" plain @click="handleExport" >导出选中</el-button>
 						<el-button type="primary" plain @click="handleClearBtn" style="margin-left: 30px;">清空选中</el-button>
@@ -33,11 +39,14 @@
 				</el-table-column>
 				<el-table-column prop="调度" label="配管" >
 				</el-table-column>
+				<el-table-column prop="运输天数" label="运输天数" sortable="custom">
+				</el-table-column>
 				<el-table-column prop="平均利润" label="平均利润" sortable="custom">
 					<template slot-scope="scope">
 						<span :style="{'color':scope.row.平均利润-0 >= 650?'black':'red'}">{{scope.row.平均利润}}</span>
 					</template>
 				</el-table-column>
+				
 			</el-table>
 		</el-card>
 		<!-- 分页区域 -->
@@ -117,15 +126,35 @@
 			},
 			
 			sortChange(e){
-				// console.log(e)
+				console.log(e)
 				// this.queryInfo.column = e.prop
-				if(e.order == "descending"){
-					this.queryInfo.desc = "desc"
-					this.queryInfo.asc = ""
-				}else if(e.order == "ascending"){
-					this.queryInfo.asc = "asc"
-					this.queryInfo.desc = ""
+				if(e.prop == "平均利润"){
+					if(e.order == "descending"){
+						this.queryInfo.desc = "desc"
+						this.queryInfo.asc = ""
+						this.queryInfo.ascday = ""
+						this.queryInfo.descday = ""
+					}else if(e.order == "ascending"){
+						this.queryInfo.asc = "asc"
+						this.queryInfo.desc = ""
+						this.queryInfo.ascday = ""
+						this.queryInfo.descday = ""
+					}
+				}else if(e.prop == "运输天数"){
+					if(e.order == "descending"){
+						this.queryInfo.desc = ""
+						this.queryInfo.asc = ""
+						this.queryInfo.ascday = ""
+						this.queryInfo.descday = "desc"
+					}else if(e.order == "ascending"){
+						this.queryInfo.asc = ""
+						this.queryInfo.desc = ""
+						this.queryInfo.ascday = "asc"
+						this.queryInfo.descday = ""
+					}
 				}
+				
+				
 				this.queryInfo.pageNo = 1
 				this.queryInfo.pageSize = 10
 				this.getList();

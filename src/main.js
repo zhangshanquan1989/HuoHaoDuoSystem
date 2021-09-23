@@ -18,6 +18,10 @@ import QRCode from "qrcodejs2";
 import flexible from './plugins/flexible.js'
 Vue.use(flexible)
 
+// 引入dataV滚动
+import dataV from '@jiaminghi/data-view'
+Vue.use(dataV)
+
 // 设置element ui中 Dialog 层级问题
 import elementui from 'element-ui'
 Vue.use(elementui, { zIndex: 500 })
@@ -33,7 +37,7 @@ axios.defaults.baseURL = 'https://tkhhd.com/jeecg-boot/'
 Vue.prototype.Clipboard=Clipboard;
 // 挂载echarts
 Vue.prototype.$echarts = echarts
-// 挂载echarts
+// 设置图片、导出的根路径
 Vue.prototype.$baseUploadUrl = 'https://tkhhd.com/jeecg-boot'
 // Vue.prototype.$baseUploadUrl = 'http://82.157.15.221:8080/jeecg-boot'
 

@@ -113,7 +113,7 @@
 			</el-form>
 			<span slot="footer" class="dialog-footer">
 				<el-button @click="editDialogVisible = false">取 消</el-button>
-				<el-button type="primary" @click="handleEditForm">确 定</el-button>
+				<el-button v-if="showBtn" type="primary" @click="handleEditForm">确 定</el-button>
 			</span>
 		</el-dialog>
 	</div>
@@ -162,9 +162,16 @@
 				},
 				// 遮罩层
 				fullscreenLoading:false,
+				// 根据是否是分公司显示
+				showBtn:true,
 			}
 		},
 		created() {
+			if(window.sessionStorage.getItem('role') == '分公司'){
+				this.showBtn = false
+			}else{
+				this.showBtn = true
+			}
 			this.getDataList()
 		},
 		methods: {
