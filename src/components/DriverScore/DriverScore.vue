@@ -96,7 +96,7 @@
 				<el-form-item label="车牌号" prop="licensePlate" class="formItem rt-input" >
 					<el-input disabled v-model="addForm.licensePlate" style="width: 350px;"></el-input>
 				</el-form-item>
-				<el-form-item label="配管" prop="dispatch" class="formItem rt-input" >
+				<el-form-item label="配管" v-if="false" prop="dispatch" class="formItem rt-input" >
 					<el-input disabled v-if="false" v-model="addForm.dispatch" style="width: 350px;"></el-input>
 				</el-form-item>
 				<el-form-item label="1.帮助提升司机收入" prop="score" class="formItem">
@@ -177,7 +177,7 @@
 				<el-form-item label="车牌号" prop="licensePlate" class="formItem rt-input">
 					<el-input disabled v-model="editForm.licensePlate" style="width: 350px;"></el-input>
 				</el-form-item>
-				<el-form-item label="配管" prop="dispatch" class="formItem rt-input" >
+				<el-form-item label="配管" v-if="false" prop="dispatch" class="formItem rt-input" >
 					<el-input disabled v-if="false" v-model="editForm.dispatch" style="width: 350px;"></el-input>
 				</el-form-item>
 				<el-divider>司机服务满意度评价</el-divider>
