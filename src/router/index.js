@@ -14,6 +14,7 @@ import PerformanceInfor from '../components/PerformanceInfor/PerformanceInfor.vu
 import Welcome from '../components/Welcome/Welcome.vue'
 import ImageWelcome from '../components/Welcome/ImageWelcome.vue'
 import MyDriver from '../components/MyDriver/MyDriver.vue'
+import DriverScore from '../components/DriverScore/DriverScore.vue'
 // 订单管理
 import WaybillManage from '../components/OrderManagement/WaybillManage.vue'
 import DistributionManage from '../components/OrderManagement/DistributionManage.vue'
@@ -74,6 +75,7 @@ const routes = [
 		{path:'/welcome', component:Welcome},
 		{path:'/imageWelcome', component:ImageWelcome},
 		{path:'/MyDriver', component:MyDriver},
+		{path:'/driverScore', component:DriverScore},
 	  {path:'/basis', component:BasisInfor,
 			children:[
 				{path: '/basis/company',component: CompanyInfor},
