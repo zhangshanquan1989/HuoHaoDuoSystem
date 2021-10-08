@@ -82,14 +82,16 @@
 			<div style="color: #ba0000;">3、评价要求：满意度评价目的是为了提升调度中心服务质量，严禁分公司不与车主或司机沟通而仅是根据个人主观意愿对配管员评价，分公司与司机沟通确认的过程必须有迹可循，即要保留沟通记录；如出现违规操作将对分公司进行罚款或降级处理。</div>
 			<el-form :model="addForm" :rules="addFormRules" ref="addFormRef" label-position="top">
 				<el-divider>基础信息</el-divider>
-				<el-form-item label="公司名称" prop="companyl" class="formItem rt-input" >
-
-					<el-input disabled v-model="addForm.companyl" style="width: 350px;"></el-input>
+				<el-form-item label="所属公司" prop="companyl" class="formItem">
+					<el-select v-model="addForm.companyl" clearable filterable remote placeholder="请输入公司名称" :remote-method="remoteCompanyMethod" :loading="companyLoading" @change="companyChange" style="width: 350px;">
+						<el-option v-for="item in companyOptions" :key="item.index" :label="item.label" :value="item.value">
+						</el-option>
+					</el-select>
 				</el-form-item>
 				<el-form-item label="司机姓名" prop="driver" class="formItem">
-					<el-select v-model="addForm.driver" clearable filterable remote placeholder="司机姓名" :remote-method="remoteCompanyMethod"
-					 :loading="companyLoading" @change="companyChange" style="width: 350px;">
-						<el-option v-for="item in companyOptions" :key="item.index" :label="item.label" :value="item.value">
+					<el-select v-model="addForm.driver" clearable filterable remote placeholder="司机姓名" :remote-method="remoteDriverMethod"
+					 :loading="driverLoading" @change="driverChange" style="width: 350px;">
+						<el-option v-for="item in driverOptions" :key="item.index" :label="item.label" :value="item.value">
 						</el-option>
 					</el-select>
 				</el-form-item>
@@ -168,11 +170,12 @@
 					<el-input disabled v-model="editForm.companyl" style="width: 350px;"></el-input>
 				</el-form-item>
 				<el-form-item label="司机姓名" prop="driver" class="formItem">
-					<el-select v-model="editForm.driver" clearable filterable remote placeholder="司机姓名" :remote-method="remoteCompanyMethod"
-					 :loading="companyLoading" @change="editDriverChange" style="width: 350px;">
-						<el-option v-for="item in companyOptions" :key="item.index" :label="item.label" :value="item.value">
+					<el-input disabled v-model="editForm.driver" style="width: 350px;" class="rt-input"></el-input>
+					<!-- <el-select disabled v-model="editForm.driver" clearable filterable remote placeholder="司机姓名" :remote-method="remoteDriverMethod"
+					 :loading="driverLoading" @change="editDriverChange" style="width: 350px;">
+						<el-option v-for="item in driverOptions" :key="item.index" :label="item.label" :value="item.value">
 						</el-option>
-					</el-select>
+					</el-select> -->
 				</el-form-item>
 				<el-form-item label="车牌号" prop="licensePlate" class="formItem rt-input">
 					<el-input disabled v-model="editForm.licensePlate" style="width: 350px;"></el-input>
@@ -439,11 +442,18 @@
 						trigger: 'blur'
 					}],
 				},
-				// 司机选择框数据remoteMethod
+				
+				// 公司选择框数据
 				companyOptions: [],
 				companyList: [],
 				companyLoading: false,
 				companyStates: [],
+				
+				// 司机选择框数据
+				driverOptions: [],
+				driverList: [],
+				driverLoading: false,
+				driverStates: [],
 				// 根据是否是分公司显示
 				showBtn:true,
 			}
@@ -454,8 +464,8 @@
 			}else{
 				this.showBtn = true
 			}
-			this.addForm.companyl = window.sessionStorage.getItem('company')
-			this.queryInfo.companyl = window.sessionStorage.getItem('company')
+			// this.addForm.companyl = window.sessionStorage.getItem('company')
+			// this.queryInfo.companyl = window.sessionStorage.getItem('company')
 			this.selectTime = this.getFormatDate(new Date())
 			this.queryInfo.createtime = '*' + this.selectTime + '*'
 			this.getList()
@@ -486,7 +496,7 @@
 					}
 				xhr.send();
 			},
-			// 点击查询按钮 getFullYear
+			// 点击查询按钮 
 			handleQueryBtn() {
 				this.queryInfo.pageNo = 1
 				this.queryInfo.pageSize = 10
@@ -565,7 +575,9 @@
 			},
 			// 展示编辑的对话框
 			async showEditDialog(id) {
+				console.log(id)
 				this.queryInfo.id = id
+				this.queryInfo.pageNo = 1
 				const {
 					data: res
 				} = await this.$http.get('k_information/list', {
@@ -625,17 +637,18 @@
 					this.editForm.scoree + this.editForm.scoref + this.editForm.scoreg + this.editForm.scoreh + this.editForm.scorel +
 					this.editForm.scorej
 			},
-			// 获取公司名下所有司机名称
+			
+			// 获取所有公司名称
 			async getAllCompanyList() {
 				const {
 					data: res
-				} = await this.$http.get('kDriver/editcompany?company=' + this.queryInfo.companyl)
-				console.log('driver', res)
+				} = await this.$http.get('base/company/getAllCompanyName')
+				// console.log(res)
 				if (res.code !== 200) {
-					return this.$message.error(res.message);
+					return
 				}
 				res.result.forEach(v => {
-					this.companyStates.push(v.name)
+			      this.companyStates.push(v.name)
 				})
 				// console.log(this.companyStates)
 				this.companyList = this.companyStates.map(item => {
@@ -646,7 +659,7 @@
 				});
 				this.companyOptions = this.companyList
 			},
-
+			
 			// 选择公司方法
 			remoteCompanyMethod(query) {
 				if (query !== '') {
@@ -661,11 +674,66 @@
 					this.companyOptions = this.companyList
 				}
 			},
-			// 选择公司变化 
-			async companyChange(e) {
+			// 选择公司变化
+			companyChange(e){
+				console.log(e)
+				if(!e){
+					this.companyOptions = this.companyList
+					this.driverStates = []
+					this.driverOptions = []
+					this.driverList = []
+					this.addForm.driver = ''
+					this.addForm.licensePlate = ''
+				}else{
+					this.getAllDriverList()
+					console.log('list',this.driverList)
+				}
+			},
+			// 获取公司名下所有司机名称
+			async getAllDriverList() {
+				const {
+					data: res
+				} = await this.$http.get('kDriver/editcompany?company=' + this.addForm.companyl)
+				console.log('driver', res)
+				if (res.code !== 200) {
+					return this.$message.error(res.message);
+				}
+				this.driverStates = []
+				res.result.forEach(v => {
+					this.driverStates.push(v.name)
+				})
+				// console.log(this.companyStates)
+				this.driverList = this.driverStates.map(item => {
+					return {
+						value: `${item}`,
+						label: `${item}`
+					};
+				});
+				this.driverOptions = this.driverList
+			},
+			
+
+			// 选择司机方法
+			remoteDriverMethod(query) {
+				if (query !== '') {
+					this.driverLoading = true;
+					setTimeout(() => {
+						this.driverLoading = false;
+						this.driverOptions = this.driverList.filter(item => {
+							return item.value.indexOf(query) > -1;
+						});
+					}, 300)
+				} else {
+					this.driverOptions = this.driverList
+					
+				}
+			},
+			// 选择司机变化 
+			async driverChange(e) {
 				console.log(e)
 				if (!e) {
-					this.companyOptions = this.companyList
+					this.driverOptions = this.driverList
+					this.addForm.licensePlate = ''
 				} else {
 					const {
 						data: res
@@ -682,7 +750,7 @@
 			async editDriverChange(e) {
 				console.log(e)
 				if (!e) {
-					this.companyOptions = this.companyList
+					this.driverOptions = this.driverList
 				} else {
 					const {
 						data: res

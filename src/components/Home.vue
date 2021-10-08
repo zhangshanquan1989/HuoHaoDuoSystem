@@ -398,12 +398,12 @@
 							},
 						]
 					},
-					{
-							id: 3,
-							authName: '服务评价',
-							path: '/DriverScore',
-							icon: "el-icon-star-on"
-						},
+					// {
+					// 		id: 3,
+					// 		authName: '服务评价',
+					// 		path: '/DriverScore',
+					// 		icon: "el-icon-star-on"
+					// 	},
 				]
 			}else if(window.sessionStorage.getItem('role') == '调度主管' || window.sessionStorage.getItem('role') == '调度配送'){
 				this.menulist = [{
@@ -539,6 +539,12 @@
 								id: 26,
 								authName: '司机预警',
 								path: '/driverWarning',
+								icon: "el-icon-caret-right",
+							},
+							{
+								id: 27,
+								authName: '逾期订单',
+								path: '/outTime',
 								icon: "el-icon-caret-right",
 							},
 						]
@@ -711,6 +717,12 @@
 								path: '/driverWarning',
 								icon: "el-icon-caret-right",
 							},
+							{
+								id: 27,
+								authName: '逾期订单',
+								path: '/outTime',
+								icon: "el-icon-caret-right",
+							},
 						]
 					},
 					{
@@ -872,12 +884,18 @@
 									id: 25,
 									authName: '车辆考勤',
 									path: '/carAttendance',
-									icon: "el-icon-caret-right",
+									icon: "el-icon-caret-right",  
 								},
 								{
 									id: 26,
 									authName: '司机预警',
 									path: '/driverWarning',
+									icon: "el-icon-caret-right",
+								},
+								{
+									id: 27,
+									authName: '逾期订单',
+									path: '/outTime',
 									icon: "el-icon-caret-right",
 								},
 							]
@@ -1091,6 +1109,12 @@
 								path: '/driverWarning',
 								icon: "el-icon-caret-right",
 							},
+							// {
+							// 	id: 27,
+							// 	authName: '逾期订单',
+							// 	path: '/outTime',
+							// 	icon: "el-icon-caret-right",
+							// },
 						]
 					},
 					{

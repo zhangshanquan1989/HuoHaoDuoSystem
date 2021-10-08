@@ -6,7 +6,7 @@
 		
 		<!-- 卡片视图区 -->
 		<el-card class="box-card">
-			<!-- 创建司机  el-select--> 
+			<!-- 创建司机  weichuqinDay--> 
 			<div>
 				<el-input v-model="queryInfo.dirver" placeholder="司机名" clearable style="width: 200px;"></el-input>
 				<el-input v-model="queryInfo.chepai" placeholder="车牌号" clearable style="width: 200px;margin-left: 30px;"></el-input>
@@ -38,6 +38,8 @@
 				<el-table-column prop="driver" label="司机姓名" width="120px">
 				</el-table-column>
 				<el-table-column prop="lp" label="车牌号" width="140px">
+				</el-table-column>
+				<el-table-column prop="weichuqinDay" label="订单未更新天数" width="140px">
 				</el-table-column>
 				<el-table-column prop="companyl" label="分公司" width="250px">
 				</el-table-column>

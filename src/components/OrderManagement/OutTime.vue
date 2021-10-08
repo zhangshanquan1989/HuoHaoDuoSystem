@@ -1,0 +1,990 @@
+<template>
+	<div>
+		<!-- 面包屑导航区 -->
+		<el-breadcrumb separator-class="el-icon-arrow-right">
+			<el-breadcrumb-item>首页</el-breadcrumb-item>
+			<el-breadcrumb-item>订单管理</el-breadcrumb-item>
+			<el-breadcrumb-item>逾期订单</el-breadcrumb-item>
+		</el-breadcrumb>
+
+		<!-- 卡片视图区 -->
+		<el-card class="box-card">
+			<!-- 创建按钮 装卸货工具-->
+			<el-input v-model="queryInfo.chepai" placeholder="车牌号" clearable style="width: 200px;"></el-input>
+			<el-input v-model="queryInfo.driver" placeholder="司机名" clearable style="width: 200px;margin-left: 30px;"></el-input>
+			<el-input v-model="queryInfo.creater" placeholder="创建者" clearable style="width: 200px;margin-left: 30px;"></el-input>
+			<el-input v-model="queryInfo.people" placeholder="司机对接人" clearable style="width: 200px;margin-left: 30px;"></el-input>
+			<el-input v-model="queryInfo.fuzepeiguan" placeholder="负责配管" clearable style="width: 200px;margin-left: 30px;"></el-input>
+			<el-button type="primary" plain @click="handleQueryBtn" style="margin-left: 30px;">查询</el-button>
+			<el-button type="primary" plain @click="handleQueryBackBtn" style="margin-left: 30px;">返回</el-button>
+			<div style="margin-top: 20px;">
+				<el-date-picker v-model="selectTime" type="datetimerange" range-separator="至" start-placeholder="订单查询开始日期"
+				 end-placeholder="订单查询结束日期" format="yyyy 年 MM 月 dd 日 HH 时 mm 分 ss 秒" value-format="yyyy-MM-dd HH:mm:ss">
+				</el-date-picker>
+<!-- 				<el-select v-model="queryInfo.state" placeholder="状态查询" style="margin-left: 30px;">
+					<el-option v-for="item in stateOptions" :key="item.value" :label="item.label" :value="item.value">
+					</el-option>
+				</el-select> -->
+			</div>
+			
+			
+			<div style="margin-top: 20px;">
+			<!-- <el-button type="primary" icon="el-icon-download" plain @click="handleExport" >导出Excel</el-button>
+			<el-button type="primary" plain @click="handleClearBtn" style="margin-left: 30px;">清空选中</el-button> -->
+</div>
+			<el-table :data="List" ref="tableRef" border stripe style="width: 100%;margin-top: 8px;" :row-style="{height:'60px'}"
+			 :cell-style="{padding:'0px'}" :header-cell-style="{background:'#f8f8f9', color:'#000000'}" @selection-change="handleSelectionChange"
+			 :row-key="getLicense">
+				<!-- <el-table-column type="selection" width="55" :reserve-selection="true">
+				</el-table-column> -->
+				<el-table-column prop="id" label="ID" v-if="false">
+				</el-table-column>
+				<el-table-column fixed prop="no" label="运单编号" width="100px">
+				</el-table-column>
+				<el-table-column prop="driver" label="司机名" width="150px">
+				</el-table-column>
+				<el-table-column prop="lienses" label="车牌号" width="150px">
+				</el-table-column>
+				<el-table-column prop="creater" label="创建者" width="150px">
+				</el-table-column>
+				<el-table-column prop="people" label="司机对接人" width="100px">
+				</el-table-column>
+				<el-table-column prop="fuzepeiguan" label="负责配管" width="100px">
+				</el-table-column>
+				<el-table-column prop="companyname" label="公司" width="250px">
+				</el-table-column>
+				<el-table-column prop="waybilltype" label="派单类型" width="100px">
+				</el-table-column>
+				<el-table-column prop="source" label="订单来源" width="100px">
+				</el-table-column>
+				
+				<el-table-column prop="goodsname" label="货物名称" width="150px">
+				</el-table-column>
+				<el-table-column prop="goodsweight" label="货物重量/方数" width="150px">
+				</el-table-column>
+				<el-table-column prop="overweight" label="是否超高/超宽/超重" width="100px">
+				</el-table-column>
+				<!-- <el-table-column prop="picture" label="运单截图" width="150px">
+					<template slot-scope="scope">
+						<el-tooltip class="item" effect="dark" content="点击查看大图" placement="top">
+							<el-image style="width: 80px; height: 40px" :src="scope.row.picture" :preview-src-list="srcList" @click="handleClickImage(scope.row.picture)"></el-image>
+						</el-tooltip>
+					</template>
+				</el-table-column> -->
+				<el-table-column prop="emptydistance" label="空车距离" width="150px">
+				</el-table-column>
+				<el-table-column prop="highspeed" label="高速预计距离" width="150px">
+				</el-table-column>
+				<el-table-column prop="estimatedistance" label="下道预计距离" width="150px">
+				</el-table-column>
+				<el-table-column prop="ban" label="是否禁行" width="150px">
+				</el-table-column>
+				<el-table-column prop="km" label="全程公里数" width="150px">
+				</el-table-column>
+				<el-table-column prop="deposit" label="定金（元）" width="150px">
+				</el-table-column>
+				<el-table-column prop="pay" label="到付（元）" width="150px">
+				</el-table-column>
+				<el-table-column prop="car" label="到车（元）" width="150px">
+				</el-table-column>
+				<el-table-column prop="cost" label="费用（元）" width="150px">
+				</el-table-column>
+				<el-table-column prop="nearcost" label="预估利润（元）" width="150px">
+				</el-table-column>
+				<el-table-column prop="aclient" label="发货客户企业" width="150px">
+				</el-table-column>
+				<el-table-column prop="uclient" label="收货客户企业" width="150px">
+				</el-table-column>
+				<!-- <el-table-column prop="kilometer" label="每公里成本" width="150px">
+				</el-table-column> -->
+
+				<el-table-column prop="creatime" label="创建时间" width="180px" fixed="right">
+				</el-table-column>
+				<el-table-column prop="stateText" label="订单状态" width="120px" fixed="right">
+				</el-table-column>
+				<!-- <el-table-column prop="refusenote" label="司机拒单备注" width="120px" fixed="right">
+				</el-table-column> -->
+				<el-table-column label="操作" width="200px" fixed="right">
+					<template slot-scope="scope">
+						<!-- 修改按钮 -->
+						<el-button type="primary" size="mini" @click="showEditDialog(scope.row.no)" style="margin-left: 15px;">详情</el-button>
+						<el-button type="primary" size="mini" @click="showRecordDialog(scope.row.id)" style="margin-left: 15px;">逾期记录</el-button>
+						<!-- 删除按钮 -->
+						<!-- <el-popconfirm title="确定删除吗？" @confirm="removeById(scope.row.id)" style="margin-left: 10px;">
+							<el-button type="danger" size="mini" slot="reference">删除</el-button>
+						</el-popconfirm> -->
+					</template>
+				</el-table-column>
+			</el-table>
+		</el-card>
+
+		<!-- 分页区域 remoteMethod -->
+		<el-col>
+			<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="queryInfo.pageNo"
+			 :page-sizes="[10, 20, 50, 100]" :page-size="queryInfo.pageSize" layout="total, sizes, prev, pager, next, jumper"
+			 :total="total" style="margin-top: 5px;">
+			</el-pagination>
+		</el-col>
+
+		<!-- 详情的对话框  -->
+		<el-dialog title="订单详情" :visible.sync="editDialogVisible" width="80%" @close="editDialogClosed">
+			<!-- 编辑的表单 -->
+			<el-form :model="editForm" ref="editFormRef" label-width="140px">
+
+				<el-form-item v-if="showRefusenote" label="司机拒单原因" prop="refusenote" class="redItem">
+					<div style="color: red;">{{this.editForm.refusenote}}</div>
+				</el-form-item>
+				<el-form-item v-if="showQuxiao" label="订单取消备注:" prop="quxiaonote" class="redItem">
+					<div style="color: red;">{{this.editForm.quxiaonote}}</div>
+				</el-form-item>
+				<div style="display: flex;">
+					<el-form-item label="司机" prop="lienses" class="rt-input">
+						<el-input disabled v-model="editForm.Lidriver"></el-input>
+					</el-form-item>
+					<el-form-item label="车牌号" prop="searchDriver" class="rt-input">
+						<el-input :disabled="canEdit" v-model="editForm.lienses"></el-input>
+					</el-form-item>
+
+					<el-form-item label="负责配管" prop="lienses" class="rt-input">
+						<el-input disabled v-model="editForm.dispatch"></el-input>
+					</el-form-item>
+				</div>
+				<div style="display: flex;">
+					<el-form-item label="运单编号" prop="no" class="rt-input">
+						<el-input disabled v-model="editForm.no"></el-input>
+					</el-form-item>
+					<el-form-item label="派单类型" prop="waybilltype" class="rt-input">
+						<el-input disabled v-model="editForm.waybilltype"></el-input>
+					</el-form-item>
+					</el-form-item>
+					<el-form-item label="订单来源" prop="source" class="rt-input">
+						<el-input disabled v-model="editForm.source"></el-input>
+					</el-form-item>
+					<el-form-item label="当日负责配管" prop="people" class="rt-input">
+						<el-input :disabled="canEdit" v-model="editForm.people"></el-input>
+					</el-form-item>
+				</div>
+
+				<div style="display: flex;">
+					<el-form-item label="货物名称" prop="goodsname" class="rt-input">
+						<el-input :disabled="canEdit" v-model="editForm.goodsname"></el-input>
+					</el-form-item>
+					<el-form-item label="货物重量/方数" prop="goodsweight" class="rt-input">
+						<el-input :disabled="canEdit" v-model="editForm.goodsweight"></el-input>
+					</el-form-item>
+					<el-form-item label="是否超高/超宽/超重" prop="overweight" class="rt-input">
+						<el-input disabled v-model="editForm.overweight"></el-input>
+					</el-form-item>
+					<el-form-item label="是否禁行" prop="ban" class="rt-input">
+						<el-input :disabled="canEdit" v-model="editForm.ban"></el-input>
+					</el-form-item>
+
+				</div>
+
+
+				<div style="display: flex;">
+					<el-form-item label="放空距离" prop="emptydistance" class="rt-input">
+						<el-input :disabled="canEdit" v-model="editForm.emptydistance + 'km'"></el-input>
+					</el-form-item>
+					<el-form-item label="高速预计距离" prop="highspeed" class="rt-input">
+						<el-input :disabled="canEdit" v-model="editForm.highspeed + 'km'"></el-input>
+					</el-form-item>
+					<el-form-item label="下道预计距离" prop="estimatedistance" class="rt-input">
+						<el-input :disabled="canEdit" v-model="editForm.estimatedistance + 'km'"></el-input>
+					</el-form-item>
+					<el-form-item label="总公里" prop="km" class="rt-input">
+						<el-input :disabled="canEdit" v-model="editForm.km + 'km'"></el-input>
+					</el-form-item>
+				</div>
+				<div style="display: flex;">
+					<el-form-item label="定金" prop="deposit" class="rt-input">
+						<el-input :disabled="canEdit" v-model="editForm.deposit + '元'"></el-input>
+					</el-form-item>
+					<el-form-item label="到付" prop="pay" class="rt-input">
+						<el-input :disabled="canEdit" v-model="editForm.pay + '元'"></el-input>
+					</el-form-item>
+					<el-form-item label="到车" prop="car" class="rt-input">
+						<el-input :disabled="canEdit" v-model="editForm.car + '元'"></el-input>
+					</el-form-item>
+					<el-form-item label="费用" prop="cost" class="rt-input">
+						<el-input :disabled="canEdit" v-model="editForm.cost + '元'"></el-input>
+					</el-form-item>
+					<el-form-item label="利润" prop="nearcost" class="rt-input">
+						<el-input :disabled="canEdit" v-model="editForm.nearcost + '元'"></el-input>
+					</el-form-item>
+
+				</div>
+				<div style="display: flex;">
+					<el-form-item label="定金备注" prop="djnote" class="rt-input">
+						<el-input disabled v-model="editForm.djnote" placeholder="请输入"></el-input>
+					</el-form-item>
+					<el-form-item label="卸货方式" prop="upiontway" class="rt-input">
+						<el-input disabled v-model="editForm.upiontway"></el-input>
+					</el-form-item>
+					<el-form-item label="装卸货工具" prop="upiontgj" class="rt-input">
+						<el-input disabled v-model="editForm.upiontgj"></el-input>
+					</el-form-item>
+				</div>
+				<div style="display: flex;">
+					<el-form-item label="是否回单" prop="ishd" class="rt-input">
+						<el-input disabled v-model="editForm.ishd"></el-input>
+					</el-form-item>
+					<el-form-item label="回单地址" prop="hdadd" class="rt-input">
+						<el-input disabled v-model="editForm.hdadd"></el-input>
+					</el-form-item>
+					<el-form-item label="建议运输方式" prop="yunshu" class="rt-input">
+						<el-input disabled v-model="editForm.yunshu"></el-input>
+					</el-form-item>
+					<el-form-item label="建议到达装货时间" class="rt-input">
+
+						<el-date-picker disabled v-model="editForm.daoda" type="datetime" placeholder="选择日期时间" value-format="yyyy-MM-dd HH:mm:ss">
+						</el-date-picker>
+
+					</el-form-item>
+
+				</div>
+				<div style="display: flex;">
+					<el-form-item label="订单备注1" prop="ordernote" class="rt-input">
+						<el-input disabled v-model="editForm.ordernote"></el-input>
+					</el-form-item>
+					<el-form-item label="订单备注2" prop="ordernotea" class="rt-input">
+						<el-input disabled v-model="editForm.ordernotea"></el-input>
+					</el-form-item>
+					<el-form-item label="订单备注3" prop="ordernoteb" class="rt-input">
+						<el-input disabled v-model="editForm.ordernoteb"></el-input>
+					</el-form-item>
+				</div>
+				<div style="display: flex;">
+					<el-form-item label="下单客户" prop="aclient" class="rt-input">
+						<el-input :disabled="canEdit" v-model="editForm.aclient"></el-input>
+					</el-form-item>
+					<el-form-item label="收单客户" prop="uclient" class="rt-input">
+						<el-input :disabled="canEdit" v-model="editForm.uclient"></el-input>
+					</el-form-item>
+				</div>
+				<el-form-item label="运单截图" prop="picture">
+					<el-image v-if="editForm.picture" style="width: 150px;" :src="editForm.picture"></el-image>
+					<!-- <el-upload name="imgFile" :action="updatePictureUrl" :auto-upload="true" :on-success="handleEditPictureUrlSuccess"
+					 :show-file-list="false">
+						<el-button :disabled="canEdit" size="small" type="primary" plain>上传运单截图</el-button>
+					</el-upload> -->
+				</el-form-item>
+
+				<el-form-item label="装货信息">
+					<template>
+						<el-table :data="editForm.apoints" style="width: 100%">
+							<el-table-column prop="spointphone" label="装货点电话">
+								<template slot-scope="scope">
+									<el-input :disabled="canEdit" v-model="scope.row.spointphone" class="rt-input"></el-input>
+								</template>
+							</el-table-column>
+							<el-table-column label="装货时间" width="200px">
+								<template slot-scope="scope">
+									<el-date-picker :disabled="canEdit" v-model="scope.row.stime" type="datetime" placeholder="选择日期时间"
+									 value-format="yyyy-MM-dd HH:mm:ss" class="rt-input">
+									</el-date-picker>
+								</template>
+							</el-table-column>
+							<el-table-column prop="sprovince" label="省">
+								<template slot-scope="scope">
+									<el-input :disabled="canEdit" v-model="scope.row.sprovince" class="rt-input"></el-input>
+								</template>
+							</el-table-column>
+							<el-table-column prop="scity" label="市">
+								<template slot-scope="scope">
+									<el-input :disabled="canEdit" v-model="scope.row.scity" class="rt-input"></el-input>
+								</template>
+							</el-table-column>
+							<el-table-column prop="sarea" label="区">
+								<template slot-scope="scope">
+									<el-input :disabled="canEdit" v-model="scope.row.sarea" class="rt-input"></el-input>
+								</template>
+							</el-table-column>
+							<el-table-column prop="saddress" label="详细地址">
+								<template slot-scope="scope">
+									<el-input :disabled="canEdit" v-model="scope.row.saddress" class="rt-input"></el-input>
+								</template>
+							</el-table-column>
+							<el-table-column prop="sgrade" label="等级">
+								<template slot-scope="scope">
+									<el-input disabled v-model="scope.row.sgrade" class="rt-input"></el-input>
+								</template>
+							</el-table-column>
+							<el-table-column prop="snanbei" label="南北方界定">
+								<template slot-scope="scope">
+									<el-input disabled v-model="scope.row.snanbei" class="rt-input"></el-input>
+								</template>
+							</el-table-column>
+							<!-- <el-table-column fixed="right" label="操作">
+								<template slot-scope="scope">
+									<el-button :disabled="canEdit" @click.native.prevent="deleteApoints(scope.$index, editForm.apoints)">移除</el-button>
+								</template>
+							</el-table-column> -->
+						</el-table>
+					</template>
+					<!-- <el-button :disabled="canEdit" @click="addApoints(editForm.apoints)">添加</el-button> -->
+				</el-form-item>
+
+				<el-form-item label="卸货信息">
+					<template>
+						<el-table :data="editForm.upoints" style="width: 100%">
+							<el-table-column prop="spointphone" label="卸货点电话">
+								<template slot-scope="scope">
+									<el-input :disabled="canEdit" v-model="scope.row.dpointphone" class="rt-input"></el-input>
+								</template>
+							</el-table-column>
+							<el-table-column label="卸货时间" width="200px">
+								<template slot-scope="scope">
+									<el-date-picker :disabled="canEdit" v-model="scope.row.dtime" type="datetime" placeholder="选择日期时间"
+									 value-format="yyyy-MM-dd HH:mm:ss" class="rt-input">
+									</el-date-picker>
+								</template>
+							</el-table-column>
+							<el-table-column prop="sprovince" label="省">
+								<template slot-scope="scope">
+									<el-input :disabled="canEdit" v-model="scope.row.dprovince" class="rt-input"></el-input>
+								</template>
+							</el-table-column>
+							<el-table-column prop="scity" label="市">
+								<template slot-scope="scope">
+									<el-input :disabled="canEdit" v-model="scope.row.dcity" class="rt-input"></el-input>
+								</template>
+							</el-table-column>
+							<el-table-column prop="sarea" label="区">
+								<template slot-scope="scope">
+									<el-input :disabled="canEdit" v-model="scope.row.darea" class="rt-input"></el-input>
+								</template>
+							</el-table-column>
+							<el-table-column prop="saddress" label="详细地址">
+								<template slot-scope="scope">
+									<el-input :disabled="canEdit" v-model="scope.row.daddress" class="rt-input"></el-input>
+								</template>
+							</el-table-column>
+							<el-table-column prop="dgrade" label="等级">
+								<template slot-scope="scope">
+									<el-input disabled v-model="scope.row.dgrade" class="rt-input"></el-input>
+								</template>
+							</el-table-column>
+							<el-table-column prop="dnanbei" label="南北方界定">
+								<template slot-scope="scope">
+									<el-input disabled v-model="scope.row.dnanbei" class="rt-input"></el-input>
+								</template>
+							</el-table-column>
+							<!-- <el-table-column fixed="right" label="操作">
+								<template slot-scope="scope">
+									<el-button :disabled="canEdit" @click.native.prevent="deleteUpoints(scope.$index, editForm.upoints)">移除</el-button>
+								</template>
+							</el-table-column> -->
+						</el-table>
+					</template>
+					<!-- <el-button :disabled="canEdit" @click="addUpoints(editForm.upoints)">添加</el-button> -->
+				</el-form-item>
+
+
+				<div v-if="showDisDetails">
+					<div style="display: flex;">
+						<el-form-item label="司机已交定金" prop="depositis" class="rt-input">
+							<el-input disabled v-model="editForm.depositis"></el-input>
+						</el-form-item>
+						<el-form-item label="定金是否已退还" prop="returnd" class="rt-input">
+							<el-input disabled v-model="editForm.returnd"></el-input>
+						</el-form-item>
+						<el-form-item label="运费是否结算" prop="freight" class="rt-input">
+							<el-input disabled v-model="editForm.freight"></el-input>
+						</el-form-item>
+						<el-form-item label="风险备注" prop="risknote" class="rt-input">
+							<el-input disabled v-model="editForm.risknote"></el-input>
+						</el-form-item>
+					</div>
+
+					<div style="display: flex;">
+						<el-form-item label="调整后利润" prop="profits" class="rt-input">
+							<el-input disabled v-model="editForm.profits"></el-input>
+						</el-form-item>
+						<el-form-item label="调整原因" prop="why" class="rt-input">
+							<el-input disabled v-model="editForm.why"></el-input>
+						</el-form-item>
+						<el-form-item label="回单是否已结算" prop="returnis" class="rt-input">
+							<el-input disabled v-model="editForm.returnis"></el-input>
+						</el-form-item>
+						<el-form-item label="回单完结备注" prop="returnote" class="rt-input">
+							<el-input disabled v-model="editForm.returnote"></el-input>
+						</el-form-item>
+					</div>
+					<div style="display: flex;">
+						<el-form-item label="回单附件" prop="riskpicture" class="rt-input">
+							<el-image style="width: 200px;" :src="editForm.riskpicture"></el-image>
+						</el-form-item>
+						<el-form-item label="风险附件" prop="riskpicture" class="rt-input">
+							<el-image style="width: 200px;" :src="editForm.riskpicture"></el-image>
+						</el-form-item>
+					</div>
+
+				</div>
+			</el-form>
+			<span slot="footer" class="dialog-footer">
+
+				<el-button @click="editDialogVisible = false">关 闭</el-button>
+				<!-- <el-button v-if="canEdit" :disabled="canClickEdit" type="primary" @click="handlecanEdit">修 改</el-button> -->
+				<!-- <el-button v-else type="primary" @click="editInfo">确 定</el-button> -->
+			</span>
+
+		</el-dialog>
+		
+		<el-dialog title="逾期记录" :visible.sync="recordDialogVisible" width="80%" @close="recordDialogClosed">
+			<el-button type="primary" plain @click="addDialogVisible = true">录 入</el-button>
+			<el-card class="box-card" style="margin-top: 10px;">
+			<el-table :data="recordTableList" ref="recordTableRef" border stripe style="width: 100%;margin-top: 8px;" :row-style="{height:'60px'}"
+				 :cell-style="{padding:'0px'}" :header-cell-style="{background:'#f8f8f9', color:'#000000'}" @selection-change="handleSelectionChange"	 :row-key="getLicense">
+					<!-- <el-table-column type="selection" width="55" :reserve-selection="true">
+					</el-table-column> -->
+					<el-table-column prop="waybillid" label="ID" >
+					</el-table-column>
+					<el-table-column prop="jiesuanzh" label="结算账户">
+					</el-table-column>
+					<el-table-column prop="zkjlxj" label="追款记录小计" >
+					</el-table-column>
+					<el-table-column prop="lianxi" label="联系人备注" >
+					</el-table-column>
+					<el-table-column prop="xinxipic" label="派单信息附件" width="120px">
+						<template slot-scope="scope">
+							<a v-if="scope.row.xinxipic" :href="scope.row.xinxipic" download>下载附件</a>
+						</template>
+					</el-table-column>
+					<el-table-column prop="xdlyzj" label="下单来源附件" width="120px">
+						<template slot-scope="scope">
+							<a v-if="scope.row.xdlyzj"  :href="scope.row.xdlyzj" download>下载附件</a>
+						</template>
+					</el-table-column>
+					<el-table-column prop="hdzp" label="回单照片附件" width="120px">
+						<template slot-scope="scope">
+							<a v-if="scope.row.hdzp" :href="scope.row.hdzp" download>下载附件</a>
+						</template>
+					</el-table-column>
+					<el-table-column prop="zkjlzj" label="追款记录附件" width="120px">
+						<template slot-scope="scope">
+							<a v-if="scope.row.zkjlzj" :href="scope.row.zkjlzj" download>下载附件</a>
+						</template>
+					</el-table-column>
+					<el-table-column prop="creater" label="创建者" width="100px">
+					</el-table-column>
+					<el-table-column prop="creatime" label="创建时间" width="200px">
+					</el-table-column>
+					
+					<!-- <el-table-column prop="picture" label="运单截图" width="150px">
+						<template slot-scope="scope">
+							<el-tooltip class="item" effect="dark" content="点击查看大图" placement="top">
+								<el-image style="width: 80px; height: 40px" :src="scope.row.picture" :preview-src-list="srcList" @click="handleClickImage(scope.row.picture)"></el-image>
+							</el-tooltip>
+						</template>
+					</el-table-column> -->
+				</el-table>
+				<!-- 分页区域 remoteMethod -->
+				<el-col style="margin-top: 10px;padding-bottom: 10px;">
+					<el-pagination @size-change="recordSizeChange" @current-change="recordCurrentChange" :current-page="recordInfo.pageNo"
+					 :page-sizes="[10, 20, 50, 100]" :page-size="recordInfo.pageSize" layout="total, sizes, prev, pager, next, jumper"
+					 :total="recordTotal" style="margin-top: 5px;">
+					</el-pagination>
+				</el-col>
+				</el-card>
+
+		</el-dialog>
+		<!-- 创建的对话框  -->
+		<el-dialog title="录入逾期记录" :visible.sync="addDialogVisible" width="35%" :close-on-click-modal="false" @close="addDialogClosed">
+			<!-- 创建的表单   -->
+			<el-form :model="addForm" ref="addFormRef" label-width="140px" >
+				<el-form-item label="订单id" prop="waybillid">
+					<el-input disabled v-model="addForm.waybillid"></el-input>
+				</el-form-item>
+				<el-form-item label="结算账户" prop="jiesuanzh">
+					<el-input v-model="addForm.jiesuanzh"></el-input>
+				</el-form-item>
+				<el-form-item label="追款记录小计" prop="zkjlxj">
+					<el-input v-model="addForm.zkjlxj"></el-input>
+				</el-form-item>
+				<el-form-item label="联系人备注" prop="lianxi">
+					<el-input v-model="addForm.lianxi"></el-input>
+				</el-form-item>
+				<el-form-item label="派单信息截图附件">
+					<el-upload name="imgFile" :action="uploadpictureUrl" :headers="myHeaders" :auto-upload="true" :on-success="handlePictureSuccess" :show-file-list="false" :before-upload="beforeAvatarUpload">
+						<el-button size="small" type="primary" plain>点击上传</el-button>
+					</el-upload>
+					<a v-if="addForm.xinxipic" :href="addForm.xinxipic" download>下载附件</a>
+				</el-form-item>
+				<el-form-item label="下单来源证据附件">
+					<el-upload name="imgFile" :action="uploadxdlyzjUrl" :headers="myHeaders" :auto-upload="true" :on-success="handleXdlyzjSuccess" :show-file-list="false" :before-upload="beforeAvatarUpload">
+						<el-button size="small" type="primary" plain>点击上传</el-button>
+					</el-upload>
+					<a v-if="addForm.xdlyzj" :href="addForm.xdlyzj" download>下载附件</a>
+				</el-form-item>
+				<el-form-item label="回单照片附件">
+					<el-upload name="imgFile" :action="uploadxiadanUrl" :headers="myHeaders" :auto-upload="true" :on-success="handleXiadanSuccess" :show-file-list="false" :before-upload="beforeAvatarUpload">
+						<el-button size="small" type="primary" plain>点击上传</el-button>
+					</el-upload>
+					<a v-if="addForm.hdzp" :href="addForm.hdzp" download>下载附件</a>
+				</el-form-item>
+				<el-form-item label="追款记录证据附件">
+					<el-upload name="imgFile" :action="uploadzkjlzjUrl" :headers="myHeaders" :auto-upload="true" :on-success="handleZkjlzjSuccess" :show-file-list="false" :before-upload="beforeAvatarUpload">
+						<el-button size="small" type="primary" plain>点击上传</el-button>
+					</el-upload>
+					<a v-if="addForm.zkjlzj" :href="addForm.zkjlzj" download>下载附件</a>
+				</el-form-item>
+			</el-form>
+			<span slot="footer" class="dialog-footer">
+				<el-button @click="addDialogVisible = false">取 消</el-button>
+				<el-button type="primary" @click="addHandle">确 定</el-button>
+			</span>
+		</el-dialog>
+	</div>
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+				myHeaders: {
+					satoken: window.sessionStorage.getItem('satoken')
+				},
+				// 多选框数据
+				no: [],
+				// 查询数据 
+				queryInfo: {
+					pageNo: 1,
+					pageSize: 10,
+					// 倒叙必填
+					order: "desc",
+					column: "id",
+					chepai: '',
+					startime: '',
+					endtime: '',
+					state: '',
+					driver: '',
+					creater: '',
+					people: '',
+					fuzepeiguan: '',
+
+				},
+
+				stateOptions: [{
+						value: '2',
+						label: '审核完成'
+					}, {
+						value: '3',
+						label: '司机接单'
+					}, {
+						value: '4',
+						label: '司机拒单'
+					},
+					{
+						value: '5',
+						label: '待完结'
+					},
+					{
+						value: '6',
+						label: '订单取消'
+					}
+				],
+				selectTime: [],
+				// 分页列表 resetFields
+				List: [],
+				// 总条数
+				total: 0,
+				// 显示大图数组
+				srcList: [],
+				
+				// 操作记录
+				recordInfo:{
+					pageNo: 1,
+					pageSize: 10,
+					waybillid:0
+				},	
+				recordTotal:0,
+				recordDialogVisible:false,
+				recordTableList:[],
+
+				// 编辑对话框数据
+				editDialogVisible: false,
+				editForm: {
+					Lidriver: '',
+					dispatch: '',
+				},
+			// 录入
+			addDialogVisible:false,
+			addForm:{
+				waybillid:'',
+				jiesuanzh:'',
+				xinxipic:'',
+				zkjlxj:'',
+				lianxi:'',
+				xdlyzj:'',
+				hdzp:'',
+				zkjlzj:'',
+				
+			},
+				// 能否修改
+				canEdit: true,
+				// 修改按钮可否点击
+				canClickEdit: true,
+				// 订单完结，显示配送详情
+				showDisDetails: false,
+				// 显示司机拒单原因：
+				showRefusenote: false,
+				// 订单取消
+				showQuxiao: false,
+				// 派单类型
+				waybilltypeList: [{
+					value: '前置派单',
+					label: '前置派单'
+				}, {
+					value: '正常派单',
+					label: '正常派单'
+				}, {
+					value: '补录派单',
+					label: '补录派单'
+				}],
+				// 订单来源
+				sourceList: [{
+					value: '运满满',
+					label: '运满满'
+				}, {
+					value: '货拉拉',
+					label: '货拉拉'
+				}, {
+					value: '专线',
+					label: '专线'
+				}, {
+					value: '签约工厂',
+					label: '签约工厂'
+				}, {
+					value: '签约货站',
+					label: '签约货站'
+				}, {
+					value: '其他',
+					label: '其他'
+				}],
+				// 是否超高超重
+				overweightList: [{
+					value: '是',
+					label: '是'
+				}, {
+					value: '否',
+					label: '否'
+				}],
+				// 是否禁行
+				banList: [{
+					value: '是',
+					label: '是'
+				}, {
+					value: '否',
+					label: '否'
+				}],
+				testList: ['00071', '00072', '00073'],
+				
+				uploadpictureUrl: this.$baseUploadUrl + '/overdue/uploadpicture',
+				uploadxdlyzjUrl: this.$baseUploadUrl + '/overdue/uploadxdlyzj',
+				uploadxiadanUrl: this.$baseUploadUrl + '/overdue/uploadxiadan',
+				uploadzkjlzjUrl: this.$baseUploadUrl + '/overdue/uploadzkjlzj',
+			}
+		},
+		created() {
+			const companyLogin = window.sessionStorage.getItem('company')			
+			const role = window.sessionStorage.getItem('role')
+			if(companyLogin == '货好多科技有限公司'){
+				if (role == '管理员') {
+				
+				} else if (role == '调度主管') {
+				
+				} else if (role == '调度配送') {
+					this.queryInfo.userid = window.sessionStorage.getItem('userID') - 0
+				} else if (role == '调度运单') {
+					this.queryInfo.userid = window.sessionStorage.getItem('userID') - 0
+				} else {
+					this.queryInfo.userid = window.sessionStorage.getItem('userID') - 0
+				}
+				
+			}else{
+				this.queryInfo.companyname = companyLogin
+			}
+			
+			this.getList()
+		},
+		methods: {
+			// 多选框保持选中
+			getLicense(row) {
+				return row.no
+			},
+			// 清空选中
+			handleClearBtn() {
+				this.$refs.tableRef.clearSelection()
+			},
+			// 多选框变化
+			handleSelectionChange(e) {
+				// console.log(e)
+				this.no = []
+				e.forEach(v => {
+					this.no.push(v.no)
+				})
+				// e.forEach(v=>{
+				// 	if(this.no.indexOf(v.no) == -1){
+				// 		this.no.push(v.no)
+				// 	}					
+				// })
+				// console.log(this.no)
+			},
+			// 导出
+			async handleExport() {
+				if (!this.no[0]) {
+					return this.$message.warning('请选择需要导出的数据！')
+				}
+				const {
+					data: res
+				} = await this.$http({
+					url: 'YMpageController/selectDingDanX',
+					method: "post",
+					data: {
+						dingdanhao: this.no
+					},
+					responseType: 'blob',
+				})
+				// console.log(res)
+				var blob = res
+				// console.log(blob)
+				const fileName = '订单详情报表.xlsx'
+				var a = document.createElement("a");
+				a.href = window.URL.createObjectURL(blob);
+				console.log(a.href)
+				a.download = fileName
+				a.click()
+				a.remove()
+			},
+			//分页区域
+			// 根据分页查询列表
+			async getList() {
+				const {
+					data: res
+				} = await this.$http.get('overdue/listyundan', {
+					params: this.queryInfo
+				})
+				console.log('list', res)
+				this.List = res.rows
+				this.total = res.total
+				this.List.forEach(v => {
+					if (v.state == 0) {
+						v.stateText = "驳回"
+					} else if (v.state == 1) {
+						v.stateText = "审核中"
+					} else if (v.state == 2) {
+						v.stateText = "审核完成"
+					} else if (v.state == 3) {
+						v.stateText = "司机已接单"
+					} else if (v.state == 4) {
+						v.stateText = "司机已拒单"
+					} else if (v.state == 5) {
+						v.stateText = "待完结"
+					} else if (v.state == 6) {
+						v.stateText = "订单取消"
+					}
+				})
+			},
+			//点击查看放大图片
+			handleClickImage(src) {
+				this.srcList = []
+				this.srcList.push(src)
+			},
+
+			// 点击查询按钮
+			handleQueryBtn() {
+				// console.log(this.selectTime)
+				this.queryInfo.pageNo = 1
+				this.queryInfo.pageSize = 10
+				this.queryInfo.startime = this.selectTime[0]
+				this.queryInfo.endtime = this.selectTime[1]
+				this.getList()
+			},
+			// 返回按钮
+			handleQueryBackBtn() {
+				this.queryInfo.pageNo = 1
+				this.queryInfo.pageSize = 10
+				this.queryInfo.chepai = ''
+				this.queryInfo.startime = ''
+				this.queryInfo.endtime = ''
+				this.queryInfo.state = ''
+				this.queryInfo.driver = ''
+				this.queryInfo.creater = ''
+				this.queryInfo.people = ''
+				this.queryInfo.fuzepeiguan = ''
+				this.selectTime = []
+				this.getList()
+			},
+
+			// pageSize 改变的事件
+			handleSizeChange(newSize) {
+				this.queryInfo.pageSize = newSize
+				this.getList()
+			},
+
+			// 页码值改变事件
+			handleCurrentChange(newPage) {
+				this.queryInfo.pageNo = newPage
+				this.getList()
+			},
+
+			// 详情对话框操作 
+			// 展示详情的对话框
+			async showEditDialog(plistNo) {
+				// console.log(plistNo)
+				this.canClickEdit = true
+				this.showDisDetails = false
+				const {
+					data: res
+				} = await this.$http.get('waybill/findListPage?plistNo=' + plistNo)
+				// console.log('详情', res)
+				if (res.code !== 200) {
+					return this.$message.error(res.message)
+				}
+				this.editForm = res.result[0]
+				this.editForm.LilicensePlate = this.editForm.liensess.licensePlate
+				this.editForm.Lidriver = this.editForm.cars.name
+				this.editForm.dispatch = this.editForm.liensess.dispatch
+				// if(this.editForm.refusenote){
+				// 	this.showRefusenote = true
+				// }
+				if (res.result[0].state == 0) {
+					this.canClickEdit = false
+				} else if (res.result[0].state == 1) {
+					this.canClickEdit = true
+				} else if (res.result[0].state == 2) {
+					this.canClickEdit = true
+					this.showDisDetails = true
+				} else if (res.result[0].state == 3) {
+					this.canClickEdit = true
+				} else if (res.result[0].state == 4) {
+					this.canClickEdit = true
+					this.showRefusenote = true
+				} else if (res.result[0].state == 5) {
+
+				} else if (res.result[0].state == 6) {
+					this.showQuxiao = true
+				}
+
+				// 显示对话框
+				this.editDialogVisible = true
+			},
+
+			// 监听修改用户对话框关闭事件
+			editDialogClosed() {
+				this.$refs.editFormRef.resetFields()
+				this.canEdit = true
+				this.canClickEdit = true
+				this.showRefusenote = false
+				this.showQuxiao = false
+				this.showDisDetails = false
+			},
+
+			// 展示操作记录的对话框
+			async getRecordList() {
+				const {
+					data: res
+				} = await this.$http.get('overdue/list', {
+					params: this.recordInfo
+				})
+				console.log('操作详情', res)
+				if (res.code !== 200) {
+					return this.$message.error(res.message)
+				}
+				this.recordTableList = res.result.records
+				this.recordTotal = res.result.total
+			},
+			
+			async showRecordDialog(id) {
+				this.recordInfo.waybillid = id
+				this.addForm.waybillid = id
+				// this.recordInfo.waybillid = 8745
+				this.getRecordList()				
+				// 显示对话框
+				this.recordDialogVisible = true
+			},
+			// pageSize 改变的事件
+			recordSizeChange(newSize) {
+				this.recordInfo.pageSize = newSize
+				this.getRecordList()
+			},
+			
+			// 页码值改变事件
+			recordCurrentChange(newPage) {
+				this.recordInfo.pageNo = newPage
+				this.getRecordList()
+			},
+
+			// 监听修改用户对话框关闭事件
+			recordDialogClosed() {
+				
+			},
+			// 上传图片限制
+			beforeAvatarUpload(file) {
+				console.log(file)
+				const isLt10M = file.size / 1024 / 1024 < 10;
+				if (!isLt10M) {
+					this.$message.error('上传图片大小不能超过 10MB!');
+				}
+				return isLt10M;
+			},
+			// 上传派单截图成功
+			handlePictureSuccess(response, file, fileList){
+				console.log(response)
+				this.addForm.xinxipic = response.result.pictureFileName
+			},
+			// 上传下单来源证据成功
+			handleXdlyzjSuccess(response, file, fileList){
+				console.log(response)
+				this.addForm.xdlyzj = response.result.pictureFileName
+			},
+			// 上传回单照片成功
+			handleXiadanSuccess(response, file, fileList){
+				console.log(response)
+				this.addForm.hdzp = response.result.pictureFileName
+			},
+			// 上传追款记录成功
+			handleZkjlzjSuccess(response, file, fileList){
+				console.log(response)
+				this.addForm.zkjlzj = response.result.pictureFileName
+			},
+			addHandle(){
+				this.$refs.addFormRef.validate(async valid => {
+					if (!valid) return
+					const {
+						data: res
+					} = await this.$http.post('overdue/add', this.addForm)
+					// console.log(res)
+					if (res.code !== 200) {
+						return this.$message.error(res.message)
+					}
+					this.$message.success(res.message)
+					this.getRecordList()
+					this.addDialogVisible = false
+				})
+			},
+			// 录入关闭
+			addDialogClosed(){
+				this.$refs.addFormRef.resetFields()
+				this.addForm.xinxipic = ''
+				this.addForm.xdlyzj = ''
+				this.addForm.hdzp = ''
+				this.addForm.zkjlzj = ''
+			},
+
+		}
+	}
+</script>
+
+<style scoped>
+	.rt-input /deep/ .el-input__inner {
+		color: #606266 !important;
+
+	}
+
+	/* 要实现驳回原因的label字体变红，需要把scoped去掉，但是去掉，上边禁用字体颜色样式就不起效果 */
+	.redItem .el-form-item__label {
+		color: red;
+	}
+</style>

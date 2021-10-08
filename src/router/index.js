@@ -19,6 +19,7 @@ import DriverScore from '../components/DriverScore/DriverScore.vue'
 import WaybillManage from '../components/OrderManagement/WaybillManage.vue'
 import DistributionManage from '../components/OrderManagement/DistributionManage.vue'
 import OrderManage from '../components/OrderManagement/OrderManage.vue'
+import OutTime from '../components/OrderManagement/OutTime.vue'
 import CarDistribution from '../components/OrderManagement/CarDistribution.vue'
 import CarAttendance from '../components/OrderManagement/CarAttendance.vue'
 import DriverWarning from '../components/OrderManagement/DriverWarning.vue'
@@ -97,6 +98,7 @@ const routes = [
 		{path:'/distributionManage', component:DistributionManage},
 		{path:'/waybillManage', component:WaybillManage},		
 		{path:'/orderManage', component:OrderManage},		
+		{path:'/outTime', component:OutTime},		
 		{path:'/carDistribution', component:CarDistribution},		
 		{path:'/carAttendance', component:CarAttendance},		
 		{path:'/driverWarning', component:DriverWarning},		
