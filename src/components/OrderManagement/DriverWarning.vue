@@ -43,7 +43,7 @@
 				</el-table-column>
 				<el-table-column prop="平均利润" label="平均利润" sortable="custom">
 					<template slot-scope="scope">
-						<span :style="{'color':scope.row.平均利润-0 >= 650?'black':'red'}">{{scope.row.平均利润}}</span>
+						<span :style="{'color':scope.row.平均利润-0 >= 700?'black':'red'}">{{scope.row.平均利润}}</span>
 					</template>
 				</el-table-column>
 				
