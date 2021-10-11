@@ -244,6 +244,13 @@
 				<div id="everycar" style="width:100%;height: 400px;margin-top: 50px;"></div>
 			</div>
 		</el-card>
+		<!-- 当日低价运单折线图展示区域 -->
+		<el-card class="box-card" style="margin-top: 30px;height: 430px;margin-left:8px;">
+			<div style="width: 100%;height: 400px;margin-top: 50px;">
+				<lowPrice></lowPrice>
+				
+			</div>
+		</el-card>
 
 		<!-- 年检对话框 -->
 		<el-dialog title="年检到期车辆" :visible.sync="nianjianDialogVisible" width="60%" @close="nianjianDialogClosed">
@@ -395,7 +402,6 @@
 			<el-table :data="shanggangzhengCarList" border stripe style="width: 100%;margin-top: 8px;" :row-style="{height:'60px'}"
 			 :cell-style="{padding:'0px'}" :header-cell-style="{background:'#f8f8f9', color:'#000000'}" @selection-change="shanggangzhengSelectionChange">
 				<el-table-column type="selection" width="55"></el-table-column>
-
 				<el-table-column prop="License_plate" label="车牌号" width="150px">
 				</el-table-column>
 				<el-table-column prop="company" label="所属公司">
@@ -404,11 +410,9 @@
 				</el-table-column>
 				<el-table-column prop="phoneno" label="司机电话" width="150px">
 				</el-table-column>
-
 				<el-table-column prop="worklicensedate" label="上岗证到期时间
 " width="150px">
 				</el-table-column>
-
 			</el-table>
 			<!-- 操作区域 -->
 			<span slot="footer" class="dialog-footer">
@@ -566,7 +570,12 @@
 </template>
 
 <script>
+	import walden from '../../assets/echartsTheme/walden.js'
+	import LowPrice from './EchartsComps/LowPrice.vue'
 	export default {
+		components: {
+		  LowPrice,
+		},
 		data() {
 			return {
 				myChart: {},
@@ -651,6 +660,7 @@
 				everycarData:[],
 				xDataEverycar: [],
 				yDataEverycar: [],
+
 			}
 		},
 		created() {
@@ -1664,7 +1674,7 @@
 		},
 		// 创建图表
 		creatEchartsMethod() {
-			this.myChart = this.$echarts.init(document.getElementById('main'));
+			this.myChart = this.$echarts.init(document.getElementById('main'),'walden');
 
 			var options = {
 				// title: {
@@ -1680,7 +1690,7 @@
 					nameTextStyle: {
 						fontWeight: 600,
 						fontSize: 16,
-
+						color:'black'
 					},
 					type: 'category',
 					data: this.xDataArr
@@ -1692,6 +1702,7 @@
 						fontSize: 16,
 						align: 'right',
 						lineHeight: 56,
+						color:'black'
 					},
 					type: 'value'
 				},
@@ -1763,7 +1774,7 @@
 		},
 		// 创建everyday折线图
 		creatEverydayMethod() {
-			this.everydayChart = this.$echarts.init(document.getElementById('everyday'));
+			this.everydayChart = this.$echarts.init(document.getElementById('everyday'), 'walden');
 		
 			var options = {
 				xAxis: {
@@ -1771,7 +1782,7 @@
 					nameTextStyle: {
 						fontWeight: 600,
 						fontSize: 16,
-		
+						color:'black'
 					},
 					type: 'category',
 					data: this.xDataEveryday
@@ -1783,6 +1794,7 @@
 						fontSize: 16,
 						align: 'center',
 						lineHeight: 56,
+						color:'black'
 					},
 					type: 'value'
 				},
@@ -1798,7 +1810,14 @@
 						 smooth: true,
 						data: this.yDataEveryday,
 						color: '#409EFF',
-
+						lineStyle: {
+								  width: 3,
+								},
+						emphasis: {
+							lineStyle: {
+								width: 2,
+							},
+						}
 					},
 				],
 			}
@@ -1831,7 +1850,7 @@
 		
 		// 创建everycar折线图
 		creatEverycarMethod() {
-			this.everycarChart = this.$echarts.init(document.getElementById('everycar'));
+			this.everycarChart = this.$echarts.init(document.getElementById('everycar'), 'walden');
 		
 			var options = {
 				xAxis: {
@@ -1839,7 +1858,7 @@
 					nameTextStyle: {
 						fontWeight: 600,
 						fontSize: 16,
-		
+						color:'black'
 					},
 					type: 'category',
 					data: this.xDataEverycar
@@ -1851,6 +1870,7 @@
 						fontSize: 16,
 						align: 'center',
 						lineHeight: 56,
+						color:'black'
 					},
 					type: 'value'
 				},
@@ -1866,7 +1886,11 @@
 						 smooth: true,
 						data: this.yDataEverycar,
 						color: '#E6AE5C',
-		
+						emphasis: {
+							lineStyle: {
+								width: 2,
+							},
+						}
 					},
 				],
 			}

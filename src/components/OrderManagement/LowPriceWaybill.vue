@@ -4,7 +4,7 @@
 		<el-breadcrumb separator-class="el-icon-arrow-right">
 			<el-breadcrumb-item>首页</el-breadcrumb-item>
 			<el-breadcrumb-item>订单管理</el-breadcrumb-item>
-			<el-breadcrumb-item>逾期订单</el-breadcrumb-item>
+			<el-breadcrumb-item>低价运单</el-breadcrumb-item>
 		</el-breadcrumb>
 
 		<!-- 卡片视图区 -->
@@ -21,17 +21,17 @@
 				<el-date-picker v-model="selectTime" type="datetimerange" range-separator="至" start-placeholder="订单查询开始日期"
 				 end-placeholder="订单查询结束日期" format="yyyy 年 MM 月 dd 日 HH 时 mm 分 ss 秒" value-format="yyyy-MM-dd HH:mm:ss">
 				</el-date-picker>
-<!-- 				<el-select v-model="queryInfo.state" placeholder="状态查询" style="margin-left: 30px;">
+				<el-select v-model="queryInfo.state" placeholder="状态查询" style="margin-left: 30px;">
 					<el-option v-for="item in stateOptions" :key="item.value" :label="item.label" :value="item.value">
 					</el-option>
-				</el-select> -->
+				</el-select>
 			</div>
 			
 			
-			<div style="margin-top: 20px;">
-			<!-- <el-button type="primary" icon="el-icon-download" plain @click="handleExport" >导出Excel</el-button>
-			<el-button type="primary" plain @click="handleClearBtn" style="margin-left: 30px;">清空选中</el-button> -->
-</div>
+			<!-- <div style="margin-top: 20px;">
+			<el-button type="primary" icon="el-icon-download" plain @click="handleExport" >导出Excel</el-button>
+			<el-button type="primary" plain @click="handleClearBtn" style="margin-left: 30px;">清空选中</el-button>
+</div> -->
 			<el-table :data="List" ref="tableRef" border stripe style="width: 100%;margin-top: 8px;" :row-style="{height:'60px'}"
 			 :cell-style="{padding:'0px'}" :header-cell-style="{background:'#f8f8f9', color:'#000000'}" @selection-change="handleSelectionChange"
 			 :row-key="getLicense">
@@ -41,10 +41,12 @@
 				</el-table-column>
 				<el-table-column fixed prop="no" label="运单编号" width="100px">
 				</el-table-column>
-				<el-table-column prop="driver" label="司机名" width="150px">
+				<el-table-column fixed prop="lower" label="单公里运价" width="120px">
 				</el-table-column>
 				<el-table-column prop="lienses" label="车牌号" width="150px">
 				</el-table-column>
+				<el-table-column prop="driver" label="司机名" width="150px">
+				</el-table-column>				
 				<el-table-column prop="creater" label="创建者" width="150px">
 				</el-table-column>
 				<el-table-column prop="people" label="司机对接人" width="100px">
@@ -104,11 +106,10 @@
 				</el-table-column>
 				<!-- <el-table-column prop="refusenote" label="司机拒单备注" width="120px" fixed="right">
 				</el-table-column> -->
-				<el-table-column label="操作" width="200px" fixed="right">
+				<el-table-column label="操作" width="120px" fixed="right">
 					<template slot-scope="scope">
 						<!-- 修改按钮 -->
 						<el-button type="primary" size="mini" @click="showEditDialog(scope.row.no)" style="margin-left: 15px;">详情</el-button>
-						<el-button type="primary" size="mini" @click="showRecordDialog(scope.row.id)" style="margin-left: 15px;">逾期记录</el-button>
 						<!-- 删除按钮 -->
 						<!-- <el-popconfirm title="确定删除吗？" @confirm="removeById(scope.row.id)" style="margin-left: 10px;">
 							<el-button type="danger" size="mini" slot="reference">删除</el-button>
@@ -430,111 +431,8 @@
 			</span>
 
 		</el-dialog>
-		
-		<el-dialog title="逾期记录" :visible.sync="recordDialogVisible" width="80%" @close="recordDialogClosed">
-			<el-button type="primary" plain @click="addDialogVisible = true">录 入</el-button>
-			<el-card class="box-card" style="margin-top: 10px;">
-			<el-table :data="recordTableList" ref="recordTableRef" border stripe style="width: 100%;margin-top: 8px;" :row-style="{height:'60px'}"
-				 :cell-style="{padding:'0px'}" :header-cell-style="{background:'#f8f8f9', color:'#000000'}" @selection-change="handleSelectionChange"	 :row-key="getLicense">
-					<!-- <el-table-column type="selection" width="55" :reserve-selection="true">
-					</el-table-column> -->
-					<el-table-column prop="waybillid" label="ID" >
-					</el-table-column>
-					<el-table-column prop="jiesuanzh" label="结算账户">
-					</el-table-column>
-					<el-table-column prop="zkjlxj" label="追款记录小计" >
-					</el-table-column>
-					<el-table-column prop="lianxi" label="联系人备注" >
-					</el-table-column>
-					<el-table-column prop="xinxipic" label="派单信息附件" width="120px">
-						<template slot-scope="scope">
-							<a v-if="scope.row.xinxipic" :href="scope.row.xinxipic" download>下载附件</a>
-						</template>
-					</el-table-column>
-					<el-table-column prop="xdlyzj" label="下单来源附件" width="120px">
-						<template slot-scope="scope">
-							<a v-if="scope.row.xdlyzj"  :href="scope.row.xdlyzj" download>下载附件</a>
-						</template>
-					</el-table-column>
-					<el-table-column prop="hdzp" label="回单照片附件" width="120px">
-						<template slot-scope="scope">
-							<a v-if="scope.row.hdzp" :href="scope.row.hdzp" download>下载附件</a>
-						</template>
-					</el-table-column>
-					<el-table-column prop="zkjlzj" label="追款记录附件" width="120px">
-						<template slot-scope="scope">
-							<a v-if="scope.row.zkjlzj" :href="scope.row.zkjlzj" download>下载附件</a>
-						</template>
-					</el-table-column>
-					<el-table-column prop="creater" label="创建者" width="100px">
-					</el-table-column>
-					<el-table-column prop="creatime" label="创建时间" width="200px">
-					</el-table-column>
-					
-					<!-- <el-table-column prop="picture" label="运单截图" width="150px">
-						<template slot-scope="scope">
-							<el-tooltip class="item" effect="dark" content="点击查看大图" placement="top">
-								<el-image style="width: 80px; height: 40px" :src="scope.row.picture" :preview-src-list="srcList" @click="handleClickImage(scope.row.picture)"></el-image>
-							</el-tooltip>
-						</template>
-					</el-table-column> -->
-				</el-table>
-				<!-- 分页区域 remoteMethod -->
-				<el-col style="margin-top: 10px;padding-bottom: 10px;">
-					<el-pagination @size-change="recordSizeChange" @current-change="recordCurrentChange" :current-page="recordInfo.pageNo"
-					 :page-sizes="[10, 20, 50, 100]" :page-size="recordInfo.pageSize" layout="total, sizes, prev, pager, next, jumper"
-					 :total="recordTotal" style="margin-top: 5px;">
-					</el-pagination>
-				</el-col>
-				</el-card>
 
-		</el-dialog>
-		<!-- 创建的对话框  -->
-		<el-dialog title="录入逾期记录" :visible.sync="addDialogVisible" width="35%" :close-on-click-modal="false" @close="addDialogClosed">
-			<!-- 创建的表单   -->
-			<el-form :model="addForm" ref="addFormRef" label-width="140px" >
-				<el-form-item label="订单id" prop="waybillid">
-					<el-input disabled v-model="addForm.waybillid"></el-input>
-				</el-form-item>
-				<el-form-item label="结算账户" prop="jiesuanzh">
-					<el-input v-model="addForm.jiesuanzh"></el-input>
-				</el-form-item>
-				<el-form-item label="追款记录小计" prop="zkjlxj">
-					<el-input v-model="addForm.zkjlxj"></el-input>
-				</el-form-item>
-				<el-form-item label="联系人备注" prop="lianxi">
-					<el-input v-model="addForm.lianxi"></el-input>
-				</el-form-item>
-				<el-form-item label="派单信息截图附件">
-					<el-upload name="imgFile" :action="uploadpictureUrl" :headers="myHeaders" :auto-upload="true" :on-success="handlePictureSuccess" :show-file-list="false" :before-upload="beforeAvatarUpload">
-						<el-button size="small" type="primary" plain>点击上传</el-button>
-					</el-upload>
-					<a v-if="addForm.xinxipic" :href="addForm.xinxipic" download>下载附件</a>
-				</el-form-item>
-				<el-form-item label="下单来源证据附件">
-					<el-upload name="imgFile" :action="uploadxdlyzjUrl" :headers="myHeaders" :auto-upload="true" :on-success="handleXdlyzjSuccess" :show-file-list="false" :before-upload="beforeAvatarUpload">
-						<el-button size="small" type="primary" plain>点击上传</el-button>
-					</el-upload>
-					<a v-if="addForm.xdlyzj" :href="addForm.xdlyzj" download>下载附件</a>
-				</el-form-item>
-				<el-form-item label="回单照片附件">
-					<el-upload name="imgFile" :action="uploadxiadanUrl" :headers="myHeaders" :auto-upload="true" :on-success="handleXiadanSuccess" :show-file-list="false" :before-upload="beforeAvatarUpload">
-						<el-button size="small" type="primary" plain>点击上传</el-button>
-					</el-upload>
-					<a v-if="addForm.hdzp" :href="addForm.hdzp" download>下载附件</a>
-				</el-form-item>
-				<el-form-item label="追款记录证据附件">
-					<el-upload name="imgFile" :action="uploadzkjlzjUrl" :headers="myHeaders" :auto-upload="true" :on-success="handleZkjlzjSuccess" :show-file-list="false" :before-upload="beforeAvatarUpload">
-						<el-button size="small" type="primary" plain>点击上传</el-button>
-					</el-upload>
-					<a v-if="addForm.zkjlzj" :href="addForm.zkjlzj" download>下载附件</a>
-				</el-form-item>
-			</el-form>
-			<span slot="footer" class="dialog-footer">
-				<el-button @click="addDialogVisible = false">取 消</el-button>
-				<el-button type="primary" @click="addHandle">确 定</el-button>
-			</span>
-		</el-dialog>
+
 	</div>
 </template>
 
@@ -542,12 +440,9 @@
 	export default {
 		data() {
 			return {
-				myHeaders: {
-					satoken: window.sessionStorage.getItem('satoken')
-				},
-				// 多选框数据 companyname
+				// 多选框数据
 				no: [],
-				// 查询数据 
+				// 查询数据 waybilltypeList
 				queryInfo: {
 					pageNo: 1,
 					pageSize: 10,
@@ -562,9 +457,8 @@
 					creater: '',
 					people: '',
 					fuzepeiguan: '',
-					companyname:'',
-				},
 
+				},
 				stateOptions: [{
 						value: '2',
 						label: '审核完成'
@@ -585,22 +479,12 @@
 					}
 				],
 				selectTime: [],
-				// 分页列表 resetFields
+				// 分页列表
 				List: [],
 				// 总条数
 				total: 0,
 				// 显示大图数组
 				srcList: [],
-				
-				// 操作记录
-				recordInfo:{
-					pageNo: 1,
-					pageSize: 10,
-					waybillid:0
-				},	
-				recordTotal:0,
-				recordDialogVisible:false,
-				recordTableList:[],
 
 				// 编辑对话框数据
 				editDialogVisible: false,
@@ -608,19 +492,6 @@
 					Lidriver: '',
 					dispatch: '',
 				},
-			// 录入
-			addDialogVisible:false,
-			addForm:{
-				waybillid:'',
-				jiesuanzh:'',
-				xinxipic:'',
-				zkjlxj:'',
-				lianxi:'',
-				xdlyzj:'',
-				hdzp:'',
-				zkjlzj:'',
-				
-			},
 				// 能否修改
 				canEdit: true,
 				// 修改按钮可否点击
@@ -679,15 +550,10 @@
 					label: '否'
 				}],
 				testList: ['00071', '00072', '00073'],
-				
-				uploadpictureUrl: this.$baseUploadUrl + '/overdue/uploadpicture',
-				uploadxdlyzjUrl: this.$baseUploadUrl + '/overdue/uploadxdlyzj',
-				uploadxiadanUrl: this.$baseUploadUrl + '/overdue/uploadxiadan',
-				uploadzkjlzjUrl: this.$baseUploadUrl + '/overdue/uploadzkjlzj',
 			}
 		},
 		created() {
-			const companyLogin = window.sessionStorage.getItem('company')
+			const companyLogin = window.sessionStorage.getItem('company')			
 			const role = window.sessionStorage.getItem('role')
 			if(companyLogin == '货好多科技有限公司'){
 				if (role == '管理员') {
@@ -756,13 +622,38 @@
 				a.download = fileName
 				a.click()
 				a.remove()
+
+				// 下面是拼接url的方法,全选的话拼接url过长！！
+				// let url = 'https://tkhhd.com/jeecg-boot/YMpageController/selectDingDanX?'+this.$qs.stringify({ no: this.no }, { arrayFormat: 'repeat' })
+				// 	var xhr = new XMLHttpRequest(); //定义http请求对象
+				// 	xhr.open("get", url, true);
+				// 	xhr.responseType = "blob"; // 转换流
+				// 	xhr.setRequestHeader("satoken", window.sessionStorage.getItem('satoken'));
+				// 	let that = this
+				// 	xhr.onload = function() {
+
+				// 		// console.log(this)
+				// 		var blob = this.response;
+				// 		var a = document.createElement("a")
+				// 		var url = window.URL.createObjectURL(blob)
+				// 		a.href = url
+				// 		a.download = "订单报表.xlsx" // 文件名
+				// 		a.click()
+				// 		window.URL.revokeObjectURL(url)
+				// 		a.remove()
+				// 		that.fullscreenLoading = false;
+				// 	}
+				// xhr.send();
+				// !!!下面代码为location.href方法，不能携带token
+				// const {data:res} = await this.$http.get('YMpageController/selectDingDanX?'+this.$qs.stringify({ no: this.no }, { arrayFormat: 'repeat' }))
+				// window.location.href = 'http://81.70.151.121:8080/jeecg-boot/YMpageController/selectDingDanX?'+this.$qs.stringify({ no: this.no }, { arrayFormat: 'repeat' })
 			},
 			//分页区域
-			// 根据分页查询列表
+			// 根据分页查询列表srcList
 			async getList() {
 				const {
 					data: res
-				} = await this.$http.get('overdue/listyundan', {
+				} = await this.$http.get('lowerpice/list', {
 					params: this.queryInfo
 				})
 				console.log('list', res)
@@ -829,7 +720,7 @@
 				this.getList()
 			},
 
-			// 详情对话框操作 
+			// 详情对话框操作
 			// 展示详情的对话框
 			async showEditDialog(plistNo) {
 				// console.log(plistNo)
@@ -881,97 +772,6 @@
 				this.showDisDetails = false
 			},
 
-			// 展示操作记录的对话框
-			async getRecordList() {
-				const {
-					data: res
-				} = await this.$http.get('overdue/list', {
-					params: this.recordInfo
-				})
-				console.log('操作详情', res)
-				if (res.code !== 200) {
-					return this.$message.error(res.message)
-				}
-				this.recordTableList = res.result.records
-				this.recordTotal = res.result.total
-			},
-			
-			async showRecordDialog(id) {
-				this.recordInfo.waybillid = id
-				this.addForm.waybillid = id
-				// this.recordInfo.waybillid = 8745
-				this.getRecordList()				
-				// 显示对话框
-				this.recordDialogVisible = true
-			},
-			// pageSize 改变的事件
-			recordSizeChange(newSize) {
-				this.recordInfo.pageSize = newSize
-				this.getRecordList()
-			},
-			
-			// 页码值改变事件
-			recordCurrentChange(newPage) {
-				this.recordInfo.pageNo = newPage
-				this.getRecordList()
-			},
-
-			// 监听修改用户对话框关闭事件
-			recordDialogClosed() {
-				
-			},
-			// 上传图片限制
-			beforeAvatarUpload(file) {
-				console.log(file)
-				const isLt10M = file.size / 1024 / 1024 < 10;
-				if (!isLt10M) {
-					this.$message.error('上传图片大小不能超过 10MB!');
-				}
-				return isLt10M;
-			},
-			// 上传派单截图成功
-			handlePictureSuccess(response, file, fileList){
-				console.log(response)
-				this.addForm.xinxipic = response.result.pictureFileName
-			},
-			// 上传下单来源证据成功
-			handleXdlyzjSuccess(response, file, fileList){
-				console.log(response)
-				this.addForm.xdlyzj = response.result.pictureFileName
-			},
-			// 上传回单照片成功
-			handleXiadanSuccess(response, file, fileList){
-				console.log(response)
-				this.addForm.hdzp = response.result.pictureFileName
-			},
-			// 上传追款记录成功
-			handleZkjlzjSuccess(response, file, fileList){
-				console.log(response)
-				this.addForm.zkjlzj = response.result.pictureFileName
-			},
-			addHandle(){
-				this.$refs.addFormRef.validate(async valid => {
-					if (!valid) return
-					const {
-						data: res
-					} = await this.$http.post('overdue/add', this.addForm)
-					// console.log(res)
-					if (res.code !== 200) {
-						return this.$message.error(res.message)
-					}
-					this.$message.success(res.message)
-					this.getRecordList()
-					this.addDialogVisible = false
-				})
-			},
-			// 录入关闭
-			addDialogClosed(){
-				this.$refs.addFormRef.resetFields()
-				this.addForm.xinxipic = ''
-				this.addForm.xdlyzj = ''
-				this.addForm.hdzp = ''
-				this.addForm.zkjlzj = ''
-			},
 
 		}
 	}

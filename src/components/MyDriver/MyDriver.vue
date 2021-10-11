@@ -5,7 +5,7 @@
 		</el-breadcrumb>
 		
 		<!-- 卡片视图区 -->
-		<el-card class="box-card">
+		<el-card class="box-card" v-loading.fullscreen.lock="fullscreenLoading">
 			<!-- 创建司机  weichuqinDay--> 
 			<div>
 				<el-input v-model="queryInfo.dirver" placeholder="司机名" clearable style="width: 200px;"></el-input>
@@ -30,9 +30,9 @@
 				</el-select>
 				<el-button type="primary" plain @click="handleQueryBackBtn" style="margin-left: 30px;">返回</el-button>
 			</div>			
-			
-			
-			
+			<div style="margin-top: 8px;">
+			<el-button type="primary" plain @click="allExportBtn">导出全部</el-button>
+			</div>
 			
 			<el-table :data="driverList" border stripe style="width: 100%;margin-top: 8px;" :row-style="{height:'60px'}" :cell-style="{padding:'0px'}" :header-cell-style="{background:'#f8f8f9', color:'#000000'}">
 				<el-table-column prop="driver" label="司机姓名" width="120px">
@@ -90,6 +90,8 @@
 	export default {
 		data(){
 			return{
+				// 遮罩层
+				fullscreenLoading:false,
 				// 分页查询数据
 				queryInfo: {
 					pageNo: 1,
@@ -207,6 +209,29 @@
 				this.queryInfo.staute = ''
 				this.queryInfo.state = ''
 				this.getDriverList()
+			},
+			async allExportBtn() {
+				this.fullscreenLoading = true;
+				let url = this.$baseUploadUrl+'/mydriveExcel/MydriveExcel?dirver=' + this.queryInfo.dirver + '&chepai=' + this.queryInfo.chepai + '&peiguan=' + this.queryInfo.peiguan + '&company=' + this.queryInfo.company + '&atten=' + this.queryInfo.atten + '&staute=' + this.queryInfo.staute + '&shen=' + this.queryInfo.shen + '&shi=' + this.queryInfo.shi + '&qu=' + this.queryInfo.qu + '&add=' + this.queryInfo.add + '&grade=' + this.queryInfo.grade + '&state=' + this.queryInfo.state
+					var xhr = new XMLHttpRequest(); //定义http请求对象
+					xhr.open("get", url, true);
+					xhr.responseType = "blob"; // 转换流
+					xhr.setRequestHeader("satoken", window.sessionStorage.getItem('satoken'));
+					let that = this
+					xhr.onload = function() {
+						
+						// console.log(this)
+						var blob = this.response;
+						var a = document.createElement("a")
+						var url = window.URL.createObjectURL(blob)
+						a.href = url
+						a.download = "我的司机报表.xlsx" // 文件名
+						a.click()
+						window.URL.revokeObjectURL(url)
+						a.remove()
+						that.fullscreenLoading = false;
+					}
+				xhr.send();
 			},
 			
 		}

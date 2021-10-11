@@ -1,23 +1,20 @@
 <template>
 	<div class="box">
 		<div class="header">
-			<div class="header_text">数据可视化</div>
+			<div class="header_text">天康智能运力实时监控系统</div>
 			<div class="showTime">{{nowTime}}</div>
 		</div>
 		<div class="mainbox">
 			<!-- 左3份 -->
 			<div class="column">
-				<div class="panel bar">
-					<h2>第一个标题</h2>
-					<div class="chart"></div>
+				<div class="panel bar" style="height: 7.5rem;">
+					<h2>当月里程排行</h2>
+					<div class="chart" style="height: 6.5rem;">
+						<monthDistance></monthDistance>
+					</div>
 					<div class="panel-footer"></div>
 				</div>
-				<div class="panel bar">
-					<h2>第一个标题</h2>
-					<div class="chart"></div>
-					<div class="panel-footer"></div>
-				</div>
-				<div class="panel bar">
+				<div class="panel bar" >
 					<h2>第一个标题</h2>
 					<div class="chart"></div>
 					<div class="panel-footer"></div>
@@ -29,14 +26,14 @@
 				<div class="no">
 					<div class="no-hd">
 						<ul>
-							<li>546821</li>
-							<li>165188</li>
+							<li>{{carTotalNum}}</li>
+							<li>{{distanceTotalNum}}</li>
 						</ul>
 					</div>
 					<div class="no-bd">
 						<ul>
-							<li>手动复位法</li>
-							<li>顶顶顶顶顶</li>
+							<li>车辆总数</li>
+							<li>行驶总里程</li>
 						</ul>
 					</div>
 				</div>
@@ -55,12 +52,7 @@
 					<div class="chart"></div>
 					<div class="panel-footer"></div>
 				</div>
-				<div class="panel bar">
-					<h2>第一个标题</h2>
-					<div class="chart"></div>
-					<div class="panel-footer"></div>
-				</div>
-				<div class="panel bar">
+				<div class="panel bar" style="height: 7.5rem;">
 					<h2>第一个标题</h2>
 					<div class="chart"></div>
 					<div class="panel-footer"></div>
@@ -73,13 +65,19 @@
 
 <script>
 	import china from '../assets/echartsScreen/china.js'
-
+	import MonthDistance from './EchartsComp/MonthDistance.vue'
 	export default {
+		components: {
+		  MonthDistance,
+		},
 		data() {
 			return {
 				mapInstane: null,
 				nowTime: '',
 				timerId: null,
+				distanceTiId: null,
+				carTotalNum:null,
+				distanceTotalNum:null,
 				config: {
 					header: ['列1', '列2', '列3'],
 					data: [
@@ -107,11 +105,36 @@
 		    },
 		created() {
 			this.getNowTime()
+			this.getCarTotalNum()
+			this.getDistanceTotalNum()
 		},
 		destroyed() {
 			clearInterval(this.timerId) //组件销毁的时候销毁定时器
+			clearInterval(this.distanceTiId) //组件销毁的时候销毁定时器
 		},
 		methods: {
+			// 获取车辆总数
+			async getCarTotalNum(){
+				const {
+					data: res
+				} = await this.$http.get('data/findCarNumber')
+				console.log('车总数',res)
+				this.carTotalNum = res[0].value
+			},
+			// 获取总公里数
+			 getDistanceTotalNum(){
+				if (this.distanceTiId) {
+					clearInterval(this.distanceTiId)
+				} // 保险操作，先判断是否存在定时器，存在的话关闭
+				this.distanceTiId = setInterval(async () => {
+					const {
+						data: res
+					} = await this.$http.get('data/findNumber')
+					// console.log('里程总数',res)
+					this.distanceTotalNum = res[0].value
+				},1000)
+				
+			},
 			getNowTime() {
 				if (this.timerId) {
 					clearInterval(this.timerId)
@@ -129,12 +152,8 @@
 			},
 			// 初始化图表 
 			initChart() {
-				this.mapInstane = this.$echarts.init(document.querySelector(".map .chart"));
-
-
 				// 1. 实例化对象
-				// var myChart = echarts.init(document.querySelector(".map .chart"));
-				// 2. 指定配置和数据
+				this.mapInstane = this.$echarts.init(document.querySelector(".map .chart"));
 				// 2. 指定配置和数据
 				var geoCoordMap = {
 					上海: [121.4648, 31.2891],
@@ -522,7 +541,7 @@
 		height: 1rem;
 
 		.header_text {
-			font-size: 0.475rem;
+			font-size: 0.65rem;
 			color: #FFFFFF;
 			text-align: center;
 			line-height: 1rem;
@@ -700,8 +719,8 @@
 				height: 0.5rem;
 				line-height: 0.5rem;
 				text-align: center;
-				font-size: 0.225rem;
-				color: rgba(255, 255, 255, 0.7);
+				font-size: 0.275rem;
+				color: rgba(255, 255, 255, 0.8);
 				padding-top: 0.125rem;
 			}
 		}

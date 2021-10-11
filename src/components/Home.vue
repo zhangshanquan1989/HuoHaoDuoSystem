@@ -898,6 +898,12 @@
 									path: '/outTime',
 									icon: "el-icon-caret-right",
 								},
+								{
+									id: 28,
+									authName: '低价运单',
+									path: '/LowPriceWaybill',
+									icon: "el-icon-caret-right",
+								},
 							]
 						},
 						{
@@ -944,13 +950,19 @@
 								icon: "el-icon-star-on"
 							},
 						// {
-						// 	id: 11,
-						// 	authName: '分公司首页',
-						// 	path: '/imageWelcome',
+						// 	id: 12, 
+						// 	authName: '图表测试',
+						// 	path: '/MonthDistance',
 						// 	icon: "el-icon-truck",
 						// },
 						// {
-						// 	id: 5,
+						// 	id: 13, 
+						// 	authName: '低价单图表',
+						// 	path: '/LowPrice',
+						// 	icon: "el-icon-truck",
+						// },
+						// {
+						// 	id: 5, LowPrice
 						// 	authName: '数据工厂',
 						// 	path: '/dataFactory',
 						// 	icon: "el-icon-data-line",

@@ -14,6 +14,7 @@ import PerformanceInfor from '../components/PerformanceInfor/PerformanceInfor.vu
 import Welcome from '../components/Welcome/Welcome.vue'
 import ImageWelcome from '../components/Welcome/ImageWelcome.vue'
 import MyDriver from '../components/MyDriver/MyDriver.vue'
+import MonthDistance from '../components/EchartsComp/MonthDistance.vue'
 import DriverScore from '../components/DriverScore/DriverScore.vue'
 // 订单管理
 import WaybillManage from '../components/OrderManagement/WaybillManage.vue'
@@ -23,6 +24,7 @@ import OutTime from '../components/OrderManagement/OutTime.vue'
 import CarDistribution from '../components/OrderManagement/CarDistribution.vue'
 import CarAttendance from '../components/OrderManagement/CarAttendance.vue'
 import DriverWarning from '../components/OrderManagement/DriverWarning.vue'
+import LowPriceWaybill from '../components/OrderManagement/LowPriceWaybill.vue'
 
 // Basis基础子组件
 import CompanyInfor from '../components/BasisInfor/Navigation/CompanyInfor.vue'
@@ -46,6 +48,9 @@ import RoleManage from '../components/RightsManage/RoleManage.vue'
 
 // 数据汇总
 import DataAggregation from '../components/DataAggregation/DataAggregation.vue'
+
+// 低价单
+import LowPrice from '../components/Welcome/EchartsComps/LowPrice.vue'
 
 
 
@@ -76,6 +81,7 @@ const routes = [
 		{path:'/welcome', component:Welcome},
 		{path:'/imageWelcome', component:ImageWelcome},
 		{path:'/MyDriver', component:MyDriver},
+		{path:'/MonthDistance', component:MonthDistance},
 		{path:'/driverScore', component:DriverScore},
 	  {path:'/basis', component:BasisInfor,
 			children:[
@@ -102,11 +108,13 @@ const routes = [
 		{path:'/carDistribution', component:CarDistribution},		
 		{path:'/carAttendance', component:CarAttendance},		
 		{path:'/driverWarning', component:DriverWarning},		
+		{path:'/LowPriceWaybill', component:LowPriceWaybill},		
 		{path:'/rights', component:RightsManage},
 		{path:'/manage/departManage', component:DepartManage},
 		{path:'/manage/userManage', component:UserManage},
 		{path:'/manage/roleManage', component:RoleManage},
 		{path:'/dataAggregation', component:DataAggregation},
+		{path:'/LowPrice', component:LowPrice},
 		{path:'/text', component:Text},
 		{path:'/test2', component:Test2}
 		]
