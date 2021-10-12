@@ -1,22 +1,24 @@
 <template>
 	<div class="box">
 		<div class="header">
-			<div class="header_text">天康智能运力实时监控系统</div>
+			<div class="header_text">天 康 智 能 运 力 实 时 监 控 系 统</div>
 			<div class="showTime">{{nowTime}}</div>
 		</div>
 		<div class="mainbox">
 			<!-- 左3份 -->
 			<div class="column">
-				<div class="panel bar" style="height: 7.5rem;">
+				<div class="panel bar" style="height: 7.75rem;">
 					<h2>当月里程排行</h2>
-					<div class="chart" style="height: 6.5rem;">
+					<div class="chart" style="height: 6.525rem;">
 						<monthDistance></monthDistance>
 					</div>
 					<div class="panel-footer"></div>
 				</div>
-				<div class="panel bar" >
+				<div class="panel bar" style="height: 3.818rem;">
 					<h2>第一个标题</h2>
-					<div class="chart"></div>
+					<div class="chart">
+						<IncomeRanking></IncomeRanking>
+					</div>
 					<div class="panel-footer"></div>
 				</div>
 			</div>
@@ -47,9 +49,11 @@
 			</div>
 			<!-- 右3份 -->
 			<div class="column">
-				<div class="panel bar">
+				<div class="panel bar" style="height: 3.75rem;">
 					<h2>第一个标题</h2>
-					<div class="chart"></div>
+					<div class="chart">
+						<IncomePie></IncomePie>
+					</div>
 					<div class="panel-footer"></div>
 				</div>
 				<div class="panel bar" style="height: 7.5rem;">
@@ -66,9 +70,13 @@
 <script>
 	import china from '../assets/echartsScreen/china.js'
 	import MonthDistance from './EchartsComp/MonthDistance.vue'
+	import IncomePie from './EchartsComp/IncomePie.vue'
+	import IncomeRanking from './EchartsComp/IncomeRanking.vue'
 	export default {
 		components: {
 		  MonthDistance,
+		  IncomePie,
+		  IncomeRanking,
 		},
 		data() {
 			return {
@@ -76,6 +84,7 @@
 				nowTime: '',
 				timerId: null,
 				distanceTiId: null,
+				carNumId: null,
 				carTotalNum:null,
 				distanceTotalNum:null,
 				config: {
@@ -111,15 +120,22 @@
 		destroyed() {
 			clearInterval(this.timerId) //组件销毁的时候销毁定时器
 			clearInterval(this.distanceTiId) //组件销毁的时候销毁定时器
+			clearInterval(this.carNumId) //组件销毁的时候销毁定时器
 		},
 		methods: {
 			// 获取车辆总数
-			async getCarTotalNum(){
-				const {
-					data: res
-				} = await this.$http.get('data/findCarNumber')
-				console.log('车总数',res)
-				this.carTotalNum = res[0].value
+			getCarTotalNum(){
+				if (this.carNumId) {
+					clearInterval(this.carNumId)
+				} // 保险操作，先判断是否存在定时器，存在的话关闭
+				this.carNumId = setInterval(async () => {
+					const {
+						data: res
+					} = await this.$http.get('data/findCarNumber')
+					// console.log('车总数',res)
+					this.carTotalNum = res[0].value
+				},1000)
+				
 			},
 			// 获取总公里数
 			 getDistanceTotalNum(){
@@ -154,7 +170,7 @@
 			initChart() {
 				// 1. 实例化对象
 				this.mapInstane = this.$echarts.init(document.querySelector(".map .chart"));
-				// 2. 指定配置和数据
+				// 2. 指定配置和数据 潍坊
 				var geoCoordMap = {
 					上海: [121.4648, 31.2891],
 					东莞: [113.8953, 22.901],
@@ -276,7 +292,7 @@
 					[{
 						name: "西安"
 					}, {
-						name: "北京",
+						name: "青岛",
 						value: 100
 					}],
 					[{
@@ -349,6 +365,12 @@
 						name: "拉萨"
 					}, {
 						name: "潍坊",
+						value: 100
+					}],
+					[{
+						name: "拉萨"
+					}, {
+						name: "济南",
 						value: 100
 					}],
 					[{
@@ -519,9 +541,12 @@
 
 <style lang="less" scoped>
 	.box {
-		background: url(../assets/echartsScreen/bgNew.jpg) no-repeat top center;
-		width: 100%;
+		margin: 0;
+		padding: 0;
 		// height: 100%;
+		background: url(../assets/echartsScreen/bgNew.jpg) no-repeat top center;
+		// background: url(../assets/echartsScreen/bgNew.jpg) no-repeat #000;
+		background-size: 100% 100%;
 		line-height: 1.15;
 	}
 
@@ -541,7 +566,9 @@
 		height: 1rem;
 
 		.header_text {
-			font-size: 0.65rem;
+			font-size: 0.62rem;
+			font-family: electronicFont; //使用引入字体
+			font-weight: bold;
 			color: #FFFFFF;
 			text-align: center;
 			line-height: 1rem;
@@ -579,7 +606,7 @@
 		height: 3.4rem;
 		border: 1px solid rgba(25, 186, 139, 0.17);
 		background: rgba(255, 255, 255, 0.04) url(../assets/echartsScreen/line.png);
-		padding: 0 0.1875rem 0.5rem;
+		padding: 0 0.1875rem 0.1875rem;
 		margin-bottom: 0.1875rem;
 
 		&::before {
@@ -638,7 +665,7 @@
 			line-height: 0.6rem;
 			text-align: center;
 			color: #fff;
-			font-size: 0.25rem;
+			font-size: 0.3125rem;
 			font-weight: 400;
 
 			a {
@@ -731,11 +758,11 @@
 		height: 9.125rem;
 		.chart {
 			position: absolute;
-			top: 0;
-			left: 0;
+			top: -0.1875rem;
+			left: -0.5rem;
 			z-index: 5;
-			height: 10.125rem;
-			width: 100%;
+			height:10.375rem;
+			width: 110%;
 		}
 
 		.map1,

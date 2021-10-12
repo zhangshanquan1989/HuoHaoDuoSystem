@@ -707,6 +707,9 @@
 					value: '正常',
 					label: '正常'
 				}, {
+					value: '二手车',
+					label: '二手车'
+				},{
 					value: '停车',
 					label: '停车'
 				}, {
