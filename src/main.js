@@ -29,8 +29,8 @@ Vue.use(elementui, { zIndex: 500 })
 // 导入axios
 import axios from 'axios' 
 // 配置请求的根路径
-// axios.defaults.baseURL = 'https://tkhhd.com/jeecg-boot/'
-axios.defaults.baseURL = 'http://82.157.15.221:8080/jeecg-boot/'
+axios.defaults.baseURL = 'https://tkhhd.com/jeecg-boot/'
+// axios.defaults.baseURL = 'http://82.157.15.221:8080/jeecg-boot/'
 // axios.defaults.baseURL = 'http://81.70.151.121:8080/jeecg-boot/'
 
 // 导入WebSocket
@@ -46,8 +46,8 @@ Vue.prototype.Clipboard=Clipboard;
 // 挂载echarts
 Vue.prototype.$echarts = echarts
 // 设置图片、导出的根路径
-// Vue.prototype.$baseUploadUrl = 'https://tkhhd.com/jeecg-boot'
-Vue.prototype.$baseUploadUrl = 'http://82.157.15.221:8080/jeecg-boot'
+Vue.prototype.$baseUploadUrl = 'https://tkhhd.com/jeecg-boot'
+// Vue.prototype.$baseUploadUrl = 'http://82.157.15.221:8080/jeecg-boot'
 
 // axios 请求拦截器 ，为请求头添加token权限
 //     request方法是请求拦截器  通过use挂载一个回调函数  config为请求对象
