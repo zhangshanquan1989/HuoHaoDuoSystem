@@ -1,6 +1,6 @@
 <template>
 	<el-container class="home_container">
-		<!-- 头部区域 -->
+		<!-- 头部区域 管理员 -->
 		<el-header>
 			<div>
 				<img src="../assets/天康系统3.png" alt="">
@@ -441,9 +441,15 @@
 								path: '/basis/customer',
 								icon: "el-icon-caret-right"
 							},
+							{
+								id: 17,
+								authName: '压车数据',
+								path: '/basis/RegionLate',
+								icon: "el-icon-caret-right"
+							},
 							// {
 							// 	id: 16,
-							// 	authName: '地区信息',
+							// 	authName: '地区信息', 
 							// 	path: '/basis/region',
 							// 	icon: "el-icon-caret-right"
 							// },
@@ -615,6 +621,12 @@
 								id: 15,
 								authName: '客户信息',
 								path: '/basis/customer',
+								icon: "el-icon-caret-right"
+							},
+							{
+								id: 17,
+								authName: '压车数据',
+								path: '/basis/RegionLate',
 								icon: "el-icon-caret-right"
 							},
 							// {
@@ -793,6 +805,12 @@
 									path: '/basis/customer',
 									icon: "el-icon-caret-right"
 								},
+								{
+									id: 17,
+									authName: '压车数据',
+									path: '/basis/RegionLate',
+									icon: "el-icon-caret-right"
+								},
 								// {
 								// 	id: 16,
 								// 	authName: '地区信息',
@@ -837,6 +855,12 @@
 											id: 116,
 											authName: '车辆油耗',
 											path: '/basis/car/carEnergy',
+											icon: "el-icon-caret-right"
+										},
+										{
+											id: 117,
+											authName: '全图监控',
+											path: '/basis/car/CarLocation',
 											icon: "el-icon-caret-right"
 										},
 										// {
@@ -951,8 +975,20 @@
 							},
 						// {
 						// 	id: 12, 
-						// 	authName: '图表测试',
+						// 	authName: '里程排行',
 						// 	path: '/MonthDistance',
+						// 	icon: "el-icon-truck",
+						// },
+						// {
+						// 	id: 14, 
+						// 	authName: '收入排行',
+						// 	path: '/IncomeRanking',
+						// 	icon: "el-icon-truck",
+						// },
+						// {
+						// 	id: 15, 
+						// 	authName: '中心地图',
+						// 	path: '/CenterMap',
 						// 	icon: "el-icon-truck",
 						// },
 						// {

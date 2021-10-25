@@ -8,7 +8,7 @@
 		</el-breadcrumb>
 
 		<!-- 卡片视图区 -->
-		<el-card class="box-card">
+		<el-card class="box-card" v-loading.fullscreen.lock="fullscreenLoading">
 			<!-- 创建按钮 装卸货工具-->
 			<el-input v-model="queryInfo.chepai" placeholder="车牌号" clearable style="width: 200px;"></el-input>
 			<el-input v-model="queryInfo.driver" placeholder="司机名" clearable style="width: 200px;margin-left: 30px;"></el-input>
@@ -26,17 +26,13 @@
 					</el-option>
 				</el-select>
 			</div>
-			
-			
-			<!-- <div style="margin-top: 20px;">
-			<el-button type="primary" icon="el-icon-download" plain @click="handleExport" >导出Excel</el-button>
-			<el-button type="primary" plain @click="handleClearBtn" style="margin-left: 30px;">清空选中</el-button>
-</div> -->
+			<div style="margin-top: 8px;">
+			<el-button type="primary" plain @click="allExportBtn">导出全部</el-button>
+			</div>
+
 			<el-table :data="List" ref="tableRef" border stripe style="width: 100%;margin-top: 8px;" :row-style="{height:'60px'}"
-			 :cell-style="{padding:'0px'}" :header-cell-style="{background:'#f8f8f9', color:'#000000'}" @selection-change="handleSelectionChange"
-			 :row-key="getLicense">
-				<!-- <el-table-column type="selection" width="55" :reserve-selection="true">
-				</el-table-column> -->
+			 :cell-style="{padding:'0px'}" :header-cell-style="{background:'#f8f8f9', color:'#000000'}" >
+
 				<el-table-column prop="id" label="ID" v-if="false">
 				</el-table-column>
 				<el-table-column fixed prop="no" label="运单编号" width="100px">
@@ -440,6 +436,8 @@
 	export default {
 		data() {
 			return {
+				// 遮罩层
+				fullscreenLoading:false,
 				// 多选框数据
 				no: [],
 				// 查询数据 waybilltypeList
@@ -465,18 +463,19 @@
 					}, {
 						value: '3',
 						label: '司机接单'
-					}, {
-						value: '4',
-						label: '司机拒单'
-					},
+					}, 
+					// {
+					// 	value: '4',
+					// 	label: '司机拒单'
+					// },
 					{
 						value: '5',
 						label: '待完结'
 					},
-					{
-						value: '6',
-						label: '订单取消'
-					}
+					// {
+					// 	value: '6',
+					// 	label: '订单取消' 
+					// }
 				],
 				selectTime: [],
 				// 分页列表
@@ -575,80 +574,8 @@
 			this.getList()
 		},
 		methods: {
-			// 多选框保持选中
-			getLicense(row) {
-				return row.no
-			},
-			// 清空选中
-			handleClearBtn() {
-				this.$refs.tableRef.clearSelection()
-			},
-			// 多选框变化
-			handleSelectionChange(e) {
-				// console.log(e)
-				this.no = []
-				e.forEach(v => {
-					this.no.push(v.no)
-				})
-				// e.forEach(v=>{
-				// 	if(this.no.indexOf(v.no) == -1){
-				// 		this.no.push(v.no)
-				// 	}					
-				// })
-				// console.log(this.no)
-			},
-			// 导出
-			async handleExport() {
-				if (!this.no[0]) {
-					return this.$message.warning('请选择需要导出的数据！')
-				}
-				const {
-					data: res
-				} = await this.$http({
-					url: 'YMpageController/selectDingDanX',
-					method: "post",
-					data: {
-						dingdanhao: this.no
-					},
-					responseType: 'blob',
-				})
-				// console.log(res)
-				var blob = res
-				// console.log(blob)
-				const fileName = '订单详情报表.xlsx'
-				var a = document.createElement("a");
-				a.href = window.URL.createObjectURL(blob);
-				console.log(a.href)
-				a.download = fileName
-				a.click()
-				a.remove()
-
-				// 下面是拼接url的方法,全选的话拼接url过长！！
-				// let url = 'https://tkhhd.com/jeecg-boot/YMpageController/selectDingDanX?'+this.$qs.stringify({ no: this.no }, { arrayFormat: 'repeat' })
-				// 	var xhr = new XMLHttpRequest(); //定义http请求对象
-				// 	xhr.open("get", url, true);
-				// 	xhr.responseType = "blob"; // 转换流
-				// 	xhr.setRequestHeader("satoken", window.sessionStorage.getItem('satoken'));
-				// 	let that = this
-				// 	xhr.onload = function() {
-
-				// 		// console.log(this)
-				// 		var blob = this.response;
-				// 		var a = document.createElement("a")
-				// 		var url = window.URL.createObjectURL(blob)
-				// 		a.href = url
-				// 		a.download = "订单报表.xlsx" // 文件名
-				// 		a.click()
-				// 		window.URL.revokeObjectURL(url)
-				// 		a.remove()
-				// 		that.fullscreenLoading = false;
-				// 	}
-				// xhr.send();
-				// !!!下面代码为location.href方法，不能携带token
-				// const {data:res} = await this.$http.get('YMpageController/selectDingDanX?'+this.$qs.stringify({ no: this.no }, { arrayFormat: 'repeat' }))
-				// window.location.href = 'http://81.70.151.121:8080/jeecg-boot/YMpageController/selectDingDanX?'+this.$qs.stringify({ no: this.no }, { arrayFormat: 'repeat' })
-			},
-			//分页区域
+		
+				//分页区域
 			// 根据分页查询列表srcList
 			async getList() {
 				const {
@@ -688,8 +615,14 @@
 				// console.log(this.selectTime)
 				this.queryInfo.pageNo = 1
 				this.queryInfo.pageSize = 10
-				this.queryInfo.startime = this.selectTime[0]
-				this.queryInfo.endtime = this.selectTime[1]
+				if(!this.selectTime[0]){
+					this.queryInfo.startime = ''
+					this.queryInfo.endtime = ''
+				}else{
+					this.queryInfo.startime = this.selectTime[0]
+					this.queryInfo.endtime = this.selectTime[1]
+				}
+				
 				this.getList()
 			},
 			// 返回按钮
@@ -758,7 +691,7 @@
 					this.showQuxiao = true
 				}
 
-				// 显示对话框
+				// 显示对话框 
 				this.editDialogVisible = true
 			},
 
@@ -770,6 +703,30 @@
 				this.showRefusenote = false
 				this.showQuxiao = false
 				this.showDisDetails = false
+			},
+			
+			async allExportBtn() {
+				this.fullscreenLoading = true;
+				let url = this.$baseUploadUrl+'/mydriveExcel/lowcostwaybill?driver=' + this.queryInfo.driver + '&chepai=' + this.queryInfo.chepai + '&creater=' + this.queryInfo.creater + '&people=' + this.queryInfo.people + '&fuzepeiguan=' + this.queryInfo.fuzepeiguan + '&state=' + this.queryInfo.state + '&startime=' + this.queryInfo.startime + '&endtime=' + this.queryInfo.endtime
+					var xhr = new XMLHttpRequest(); //定义http请求对象
+					xhr.open("get", url, true);
+					xhr.responseType = "blob"; // 转换流
+					xhr.setRequestHeader("satoken", window.sessionStorage.getItem('satoken'));
+					let that = this
+					xhr.onload = function() {
+						
+						// console.log(this)
+						var blob = this.response;
+						var a = document.createElement("a")
+						var url = window.URL.createObjectURL(blob)
+						a.href = url
+						a.download = "低价运单报表.xlsx" // 文件名
+						a.click()
+						window.URL.revokeObjectURL(url)
+						a.remove()
+						that.fullscreenLoading = false;
+					}
+				xhr.send();
 			},
 
 

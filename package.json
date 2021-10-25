@@ -17,8 +17,10 @@
     "moment": "^2.29.1",
     "qrcodejs2": "^0.0.2",
     "qs": "^6.10.1",
+    "video.js": "^7.15.4",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
+    "vue-seamless-scroll": "^1.1.23",
     "weixin-js-sdk": "^1.6.0"
   },
   "devDependencies": {

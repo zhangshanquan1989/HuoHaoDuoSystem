@@ -14,7 +14,10 @@ import PerformanceInfor from '../components/PerformanceInfor/PerformanceInfor.vu
 import Welcome from '../components/Welcome/Welcome.vue'
 import ImageWelcome from '../components/Welcome/ImageWelcome.vue'
 import MyDriver from '../components/MyDriver/MyDriver.vue'
+// 数据大屏
 import MonthDistance from '../components/EchartsComp/MonthDistance.vue'
+import IncomeRanking from '../components/EchartsComp/IncomeRanking.vue'
+import CenterMap from '../components/EchartsComp/CenterMap.vue'
 import DriverScore from '../components/DriverScore/DriverScore.vue'
 // 订单管理
 import WaybillManage from '../components/OrderManagement/WaybillManage.vue'
@@ -32,11 +35,13 @@ import WorkerInfor from '../components/BasisInfor/Navigation/WorkerInfor.vue'
 import DriverQuery from '../components/BasisInfor/Navigation/DriverQuery.vue'
 import CustomerInfor from '../components/BasisInfor/Navigation/CustomerInfor.vue'
 import RegionInfor from '../components/BasisInfor/Navigation/RegionInfor.vue'
+import RegionLate from '../components/BasisInfor/Navigation/RegionLate.vue'
 import CarInfo from '../components/BasisInfor/Navigation/Car/CarInfo.vue'
 import Illegal from '../components/BasisInfor/Navigation/Car/Illegal.vue'
 import EarnestMoney  from '../components/BasisInfor/Navigation/Car/EarnestMoney .vue'
 import ManagementFee from '../components/BasisInfor/Navigation/Car/ManagementFee.vue'
 import CarMonitoring from '../components/BasisInfor/Navigation/Car/CarMonitoring.vue'
+import CarLocation from '../components/BasisInfor/Navigation/Car/CarLocation.vue'
 import CarMileage from '../components/BasisInfor/Navigation/Car/carMileage.vue'
 import CarEnergy from '../components/BasisInfor/Navigation/Car/carEnergy.vue'
 
@@ -63,7 +68,7 @@ const routes = [
 	{path:'/',redirect:'/login'},
   {path: '/login',component: Login},
   {path: '/phonePage/:id',component: PhonePage},
-  {path: '/echartsScreen',component: EchartsScreen},
+  {path: '/huohaoduokeji',component: EchartsScreen},
   // {path: '/home',component: Home,redirect:'/welcome',
 	// 路由重定向，可以接受一个函数
   {path: '/home',component: Home,redirect: to => {
@@ -82,6 +87,8 @@ const routes = [
 		{path:'/imageWelcome', component:ImageWelcome},
 		{path:'/MyDriver', component:MyDriver},
 		{path:'/MonthDistance', component:MonthDistance},
+		{path:'/IncomeRanking', component:IncomeRanking},
+		{path:'/CenterMap', component:CenterMap},
 		{path:'/driverScore', component:DriverScore},
 	  {path:'/basis', component:BasisInfor,
 			children:[
@@ -90,6 +97,7 @@ const routes = [
 				{path: '/basis/car/carInfo',component: CarInfo},
 				{path: '/basis/car/illegal',component: Illegal},
 				{path: '/basis/car/carMonitoring',component: CarMonitoring},
+				{path: '/basis/car/CarLocation',component: CarLocation},
 				{path: '/basis/car/carMileage',component: CarMileage},
 				{path: '/basis/car/carEnergy',component: CarEnergy},
 				{path: '/basis/car/earnestMoney',component: EarnestMoney},
@@ -97,6 +105,7 @@ const routes = [
 				{path: '/basis/driver',component: DriverQuery},
 				{path: '/basis/customer',component: CustomerInfor},
 				{path: '/basis/region',component: RegionInfor},
+				{path: '/basis/RegionLate',component: RegionLate},
 				]},
 		{path:'/assembly', component:Assembly},
 		{path:'/dataFactory', component:DataFactory},

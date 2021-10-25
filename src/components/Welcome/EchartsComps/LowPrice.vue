@@ -75,7 +75,7 @@
 						data: this.xDataLowPrice
 					},
 					yAxis: {
-						name: '当日低价运单数',
+						name: '当日低于3元/公里运单数',
 						nameTextStyle: {
 							fontWeight: 600,
 							fontSize: 16,
@@ -149,7 +149,7 @@
 						data: this.xDataLowPrice
 					},
 					yAxis: {
-						name: '当日低价运单数',
+						name: '低于3元/公里运单数',
 						nameTextStyle: {
 							fontWeight: 600,
 							fontSize: 16,

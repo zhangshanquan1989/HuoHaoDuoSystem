@@ -150,6 +150,14 @@
 				<el-table-column prop="note" label="备注">
 				</el-table-column>
 			</el-table>
+			
+			<el-col >
+				<el-pagination @size-change="payCostSizeChange" @current-change="payCostCurrentChange" :current-page="recordQuery.pageNo"
+				 :page-sizes="[5, 10, 15, 20]" :page-size="recordQuery.pageSize" layout="total, sizes, prev, pager, next, jumper"
+				 :total="totalpayCost" style="margin-top: 5px;">
+				</el-pagination>
+			</el-col>
+			<div style="height: 30px;"></div>
 		</el-dialog>
 
 		<!-- 报停的对话框 -->
@@ -209,8 +217,8 @@
 					<el-button type="primary" @click="stopInfo">确 定</el-button>
 				</span>
 			</el-card>
-			<!-- 缴费的记录 -->
-			<el-table :data="payCostList" border stripe style="width: 100%;margin-top: 100px;" :row-style="{height:'60px'}"
+			<!-- 报停的记录 -->
+			<el-table :data="stopList" border stripe style="width: 100%;margin-top: 100px;" :row-style="{height:'60px'}"
 			 :cell-style="{padding:'0px'}" :header-cell-style="{background:'#f8f8f9', color:'#000000'}">
 				<el-table-column type="index" width="100" label="序号">
 				</el-table-column>
@@ -241,7 +249,14 @@
 				<el-table-column prop="note" label="备注">
 				</el-table-column>
 			</el-table>
-
+			
+			<el-col >
+				<el-pagination @size-change="stopSizeChange" @current-change="stopCurrentChange" :current-page="stopQuery.pageNo"
+				 :page-sizes="[5, 10, 15, 20]" :page-size="stopQuery.pageSize" layout="total, sizes, prev, pager, next, jumper"
+				 :total="totalStop" style="margin-top: 5px;">
+				</el-pagination>
+			</el-col>
+			<div style="height: 30px;"></div>
 
 		</el-dialog>
 
@@ -285,6 +300,19 @@
 				monthCanSelect: false,
 				// 充值记录
 				payCostList: [],
+				recordQuery:{
+					pageNo: 1,
+					pageSize: 10,
+					licensePlate:'',
+				},
+				totalpayCost:0,
+				stopList:[],
+				stopQuery:{
+					pageNo: 1,
+					pageSize: 10,
+					licensePlate:'',
+				},
+				totalStop:0,
 				stopForm: {},
 				stopNewForm: {},
 				payCostForm: {
@@ -503,19 +531,28 @@
 				this.queryInfo.carstate = ""
 				this.getPageList()
 			},
+			
+			//获取缴费记录
+			async getRecordQuery() {
+				const {
+					data: res
+				} = await this.$http.get('kmanagementRecords/list', {
+					params: this.recordQuery
+				})
+				console.log('recordQuery',res)
+				if (res.code !== 200) {
+					return this.$message.error(res.message)
+				}
+				this.payCostList = res.result.records
+				this.totalpayCost = res.result.total
+			},
 
 			// 显示缴费页面
 			async handlePayCostDialog(row) {
 				// console.log('显示')
 				// console.log('row',row)
-				const {
-					data: res
-				} = await this.$http.get('kmanagementRecords/list?licensePlate=' + row.licensePlate)
-				// console.log(res)
-				if (res.code !== 200) {
-					return this.$message.error(res.message)
-				}
-				this.payCostList = res.result.records
+				this.recordQuery.licensePlate = row.licensePlate
+				this.getRecordQuery()
 				this.payCostForm.id = row.id
 				this.payCostForm.licensePlate = row.licensePlate
 				if (!row.asoftime) {
@@ -523,8 +560,19 @@
 				} else {
 					this.selectAsoftime = row.asoftime
 				}
-
 				this.payCostDialogVisible = true
+			},
+			
+			// pageSize 改变的事件
+			payCostSizeChange(newSize) {
+				this.recordQuery.pageSize = newSize
+				this.getRecordQuery()
+			},
+			
+			// 页码值改变事件
+			payCostCurrentChange(newPage) {
+				this.recordQuery.pageNo = newPage
+				this.getRecordQuery()
 			},
 			// ！！新需求，根据缴费日期和缴费周期判断到期时间 
 			async paytimeChange(e) {
@@ -680,6 +728,10 @@
 			payCostDialogClosed() {
 				// console.log('关闭')
 				// this.$refs.payCostFormRef.resetFields()
+				this.recordQuery.pageNo = 1
+				this.recordQuery.pageSize = 10
+				this.recordQuery.licensePlate = ''
+				this.totalpayCost = 0
 				this.payCostForm = {}
 				this.payCostList = []
 				this.selectManagementcycle = ''
@@ -690,17 +742,25 @@
 				this.selectStopmonth = ''
 				// this.getPageList()
 			},
-
-			// 显示报停页面
-			async handleStopDialog(row) {
+			
+			//获取报停缴费记录
+			async getStopQuery() {
 				const {
 					data: res
-				} = await this.$http.get('kmanagementRecords/list?licensePlate=' + row.licensePlate)
-				// console.log(res)
+				} = await this.$http.get('kmanagementRecords/list', {
+					params: this.stopQuery
+				})
 				if (res.code !== 200) {
 					return this.$message.error(res.message)
 				}
-				this.payCostList = res.result.records
+				this.stopList = res.result.records
+				this.totalStop = res.result.total
+			},
+
+			// 显示报停页面
+			async handleStopDialog(row) {
+				this.stopQuery.licensePlate = row.licensePlate
+				this.getStopQuery()
 				this.stopForm = row
 				this.stopNewForm.licensePlate = row.licensePlate
 				this.stopNewForm.id = row.id
@@ -717,6 +777,18 @@
 					this.monthCanSelect = false
 				}
 				this.stopDialogVisible = true
+			},
+			
+			// pageSize 改变的事件
+			stopSizeChange(newSize) {
+				this.stopQuery.pageSize = newSize
+				this.getStopQuery()
+			},
+			
+			// 页码值改变事件
+			stopCurrentChange(newPage) {
+				this.stopQuery.pageNo = newPage
+				this.getStopQuery()
 			},
 			// 报停开始时间变化
 			// stoptimeChange(e) {
@@ -805,6 +877,10 @@
 			},
 			// 报停对话框关闭
 			stopDialogClosed() {
+				this.stopQuery.pageNo = 1
+				this.stopQuery.pageSize = 10
+				this.stopQuery.licensePlate = ''
+				this.totalStop = 0
 				this.selectStoptime = ''
 				this.selectStopday = ''
 				this.selectStopmonth = ''

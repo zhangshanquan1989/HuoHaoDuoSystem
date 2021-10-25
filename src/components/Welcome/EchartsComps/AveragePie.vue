@@ -11,7 +11,6 @@
 	export default {
 		data() {
 			return {
-				pieTotal:0,
 				chartInstane: null,
 				allData: null, // 从服务器获取的所有数据
 			}
@@ -43,7 +42,7 @@
 			async getData() {
 				const {
 					data: res
-				} = await this.$http.get('data/findincome')
+				} = await this.$http.get('data/findavg')
 				console.log('收入比例', res)
 				this.allData = res
 				// 对allData进行赋值
@@ -51,10 +50,6 @@
 			},
 			updateChart() {
 				// 先处理数据
-				this.pieTotal = 0
-				this.allData.forEach(v=>{
-					this.pieTotal = this.pieTotal + v.y 
-				})
 				const seriesData = this.allData.map(item => {
 					return {
 						name: item.X,
@@ -62,40 +57,43 @@
 					}
 				})
 				const dataOption = {
+					title: {
+						show: true,
+						text: '平均利润比例',
+						left: '42%',
+						textAlign: 'top'
+					},
 					legend: {
 						bottom: '1%',
 						left: 'center',
-						textStyle:{
-							color:'#fff'
+						textStyle: {
+							color: '#000000'
 						}
 					},
-					
+
 					series: [{
 						type: 'pie',
 						radius: ['40%', '70%'],
 						// avoidLabelOverlap: false,
 						itemStyle: {
-							borderRadius: 3,
+							borderRadius: 4,
 							borderColor: '#fff',
-							borderWidth: 1.5
+							borderWidth: 2
 						},
-						label:{
-							normal:{
+						label: {
+							normal: {
 								show: true,
-								formatter:'{d}%',
-								 textStyle:{
-									 color:"#fff",
-									 fontSize:18
-								 }
+								formatter: '{d}%',
+								textStyle: {
+									color: "#000000",
+									fontSize: 18
+								}
 							}
 						},
 						data: seriesData
 					}]
 				}
 				this.chartInstane.setOption(dataOption)
-				window.addEventListener("resize", () => {
-					this.chartInstane.resize();
-				});
 			},
 			//分辨率适配
 			screenAdapter() {

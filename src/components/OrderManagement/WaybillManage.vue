@@ -346,7 +346,7 @@
 						<el-table :data="addForm.apoints" style="width: 100%">
 							<el-table-column prop="spointphone" label="装货点电话">
 								<template slot-scope="scope">
-									<el-input v-model="scope.row.spointphone" class="rt-input" placeholder="电话(必填)"></el-input>
+									<el-input  oninput ="value=value.replace(/[^0-9.]/g,'')" clearable v-model="scope.row.spointphone" class="rt-input" placeholder="电话(数字必填)"></el-input>
 								</template>
 							</el-table-column>
 							<el-table-column label="装货时间">
@@ -409,7 +409,7 @@
 						<el-table :data="addForm.upoints" style="width: 100%">
 							<el-table-column prop="spointphone" label="卸货点电话">
 								<template slot-scope="scope">
-									<el-input v-model="scope.row.dpointphone" class="rt-input"></el-input>
+									<el-input oninput ="value=value.replace(/[^0-9.]/g,'')" clearable placeholder="数字" v-model="scope.row.dpointphone" class="rt-input"></el-input>
 								</template>
 							</el-table-column>
 							<el-table-column label="卸货时间">
