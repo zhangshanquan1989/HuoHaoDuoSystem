@@ -90,7 +90,7 @@
 				const {
 					data: res
 				} = await this.$http.get('yk_carinformation/listall?license=' + this.license)
-				console.log(res)
+				// console.log(res)
 				if (res.code !== 200) {
 					return this.$message.error(res.message)
 				}
@@ -106,7 +106,7 @@
 			async handleQuery() {
 				this.newmap.clearMap();
 				this.findOutArray = []
-				console.log('选择的数组', this.chooseCarData)
+				// console.log('选择的数组', this.chooseCarData)
 				if (!this.chooseCarData[0]) {
 					return this.$message.error('请选择车牌！')
 				}
@@ -114,7 +114,7 @@
 					this.allList.forEach(j => {
 						if (v == j.licenseplate && j.longitude) {
 							this.findOutArray.push(j)
-							console.log('查询后的数组', this.findOutArray)
+							// console.log('查询后的数组', this.findOutArray)
 						}
 					})
 				})
@@ -125,7 +125,7 @@
 					this.allLocationList = this.findOutArray.map(item => {
 						return [item.longitude, item.latitude]
 					})
-					console.log('组合的经纬度', this.allLocationList)
+					// console.log('组合的经纬度', this.allLocationList)
 					if (!this.allLocationList[0]) {
 						return this.$message.warning('还未查询到数据，稍后再试。')
 					} else {
@@ -159,7 +159,7 @@
 				Geocoder.getAddress([lon, lat], (status, result) => {
 					if (status === 'complete' && result.regeocode) {
 						// address即经纬度转换后的地点名称 
-						console.log('result', result.regeocode.formattedAddress)
+						// console.log('result', result.regeocode.formattedAddress)
 						return result.regeocode.formattedAddress
 					}
 				});
@@ -172,14 +172,14 @@
 			},
 			// 获取车辆位置信息
 			async connect() {
-				console.log('点击链接')
+				// console.log('点击链接')
 				//测试
 				// const ws = new WebSocket('ws://82.157.15.221:8080/jeecg-boot/websocket')
 				//线上
-				const ws = new WebSocket('ws://tkhhd.com:8080/jeecg-boot/websocket')
+				const ws = new WebSocket('wss://tkhhd.com:8080/jeecg-boot/websocket')
 
 				ws.onopen = () => {
-					console.log('连接成功。。。')
+					// console.log('连接成功。。。')
 				}
 				ws.onmessage = msg => {
 					// console.log('从服务端接收到数据了')
@@ -207,7 +207,7 @@
 				const {
 					data: res
 				} = await this.$http.get('yk_carinformation/listall')
-				console.log('res', res)
+				// console.log('res', res)
 				if (res.code !== 200) {
 					return this.$message.error(res.message)
 				}

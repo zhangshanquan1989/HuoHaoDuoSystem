@@ -38,7 +38,7 @@
 				const {
 					data: res
 				} = await this.$http.get('data/findfengongsi')
-				console.log('滚动', res)
+				// console.log('滚动', res)
 				this.listData = res
 			}
 		}
