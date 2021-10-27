@@ -16,6 +16,7 @@
 			}
 		},
 		mounted() {
+			console.log('载入地图')
 			this.initChart()
 			// this.getData()
 			// window.addEventListener('resize',this.screenAdapter) //监听分辨率变化

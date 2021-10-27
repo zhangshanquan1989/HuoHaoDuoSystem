@@ -31,6 +31,7 @@
 			}
 		},
 		created() {
+			console.log('载入滚动')
 			this.getData()
 		},
 		methods: {

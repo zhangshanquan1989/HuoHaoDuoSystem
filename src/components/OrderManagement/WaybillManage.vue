@@ -230,13 +230,13 @@
 
 				<div style="display: flex;">
 					<el-form-item label="放空距离" prop="emptydistance">
-						<el-input clearable v-model="addForm.emptydistance" placeholder="Km" @change="calculateKm"></el-input>
+						<el-input clearable oninput ="value=value.replace(/[^0-9.]/g,'')" v-model="addForm.emptydistance" placeholder="Km" @change="calculateKm"></el-input>
 					</el-form-item>
 					<el-form-item label="高速预计距离" prop="highspeed">
-						<el-input clearable v-model="addForm.highspeed" placeholder="Km" @change="calculateKm"></el-input>
+						<el-input clearable oninput ="value=value.replace(/[^0-9.]/g,'')" v-model="addForm.highspeed" placeholder="Km" @change="calculateKm"></el-input>
 					</el-form-item>
 					<el-form-item label="下道预计距离" prop="estimatedistance">
-						<el-input clearable v-model="addForm.estimatedistance" placeholder="Km" @change="calculateKm"></el-input>
+						<el-input clearable oninput ="value=value.replace(/[^0-9.]/g,'')" v-model="addForm.estimatedistance" placeholder="Km" @change="calculateKm"></el-input>
 					</el-form-item>
 
 					<el-form-item label="总距离" prop="km">
@@ -247,17 +247,17 @@
 
 				<div style="display: flex;">
 					<el-form-item label="定金" prop="deposit">
-						<el-input clearable v-model="addForm.deposit" placeholder="元"></el-input>
+						<el-input clearable oninput ="value=value.replace(/[^0-9.]/g,'')" v-model="addForm.deposit" placeholder="元"></el-input>
 					</el-form-item>
 
 					<el-form-item label="到付" prop="pay">
-						<el-input v-model="addForm.pay" placeholder="元"></el-input>
+						<el-input clearable v-model="addForm.pay" oninput ="value=value.replace(/[^0-9.]/g,'')" placeholder="元"></el-input>
 					</el-form-item>
 					<el-form-item label="到车" prop="car">
-						<el-input clearable v-model="addForm.car" placeholder="元" @change="calculateNearcost"></el-input>
+						<el-input clearable v-model="addForm.car" oninput ="value=value.replace(/[^0-9.]/g,'')" placeholder="元" @change="calculateNearcost"></el-input>
 					</el-form-item>
 					<el-form-item label="费用" prop="cost">
-						<el-input clearable v-model="addForm.cost" placeholder="元" @change="calculateNearcost"></el-input>
+						<el-input clearable v-model="addForm.cost" oninput ="value=value.replace(/[^0-9.]/g,'')" placeholder="元" @change="calculateNearcost"></el-input>
 					</el-form-item>
 					<el-form-item label="利润" prop="nearcost">
 						<el-input disabled v-model="addForm.nearcost" placeholder="元"></el-input>
@@ -566,13 +566,13 @@
 
 				<div style="display: flex;">
 					<el-form-item label="放空距离" prop="emptydistance" class="rt-input">
-						<el-input clearable :disabled="canEdit" v-model="editForm.emptydistance " @change="editCalculateKm"></el-input>
+						<el-input clearable :disabled="canEdit" oninput ="value=value.replace(/[^0-9.]/g,'')" v-model="editForm.emptydistance " @change="editCalculateKm"></el-input>
 					</el-form-item>
 					<el-form-item label="高速预计距离" prop="highspeed" class="rt-input">
-						<el-input clearable :disabled="canEdit" v-model="editForm.highspeed " @change="editCalculateKm"></el-input>
+						<el-input clearable :disabled="canEdit" oninput ="value=value.replace(/[^0-9.]/g,'')" v-model="editForm.highspeed " @change="editCalculateKm"></el-input>
 					</el-form-item>
 					<el-form-item label="下道预计距离" prop="estimatedistance" class="rt-input">
-						<el-input clearable :disabled="canEdit" v-model="editForm.estimatedistance " @change="editCalculateKm"></el-input>
+						<el-input clearable :disabled="canEdit" oninput ="value=value.replace(/[^0-9.]/g,'')" v-model="editForm.estimatedistance " @change="editCalculateKm"></el-input>
 					</el-form-item>
 					<el-form-item label="总距离" prop="km" class="rt-input">
 						<el-input disabled clearable v-model="editForm.km" placeholder="km"></el-input>
@@ -582,16 +582,16 @@
 
 				<div style="display: flex;">
 					<el-form-item label="定金" prop="deposit" class="rt-input">
-						<el-input :disabled="canEdit" v-model="editForm.deposit "></el-input>
+						<el-input :disabled="canEdit" oninput ="value=value.replace(/[^0-9.]/g,'')" v-model="editForm.deposit "></el-input>
 					</el-form-item>
 					<el-form-item label="到付" prop="pay" class="rt-input">
-						<el-input :disabled="canEdit" v-model="editForm.pay "></el-input>
+						<el-input :disabled="canEdit" oninput ="value=value.replace(/[^0-9.]/g,'')" v-model="editForm.pay "></el-input>
 					</el-form-item>
 					<el-form-item label="到车" prop="car" class="rt-input">
-						<el-input @change="editCalculateNearcost" :disabled="canEdit" v-model="editForm.car"></el-input>
+						<el-input @change="editCalculateNearcost" :disabled="canEdit" oninput ="value=value.replace(/[^0-9.]/g,'')" v-model="editForm.car"></el-input>
 					</el-form-item>
 					<el-form-item label="费用" prop="cost" class="rt-input">
-						<el-input @change="editCalculateNearcost" :disabled="canEdit" clearable v-model="editForm.cost" placeholder="元"></el-input>
+						<el-input @change="editCalculateNearcost" :disabled="canEdit" oninput ="value=value.replace(/[^0-9.]/g,'')" clearable v-model="editForm.cost" placeholder="元"></el-input>
 					</el-form-item>
 					<el-form-item label="利润" prop="nearcost" class="rt-input">
 						<el-input disabled v-model="editForm.nearcost" placeholder="元"></el-input>
@@ -670,16 +670,12 @@
 					</el-upload>
 				</el-form-item>
 
-
-
-
-
 				<el-form-item label="装货信息">
 					<template>
 						<el-table :data="editForm.apoints" style="width: 100%">
 							<el-table-column prop="spointphone" label="装货点电话">
 								<template slot-scope="scope">
-									<el-input :disabled="canEdit" clearable v-model="scope.row.spointphone" class="rt-input"></el-input>
+									<el-input :disabled="canEdit" oninput ="value=value.replace(/[^0-9.]/g,'')" clearable v-model="scope.row.spointphone" class="rt-input"></el-input>
 								</template>
 							</el-table-column>
 							<el-table-column label="装货时间" width="200px">
@@ -734,7 +730,7 @@
 						<el-table :data="editForm.upoints" style="width: 100%">
 							<el-table-column prop="spointphone" label="卸货点电话">
 								<template slot-scope="scope">
-									<el-input :disabled="canEdit" clearable v-model="scope.row.dpointphone" class="rt-input"></el-input>
+									<el-input :disabled="canEdit" oninput ="value=value.replace(/[^0-9.]/g,'')" clearable v-model="scope.row.dpointphone" class="rt-input"></el-input>
 								</template>
 							</el-table-column>
 							<el-table-column label="卸货时间" width="200px">
@@ -975,8 +971,18 @@
 				shenfenzhengSrc: '',
 				shanggangzhengSrc: '',
 				showhdadd: false,
-				// 添加的规则
+				// 添加的规则 
 				addRules: {
+					nearcost: [{
+						required: true,
+						message: '必填',
+						trigger: 'blur'
+					}],
+					km: [{
+						required: true,
+						message: '必填',
+						trigger: 'blur'
+					}],
 					ishd: [{
 						required: true,
 						message: '必填',
@@ -1369,7 +1375,7 @@
 				const {
 					data: res
 				} = await this.$http.post('waybill/km', kmQueryData)
-				// console.log(res)
+				console.log(res)
 				this.addForm.km = res.result.km
 			},
 			// 详情页面计算总距离

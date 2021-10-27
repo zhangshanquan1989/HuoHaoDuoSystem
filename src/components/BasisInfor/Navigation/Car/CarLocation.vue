@@ -176,7 +176,7 @@
 				//测试
 				// const ws = new WebSocket('ws://82.157.15.221:8080/jeecg-boot/websocket')
 				//线上
-				const ws = new WebSocket('wss://tkhhd.com:8080/jeecg-boot/websocket')
+				const ws = new WebSocket('wss://tkhhd.com/jeecg-boot/websocket')
 
 				ws.onopen = () => {
 					// console.log('连接成功。。。')

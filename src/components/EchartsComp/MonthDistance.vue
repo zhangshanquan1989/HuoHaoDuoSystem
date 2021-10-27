@@ -19,6 +19,7 @@
 			}
 		},
 		mounted() {
+			console.log('载入距离')
 			this.initChart()
 			this.getData()
 			// window.addEventListener('resize',this.screenAdapter) //监听分辨率变化

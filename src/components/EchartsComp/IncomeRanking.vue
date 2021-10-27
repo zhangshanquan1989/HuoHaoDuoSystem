@@ -20,6 +20,7 @@
         }
     },
     mounted(){
+			console.log('载入日均收入')
        this.initChart()
        this.getData()
     //    window.addEventListener('resize',this.screenAdapter) //监听分辨率变化

@@ -17,6 +17,7 @@
 			}
 		},
 		mounted() {
+			console.log('载入饼图')
 			this.initChart()
 			this.getData()
 			// window.addEventListener('resize',this.screenAdapter) //监听分辨率变化

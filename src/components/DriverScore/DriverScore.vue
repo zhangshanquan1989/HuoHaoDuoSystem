@@ -49,10 +49,11 @@
 				</el-table-column>
 				<el-table-column prop="advice" label="针对服务的三点建议" width="300px" show-overflow-tooltip>
 				</el-table-column>
+				<el-table-column prop="month" label="评价月份" width="200px">
+				</el-table-column>
 				<el-table-column prop="createuser" label="创建人" width="150px">
 				</el-table-column>
-				<el-table-column prop="createtime" label="创建时间" width="200px">
-				</el-table-column>
+				
 				<el-table-column label="操作" width="200" fixed="right">
 					<template slot-scope="scope">
 						<!-- 修改按钮 -->
@@ -99,7 +100,10 @@
 					<el-input disabled v-model="addForm.licensePlate" style="width: 350px;"></el-input>
 				</el-form-item>
 				<el-form-item label="配管" v-if="false" prop="dispatch" class="formItem rt-input" >
-					<el-input disabled v-if="false" v-model="addForm.dispatch" style="width: 350px;"></el-input>
+					<el-input disabled v-if="false" v-model="addForm.dispatch" style="width: 350px;" ></el-input>
+				</el-form-item>
+				<el-form-item label="月份" prop="month" class="formItem rt-input" >
+					<el-date-picker v-model="addForm.month" type="month" placeholder="选择月份" format="yyyy 年 MM 月" value-format="yyyy-MM" @change="dddsss" style="width: 350px;"></el-date-picker>
 				</el-form-item>
 				<el-form-item label="1.帮助提升司机收入" prop="score" class="formItem">
 					<el-rate v-model="addForm.score" :max='10' @change="scoreAddChange">
@@ -182,6 +186,9 @@
 				</el-form-item>
 				<el-form-item label="配管" v-if="false" prop="dispatch" class="formItem rt-input" >
 					<el-input disabled v-if="false" v-model="editForm.dispatch" style="width: 350px;"></el-input>
+				</el-form-item>
+				<el-form-item label="月份" prop="month" class="formItem rt-input" >
+					<el-date-picker v-model="editForm.month" type="month" placeholder="选择月份" format="yyyy 年 MM 月" value-format="yyyy-MM"></el-date-picker>
 				</el-form-item>
 				<el-divider>司机服务满意度评价</el-divider>
 				<el-form-item label="1.帮助提升司机收入" prop="score" class="formItem">
@@ -277,8 +284,15 @@
 					advice: '',
 					totalscore: '',
 					companyl: '',
+					month: '',
+					
 				},
 				addFormRules: {
+					month: [{
+						required: true,
+						message: "必填",
+						trigger: 'blur'
+					}],
 					companyl: [{
 						required: true,
 						message: "必填",
@@ -369,8 +383,14 @@
 					advice: '',
 					totalscore: '',
 					companyl: '',
+					month: '',
 				},
 				editFormRules: {
+					month: [{
+						required: true,
+						message: "必填",
+						trigger: 'blur'
+					}],
 					companyl: [{
 						required: true,
 						message: "必填",
@@ -472,10 +492,13 @@
 			this.getAllCompanyList()
 		},
 		methods: {
+			dddsss(e){
+				console.log(e)
+			},
 			// 导出
 			async exportBtn(){
 				this.fullscreenLoading = true;				
-				let url = this.$baseUploadUrl +'/k_information/exportdata?date='+this.selectTime
+				let url = this.$baseUploadUrl +'/k_information/exportdata?month='+this.selectTime
 					var xhr = new XMLHttpRequest(); //定义http请求对象
 					xhr.open("get", url, true);
 					xhr.responseType = "blob"; // 转换流
@@ -593,6 +616,7 @@
 				this.editForm.dispatch = res.result.records[0].dispatch
 				this.editForm.driver = res.result.records[0].driver
 				this.editForm.advice = res.result.records[0].advice
+				this.editForm.month = res.result.records[0].month
 				this.editForm.totalscore = res.result.records[0].totalscore
 				this.editForm.score = res.result.records[0].score - 0
 				this.editForm.scoreb = res.result.records[0].scoreb - 0
