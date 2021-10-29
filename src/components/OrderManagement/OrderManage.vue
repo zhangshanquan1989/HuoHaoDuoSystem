@@ -91,9 +91,9 @@
 				</el-table-column>
 				<el-table-column prop="nearcost" label="预估利润（元）" width="150px">
 				</el-table-column>
-				<el-table-column prop="aclient" label="发货客户企业" width="150px">
+				<el-table-column prop="aclient" v-if="customerShow" label="发货客户企业" width="150px">
 				</el-table-column>
-				<el-table-column prop="uclient" label="收货客户企业" width="150px">
+				<el-table-column prop="uclient" v-if="customerShow" label="收货客户企业" width="150px">
 				</el-table-column>
 				<!-- <el-table-column prop="kilometer" label="每公里成本" width="150px">
 				</el-table-column> -->
@@ -438,6 +438,8 @@
 	export default {
 		data() {
 			return {
+				// 客户根据分公司是否展示
+				customerShow: true,
 				// 多选框数据
 				no: [],
 				// 查询数据 waybilltypeList
@@ -567,6 +569,7 @@
 				}
 				
 			}else{
+				this.customerShow = false
 				this.queryInfo.companyname = companyLogin
 			}
 			
