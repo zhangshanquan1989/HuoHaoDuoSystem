@@ -256,7 +256,7 @@
 					id:'',
 					pageNo: 1,
 					pageSize: 10,
-					createtime: '',
+					month: '',
 					companyl: '',
 				},
 				tableList: [],
@@ -487,7 +487,7 @@
 			// this.addForm.companyl = window.sessionStorage.getItem('company')
 			// this.queryInfo.companyl = window.sessionStorage.getItem('company')
 			this.selectTime = this.getFormatDate(new Date())
-			this.queryInfo.createtime = '*' + this.selectTime + '*'
+			this.queryInfo.month = '*' + this.selectTime + '*'
 			this.getList()
 			this.getAllCompanyList()
 		},
@@ -526,7 +526,7 @@
 				this.getList()
 			},
 			selectTimeChange(){
-				this.queryInfo.createtime = '*'+this.selectTime+'*'
+				this.queryInfo.month = '*'+this.selectTime+'*'
 			},
 			// 获取当前时间
 			getFormatDate(date) {
