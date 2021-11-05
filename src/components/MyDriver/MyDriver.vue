@@ -212,7 +212,7 @@
 			},
 			async allExportBtn() {
 				this.fullscreenLoading = true;
-				let url = this.$baseUploadUrl+'/mydriveExcel/MydriveExcel?dirver=' + this.queryInfo.dirver + '&chepai=' + this.queryInfo.chepai + '&peiguan=' + this.queryInfo.peiguan + '&company=' + this.queryInfo.company + '&atten=' + this.queryInfo.atten + '&staute=' + this.queryInfo.staute + '&shen=' + this.queryInfo.shen + '&shi=' + this.queryInfo.shi + '&qu=' + this.queryInfo.qu + '&add=' + this.queryInfo.add + '&grade=' + this.queryInfo.grade + '&state=' + this.queryInfo.state
+				let url = this.$baseUploadUrl+'/mydriveExcel/MydriveExcel?driver=' + this.queryInfo.dirver + '&chepai=' + this.queryInfo.chepai + '&peiguan=' + this.queryInfo.peiguan + '&company=' + this.queryInfo.company + '&atten=' + this.queryInfo.atten + '&staute=' + this.queryInfo.staute + '&shen=' + this.queryInfo.shen + '&shi=' + this.queryInfo.shi + '&qu=' + this.queryInfo.qu + '&add=' + this.queryInfo.add + '&grade=' + this.queryInfo.grade + '&state=' + this.queryInfo.state
 					var xhr = new XMLHttpRequest(); //定义http请求对象
 					xhr.open("get", url, true);
 					xhr.responseType = "blob"; // 转换流
