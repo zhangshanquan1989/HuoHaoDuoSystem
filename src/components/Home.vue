@@ -1021,6 +1021,12 @@
 						// 	path: '/phonePage/MDAwMDA5Ng==',
 						// 	icon: "el-icon-orange",
 						// },
+						// {
+						// 	id: 999,
+						// 	authName: '地图',
+						// 	path: '/CenterMapTwo',
+						// 	icon: "el-icon-orange",
+						// },
 					]				
 			}else{
 				this.menulist = [{

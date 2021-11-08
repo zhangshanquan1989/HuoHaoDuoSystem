@@ -10,13 +10,14 @@
 		<!-- 卡片视图区 -->
 		<el-card class="box-card">
 			<!-- 创建按钮 装卸货工具-->
-			<el-input v-model="queryInfo.chepai" placeholder="车牌号" clearable style="width: 200px;"></el-input>
-			<el-input v-model="queryInfo.driver" placeholder="司机名" clearable style="width: 200px;margin-left: 30px;"></el-input>
-			<el-input v-model="queryInfo.creater" placeholder="创建者" clearable style="width: 200px;margin-left: 30px;"></el-input>
-			<el-input v-model="queryInfo.people" placeholder="司机对接人" clearable style="width: 200px;margin-left: 30px;"></el-input>
+			<el-input v-model="queryInfo.no" placeholder="运单编号" clearable style="width: 200px;"></el-input>
+			<el-input v-model="queryInfo.chepai" placeholder="车牌号" clearable style="width: 200px;margin-left: 20px;"></el-input>
+			<el-input v-model="queryInfo.driver" placeholder="司机名" clearable style="width: 200px;margin-left: 20px;"></el-input>
+			<el-input v-model="queryInfo.creater" placeholder="创建者" clearable style="width: 200px;margin-left: 20px;"></el-input>
+			<el-input v-model="queryInfo.people" placeholder="司机对接人" clearable style="width: 200px;margin-left: 20px;"></el-input>
 			<el-input v-model="queryInfo.fuzepeiguan" placeholder="负责配管" clearable style="width: 200px;margin-left: 30px;"></el-input>
-			<el-button type="primary" plain @click="handleQueryBtn" style="margin-left: 30px;">查询</el-button>
-			<el-button type="primary" plain @click="handleQueryBackBtn" style="margin-left: 30px;">返回</el-button>
+			<el-button type="primary" plain @click="handleQueryBtn" style="margin-left: 20px;">查询</el-button>
+			<el-button type="primary" plain @click="handleQueryBackBtn" style="margin-left: 20px;">返回</el-button>
 			<div style="margin-top: 20px;">
 				<el-date-picker v-model="selectTime" type="datetimerange" range-separator="至" start-placeholder="订单查询开始日期"
 				 end-placeholder="订单查询结束日期" format="yyyy 年 MM 月 dd 日 HH 时 mm 分 ss 秒" value-format="yyyy-MM-dd HH:mm:ss">
@@ -449,6 +450,7 @@
 					// 倒叙必填
 					order: "desc",
 					column: "id",
+					no: '',
 					chepai: '',
 					startime: '',
 					endtime: '',
@@ -697,6 +699,7 @@
 			handleQueryBackBtn() {
 				this.queryInfo.pageNo = 1
 				this.queryInfo.pageSize = 10
+				this.queryInfo.no = ''
 				this.queryInfo.chepai = ''
 				this.queryInfo.startime = ''
 				this.queryInfo.endtime = ''

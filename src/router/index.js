@@ -18,6 +18,7 @@ import MyDriver from '../components/MyDriver/MyDriver.vue'
 import MonthDistance from '../components/EchartsComp/MonthDistance.vue'
 import IncomeRanking from '../components/EchartsComp/IncomeRanking.vue'
 import CenterMap from '../components/EchartsComp/CenterMap.vue'
+import CenterMapTwo from '../components/EchartsComp/CenterMapTwo.vue'
 import DriverScore from '../components/DriverScore/DriverScore.vue'
 // 订单管理
 import WaybillManage from '../components/OrderManagement/WaybillManage.vue'
@@ -89,6 +90,7 @@ const routes = [
 		{path:'/MonthDistance', component:MonthDistance},
 		{path:'/IncomeRanking', component:IncomeRanking},
 		{path:'/CenterMap', component:CenterMap},
+		{path:'/CenterMapTwo', component:CenterMapTwo},
 		{path:'/driverScore', component:DriverScore},
 	  {path:'/basis', component:BasisInfor,
 			children:[
