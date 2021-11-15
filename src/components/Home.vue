@@ -7,29 +7,29 @@
 				<!-- <span>天康系统</span> -->
 			</div>
 			<div style="margin-right: 20px;">
-			<!-- 	<span style="font-size: 18px ;margin-right: 20px;margin-top: 5px;">欢迎您：{{name}}</span> -->
+				<!-- 	<span style="font-size: 18px ;margin-right: 20px;margin-top: 5px;">欢迎您：{{name}}</span> -->
 				<!-- <el-badge :value="daibanData" style="margin-right: 30px;margin-top: 5px;font-size: 18px ;"> -->
 
-					<!-- <span>待办事项</span> -->
-					<!-- <el-button style="font-size: 18px ;color: #FFFFFF;"  type="text" @click="turnTo">待办事项</el-button> -->
+				<!-- <span>待办事项</span> -->
+				<!-- <el-button style="font-size: 18px ;color: #FFFFFF;"  type="text" @click="turnTo">待办事项</el-button> -->
 				<!-- </el-badge> -->
 				<el-badge :is-dot="showDot" class="item">
-				<el-dropdown @command="handleCommand" trigger="click" >
-					<el-button style="background-color: #02446a;color: #fff;font-size: 15px;">
-						{{name}}<i class="el-icon-arrow-down el-icon--right"></i>
-					</el-button>
-					<el-dropdown-menu slot="dropdown">
-						<el-dropdown-item icon="el-icon-edit"  command="c">
-							<el-badge :value="daibanData" >
-							
-								<span>待办事项</span>
-								<!-- <el-button style="font-size: 18px ;color: #FFFFFF;"  type="text" @click="turnTo">待办事项</el-button> -->
-							</el-badge>
-						</el-dropdown-item>
-						<el-dropdown-item icon="el-icon-setting" divided command="a">修改密码</el-dropdown-item>
-						<el-dropdown-item icon="el-icon-guide" divided command="b">退出登录</el-dropdown-item>
-					</el-dropdown-menu>
-				</el-dropdown>
+					<el-dropdown @command="handleCommand" trigger="click">
+						<el-button style="background-color: #02446a;color: #fff;font-size: 15px;">
+							{{name}}<i class="el-icon-arrow-down el-icon--right"></i>
+						</el-button>
+						<el-dropdown-menu slot="dropdown">
+							<el-dropdown-item icon="el-icon-edit" command="c">
+								<el-badge :value="daibanData">
+
+									<span>待办事项</span>
+									<!-- <el-button style="font-size: 18px ;color: #FFFFFF;"  type="text" @click="turnTo">待办事项</el-button> -->
+								</el-badge>
+							</el-dropdown-item>
+							<el-dropdown-item icon="el-icon-setting" divided command="a">修改密码</el-dropdown-item>
+							<el-dropdown-item icon="el-icon-guide" divided command="b">退出登录</el-dropdown-item>
+						</el-dropdown-menu>
+					</el-dropdown>
 				</el-badge>
 
 				<!-- <el-button type="info" @click="logout">个人中心</el-button> -->
@@ -40,8 +40,8 @@
 		<el-container>
 			<el-aside width="200px" style="background-color: #0f4f7d;">
 				<!-- 侧边栏菜单区域 -->
-				<el-menu background-color="#0f4f7d" text-color="#fff" active-text-color="#FFFFFF" :unique-opened="true" :router="true"
-				 :default-active="activePath">
+				<el-menu background-color="#0f4f7d" text-color="#fff" active-text-color="#FFFFFF" :unique-opened="true"
+					:router="true" :default-active="activePath">
 					<template v-for="one in menulist">
 						<template v-if="one.children">
 							<el-submenu :index="one.path" :key="one.id" @click="saveNavState(one.path)">
@@ -57,14 +57,17 @@
 												<span style="font-size: 16px;">{{two.authName}}</span>
 											</template>
 											<template v-for="three in two.children">
-												<el-menu-item :key='three.id' :index='three.path' style="font-size: 15px;" @click="saveNavState(three.path)">
+												<el-menu-item :key='three.id' :index='three.path'
+													style="font-size: 15px;" @click="saveNavState(three.path)">
 													<i :class="three.icon"></i>
-													<span>{{three.authName}}</span></el-menu-item>
+													<span>{{three.authName}}</span>
+												</el-menu-item>
 											</template>
 										</el-submenu>
 									</template>
 									<template v-else>
-										<el-menu-item :index="two.path" :key="two.id" style="font-size: 16px;" @click="saveNavState(two.path)">
+										<el-menu-item :index="two.path" :key="two.id" style="font-size: 16px;"
+											@click="saveNavState(two.path)">
 											<i :class="two.icon"></i>
 											<span>{{two.authName}}</span>
 										</el-menu-item>
@@ -72,6 +75,7 @@
 								</template>
 							</el-submenu>
 						</template>
+
 						<template v-else>
 							<el-menu-item :index="one.path" :key="one.id" @click="saveNavState(one.path)">
 								<template>
@@ -80,7 +84,12 @@
 								</template>
 							</el-menu-item>
 						</template>
+
 					</template>
+					<el-menu-item @click="daPingClick('/huohaoduokeji')">
+						<i class="el-icon-s-marketing"></i>
+						<span style="font-size: 18px;">可视化大屏</span>
+					</el-menu-item>
 				</el-menu>
 			</el-aside>
 			<!-- 右侧内容主体 -->
@@ -88,20 +97,24 @@
 			<el-main>
 				<!-- 路由占位符 -->
 				<router-view></router-view>
-				
-				<el-dialog class="dialog" title="修改密码" :visible.sync="addDialogVisible" width="35%" @close="addDialogClosed" :close-on-click-modal="false">
+
+				<el-dialog class="dialog" title="修改密码" :visible.sync="addDialogVisible" width="35%"
+					@close="addDialogClosed" :close-on-click-modal="false">
 					<!-- 添加的表单 -->
 					<el-form :model="addForm" :rules="addFormRules" ref="addFormRef" label-width="150px">
 						<el-form-item label="旧密码:" prop="oldpassword">
-							<el-input v-model="addForm.oldpassword" clearable style="width: 350px;" show-password></el-input>
+							<el-input v-model="addForm.oldpassword" clearable style="width: 350px;" show-password>
+							</el-input>
 						</el-form-item>
 						<el-form-item label="新密码:" prop="newpassword">
-							<el-input v-model="addForm.newpassword" clearable style="width: 350px;" show-password></el-input>
+							<el-input v-model="addForm.newpassword" clearable style="width: 350px;" show-password>
+							</el-input>
 						</el-form-item>
 						<el-form-item label="再次输入新密码:" prop="newpasswordTwo">
-							<el-input v-model="addForm.newpasswordTwo" clearable style="width: 350px;" show-password></el-input>
+							<el-input v-model="addForm.newpasswordTwo" clearable style="width: 350px;" show-password>
+							</el-input>
 						</el-form-item>
-						
+
 					</el-form>
 					<span slot="footer" class="dialog-footer">
 						<el-button @click="addDialogVisible = false">取 消</el-button>
@@ -111,8 +124,8 @@
 			</el-main>
 		</el-container>
 	</el-container>
-	
-	
+
+
 </template>
 
 <script>
@@ -120,13 +133,13 @@
 		data() {
 			return {
 				// fengongsi:false,
-				// 用户名
+				// 用户名 司机预警 
 				name: '',
 				addDialogVisible: false,
-				addForm:{
-					oldpassword:'',
-					newpassword:'',
-					newpasswordTwo:'',
+				addForm: {
+					oldpassword: '',
+					newpassword: '',
+					newpasswordTwo: '',
 				},
 				// 添加的表单验证规则
 				addFormRules: {
@@ -146,7 +159,7 @@
 						trigger: 'blur'
 					}],
 
-				
+
 				},
 				// 左侧菜单数据
 				menulist: [{
@@ -342,34 +355,33 @@
 				userid: '',
 				// 代办数量
 				daibanData: '',
-				showDot:false
+				showDot: false
 			}
 		},
 		created() {
 			// this.getMenuList()userID
 			// console.log(window.sessionStorage.getItem('role'))
-			if(window.sessionStorage.getItem('role') == '分公司'){
+			if (window.sessionStorage.getItem('role') == '分公司') {
 				// this.fengongsi = true
-				this.menulist = [
-					{
-							id: 0,
-							authName: '首页',
-							path: '/imageWelcome',
-							icon: "el-icon-s-open"
-						},
+				this.menulist = [{
+						id: 0,
+						authName: '首页',
+						path: '/imageWelcome',
+						icon: "el-icon-s-open"
+					},
 					{
 						id: 1,
 						authName: '基础信息管理',
 						icon: "el-icon-s-order",
 						path: '/basis',
 						children: [
-							
+
 							{
 								id: 13,
 								authName: '司机信息',
 								path: '/basis/driver',
 								icon: "el-icon-caret-right"
-							},							
+							},
 							{
 								id: 16,
 								authName: '车辆信息',
@@ -405,7 +417,8 @@
 					// 		icon: "el-icon-star-on"
 					// 	},
 				]
-			}else if(window.sessionStorage.getItem('role') == '调度主管' || window.sessionStorage.getItem('role') == '调度配送'){
+			} else if (window.sessionStorage.getItem('role') == '调度主管' || window.sessionStorage.getItem('role') ==
+				'调度配送') {
 				this.menulist = [{
 						id: 0,
 						authName: '我的司机',
@@ -587,7 +600,7 @@
 						icon: "el-icon-collection",
 					},
 				]
-			}else if(window.sessionStorage.getItem('role') == '调度运单'){
+			} else if (window.sessionStorage.getItem('role') == '调度运单') {
 				this.menulist = [{
 						id: 0,
 						authName: '首页',
@@ -687,7 +700,7 @@
 						]
 						// path:'basis'
 					},
-				
+
 					{
 						id: 2,
 						authName: '订单管理',
@@ -769,266 +782,278 @@
 						icon: "el-icon-collection",
 					},
 				]
-			}else if(window.sessionStorage.getItem('role') == '管理员'){
+			} else if (window.sessionStorage.getItem('role') == '管理员') {
 				this.menulist = [{
-							id: 0,
-							authName: '首页',
-							path: '/welcome',
-							icon: "el-icon-s-open"
-						},
-						{
-							id: 1,
-							authName: '基础信息管理',
-							icon: "el-icon-s-order",
-							path: '/basis',
-							children: [{
-									id: 11,
-									authName: '公司信息',
-									path: '/basis/company',
-									icon: "el-icon-caret-right"
-								},
-								{
-									id: 12,
-									authName: '员工信息',
-									path: '/basis/worker',
-									icon: "el-icon-caret-right"
-								},
-								{
-									id: 13,
-									authName: '司机信息',
-									path: '/basis/driver',
-									icon: "el-icon-caret-right"
-								},
-								{
-									id: 15,
-									authName: '客户信息',
-									path: '/basis/customer',
-									icon: "el-icon-caret-right"
-								},
-								{
-									id: 17,
-									authName: '压车数据',
-									path: '/basis/RegionLate',
-									icon: "el-icon-caret-right"
-								},
-								// {
-								// 	id: 16,
-								// 	authName: '地区信息',
-								// 	path: '/basis/region',
-								// 	icon: "el-icon-caret-right"
-								// },
-								{
-									id: 14,
-									authName: '车辆管理',
-									icon: "el-icon-menu",
-									children: [{
-											id: 111,
-											authName: '车辆信息',
-											path: '/basis/car/carInfo',
-											icon: "el-icon-caret-right"
-										},
-										{
-											id: 112,
-											authName: '车辆保证金',
-											path: '/basis/car/earnestMoney',
-											icon: "el-icon-caret-right"
-										},
-										{
-											id: 113,
-											authName: '车辆管理费',
-											path: '/basis/car/managementFee',
-											icon: "el-icon-caret-right"
-										},
-										{
-											id: 114,
-											authName: '实时监控',
-											path: '/basis/car/CarMonitoring',
-											icon: "el-icon-caret-right"
-										},
-										{
-											id: 115,
-											authName: '车辆里程',
-											path: '/basis/car/carMileage',
-											icon: "el-icon-caret-right"
-										},
-										{
-											id: 116,
-											authName: '车辆油耗',
-											path: '/basis/car/carEnergy',
-											icon: "el-icon-caret-right"
-										},
-										{
-											id: 117,
-											authName: '全图监控',
-											path: '/basis/car/CarLocation',
-											icon: "el-icon-caret-right"
-										},
-										// {
-										// 	id: 114,
-										// 	authName: '违章信息',
-										// 	path: '/basis/car/illegal',
-										// 	icon: "el-icon-caret-right"
-										// }
-									],
-									path: '/basis/car'
-								},
-							]
-							// path:'basis'
-						},
-						{
-							id: 2,
-							authName: '订单管理',
-							path: '/orderManage',
-							icon: "el-icon-document",
-							children: [{
-									id: 21,
-									authName: '订单查询',
-									path: '/orderManage',
-									icon: "el-icon-caret-right"
-								},
-								{
-									id: 22,
-									authName: '运单管理',
-									path: '/waybillManage',
-									icon: "el-icon-caret-right"
-								},
-								{
-									id: 23,
-									authName: '配送管理',
-									path: '/distributionManage',
-									icon: "el-icon-caret-right",
-								},
-								{
-									id: 24,
-									authName: '车辆分配',
-									path: '/carDistribution',
-									icon: "el-icon-caret-right",
-								},
-								{
-									id: 25,
-									authName: '车辆考勤',
-									path: '/carAttendance',
-									icon: "el-icon-caret-right",  
-								},
-								{
-									id: 26,
-									authName: '司机预警',
-									path: '/driverWarning',
-									icon: "el-icon-caret-right",
-								},
-								{
-									id: 27,
-									authName: '逾期订单',
-									path: '/outTime',
-									icon: "el-icon-caret-right",
-								},
-								{
-									id: 28,
-									authName: '低价运单',
-									path: '/LowPriceWaybill',
-									icon: "el-icon-caret-right",
-								},
-							]
-						},
-						{
-							id: 4,
-							authName: '权限管理',
-							icon: "el-icon-unlock",
-							path: '/manage',
-							children: [{
-									id: 41,
-									authName: '部门管理',
-									path: '/manage/departManage',
-									icon: "el-icon-caret-right"
-								},
-								{
-									id: 42,
-									authName: '角色管理',
-									path: '/manage/roleManage',
-									icon: "el-icon-caret-right"
-								},
-								{
-									id: 43,
-									authName: '用户管理',
-									path: '/manage/userManage',
-									icon: "el-icon-caret-right"
-								}
-							]
-						},
-						{
-							id: 9,
-							authName: '数据汇总',
-							path: '/dataAggregation',
-							icon: "el-icon-collection",
-						},
-						{
-							id: 10,
-							authName: '我的司机',
-							path: '/MyDriver',
-							icon: "el-icon-truck",
-						},
-						{
-								id: 11,
-								authName: '服务评价',
-								path: '/DriverScore',
-								icon: "el-icon-star-on"
+						id: 0,
+						authName: '首页',
+						path: '/welcome',
+						icon: "el-icon-s-open"
+					},
+					{
+						id: 1,
+						authName: '基础信息管理',
+						icon: "el-icon-s-order",
+						path: '/basis',
+						children: [{
+								id: 101,
+								authName: '公司信息',
+								path: '/basis/company',
+								icon: "el-icon-caret-right"
 							},
-						// {
-						// 	id: 12, 
-						// 	authName: '里程排行',
-						// 	path: '/MonthDistance',
-						// 	icon: "el-icon-truck",
-						// },
-						// {
-						// 	id: 14, 
-						// 	authName: '收入排行',
-						// 	path: '/IncomeRanking',
-						// 	icon: "el-icon-truck",
-						// },
-						// {
-						// 	id: 15, 
-						// 	authName: '中心地图',
-						// 	path: '/CenterMap',
-						// 	icon: "el-icon-truck",
-						// },
-						// {
-						// 	id: 13, 
-						// 	authName: '低价单图表',
-						// 	path: '/LowPrice',
-						// 	icon: "el-icon-truck",
-						// },
-						// {
-						// 	id: 5, LowPrice
-						// 	authName: '数据工厂',
-						// 	path: '/dataFactory',
-						// 	icon: "el-icon-data-line",
-						// },
-						// {
-						// 	id: 6,
-						// 	authName: 'text',
-						// 	path: '/text',
-						// 	icon: "el-icon-orange",
-						// },
-						// {
-						// 	id: 7,
-						// 	authName: 'test2',
-						// 	path: '/test2',
-						// 	icon: "el-icon-orange",
-						// },
-						// {
-						// 	id: 8,
-						// 	authName: '转发页面',
-						// 	path: '/phonePage/MDAwMDA5Ng==',
-						// 	icon: "el-icon-orange",
-						// },
-						// {
-						// 	id: 999,
-						// 	authName: '地图',
-						// 	path: '/CenterMapTwo',
-						// 	icon: "el-icon-orange",
-						// },
-					]				
-			}else{
+							{
+								id: 102,
+								authName: '员工信息',
+								path: '/basis/worker',
+								icon: "el-icon-caret-right"
+							},
+							{
+								id: 103,
+								authName: '司机信息',
+								path: '/basis/driver',
+								icon: "el-icon-caret-right"
+							},
+							{
+								id: 105,
+								authName: '客户信息',
+								path: '/basis/customer',
+								icon: "el-icon-caret-right"
+							},
+							{
+								id: 107,
+								authName: '压车数据',
+								path: '/basis/RegionLate',
+								icon: "el-icon-caret-right"
+							},
+							// {
+							// 	id: 106,
+							// 	authName: '地区信息',
+							// 	path: '/basis/region',
+							// 	icon: "el-icon-caret-right"
+							// },
+							{
+								id: 104,
+								authName: '车辆管理',
+								icon: "el-icon-menu",
+								children: [{
+										id: 111,
+										authName: '车辆信息',
+										path: '/basis/car/carInfo',
+										icon: "el-icon-caret-right"
+									},
+									{
+										id: 112,
+										authName: '车辆保证金',
+										path: '/basis/car/earnestMoney',
+										icon: "el-icon-caret-right"
+									},
+									{
+										id: 113,
+										authName: '车辆管理费',
+										path: '/basis/car/managementFee',
+										icon: "el-icon-caret-right"
+									},
+									{
+										id: 114,
+										authName: '实时监控',
+										path: '/basis/car/CarMonitoring',
+										icon: "el-icon-caret-right"
+									},
+									{
+										id: 115,
+										authName: '车辆里程',
+										path: '/basis/car/carMileage',
+										icon: "el-icon-caret-right"
+									},
+									{
+										id: 116,
+										authName: '车辆油耗',
+										path: '/basis/car/carEnergy',
+										icon: "el-icon-caret-right"
+									},
+									{
+										id: 117,
+										authName: '全图监控',
+										path: '/basis/car/CarLocation',
+										icon: "el-icon-caret-right"
+									},
+									// {
+									// 	id: 114,
+									// 	authName: '违章信息',
+									// 	path: '/basis/car/illegal',
+									// 	icon: "el-icon-caret-right"
+									// }
+								],
+								path: '/basis/car'
+							},
+						]
+						// path:'basis'
+					},
+					{
+						id: 2,
+						authName: '订单管理',
+						path: '/orderManage',
+						icon: "el-icon-document",
+						children: [{
+								id: 21,
+								authName: '订单查询',
+								path: '/orderManage',
+								icon: "el-icon-caret-right"
+							},
+							{
+								id: 22,
+								authName: '运单管理',
+								path: '/waybillManage',
+								icon: "el-icon-caret-right"
+							},
+							{
+								id: 23,
+								authName: '配送管理',
+								path: '/distributionManage',
+								icon: "el-icon-caret-right",
+							},
+							{
+								id: 24,
+								authName: '车辆分配',
+								path: '/carDistribution',
+								icon: "el-icon-caret-right",
+							},
+							{
+								id: 25,
+								authName: '车辆考勤',
+								path: '/carAttendance',
+								icon: "el-icon-caret-right",
+							},
+							{
+								id: 26,
+								authName: '司机预警',
+								path: '/driverWarning',
+								icon: "el-icon-caret-right",
+							},
+							{
+								id: 27,
+								authName: '逾期订单',
+								path: '/outTime',
+								icon: "el-icon-caret-right",
+							},
+							{
+								id: 28,
+								authName: '低价运单',
+								path: '/LowPriceWaybill',
+								icon: "el-icon-caret-right",
+							},
+						]
+					},
+					{
+						id: 4,
+						authName: '权限管理',
+						icon: "el-icon-unlock",
+						path: '/manage',
+						children: [{
+								id: 41,
+								authName: '部门管理',
+								path: '/manage/departManage',
+								icon: "el-icon-caret-right"
+							},
+							{
+								id: 42,
+								authName: '角色管理',
+								path: '/manage/roleManage',
+								icon: "el-icon-caret-right"
+							},
+							{
+								id: 43,
+								authName: '用户管理',
+								path: '/manage/userManage',
+								icon: "el-icon-caret-right"
+							}
+						]
+					},
+					{
+						id: 9,
+						authName: '数据汇总',
+						path: '/dataAggregation',
+						icon: "el-icon-collection",
+					},
+					{
+						id: 10,
+						authName: '我的司机',
+						path: '/MyDriver',
+						icon: "el-icon-truck",
+					},
+					{
+						id: 11,
+						authName: '服务评价',
+						path: '/DriverScore',
+						icon: "el-icon-star-on"
+					},
+					// {
+					// 		id: 8888,
+					// 		authName: '可视化大屏',
+					// 		path: '/huohaoduokeji',
+					// 		icon: "el-icon-s-marketing"
+					// 	},
+					// {
+					// 	id: 12, 
+					// 	authName: '里程排行',
+					// 	path: '/MonthDistance',
+					// 	icon: "el-icon-truck",
+					// },
+					// {
+					// 	id: 14, 
+					// 	authName: '收入排行',
+					// 	path: '/IncomeRanking',
+					// 	icon: "el-icon-truck",
+					// },
+					// {
+					// 	id: 15, 
+					// 	authName: '中心地图',
+					// 	path: '/CenterMap',
+					// 	icon: "el-icon-truck",
+					// },
+					// {
+					// 	id: 13, 
+					// 	authName: '低价单图表',
+					// 	path: '/LowPrice',
+					// 	icon: "el-icon-truck",
+					// },
+					// {
+					// 	id: 5, LowPrice
+					// 	authName: '数据工厂',
+					// 	path: '/dataFactory',
+					// 	icon: "el-icon-data-line",
+					// },
+					// {
+					// 	id: 6,
+					// 	authName: 'text',
+					// 	path: '/text',
+					// 	icon: "el-icon-orange",
+					// },
+					// {
+					// 	id: 7,
+					// 	authName: 'test2',
+					// 	path: '/test2',
+					// 	icon: "el-icon-orange",
+					// },
+					// {
+					// 	id: 8,
+					// 	authName: '转发页面',
+					// 	path: '/phonePage/MDAwMDA5Ng==',
+					// 	icon: "el-icon-orange",
+					// },
+					// {
+					// 	id: 999,
+					// 	authName: '地图',
+					// 	path: '/CenterMapTwo',
+					// 	icon: "el-icon-orange",
+					// },
+					// {
+					// 	id: 9999,
+					// 	authName: '地图1',
+					// 	path: '/CenterMap',
+					// 	icon: "el-icon-orange",
+					// },
+				]
+			} else {
 				this.menulist = [{
 						id: 0,
 						authName: '首页',
@@ -1212,32 +1237,41 @@
 			}
 			this.userid = window.sessionStorage.getItem('userID')
 			this.name = window.sessionStorage.getItem('name')
-			this.activePath = window.sessionStorage.getItem('activePath')
+			this.activePath = window.sessionStorage.getItem('activePath') || '/welcome'
 			this.getDaiBan()
 			// this.jiaMi()
 		},
 		methods: {
+			daPingClick(activePath) {
+				let routeUrl = this.$router.resolve({
+					path: "/huohaoduokeji",
+					query: {}
+				});
+				window.open(routeUrl.href, '_blank');
+				window.sessionStorage.setItem('activePath', activePath)
+				this.activePath = activePath
+			},
 			logout() {
 				window.sessionStorage.clear()
 				this.$router.push('/login')
 			},
 
 			handleCommand(command) {
-				if(command == 'a'){
+				if (command == 'a') {
 					this.addDialogVisible = true
-				}else if(command == 'b'){
+				} else if (command == 'b') {
 					this.logout()
 				}
 			},
-			
-			addDialogClosed(){
+
+			addDialogClosed() {
 				this.$refs.addFormRef.resetFields()
 			},
-			addHandle(){
+			addHandle() {
 				this.$refs.addFormRef.validate(async valid => {
 					if (!valid) return
-					
-					if(this.addForm.newpassword == this.addForm.newpasswordTwo){
+
+					if (this.addForm.newpassword == this.addForm.newpasswordTwo) {
 						const {
 							data: res
 						} = await this.$http.post('kaccount/editpassword', this.addForm)
@@ -1247,8 +1281,8 @@
 						}
 						this.$message.success(res.message)
 						this.addDialogVisible = false
-						
-					}else{
+
+					} else {
 						return this.$message.warning('两次输入新密码不一致！')
 					}
 
@@ -1274,9 +1308,9 @@
 				} = await this.$http.get('waybill/daiban?id=' + this.userid)
 				console.log(res)
 				this.daibanData = res.result.代办流程数量
-				if(this.daibanData-0 > 0){
+				if (this.daibanData - 0 > 0) {
 					this.showDot = true
-				}else{
+				} else {
 					this.showDot = false
 				}
 			},
@@ -1350,11 +1384,12 @@
 	.el-badge /deep/.el-badge__content.is-fixed {
 		right: 5px
 	}
-	
-	.fensongsiStyle{
+
+	.fensongsiStyle {
 		padding: 0;
 	}
-	.zonggongsiStyle{
+
+	.zonggongsiStyle {
 		padding: 20;
 	}
 

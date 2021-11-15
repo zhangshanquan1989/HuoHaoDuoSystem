@@ -10,7 +10,7 @@
 	import Video from 'video.js'
 	export default {
 		created() {
-			console.log('载入视频')
+			
 		}
 	}
 </script>

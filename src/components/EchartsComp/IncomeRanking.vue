@@ -10,6 +10,9 @@
 <script>
 	import chalk from '../../assets/echartsTheme/chalk.js'
 	let chartInstane = null
+	let incomeNames = null
+	let incomeValues = null
+	let dataOption = null
   export default {
 	data(){
         return{
@@ -17,10 +20,10 @@
             allData:null, // 从服务器获取的所有数据
 						startValue:0, //区域缩放起点值
 						endValue:5, //区域缩放终点值
+						timerId: null,
         }
     },
     mounted(){
-			console.log('载入日均收入')
        this.initChart()
        this.getData()
     //    window.addEventListener('resize',this.screenAdapter) //监听分辨率变化
@@ -28,6 +31,7 @@
     },
 		beforeDestroy() {
 			chartInstane.clear()
+			clearInterval(this.timerId)
 		},
     destroyed(){
         window.removeEventListener('resize',this.screenAdapter) //取消监听
@@ -35,35 +39,11 @@
     methods:{
         // 初始化图表
         initChart(){
+					if(chartInstane){
+						chartInstane.clear()
+					}
             chartInstane = this.$echarts.init(this.$refs.trendRef,'chalk')
-      //       const initOption = {}
-      //       chartInstane.setOption(initOption)
-            //在此处可以监听鼠标移入移出事件
-             chartInstane.on('mouseover',()=>{
-                 //鼠标移入图表进行的操作，如暂停计时器，定时器可以看第10条
-             })
-            chartInstane.on('mouseout',()=>{
-                 //鼠标移出进行的操作，如开始计时器
-             })
-        },
-        // 发请求获取数据
-        async getData(){
-            const {data: res} = await this.$http.get('data/findshouru')
-						console.log('收入排行', res)
-						this.allData = res
-            // 对allData进行赋值
-            this.updateChart()
-            this.startInterval() //启动定时器
-        },
-        updateChart(){
-            // 先处理数据
-						const incomeNames = this.allData.map((item) => {
-							return item.X
-						})
-						const incomeValues = this.allData.map((item) => {
-							return item.Y
-						})
-            const dataOption = {
+            const initOption = {
 							grid:{
 								top:'5%',
 								left:'1%',
@@ -79,7 +59,6 @@
 							},
 							xAxis: {
 								type: 'category',
-								data: incomeNames,
 								axisLabel:{
 									color:'#FFF'
 								}
@@ -87,11 +66,8 @@
 							// 区域缩放
 							dataZoom:{
 								show:false,
-								startValue:this.startValue,
-								endValue:this.endValue,
 							},
 							series: [{
-								data: incomeValues,
 								type: 'bar',
 								// showBackground: tru8/-e,
 								// barWidth: 66,
@@ -117,6 +93,44 @@
 								},
 							}]
 						}
+            chartInstane.setOption(initOption)
+            //在此处可以监听鼠标移入移出事件
+             chartInstane.on('mouseover',()=>{
+                 //鼠标移入图表进行的操作，如暂停计时器，定时器可以看第10条
+             })
+            chartInstane.on('mouseout',()=>{
+                 //鼠标移出进行的操作，如开始计时器
+             })
+        },
+        // 发请求获取数据
+        async getData(){
+            const {data: res} = await this.$http.get('data/findshouru')
+						this.allData = res
+						incomeNames = this.allData.map((item) => {
+							return item.X
+						})
+						incomeValues = this.allData.map((item) => {
+							return item.Y
+						})
+            // 对allData进行赋值
+            this.updateChart()
+            this.startInterval() //启动定时器
+        },
+        updateChart(){
+            // 先处理数据						
+            dataOption = {							
+							xAxis: {							
+								data: incomeNames,								
+							},
+							// 区域缩放
+							dataZoom:{
+								startValue:this.startValue,
+								endValue:this.endValue,
+							},
+							series: [{
+								data: incomeValues,
+							}]
+						}
             chartInstane.setOption(dataOption)
 						window.addEventListener("resize", () => {
 							chartInstane.resize();
@@ -131,7 +145,10 @@
             chartInstane.resize() //调用该方法实现适配
         },
 				startInterval(){
-					setInterval(()=>{
+					if (this.timerId) {
+						clearInterval(this.timerId)
+					} // 保险操作，先判断是否存在定时器，存在的话关闭
+					this.timerId =setInterval(()=>{
 						this.startValue++
 						this.endValue++
 						if(this.endValue > 9){

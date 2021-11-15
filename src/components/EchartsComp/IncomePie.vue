@@ -17,18 +17,24 @@
 			}
 		},
 		mounted() {
-			console.log('载入饼图')
 			this.initChart()
 			this.getData()
 			// window.addEventListener('resize',this.screenAdapter) //监听分辨率变化
 			// this.screenAdapter() //第一次主动触发分辨率计算
 		},
+		beforeDestroy() {
+			this.chartInstane.clear()
+		},
 		destroyed() {
+			
 			window.removeEventListener('resize', this.screenAdapter) //取消监听
 		},
 		methods: {
 			// 初始化图表
 			initChart() {
+				if(this.chartInstane){
+					this.chartInstane.clear()
+				} 
 				this.chartInstane = this.$echarts.init(this.$refs.trendRef)
 				// const initOption = {}
 				// this.chartInstane.setOption(initOption)
@@ -45,7 +51,6 @@
 				const {
 					data: res
 				} = await this.$http.get('data/findincome')
-				console.log('收入比例', res)
 				this.allData = res
 				// 对allData进行赋值
 				this.updateChart()

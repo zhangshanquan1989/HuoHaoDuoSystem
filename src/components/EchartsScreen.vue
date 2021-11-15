@@ -9,23 +9,23 @@
 			<!-- 左3份 -->
 			<div class="column">
 				<div class="panel bar1">
-					<div class="h2Text">当 月 收 入 比 例</div>
+					<div class="h2Text">近 30 天 收 入 比 例</div>
 					<div class="chart" style="height: 3rem;">
 						<IncomePie></IncomePie>
 					</div>
 					<div class="panel-footer"></div>
 				</div>
 				<div class="panel line1">
-				  <div class="h2Text">当 月 里 程 排 行</div>
+				  <div class="h2Text">近 30 天 里 程 排 行</div>
 				  <div class="chart" style="height: 3rem;">
 				  	<MonthDistance></MonthDistance>
 				  </div>
 				  <div class="panel-footer"></div>
 				</div>
 				<div class="panel pie1">
-				  <div class="h2Text">当 月 日 均 收 入 排 行</div>
+				  <div class="h2Text">近 30 天 日 均 收 入 排 行</div>
 				  <div class="chart" style="height: 3rem;">
-				  	<incomeRanking></incomeRanking>
+				  	<IncomeRanking></IncomeRanking>
 				  </div>
 				  <div class="panel-footer"></div>
 				</div>
@@ -68,7 +68,7 @@
 					<div class="map3"></div>
 					<div class="chart" ref="mapRef">
 						<div style="height: 100%;width: 100%;">
-							<CenterMap></CenterMap>
+							<CenterMapTwo></CenterMapTwo>
 						</div>
 						
 					</div>
@@ -77,9 +77,7 @@
 			<!-- 右3份 -->
 			<div class="column">
 				<div class="panel bar" style="height: 3.818rem;">
-					<!-- <div class="h2Text">当 月 收 入 比 例</div> -->
 					<div class="chart" style="height: 100%;width: 100%;">
-						<!-- <IncomePie></IncomePie> -->
 						<Video></Video>
 					</div>
 					<div class="panel-footer"></div>
@@ -106,6 +104,7 @@
 	import Rolling from './EchartsComp/Rolling.vue'
 	import Video from './EchartsComp/Video.vue'
 	import CenterMap from './EchartsComp/CenterMap.vue'
+	import CenterMapTwo from './EchartsComp/CenterMapTwo.vue'
 	export default {
 		components: {
 		  MonthDistance,
@@ -114,6 +113,7 @@
 		  Rolling,
 		  Video,
 		  CenterMap,
+		  CenterMapTwo,
 		},
 		data() {
 			return {
@@ -129,12 +129,14 @@
 			
 		    },
 		created() {
+			this.getDTNum()
+			this.getCarTNum()
 			this.getNowTime()
 			this.getCarTotalNum()
 			this.getDistanceTotalNum()
 		},
 		beforeDestroy () {
-		  this.mapInstane.clear()		
+		  
 		  },
 		destroyed() {
 			clearInterval(this.timerId) //组件销毁的时候销毁定时器
@@ -143,31 +145,39 @@
 		},
 		methods: {
 			// 获取车辆总数
+			async getCarTNum(){
+				const {
+					data: res
+				} = await this.$http.get('data/findCarNumber')
+				// console.log('车总数',res)
+				this.carTotalNum = res[0].value
+			},
+			// 定时获取车辆总数
 			getCarTotalNum(){
 				if (this.carNumId) {
 					clearInterval(this.carNumId)
 				} // 保险操作，先判断是否存在定时器，存在的话关闭
-				this.carNumId = setInterval(async () => {
-					const {
-						data: res
-					} = await this.$http.get('data/findCarNumber')
-					// console.log('车总数',res)
-					this.carTotalNum = res[0].value
-				},1000)
+				this.carNumId = setInterval( () => {
+					this.getCarTNum()
+				},3600000)
 				
 			},
 			// 获取总公里数
+			async getDTNum(){
+				const {
+					data: res
+				} = await this.$http.get('data/findNumber')
+				// console.log('里程总数',res)
+				this.distanceTotalNum = res[0].value
+			},
+			// 定时获取总公里数
 			 getDistanceTotalNum(){
 				if (this.distanceTiId) {
 					clearInterval(this.distanceTiId)
 				} // 保险操作，先判断是否存在定时器，存在的话关闭
-				this.distanceTiId = setInterval(async () => {
-					const {
-						data: res
-					} = await this.$http.get('data/findNumber')
-					// console.log('里程总数',res)
-					this.distanceTotalNum = res[0].value
-				},1000)
+				this.distanceTiId = setInterval( () => {
+					this.getDTNum()
+				},60000)
 				
 			},
 			getNowTime() {
